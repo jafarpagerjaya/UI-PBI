@@ -1,0 +1,311 @@
+/* pojok-berbagi-style.css */
+/* Author: Jafar Pager Jaya */
+/* Create at 2021-2022 */
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,300;1,400;1,600;1,700;1,800;1,900&display=swap');
+
+/* Utilitas, Reset & Root */
+:root {
+    --orange: #FE5000;
+    --green: #97D700;
+}
+
+body {
+    font-family: "Nunito", Roboto, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: inherit !important;
+}
+
+.button.donasi,
+.button.button-outline-green:hover,
+.btn.donasi,
+.btn.btn-outline-green:hover {
+    background-color: var(--green);
+    color: #fff;
+}
+
+.button.donasi:hover,
+.button.button-outline-orange:hover,
+.btn.donasi:hover,
+.btn.btn-outline-orange:hover {
+    background-color: var(--orange);
+    color: #fff;
+}
+
+.button.button-outline-green,
+.btn.btn-outline-green {
+    background-color: white;
+    color: var(--green);
+    border: 1px solid var(--green);
+    transition: all .3s ease-in-out !important;
+}
+
+.button.button-outline-orange,
+.btn.btn-outline-orange {
+    background-color: white;
+    color: var(--orange);
+    border: 1px solid var(--orange);
+    transition: all .3s ease-in-out !important;
+}
+
+.bg-orange {
+    background-color: var(--orange) !important;
+}
+
+.bg-green {
+    background-color: var(--green) !important;
+}
+
+.bg-light-opacity {
+    background-color: #f8f9fad6;
+}
+
+.rounded-box {
+    border-radius: 0.5rem;
+}
+
+.scroll-top {
+    background-color: var(--green);
+}
+
+.box {
+    gap: 0.5em;
+    padding: .75em !important;
+}
+
+.box-icon {
+    height: 25px;
+    width: 25px;
+    border-radius: 15px;
+    color: #fff;
+    text-align: center;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box-icon i {
+    font-size: 0.75rem;
+}
+
+.text-green {
+    color: var(--green);
+}
+
+.text-orange {
+    color: var(--orange);
+}
+
+.border-orange {
+    border-color: var(--orange);
+}
+
+.border-green {
+    border-color: var(--green);
+}
+
+.border-solid {
+    border-style: solid;
+}
+
+.progress {
+    height: 5px;
+}
+
+.broken-image {
+    padding: 1em;
+}
+
+/* Akhir Utilitas, Reset & Root */
+
+/* Form */
+
+.form-floating.input_textarea2>.form-control:focus~label,
+.form-floating.input_textarea2>.form-control:not(:placeholder-shown)~label {
+    display: block;
+    height: auto !important;
+    opacity: 1;
+    color: rgba(33, 37, 41, .5);
+    width: calc(100% + 15% - .9rem) !important;
+}
+
+.form-floating.input_textarea2>.form-control:focus~label::before,
+.form-floating.input_textarea2>.form-control:not(:placeholder-shown)~label::before {
+    content: '';
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 1.5rem + .5px);
+    background-color: white;
+    z-index: -1;
+    box-shadow: 0 5px 8px 0 #fff;
+}
+
+.form-floating.input_textarea2.touch>.form-control:focus~label,
+.form-floating.input_textarea2.touch>.form-control:not(:placeholder-shown)~label {
+    width: calc(100% + 15%) !important;
+}
+
+textarea {
+    resize: vertical;
+    max-height: 200px;
+}
+
+.form-floating.input_textarea2:not(.touch) textarea {
+    cursor: auto;
+}
+
+.form-floating.input_textarea2:not(.touch) textarea::-webkit-scrollbar {
+    width: 1rem;
+}
+
+.form-floating.input_textarea2:not(.touch) textarea::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 0 inherit 0 0;
+}
+
+.form-floating.input_textarea2:not(.touch) textarea::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+    background-color: #6c757d70;
+}
+
+.form-floating.input_textarea2:not(.touch) textarea::-webkit-scrollbar-thumb:hover {
+    background-color: #6c757dab;
+}
+
+/* Akhir Form */
+
+/* Modal */
+.modal .close span[aria-hidden] {
+    line-height: 1;
+}
+
+/* Footer */
+.kontak a.medsos-icon i {
+    font-size: 50px !important;
+    transition: color 0.3s ease-in-out;
+}
+
+.kontak a.medsos-icon i[class*="instagram"] {
+    background: #fdf497;
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+.kontak a.medsos-icon:hover i[class*="instagram"] {
+    color: transparent !important;
+}
+
+.kontak a.medsos-icon:hover i[class*="twitter"] {
+    color: var(--bs-info) !important;
+}
+
+.kontak a.medsos-icon:hover i[class*="whatsapp"] {
+    color: #4FCE5D !important;
+}
+
+/* Akhir Footer */
+
+@media (min-width: 375px) {
+
+    .box-icon {
+        height: 35px;
+        width: 35px;
+        border-radius: 15px;
+    }
+
+    .box-icon i {
+        font-size: 1.15rem;
+    }
+}
+
+@media (min-width: 425px) {
+
+    .box-icon {
+        height: 40px;
+        width: 40px;
+    }
+
+    .box-icon i {
+        font-size: 1.25rem;
+    }
+}
+
+@media (min-width: 480px) {}
+
+@media (min-width: 767px) {
+
+    .box {
+        padding: 0.85em !important;
+    }
+
+    .rounded-box {
+        border-radius: .75rem !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .box {
+        padding: 1em !important;
+    }
+
+    .kontak .d-grid {
+        justify-content: start;
+    }
+}
+
+@media (min-width: 992px) {
+    .rounded-box {
+        border-radius: 1rem !important;
+    }
+}
+
+@media (min-width: 1200px) {
+
+    .box-icon {
+        height: 50px;
+        width: 50px;
+    }
+
+    .box-icon i {
+        font-size: 1.5rem;
+    }
+}
+
+/* List Service */
+@media (min-width: 1400px) {}
+
+/* App Image Bg Kemungkinan Tidak akan dipakai tapi disimpan dulu mungkin untuk img besar sebagai bg cover */
+.app-image>[class*="col"].bg-image,
+.app-image.bg-image {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-size: 100%;
+    transition: all 0.3s ease-in-out;
+}
+
+.animation .app-image>[class*="col"].bg-image:hover,
+.animation .app-image.bg-image:hover {
+    background-size: 110%;
+    transition: all 0.3s ease-in-out;
+}
+
+.app-image>[class*="col"].bg-image *,
+.app-image.bg-image * {
+    transition: all 0.3s ease-in-out;
+}
+
+/* End App Image Bg */
