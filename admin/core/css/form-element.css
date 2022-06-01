@@ -49,3 +49,21 @@ textarea {
     position: static;
     text-transform: lowercase;
 }
+
+.custom-control.custom-checkbox label {
+    line-height: 1.9;
+    font-size: .825rem !important;
+    font-weight: 600 !important;
+}
+
+.custom-control.custom-checkbox input:checked+label {
+    margin-bottom: 0.945rem;
+}
+
+.custom-switch .custom-control-label::before {
+    left: -2.25rem;
+}
+
+.custom-switch .custom-control-label::after {
+    left: calc(-2.25rem + 2px);
+}

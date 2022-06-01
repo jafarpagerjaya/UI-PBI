@@ -17,6 +17,7 @@
     <!-- Core Style -->
     <link rel="stylesheet" href="../pojok-berbagi-style.css">
     <link rel="stylesheet" href="./core/css/admin-style.css">
+    <link rel="stylesheet" href="./core/css/form-element.css">
     <style>
         /* Add To Pojok Berbagi Style */
         /* Modal */
@@ -58,6 +59,30 @@
                 background-color: transparent;
             }
         } */
+        /* Add to form elment */
+        /* .custom-control.custom-checkbox label {
+            line-height: 1.9;
+            font-size: .825rem !important;
+            font-weight: 600 !important;
+        }
+
+        .custom-control.custom-checkbox input:checked+label {
+            margin-bottom: 0.945rem;
+        } */
+        /* Custom Switch Override */
+        /* .custom-switch .custom-control-label::before {
+            left: -2.25rem;
+        }
+
+        .custom-switch .custom-control-label::after {
+            left: calc(-2.25rem + 2px);
+        } */
+
+        /* tambah-donasi.css */
+        textarea {
+            min-height: 148px !important;
+            max-height: 148px !important;
+        }
     </style>
 </head>
 
@@ -290,7 +315,119 @@
         <!-- Page content -->
         <div class="container-fluid mt--6">
             <section id="main-content">
-
+                <div class="row">
+                    <div class="col-xl-9">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="text-capitalize mb-0">Tambah Donasi</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group" id="id_bantuan">
+                                            <label class="form-control-label" for="input-bantuan-donasi">Bantuan
+                                                Program</label>
+                                            <select class="form-control" id="input-bantuan-donasi" name="id_bantuan"
+                                                data-required="true">
+                                                <?php
+                                                    if (isset($data['data_bantuan'])) {
+                                                        echo '<option></option>';
+                                                        foreach($data['data_bantuan'] as $dataBantuan) {
+                                                            echo '<option value="'. $dataBantuan->id_bantuan .'">' . $dataBantuan->nama . '</option>';
+                                                        }
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" id="waktu_bayar">
+                                            <label class="form-control-label" for="input-jumlah-donasi">Tanggal Bayar
+                                                Donasi</label>
+                                            <input type="text" id="input-jumlah-donasi" class="form-control"
+                                                placeholder="Nominal Donasi" name="waktu_bayar">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group" id="jumlah_donasi">
+                                            <label class="form-control-label" for="input-jumlah-donasi">Jumlah
+                                                Donasi</label>
+                                            <input type="text" id="input-jumlah-donasi" class="form-control"
+                                                placeholder="Nominal Donasi" name="jumlah_donasi">
+                                        </div>
+                                        <div class="form-group" id="id_cp">
+                                            <label class="form-control-label" for="input-cp-donasi">Channel
+                                                Payment</label>
+                                            <select class="form-control" id="input-cp-donasi" name="id_cp"
+                                                data-required="true">
+                                                <?php
+                                                    if (isset($data['data_cp'])) {
+                                                        echo '<option></option>';
+                                                        foreach($data['data_cp'] as $dataCp) {
+                                                            echo '<option value="'. $dataCp->id_cp .'">' . $dataCp->nama . '</option>';
+                                                        }
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group" id="id_donatur">
+                                            <label class="form-control-label" for="input-bantuan-donasi">Donatur</label>
+                                            <select class="form-control" id="input-bantuan-donasi" name="id_donatur"
+                                                data-required="true">
+                                                <?php
+                                                    if (isset($data['data_doantur'])) {
+                                                        echo '<option></option>';
+                                                        foreach($data['data_doantur'] as $dataDonatur) {
+                                                            echo '<option value="'. $dataDonatur->id_donatur .'">' . $dataDonatur->nama . '</option>';
+                                                        }
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" id="alias">
+                                            <label class="form-control-label" for="input-alias-donatur">Nama
+                                                Samaran</label>
+                                            <input spellcheck="false" type="text" id="input-alias-donatur"
+                                                class="form-control" placeholder="Alias" name="alias" maxlength="30">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group w-100">
+                                            <div class="custom-control custom-checkbox d-flex">
+                                                <input type="checkbox" class="custom-control-input" id="input-doa">
+                                                <label class="custom-control-label" for="input-doa">Doa Dari
+                                                    Donatur</label>
+                                            </div>
+                                            <textarea spellcheck="false" maxlength="250" class="form-control textarea"
+                                                aria-label="With textarea" name="deskripsi"
+                                                placeholder="Ketik disini..."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col d-flex align-items-center">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="notifikasi_bayar"
+                                                name="notifikasi">
+                                            <label class="custom-control-label" for="notifikasi_bayar">Kirim Notifikasi
+                                                Sudah Bayar</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <button type="button"
+                                            class="btn btn-outline-primary float-right">Simpan</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
             <!-- Footer -->
             <footer class="footer pt-0">
