@@ -12,12 +12,15 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
         integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link rel="stylesheet" href="./vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
     <!-- Argon CSS -->
     <link type="text/css" href="./main/css/argon.min.css" rel="stylesheet">
     <!-- Core Style -->
     <link rel="stylesheet" href="../pojok-berbagi-style.css">
     <link rel="stylesheet" href="./core/css/admin-style.css">
     <link rel="stylesheet" href="./core/css/form-element.css">
+    <link rel="stylesheet" href="./pages/css/tambah-donasi.css">
     <style>
         /* Add To Pojok Berbagi Style */
         /* Modal */
@@ -77,12 +80,121 @@
         .custom-switch .custom-control-label::after {
             left: calc(-2.25rem + 2px);
         } */
+        /* Select2 */
+        /* select~span.select2 * {
+            font-size: .875rem;
+        }
+
+        span.selection {
+            width: 100%;
+        }
+
+        .select2-container .select2-selection--single,
+        .select2-container--default.select2-container--focus .select2-selection--multiple,
+        .select2-container--default .select2-selection--multiple,
+        .select2-container--default .select2-search--dropdown .select2-search__field {
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__placeholder {
+            color: #b5c1d2;
+        }
+
+        .select2-container--default .select2-selection--single {
+            border-color: #dee2e6 !important;
+            border-radius: 0.25rem !important;
+            height: 100%;
+            outline-width: 0px;
+        }
+
+        .form-group.error select~.select2-container--default .select2-selection--single {
+            border-color: #fb6340 !important;
+        }
+
+        .select2-container--default .select2-selection--single:focus-visible {
+            border: 1px solid #5e72e4 !important;
+        }
+
+        .select2-container--default .select2-selection--single[aria-expanded="true"] {
+            border-color: #5e72e4 !important;
+        }
+
+        .select2-container--default .select2-results__option--selected {
+            background-color: #dee2e6;
+            display: none;
+        }
+
+        .select2-selection__rendered {
+            padding-top: 1.625rem;
+            padding-bottom: 0.125rem;
+            padding-left: 0em !important;
+            padding-right: 1rem;
+            color: #8898aa !important;
+        }
+
+        .select2-container--open .select2-dropdown {
+            border-color: #5e72e4;
+            padding: 0px;
+            left: 0px;
+        }
+
+        .select2-search.select2-search--dropdown {
+            padding: 6px;
+        }
+
+        .select2-container--open .select2-dropdown.error {
+            border-color: #fb6340 !important;
+        }
+
+        .select2-dropdown.select2-dropdown--below {
+            top: -6px !important;
+            padding-bottom: 1px;
+            box-shadow: 0 3px 9px rgb(50 50 9 / 0%), 3px 4px 8px rgb(94 114 228 / 10%);
+        }
+
+        .select2-dropdown.select2-dropdown--above {
+            display: flex;
+            flex-direction: column-reverse;
+            top: 6px !important;
+        }
+
+        .select2-container--default .select2-search--dropdown .select2-search__field {
+            border-color: #dee2e6;
+        }
+
+        .select2.select2-container.select2-container--default {
+            width: 100% !important;
+        }
+
+        .select2-results {
+            position: relative;
+            width: calc(100% + 0.5px);
+            overflow: hidden;
+        }
+
+        .select2-dropdown.select2-dropdown--below .select2-results {
+            border-bottom-left-radius: 0.2rem;
+            border-bottom-right-radius: 0.2rem;
+            bottom: -1px;
+            border-top: 1px dashed #5e72e4;
+        }
+
+        .select2-dropdown.select2-dropdown--above .select2-results {
+            border-top-left-radius: 0.2rem;
+            border-top-right-radius: 0.2rem;
+            border-bottom: 1px dashed #5e72e4;
+        }
+
+        .select2-dropdown.error .select2-results {
+            border-color: #fb6340;
+        } */
 
         /* tambah-donasi.css */
-        textarea {
+        /* textarea {
             min-height: 148px !important;
             max-height: 148px !important;
-        }
+        } */
     </style>
 </head>
 
@@ -321,7 +433,7 @@
                             <div class="card-header">
                                 <h3 class="text-capitalize mb-0">Tambah Donasi</h3>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body form">
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group" id="id_bantuan">
@@ -329,21 +441,25 @@
                                                 Program</label>
                                             <select class="form-control" id="input-bantuan-donasi" name="id_bantuan"
                                                 data-required="true">
-                                                <?php
-                                                    if (isset($data['data_bantuan'])) {
-                                                        echo '<option></option>';
-                                                        foreach($data['data_bantuan'] as $dataBantuan) {
-                                                            echo '<option value="'. $dataBantuan->id_bantuan .'">' . $dataBantuan->nama . '</option>';
-                                                        }
-                                                    }
-                                                ?>
+                                                <option></option>
+                                                <option value="1">Satu</option>
+                                                <option value="2">Dua</option>
+                                                <option value="1">Satu</option>
+                                                <option value="2">Dua</option>
                                             </select>
                                         </div>
-                                        <div class="form-group" id="waktu_bayar">
-                                            <label class="form-control-label" for="input-jumlah-donasi">Tanggal Bayar
-                                                Donasi</label>
-                                            <input type="text" id="input-jumlah-donasi" class="form-control"
-                                                placeholder="Nominal Donasi" name="waktu_bayar">
+                                        <div class="form-group" id="waktu-bayar">
+                                            <label for="input-waktu-bayar" class="form-control-label">Tanggal
+                                                Bayar</label>
+                                            <div class="input-group">
+                                                <input class="form-control datepicker" placeholder="d M yyyy"
+                                                    type="text" name="waktu_bayar" id="input-waktu-bayar"
+                                                    data-date-end-date="0d">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text"><i
+                                                            class="ni ni-calendar-grid-58 px-1"></i></span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col">
@@ -358,32 +474,22 @@
                                                 Payment</label>
                                             <select class="form-control" id="input-cp-donasi" name="id_cp"
                                                 data-required="true">
-                                                <?php
-                                                    if (isset($data['data_cp'])) {
-                                                        echo '<option></option>';
-                                                        foreach($data['data_cp'] as $dataCp) {
-                                                            echo '<option value="'. $dataCp->id_cp .'">' . $dataCp->nama . '</option>';
-                                                        }
-                                                    }
-                                                ?>
+                                                <option></option>
+                                                <option value="1">Satu</option>
+                                                <option value="2">Dua</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col d-flex flex-column">
                                         <div class="form-group" id="id_donatur">
-                                            <label class="form-control-label" for="input-bantuan-donasi">Donatur</label>
-                                            <select class="form-control" id="input-bantuan-donasi" name="id_donatur"
+                                            <label class="form-control-label" for="input-donatur-donasi">Donatur</label>
+                                            <select class="form-control" id="input-donatur-donasi" name="id_donatur"
                                                 data-required="true">
-                                                <?php
-                                                    if (isset($data['data_doantur'])) {
-                                                        echo '<option></option>';
-                                                        foreach($data['data_doantur'] as $dataDonatur) {
-                                                            echo '<option value="'. $dataDonatur->id_donatur .'">' . $dataDonatur->nama . '</option>';
-                                                        }
-                                                    }
-                                                ?>
+                                                <option></option>
+                                                <option value="1">Satu</option>
+                                                <option value="2">Dua</option>
                                             </select>
                                         </div>
                                         <div class="form-group" id="alias">
@@ -393,16 +499,17 @@
                                                 class="form-control" placeholder="Alias" name="alias" maxlength="30">
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col">
                                         <div class="form-group w-100">
-                                            <div class="custom-control custom-checkbox d-flex">
-                                                <input type="checkbox" class="custom-control-input" id="input-doa">
-                                                <label class="custom-control-label" for="input-doa">Doa Dari
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input"
+                                                    id="input-check-doa">
+                                                <label class="custom-control-label" for="input-check-doa">Doa Dari
                                                     Donatur</label>
                                             </div>
-                                            <textarea spellcheck="false" maxlength="250" class="form-control textarea"
-                                                aria-label="With textarea" name="deskripsi"
-                                                placeholder="Ketik disini..."></textarea>
+                                            <textarea spellcheck="false" maxlength="250"
+                                                class="form-control textarea d-none" aria-label="With textarea"
+                                                name="doa" placeholder="Ketik disini..." id="textarea-doa"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -422,6 +529,8 @@
                                     <div class="col">
                                         <button type="button"
                                             class="btn btn-outline-primary float-right">Simpan</button>
+                                        <button type="button"
+                                            class="btn btn-link float-right mr-2 text-warning font-weight-bolder">Reset</button>
                                     </div>
                                 </div>
                             </div>
@@ -474,11 +583,16 @@
         integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
         crossorigin="anonymous"></script>
     <!-- Argon JS -->
-    <script src="./main/js/argon.min.js"></script>
+    <script src="./main/js/argon.js"></script>
     <!-- Core Script -->
     <script src="./main/js/main.js"></script>
+    <!-- Load Script -->
+    <script src="./vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="./vendor/bootstrap-datepicker/dist/locales/bootstrap-datepicker.id.min.js" charset="UTF-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="../pojok-berbagi-script.js"></script>
     <script src="./core/js/admin-script.js"></script>
+    <script src="./pages/js/tambah-donasi.js"></script>
     <script>
         // Add To Admin Script
         // const sideNavTogglerBtn = document.querySelector('.sidenav-toggler-inner'),
@@ -511,6 +625,22 @@
         //         }, 0);
         //     }
         // });
+
+        // tambah-donasi.js
+        // const inputCheckDoa = document.getElementById('input-check-doa'),
+        //     textareaDoa = document.getElementById('textarea-doa');
+        // inputCheckDoa.addEventListener('click', function () {
+        //     if (this.checked) {
+        //         this.parentElement.classList.add('checked');
+        //         textareaDoa.classList.remove('d-none');
+        //         textareaDoa.focus();
+        //     } else {
+        //         this.parentElement.classList.remove('checked');
+        //         textareaDoa.classList.add('d-none');
+        //     }
+        // });
+
+
     </script>
 </body>
 
