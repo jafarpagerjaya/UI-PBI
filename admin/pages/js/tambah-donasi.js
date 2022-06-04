@@ -27,19 +27,29 @@ let d = new Date('08/11/2021');
 // extended function for datepicker
 const dateRanges = (date = new Date(), rule = 10, sum = 0) => Math.floor(date.getFullYear() / rule) * rule + sum;
 
+let lastViewMode;
+
 $('.datepicker').datepicker({
     todayBtn: "linked",
     clearBtn: true,
     language: 'id',
-    format: 'd MM yyyy'
+    format: 'd MM yyyy',
+    updateViewDate: false, // jika clear btn di click atau ganti bulan pakai panah maka default view date gak akan ke awal atau ke bulan yang dipilih lewan nama bulan
+    enableOnReadonly: false // readonly input will not show datepicker . The default value true
 }).change(function(e) {
     // submitControl(e.target);
-}).on('show', function(e,x) {
+}).on('show', function(e) {
     let allowedPicker = [],
         untilPicker = undefined,
         year = undefined,
         timeEpoc;
-    if (e.viewMode == 3) {
+    if (e.viewMode == 0) {
+        timeEpoc = 'day';
+    } else if (e.viewMode == 1) {
+        timeEpoc = 'month';
+    } else if (e.viewMode == 2) {
+        timeEpoc = 'year';
+    } else if (e.viewMode == 3) {
         // Start From This(d) Decade
         allowedPicker = [dateRanges(d)];
         // Until This(default dateRanges) Decade
@@ -55,6 +65,9 @@ $('.datepicker').datepicker({
         year = 100;
         timeEpoc = 'century';
     }
+
+    // $('.datepicker.datepicker-dropdown table tbody tr [class!="'+ timeEpoc +'"].focused').removeClass('focused');
+
     if (allowedPicker.length > 0) {
         if (allowedPicker.find(element => element == untilPicker) == undefined) {
             allowedPicker.push(untilPicker)
@@ -73,8 +86,4 @@ $('.datepicker').datepicker({
             $('.datepicker.datepicker-dropdown table tbody td>span.disabled:contains('+ pickElement +')').removeClass('disabled');
         });
     }
-    $('.datepicker.datepicker-dropdown').on('click', 'tfoot .clear', function(e) {
-        e.stopPropagation();
-        console.log('anjir')
-    })
 }).datepicker('setStartDate', d);
