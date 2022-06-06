@@ -27,14 +27,13 @@ let d = new Date('08/11/2021');
 // extended function for datepicker
 const dateRanges = (date = new Date(), rule = 10, sum = 0) => Math.floor(date.getFullYear() / rule) * rule + sum;
 
-let lastViewMode;
+let changeDate = false;
 
 $('.datepicker').datepicker({
     todayBtn: "linked",
-    clearBtn: true,
     language: 'id',
     format: 'd MM yyyy',
-    updateViewDate: false, // jika clear btn di click atau ganti bulan pakai panah maka default view date gak akan ke awal atau ke bulan yang dipilih lewan nama bulan
+    autoclose: true,
     enableOnReadonly: false // readonly input will not show datepicker . The default value true
 }).change(function(e) {
     // submitControl(e.target);
@@ -66,7 +65,7 @@ $('.datepicker').datepicker({
         timeEpoc = 'century';
     }
 
-    // $('.datepicker.datepicker-dropdown table tbody tr [class!="'+ timeEpoc +'"].focused').removeClass('focused');
+    $('.datepicker.datepicker-dropdown table tbody tr [class!="'+ timeEpoc +'"].focused').removeClass('focused');
 
     if (allowedPicker.length > 0) {
         if (allowedPicker.find(element => element == untilPicker) == undefined) {
@@ -83,7 +82,7 @@ $('.datepicker').datepicker({
             allowedPicker.sort();
         }
         allowedPicker.forEach(pickElement => {
-            $('.datepicker.datepicker-dropdown table tbody td>span.disabled:contains('+ pickElement +')').removeClass('disabled');
+            $('.datepicker.datepicker-dropdown table tbody td .disabled:contains('+ pickElement +')').removeClass('disabled');
         });
     }
 }).datepicker('setStartDate', d);
