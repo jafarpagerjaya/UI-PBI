@@ -22,46 +22,6 @@
     <link rel="stylesheet" href="./core/css/form-element.css">
     <link rel="stylesheet" href="./pages/css/tambah-donasi.css">
     <style>
-        /* Add To Pojok Berbagi Style */
-        /* Modal */
-        /* .modal .close span[aria-hidden] {
-            line-height: 1;
-        } */
-        /* Add to Admin Style */
-        /* #panel.main-content {
-            position: relative;
-        }
-
-        #panel.main-content:not(.backdrop).backdrop-remove-animated::after,
-        #panel.main-content:not(.backdrop):not(.backdrop-remove-animated)::after,
-        #panel.main-content.backdrop::after {
-            position: absolute;
-            content: '';
-            height: 100%;
-            width: 100%;
-            top: 0;
-            left: 0;
-            transition: all .3s ease !important;
-        }
-
-        #panel.main-content:not(.backdrop).backdrop-remove-animated::after,
-        #panel.main-content:not(.backdrop):not(.backdrop-remove-animated)::after {
-            background-color: transparent;
-        }
-
-        #panel.main-content:not(.backdrop):not(.backdrop-remove-animated)::after {
-            z-index: -1;
-        }
-
-        #panel.main-content.backdrop::after {
-            background-color: rgb(0 16 32 / 50%)
-        }
-        
-        @media (min-width: 1200px) {
-            #panel.main-content.backdrop::after {
-                background-color: transparent;
-            }
-        } */
         /* Add to form elment */
         /* .custom-control.custom-checkbox label {
             line-height: 1.9;
@@ -190,11 +150,7 @@
             border-color: #fb6340;
         } */
 
-        /* tambah-donasi.css */
-        /* textarea {
-            min-height: 148px !important;
-            max-height: 148px !important;
-        } */
+        /* tambah-donasi.css new file */
     </style>
 </head>
 
@@ -204,7 +160,7 @@
         <div class="scrollbar-inner">
             <!-- Brand -->
             <div class="sidenav-header  align-items-center">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="javascript:;" aria-label="Pojok Berbagi">
                     <img src="../pojok-berbagi-transparent.png" class="navbar-brand-img" alt="Pojok Berbagi">
                 </a>
             </div>
@@ -241,13 +197,13 @@
                     <!-- Navigation -->
                     <ul class="navbar-nav mb-md-3">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="javascript:;" aria-label="Profil">
                                 <i class="ni ni-single-02 text-yellow"></i>
                                 <span class="nav-link-text">Profile</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active active-pro" href="#">
+                            <a class="nav-link active active-pro" href="javascript:;" aria-label="Keluar">
                                 <i class="ni ni-user-run text-dark"></i>
                                 <span class="nav-link-text">Keluar</span>
                             </a>
@@ -279,8 +235,8 @@
                     </ul>
                     <ul class="navbar-nav align-items-center ml-auto ml-md-0 ">
                         <li class="nav-item dropdown">
-                            <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
+                            <a class="nav-link pr-0" href="javascript:;" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
                                 <div class="media align-items-center">
                                     <span class="avatar bg-white avatar-sm rounded-circle">
                                         <img alt="Avatarku" src="../male-avatar.jpg">
@@ -296,12 +252,12 @@
                                 <div class="dropdown-header noti-title">
                                     <h6 class="text-overflow m-0">Welcome!</h6>
                                 </div>
-                                <a href="#" class="dropdown-item">
+                                <a href="javascript:;" class="dropdown-item">
                                     <i class="ni ni-single-02"></i>
                                     <span>My profile</span>
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item">
+                                <a href="javascript:;" class="dropdown-item">
                                     <i class="ni ni-user-run"></i>
                                     <span>Logout</span>
                                 </a>
@@ -320,8 +276,10 @@
                             <h6 class="h2 text-white d-inline-block mb-0">Default</h6>
                             <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                                 <ol class="breadcrumb breadcrumb-links breadcrumb-dark m-0">
-                                    <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                                    <li class="breadcrumb-item"><a href="#">Donasi</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript:;" aria-label="Home"><i
+                                                class="fas fa-home"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="javascript:;">Donasi</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Tambah</li>
                                 </ol>
                             </nav>
@@ -428,7 +386,7 @@
         <div class="container-fluid mt--6">
             <section id="main-content">
                 <div class="row">
-                    <div class="col-xl-9">
+                    <div class="col-lg-7 col-xl-9">
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="text-capitalize mb-0">Tambah Donasi</h3>
@@ -445,16 +403,15 @@
                                                 <option value="1">Satu</option>
                                                 <option value="2">Dua</option>
                                                 <option value="1">Satu</option>
-                                                <option value="2">Dua</option>
                                             </select>
                                         </div>
                                         <div class="form-group" id="waktu-bayar">
                                             <label for="input-waktu-bayar" class="form-control-label">Tanggal
                                                 Bayar</label>
                                             <div class="input-group">
-                                                <input class="form-control datepicker" placeholder="d M yyyy"
-                                                    type="text" name="waktu_bayar" id="input-waktu-bayar"
-                                                    data-date-end-date="0d">
+                                                <input spellcheck="false" class="form-control datepicker"
+                                                    placeholder="d M yyyy" type="text" name="waktu_bayar"
+                                                    id="input-waktu-bayar" data-date-end-date="0d">
                                                 <div class="input-group-append">
                                                     <span class="input-group-text"><i
                                                             class="ni ni-calendar-grid-58 px-1"></i></span>
@@ -466,8 +423,8 @@
                                         <div class="form-group" id="jumlah_donasi">
                                             <label class="form-control-label" for="input-jumlah-donasi">Jumlah
                                                 Donasi</label>
-                                            <input type="text" id="input-jumlah-donasi" class="form-control"
-                                                placeholder="Nominal Donasi" name="jumlah_donasi">
+                                            <input spellcheck="false" type="text" id="input-jumlah-donasi"
+                                                class="form-control" placeholder="Nominal Donasi" name="jumlah_donasi">
                                         </div>
                                         <div class="form-group" id="id_cp">
                                             <label class="form-control-label" for="input-cp-donasi">Channel
@@ -475,6 +432,8 @@
                                             <select class="form-control" id="input-cp-donasi" name="id_cp"
                                                 data-required="true">
                                                 <option></option>
+                                                <option value="1">Satu</option>
+                                                <option value="2">Dua</option>
                                                 <option value="1">Satu</option>
                                                 <option value="2">Dua</option>
                                             </select>
@@ -493,23 +452,32 @@
                                             </select>
                                         </div>
                                         <div class="form-group" id="alias">
-                                            <label class="form-control-label" for="input-alias-donatur">Nama
-                                                Samaran</label>
-                                            <input spellcheck="false" type="text" id="input-alias-donatur"
+                                            <div
+                                                class="custom-control custom-checkbox d-flex justify-content-between p-0">
+                                                <input type="checkbox" id="input-check-alias"
+                                                    class="custom-control-input" name="check_alias">
+                                                <label class="custom-control-label" for="input-check-alias">Nama
+                                                    dismarkan</label>
+
+                                            </div>
+                                            <input spellcheck="false" type="text" id="input-alias-donasi"
                                                 class="form-control" placeholder="Alias" name="alias" maxlength="30">
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group w-100">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input"
-                                                    id="input-check-doa">
+                                                <input type="checkbox" class="custom-control-input" id="input-check-doa"
+                                                    name="check_doa">
                                                 <label class="custom-control-label" for="input-check-doa">Doa Dari
                                                     Donatur</label>
                                             </div>
                                             <textarea spellcheck="false" maxlength="250"
                                                 class="form-control textarea d-none" aria-label="With textarea"
                                                 name="doa" placeholder="Ketik disini..." id="textarea-doa"></textarea>
+                                            <div id="charLeft" class="d-none">
+                                                <span class="text-orange">0</span> / 250
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -536,6 +504,146 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-5 col-xl-3">
+                        <div class="card">
+                            <div class="card-header d-flex align-items-center justify-content-between">
+                                <h3 class="text-capitalize mb-0">Donasi Terverivikasi <i
+                                        class="fa fa-check-circle text-green"></i></h3>
+                                <a href="/admin/donasi" class="btn btn-sm btn-outline-primary">See All</a>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table align-items-center table-flush table-hover">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Donasi</th>
+                                            <th class="fit text-right">Keterangan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <div class="text-muted font-weight-bold">10.000</div>
+                                                    <a href="javascript:;" class="font-weight-bolder">Nama bantuan
+                                                        1</a>
+                                                </div>
+                                            </td>
+                                            <td class="fit text-right">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <b class="text-muted">10 Juni 2022 17:10:00</b>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div
+                                                            class="text-muted badge badge-primary text-capitalize py-1 px-2">
+                                                            <span class="jenis-cp">Transfer
+                                                                Bank</span> - <span class="nama-cp">BSI</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <div class="text-muted font-weight-bold">100.000</div>
+                                                    <a href="javascript:;" class="font-weight-bolder">Nama bantuan
+                                                        2</a>
+                                                </div>
+                                            </td>
+                                            <td class="fit text-right">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <b class="text-muted">9 Juni 2022 17:10:23</b>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div
+                                                            class="text-muted badge badge-primary text-capitalize py-1 px-2">
+                                                            <span class="jenis-cp">Transfer
+                                                                Bank</span> - <span class="nama-cp">BRI</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <div class="text-muted font-weight-bold">100.000</div>
+                                                    <a href="javascript:;" class="font-weight-bolder">Nama bantuan
+                                                        2</a>
+                                                </div>
+                                            </td>
+                                            <td class="fit text-right">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <b class="text-muted">9 Juni 2022 17:10:23</b>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div
+                                                            class="text-muted badge badge-primary text-capitalize py-1 px-2">
+                                                            <span class="jenis-cp">Transfer
+                                                                Bank</span> - <span class="nama-cp">BRI</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <div class="text-muted font-weight-bold">100.000</div>
+                                                    <a href="javascript:;" class="font-weight-bolder">Nama bantuan
+                                                        2</a>
+                                                </div>
+                                            </td>
+                                            <td class="fit text-right">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <b class="text-muted">9 Juni 2022 17:10:23</b>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div
+                                                            class="text-muted badge badge-primary text-capitalize py-1 px-2">
+                                                            <span class="jenis-cp">Transfer
+                                                                Bank</span> - <span class="nama-cp">BRI</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <div class="text-muted font-weight-bold">100.000</div>
+                                                    <a href="javascript:;" class="font-weight-bolder">Nama bantuan
+                                                        2</a>
+                                                </div>
+                                            </td>
+                                            <td class="fit text-right">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <b class="text-muted">9 Juni 2022 17:10:23</b>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div
+                                                            class="text-muted badge badge-primary text-capitalize py-1 px-2">
+                                                            <span class="jenis-cp">Transfer
+                                                                Bank</span> - <span class="nama-cp">BRI</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
             <!-- Footer -->
@@ -543,7 +651,8 @@
                 <div class="row align-items-center justify-content-lg-between">
                     <div class="col-lg-6">
                         <div class="copyright text-center  text-lg-left  text-muted">
-                            &copy; 2021 - 2022 <a href="#" class="font-weight-bold ml-1" target="_blank">Pojok
+                            &copy; 2021 - 2022 <a href="javascript:;" class="font-weight-bold ml-1"
+                                target="_blank">Pojok
                                 Berbagi</a>
                         </div>
                     </div>
@@ -592,6 +701,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="../pojok-berbagi-script.js"></script>
     <script src="./core/js/admin-script.js"></script>
+    <script src="./core/js/form-function.js"></script>
     <script src="./pages/js/tambah-donasi.js"></script>
     <script>
         // Add To Admin Script
@@ -626,19 +736,7 @@
         //     }
         // });
 
-        // tambah-donasi.js
-        // const inputCheckDoa = document.getElementById('input-check-doa'),
-        //     textareaDoa = document.getElementById('textarea-doa');
-        // inputCheckDoa.addEventListener('click', function () {
-        //     if (this.checked) {
-        //         this.parentElement.classList.add('checked');
-        //         textareaDoa.classList.remove('d-none');
-        //         textareaDoa.focus();
-        //     } else {
-        //         this.parentElement.classList.remove('checked');
-        //         textareaDoa.classList.add('d-none');
-        //     }
-        // });
+        // tambah-donasi.js new file
 
 
     </script>

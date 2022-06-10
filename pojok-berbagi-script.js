@@ -132,3 +132,47 @@ const detectMob = function() {
 const detectTab = function() {
     return ( window.innerWidth <= 768 );
 };
+
+function keteranganJenisChannelPayment(jenis_cp) {
+    let keterangan_cp;
+    jenis_cp = jenis_cp.toUpperCase();
+    if (jenis_cp == 'TB') {
+        keterangan_cp = "Transfer Bank";
+    } else if (jenis_cp == 'QR') {
+        keterangan_cp = "QRIS";
+    } else if (jenis_cp == 'EW') {
+        keterangan_cp = "E-Wallet";
+    } else if (jenis_cp == 'VA') {
+        keterangan_cp = "Virtual Akun";
+    } else if (jenis_cp == 'GM') {
+        keterangan_cp = "Gerai Mart";
+    } else if (jenis_cp == 'GI') {
+        keterangan_cp = "Giro";
+    } else if (jenis_cp == 'TN') {
+        keterangan_cp = "Tunai";
+    } else {
+        keterangan_cp = "Unrecognize (Payment Method)";
+    }
+    return keterangan_cp;
+}
+
+function iconSektor(id_sektor) {
+    let icon = '';
+    id_sektor = id_sektor.toUpperCase();
+    if (id_sektor == 'S') {
+        icon = '<i class="lni lni-heart"></i>';
+    } else if (id_sektor == 'E') {
+        icon = '<i class="lni lni-bar-chart"></i>';
+    } else if (id_sektor == 'B') {
+        icon = '<i class="lni lni-warning"></i>';
+    } else if (id_sektor == 'K') {
+        icon = '<i class="lni lni-sthethoscope"></i>';
+    } else if (id_sektor == 'P') {
+        icon = '<i class="lni lni-graduation"></i>';
+    } else if (id_sektor == 'L') {
+        icon = '<i class="lni lni-sprout"></i>';
+    } else {
+        icon = '<i class="lni lni-support"></i>';
+    }
+    return icon;
+}

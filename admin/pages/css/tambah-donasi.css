@@ -48,6 +48,14 @@ textarea {
     flex-basis: 100%;
 }
 
+.badge {
+    font-size: 0.6rem;
+}
+
+.badge.text-capitalize {
+    letter-spacing: 1px;
+}
+
 @media (min-width: 556px) {
     .card-body.form>.row:not(:last-child)>.col {
         flex-basis: 50%;

@@ -3,8 +3,15 @@
     background-color: #f6f9fc;
 }
 
-table tfoot th {
+table.table tfoot th {
+    font-size: .65rem !important;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    letter-spacing: 1px;
     text-transform: uppercase;
+    border-top: 1px solid #e9ecef !important;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
 }
 
 table tbody>tr>td,
@@ -16,6 +23,37 @@ table tbody>tr.highlight {
     --highlight: var(--lighter);
     animation: pulse 1s linear 3;
 }
+
+table td .progress-info > div > span {
+    font-size: 0.65rem !important;
+}
+
+/* table th.auto, td.auto */
+table th.auto,
+table td.auto {
+    width: 0;
+}
+
+/* table th.fit, td.fit */
+.table td.fit, 
+.table th.fit {
+    white-space: nowrap;
+    width: 1%;
+}
+
+/* badge */
+.badge {
+    letter-spacing: 1px;
+}
+
+.small {
+    letter-spacing: 0.5px;
+}
+
+body.nav-open {
+    position: fixed;
+}
+
 
 @keyframes pulse {
     0% {
@@ -126,7 +164,7 @@ a.disabled {
 }
 
 #panel.main-content.backdrop::after {
-    background-color: rgb(0 16 32 / 50%)
+    background-color: rgb(0 16 32 / 50%);
 }
 
 @media (min-width: 360px) {
