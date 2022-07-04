@@ -96,6 +96,10 @@ a.disabled {
     row-gap: 1em;
 }
 
+.gap-y-4 {
+    row-gap: 1.5em;
+}
+
 .form-control:focus {
     box-shadow: 0 0 0 0.2rem rgb(94 114 228 / 25%);
 }

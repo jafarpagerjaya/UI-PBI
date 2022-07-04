@@ -8,6 +8,16 @@
     margin-top: -0.5rem;
 }
 
+.card table .media img[alt="bank-bjb"],
+.card table .media img[alt="bank-bsi"],
+.card table .media img[alt="bank-bri"],
+.card table .media img[alt="qris"],
+.card table .media img[alt="BJB"],
+.card table .media img[alt="BSI"],
+.card table .media img[alt="BRI"] {
+    margin-top: -0.3rem;
+}
+
 /* Overview Table */
 table .avatar {
     --avatar: 35px;
@@ -65,7 +75,15 @@ img[src=""].img-fluid.d-none.d-md-flex {
         width: calc(100% - var(--card-gap)) !important;
     }
 }
+
 @media (min-width: 768px) {
+    .status {
+        text-align: right;
+    }
+    .status .badge {
+        width: fit-content;
+    }
+
     /* Image Handler */
     img[src=""].img-fluid.d-flex.d-md-none {
         max-height: 0px;
@@ -75,14 +93,8 @@ img[src=""].img-fluid.d-none.d-md-flex {
         max-height: calc((100vw - 60px) / 648 * 193);
         min-height: calc((100vw - 60px) / 648 * 193);
     }
-    .status {
-        text-align: right;
-    }
-    .status .badge {
-        width: fit-content;
-    }
 
-
+    /* Custom Card */
     #cp-list {
         column-gap: var(--card-gap);
     }
@@ -119,6 +131,7 @@ img[src=""].img-fluid.d-none.d-md-flex {
         min-height: calc((66.67vw - 60px + 10px - 0.04px) / 648 * 193);
     }
 
+    /* Custom Card */
     #cp-list .card {
         flex-basis: 100%;
     }
@@ -153,17 +166,14 @@ img[src=""].img-fluid.d-none.d-md-flex {
         flex: 0 1 50%;
     }
 
-    .card .row.align-items-end {
-        align-items: center !important;
-    }
-
     /* Image Handler */
     img[src=""].img-fluid.d-none.d-md-flex {
         max-height: calc(((100vw - 250px) / 2 - 45px) / 648 * 193);
         min-height: calc(((100vw - 250px) / 2 - 45px) / 648 * 193);
     }
 
+    /* Custom Card */
     #cp-list .card {
-        flex-basis: calc(50% - var(--card-gap)*0.5);
+        flex-basis: calc(50% - var(--card-gap) * 0.5);
     }
 }
