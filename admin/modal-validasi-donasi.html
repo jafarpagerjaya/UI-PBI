@@ -13,12 +13,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
         integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <link rel="stylesheet" href="./vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+
+    <link href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/master/build/css/bootstrap-datetimepicker.css">
     <!-- Argon CSS -->
     <link type="text/css" href="./main/css/argon.min.css" rel="stylesheet">
     <!-- Core Style -->
     <link rel="stylesheet" href="../pojok-berbagi-style.css">
     <link rel="stylesheet" href="./core/css/admin-style.css">
     <link rel="stylesheet" href="./main/css/utility.css">
+    <link rel="stylesheet" href="./main/css/inputGroup.css">
+
     <style>
         .modal img[alt="bank-bjb"],
         .modal img[alt="bank-bsi"],
@@ -31,6 +35,7 @@
             margin-top: -.25rem;
         }
 
+        /* Datepicker */
         .datepicker {
             width: 100%;
         }
@@ -45,8 +50,65 @@
             height: 40px;
         }
 
+        .datepicker {
+            z-index: 2000 !important;
+        }
+
+        /* Timepicker */
+        .timepicker *,
+        .timepicker .separator {
+            color: var(--dark);
+        }
+
+        .timepicker .timepicker-hours,
+        .timepicker .timepicker-minutes,
+        .timepicker .timepicker-seconds {
+            --timepicker-td-size: 40px;
+            /* padding: 0px 4em; */
+            /* width: calc(4 * vat(--timepicker-td-size)); */
+            margin: auto;
+        }
+
+        .timepicker td {
+            height: var(--timepicker-td-size) !important;
+            width: var(--timepicker-td-size) !important;
+            cursor: pointer;
+        }
+
+        .timepicker .timepicker-hours td:hover,
+        .timepicker .timepicker-minutes td:hover,
+        .timepicker .timepicker-seconds td:hover {
+            color: var(--orange);
+            font-weight: bolder;
+        }
+
+        .timepicker .waktu-sekarang {
+            font-size: .875rem;
+        }
+
+        .timepicker .waktu-sekarang:hover span {
+            color: var(--orange);
+        }
+
+        .timepicker .picker-switch.accordion-toggle {
+            margin-bottom: 0.5em;
+        }
+
+        /* Input group */
+        .inputGroup input[type="radio"]+label:after,
+        .inputGroup input[type="checkbox"]+label:after,
+        .inputGroup input[type="radio"],
+        .inputGroup input[type="checkbox"] {
+            --inputGroup-size: 1.5rem;
+        }
+
+        .inputGroup input[type="checkbox"]+label:after {
+            background-position-x: 0.05rem;
+        }
+
         @media (min-width: 360px) {
 
+            /* Datepicker */
             .datepicker table tr td,
             .datepicker table tr th {
                 width: 47.84px;
@@ -56,18 +118,29 @@
 
         @media (min-width: 768px) {
 
+            /* Datepicker */
             .datepicker table tr td,
             .datepicker table tr th {
                 width: 40px;
                 height: 40px;
             }
         }
+
+        @media (min-width: 1200px) {
+
+            /* Timepicker */
+            .timepicker {
+                width: 80%;
+                margin: auto;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <button type="button" id="add">Add</button>
     <!-- Modal -->
-    <div class="modal fade in" id="modalValidasiDonasi" tabindex="-1" role="dialog"
+    <div class="modal in" id="modalValidasiDonasi" tabindex="-1" role="dialog"
         aria-labelledby="modalValidasiDonasi-label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
             <div class="modal-content justify-content-center align-items-center scaleIn">
@@ -130,15 +203,39 @@
                         <div class="col-12 col-md-6">
                             <div class="box rounded-box bg-secondary">
                                 <h3 class="px-md-2 text-center">Pilih Tanggal Pembayaran Donasi</h3>
+                                <input type="hidden" id="waktu_bayar">
                                 <div class="datepicker"></div>
+                                <div class="timepicker"></div>
                             </div>
                         </div>
                         <div class="col-12 col-md-6 d-flex justify-content-between flex-column">
-                            <div class="box rounded-box bg-secondary">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="px-md-2">
-                                            <img src="/img/bantuan/1651723589-wide.jpeg" alt="Toko" class="img-fluid">
+                            <div class="row">
+                                <!-- <div class="col-12 mb-4">
+                                    <div
+                                        class="app-image img-wrapper d-flex align-items-center justify-content-center overflow-hidden rounded-box">
+                                        <img src="/img/bantuan/1651723589-wide.jpeg" alt="Toko" class="img-fluid">
+                                    </div>
+                                </div> -->
+                                <div class="col-12">
+                                    <div class="box bg-lighter rounded-box">
+                                        <div class="px-2">
+                                            <h3>Doa dan Pesan Donatur</h3>
+                                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo
+                                                molestias
+                                                ipsum minus animi est nam incidunt et, cupiditate libero iste aperiam
+                                                sit
+                                                vitae
+                                                corrupti quo quia, porro, praesentium voluptatum. Fuga?</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="box">
+                                        <div class="px-2">
+                                            <div class="inputGroup">
+                                                <input type="checkbox" name="doa_check" id="doa_check">
+                                                <label for="doa_check">Tampilkan doa dan pesan donatur</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -146,7 +243,7 @@
                             <div class="d-flex justify-content-end d-flex">
                                 <button class="btn btn-link text-orange font-weight-bolder"
                                     data-dismiss="modal">Batal</button>
-                                <button class="btn btn-outline-primary">Verivikasi Sekarang</button>
+                                <button class="btn btn-outline-green-box">Verivikasi Sekarang</button>
                             </div>
                         </div>
                     </div>
@@ -172,69 +269,88 @@
     <!-- <script src="./core/js/admin-script.js"></script> -->
     <script src="./vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="./vendor/bootstrap-datepicker/dist/locales/bootstrap-datepicker.id.min.js" charset="UTF-8"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.0/moment-with-locales.js"></script>
+    <script
+        src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/5a991bff/src/js/bootstrap-datetimepicker.js"></script>
     <script>
-        $('#modalValidasiDonasi').modal('show');
+        $("[id=add]").click(function () {
+            $("#modalValidasiDonasi").modal("show");
+        });
 
-        let d = new Date('08/11/2021');
-        $('.datepicker').datepicker({
-            todayBtn: "linked",
-            language: 'id',
-            format: 'd MM yyyy',
-            autoclose: true,
-            enableOnReadonly: false // readonly input will not show datepicker . The default value true
-        }).change(function (e) {
-            // submitControl(e.target);
-        }).on('show', function (e) {
-            let allowedPicker = [],
-                untilPicker = undefined,
-                year = undefined,
-                timeEpoc;
-            if (e.viewMode == 0) {
-                timeEpoc = 'day';
-            } else if (e.viewMode == 1) {
-                timeEpoc = 'month';
-            } else if (e.viewMode == 2) {
-                timeEpoc = 'year';
-            } else if (e.viewMode == 3) {
-                // Start From This(d) Decade
-                allowedPicker = [dateRanges(d)];
-                // Until This(default dateRanges) Decade
-                untilPicker = dateRanges();
-                year = 10;
-                timeEpoc = 'decade';
-            } else if (e.viewMode == 4) {
-                // daterange second params set to 100 a century
-                // Start From This(d) Century
-                allowedPicker = [dateRanges(d, 100)];
-                // Until This(now) Century
-                untilPicker = dateRanges(new Date(), 100);
-                year = 100;
-                timeEpoc = 'century';
-            }
-
-            $('.datepicker.datepicker-dropdown table tbody tr [class!="' + timeEpoc + '"].focused').removeClass('focused');
-
-            if (allowedPicker.length > 0) {
-                if (allowedPicker.find(element => element == untilPicker) == undefined) {
-                    allowedPicker.push(untilPicker)
-                }
-                if (allowedPicker.length > 1 && allowedPicker[1] - allowedPicker[0] > year) {
-                    let loop = 1;
-                    do {
-                        if (allowedPicker.find(element => element == (loop * year)) == undefined) {
-                            allowedPicker.push(allowedPicker[loop - 1] + year);
-                        }
-                        loop++;
-                    } while ((allowedPicker[1] - allowedPicker[0]) / year > loop);
-                    allowedPicker.sort();
-                }
-                allowedPicker.forEach(pickElement => {
-                    $('.datepicker.datepicker-dropdown table tbody td .disabled:contains(' + pickElement + ')').removeClass('disabled');
+        let data = {};
+        const dateRanges = (date = new Date(), rule = 10, sum = 0) => Math.floor(date.getFullYear() / rule) * rule + sum;
+        $('#modalValidasiDonasi').on('hidden.bs.modal', function () {
+            data = {};
+        }).on('shown.bs.modal', function () {
+            const checkDoa = $(this).find('#doa_check');
+            if (checkDoa.length) {
+                checkDoa.on('click', function () {
+                    data.check = true
                 });
             }
-        }).datepicker('setStartDate', d);
 
-        // $('.datepicker').datetimepicker();
+            let d = new Date('08/11/2021');
+            $(this).find('.datepicker').datepicker({
+                todayBtn: "linked",
+                language: 'id',
+                format: 'd MM yyyy',
+                autoclose: true,
+                maxViewMode: 2,
+                endDate: '+1',
+                enableOnReadonly: false // readonly input will not show datepicker . The default value true
+            }).on('changeDate', function (e) {
+                data.tanggal_bayar = e.date;
+                $(this).hide();
+                // $(this).datepicker('destroy');
+
+
+            }).datepicker('setStartDate', d);
+        }).on('hide.bs.modal', function () {
+            $(this).find('.datepicker').show();
+            $(this).find('.datepicker').datepicker('destroy');
+
+            const checkDoa = $(this).find('#doa_check');
+            if (checkDoa.length) {
+                checkDoa.prop('checked', false)
+            }
+        }).modal('show');
+
+
+        // let d = new Date('08/11/2021');
+        // $('.datepicker').datepicker({
+        //     todayBtn: "linked",
+        //     language: 'id',
+        //     format: 'd MM yyyy',
+        //     autoclose: true,
+        //     maxViewMode: 2,
+        //     endDate: '+1',
+        //     enableOnReadonly: false // readonly input will not show datepicker . The default value true
+        // }).on('changeDate', function (e) {
+        //     data.tanggal_bayar = e.date;
+        // }).datepicker('setStartDate', d);
+
+        $('.timepicker').datetimepicker({
+            format: 'HH:mm:ss',
+            inline: true,
+            icons: {
+                up: "fa fa-solid fa-angle-up",
+                down: "fa fa-solid fa-angle-down",
+                today: 'waktu-sekarang',
+            },
+            tooltips: {
+                today: 'Waktu Sekarang',
+                close: 'Tutup Waktu'
+            },
+            showTodayButton: true
+        }).on("dp.change", function (e) {
+            if ($(this).find('.timepicker-picker').is(':hidden')) {
+                $(this).find('.timepicker-picker').show();
+                $(this).find('.timepicker-picker').siblings().hide();
+            }
+            console.log(e)
+        }).data("DateTimePicker").date('2017/04/23 23:34:23');
+        $('.timepicker .waktu-sekarang').html('<span class="font-weight-bolder">Waktu Sekarang</span>');
 
     </script>
 </body>

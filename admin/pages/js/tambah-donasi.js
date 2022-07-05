@@ -108,58 +108,14 @@ $('.datepicker').datepicker({
     todayBtn: "linked",
     language: 'id',
     format: 'd MM yyyy',
+    maxViewMode: 3,
     autoclose: true,
     enableOnReadonly: false // readonly input will not show datepicker . The default value true
 }).change(function(e) {
-    // submitControl(e.target);
+    // submitControl(e.target);\
+    alert('c');
 }).on('show', function(e) {
-    let allowedPicker = [],
-        untilPicker = undefined,
-        year = undefined,
-        timeEpoc;
-    if (e.viewMode == 0) {
-        timeEpoc = 'day';
-    } else if (e.viewMode == 1) {
-        timeEpoc = 'month';
-    } else if (e.viewMode == 2) {
-        timeEpoc = 'year';
-    } else if (e.viewMode == 3) {
-        // Start From This(d) Decade
-        allowedPicker = [dateRanges(d)];
-        // Until This(default dateRanges) Decade
-        untilPicker = dateRanges();
-        year = 10;
-        timeEpoc = 'decade';
-    } else if (e.viewMode == 4) {
-        // daterange second params set to 100 a century
-        // Start From This(d) Century
-        allowedPicker = [dateRanges(d, 100)];
-        // Until This(now) Century
-        untilPicker = dateRanges(new Date(), 100);
-        year = 100;
-        timeEpoc = 'century';
-    }
-
-    $('.datepicker.datepicker-dropdown table tbody tr [class!="'+ timeEpoc +'"].focused').removeClass('focused');
-
-    if (allowedPicker.length > 0) {
-        if (allowedPicker.find(element => element == untilPicker) == undefined) {
-            allowedPicker.push(untilPicker)
-        }
-        if (allowedPicker.length > 1 && allowedPicker[1] - allowedPicker[0] > year) {
-            let loop = 1;
-            do {
-                if (allowedPicker.find(element => element == (loop*year)) == undefined) {
-                    allowedPicker.push(allowedPicker[loop-1]+year);
-                }
-                loop++;
-            } while ((allowedPicker[1] - allowedPicker[0]) / year > loop);
-            allowedPicker.sort();
-        }
-        allowedPicker.forEach(pickElement => {
-            $('.datepicker.datepicker-dropdown table tbody td .disabled:contains('+ pickElement +')').removeClass('disabled');
-        });
-    }
+    alert(1);
 }).datepicker('setStartDate', d);
 
 const inputJumlahDonasi = document.getElementById('input-jumlah-donasi');
