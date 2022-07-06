@@ -75,6 +75,16 @@
             cursor: pointer;
         }
 
+        .timepicker .timepicker-picker tr:nth-child(2) td span {
+            font-weight: 300;
+            transition: all .3s ease !important;
+        }
+
+        .timepicker .timepicker-picker tr:nth-child(2) td.active span {
+            color: var(--orange);
+            font-weight: 800;
+        }
+
         .timepicker .timepicker-hours td:hover,
         .timepicker .timepicker-minutes td:hover,
         .timepicker .timepicker-seconds td:hover {
@@ -82,11 +92,13 @@
             font-weight: bolder;
         }
 
-        .timepicker .waktu-sekarang {
+        .timepicker .waktu-sekarang,
+        .timepicker .clear-waktu {
             font-size: .875rem;
         }
 
-        .timepicker .waktu-sekarang:hover span {
+        .timepicker .waktu-sekarang:hover span,
+        .timepicker .clear-waktu:hover span {
             color: var(--orange);
         }
 
@@ -202,7 +214,9 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="box rounded-box bg-secondary">
-                                <h3 class="px-md-2 text-center">Pilih Tanggal Pembayaran Donasi</h3>
+                                <h3 class="px-md-2 text-center">Pilih <span id="date-type-text"
+                                        class="font-weight-bolder">Tanggal</span>
+                                    Pembayaran Donasi</h3>
                                 <input type="hidden" id="waktu_bayar">
                                 <div class="datepicker"></div>
                                 <div class="timepicker"></div>
@@ -229,7 +243,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12 mt-3 mt-md-0">
                                     <div class="box">
                                         <div class="px-2">
                                             <div class="inputGroup">
@@ -240,10 +254,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-end d-flex">
+                            <div class="d-flex justify-content-end d-flex p-3 p-md-0 mx-1 mx-md-0" id="modal-button">
                                 <button class="btn btn-link text-orange font-weight-bolder"
                                     data-dismiss="modal">Batal</button>
-                                <button class="btn btn-outline-green-box">Verivikasi Sekarang</button>
+                                <button class="btn btn-outline-green-box" type="submit">Verivikasi Sekarang</button>
                             </div>
                         </div>
                     </div>
@@ -301,11 +315,27 @@
                 enableOnReadonly: false // readonly input will not show datepicker . The default value true
             }).on('changeDate', function (e) {
                 data.tanggal_bayar = e.date;
+
                 $(this).hide();
-                // $(this).datepicker('destroy');
+                $(this).closest('.box').prepend('<div class="px-2 mb-3 d-flex justify-content-center align-items-center gap-3"><span class="font-weight-bolder text-muted">' + $(this).datepicker('getFormattedDate') + '</span><a href="#" class="font-weight-bolder text-orange small" id="ganti-tanggal">Ganti Tanggal</a></div>');
 
-
+                $(this).closest('.box').find('#date-type-text').text('Waktu');
+                $(this).closest('.box').find('.timepicker').show();
             }).datepicker('setStartDate', d);
+
+            $(this).on('click', '#ganti-tanggal', function (e) {
+                $(this).closest('.box').find('.timepicker').hide();
+                $('#date-type-text').text('Tanggal');
+
+                $(this).closest('.box').find('.datepicker').show();
+                $(this).closest('.d-flex').remove();
+                e.preventDefault();
+            });
+
+            const verivikasiBtn = $(this).find('button[type="submit"]');
+            verivikasiBtn.click(function (e) {
+                console.log(data)
+            });
         }).on('hide.bs.modal', function () {
             $(this).find('.datepicker').show();
             $(this).find('.datepicker').datepicker('destroy');
@@ -337,20 +367,49 @@
                 up: "fa fa-solid fa-angle-up",
                 down: "fa fa-solid fa-angle-down",
                 today: 'waktu-sekarang',
+                clear: 'clear-waktu'
             },
             tooltips: {
                 today: 'Waktu Sekarang',
                 close: 'Tutup Waktu'
             },
-            showTodayButton: true
+            showTodayButton: true,
+            showClear: true
         }).on("dp.change", function (e) {
             if ($(this).find('.timepicker-picker').is(':hidden')) {
                 $(this).find('.timepicker-picker').show();
                 $(this).find('.timepicker-picker').siblings().hide();
             }
-            console.log(e)
-        }).data("DateTimePicker").date('2017/04/23 23:34:23');
-        $('.timepicker .waktu-sekarang').html('<span class="font-weight-bolder">Waktu Sekarang</span>');
+            if ($(this).find('.timepicker-picker > table > tr:nth-child(2) > td.active').length) {
+                setTimeout(() => {
+                    $(this).find('.timepicker-picker > table > tr:nth-child(2) > td.active').removeClass('active')
+                }, 900);
+            }
+
+            if (e.date != false) {
+                data.time_bayar = e.date.format('HH:mm:ss');
+            } else {
+                data.time_bayar = '00:00:00';
+                return;
+            }
+        }).data("DateTimePicker").date('00:00:00');
+        $('.timepicker .waktu-sekarang').html('<span class="font-weight-bold">Waktu Sekarang</span>');
+        $('.timepicker .clear-waktu').html('<span class="font-weight-bold">Clear Waktu</span>');
+
+        $('.timepicker').on('click', 'tr:nth-child(2) > td', function () {
+            $(this).siblings('td').removeClass('active');
+            $(this).addClass('active');
+        }).on('click', 'tr:not(:nth-child(2)) > td', function () {
+            $(this).closest('table').find('tr:nth-child(2)').children('td').eq($(this).index()).siblings('td').removeClass('active');
+            $(this).closest('table').find('tr:nth-child(2)').children('td').eq($(this).index()).addClass('active');
+        });
+
+        $('.timepicker .clear-waktu').click(function () {
+            $(this).parents('.timepicker').data("DateTimePicker").date(null);
+            $(this).parents('.timepicker').data("DateTimePicker").date('00:00:00');
+        });
+
+        $('.timepicker').hide();
 
     </script>
 </body>
