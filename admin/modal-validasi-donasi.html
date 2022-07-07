@@ -14,7 +14,8 @@
         integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <link rel="stylesheet" href="./vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
 
-    <link href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/master/build/css/bootstrap-datetimepicker.css">
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
     <!-- Argon CSS -->
     <link type="text/css" href="./main/css/argon.min.css" rel="stylesheet">
     <!-- Core Style -->
@@ -36,21 +37,21 @@
         }
 
         /* Datepicker */
-        .datepicker {
+        .modal .datepicker {
             width: 100%;
         }
 
-        .datepicker table {
+        .modal .datepicker table {
             margin: auto;
         }
 
-        .datepicker table tr td,
-        .datepicker table tr th {
+        .modal .datepicker table tr td,
+        .modal .datepicker table tr th {
             width: 40px;
             height: 40px;
         }
 
-        .datepicker {
+        .modal .datepicker {
             z-index: 2000 !important;
         }
 
@@ -64,8 +65,6 @@
         .timepicker .timepicker-minutes,
         .timepicker .timepicker-seconds {
             --timepicker-td-size: 40px;
-            /* padding: 0px 4em; */
-            /* width: calc(4 * vat(--timepicker-td-size)); */
             margin: auto;
         }
 
@@ -107,22 +106,22 @@
         }
 
         /* Input group */
-        .inputGroup input[type="radio"]+label:after,
-        .inputGroup input[type="checkbox"]+label:after,
-        .inputGroup input[type="radio"],
-        .inputGroup input[type="checkbox"] {
+        .modal .inputGroup input[type="radio"]+label:after,
+        .modal .inputGroup input[type="checkbox"]+label:after,
+        .modal .inputGroup input[type="radio"],
+        .modal .inputGroup input[type="checkbox"] {
             --inputGroup-size: 1.5rem;
         }
 
-        .inputGroup input[type="checkbox"]+label:after {
+        .modal .inputGroup input[type="checkbox"]+label:after {
             background-position-x: 0.05rem;
         }
 
         @media (min-width: 360px) {
 
             /* Datepicker */
-            .datepicker table tr td,
-            .datepicker table tr th {
+            .modal .datepicker table tr td,
+            .modal .datepicker table tr th {
                 width: 47.84px;
                 height: 47.84px;
             }
@@ -131,8 +130,8 @@
         @media (min-width: 768px) {
 
             /* Datepicker */
-            .datepicker table tr td,
-            .datepicker table tr th {
+            .modal .datepicker table tr td,
+            .modal .datepicker table tr th {
                 width: 40px;
                 height: 40px;
             }
@@ -275,7 +274,7 @@
         crossorigin="anonymous"></script>
 
     <!-- Argon JS -->
-    <script src="./main/js/argon.js"></script>
+    <script src="./main/js/argon.min.js"></script>
     <!-- Core Script -->
     <!-- <script src="./main/js/main.js"></script> -->
     <!-- Load Script -->
@@ -292,15 +291,15 @@
             $("#modalValidasiDonasi").modal("show");
         });
 
-        let data = {};
+        let dataVerivikasi = {};
         const dateRanges = (date = new Date(), rule = 10, sum = 0) => Math.floor(date.getFullYear() / rule) * rule + sum;
         $('#modalValidasiDonasi').on('hidden.bs.modal', function () {
-            data = {};
+            dataVerivikasi = {};
         }).on('shown.bs.modal', function () {
             const checkDoa = $(this).find('#doa_check');
             if (checkDoa.length) {
                 checkDoa.on('click', function () {
-                    data.check = true
+                    dataVerivikasi.check = true
                 });
             }
 
@@ -314,13 +313,67 @@
                 endDate: '+1',
                 enableOnReadonly: false // readonly input will not show datepicker . The default value true
             }).on('changeDate', function (e) {
-                data.tanggal_bayar = e.date;
+                // dataVerivikasi.payment_date = e.date;
+                dataVerivikasi.payment_date = $(this).datepicker('getFormattedDate');
+
 
                 $(this).hide();
-                $(this).closest('.box').prepend('<div class="px-2 mb-3 d-flex justify-content-center align-items-center gap-3"><span class="font-weight-bolder text-muted">' + $(this).datepicker('getFormattedDate') + '</span><a href="#" class="font-weight-bolder text-orange small" id="ganti-tanggal">Ganti Tanggal</a></div>');
+                if (!$('#ganti-tanggal').length) {
+                    $(this).closest('.box').prepend('<div class="px-2 mb-3 d-flex justify-content-center align-items-center gap-3"><span class="font-weight-bolder text-muted">' + $(this).datepicker('getFormattedDate') + '</span><a href="#" class="font-weight-bolder text-orange small" id="ganti-tanggal">Ganti Tanggal</a></div>');
+                }
 
                 $(this).closest('.box').find('#date-type-text').text('Waktu');
                 $(this).closest('.box').find('.timepicker').show();
+                if (!$('#modalValidasiDonasi').find('.timepicker > .bootstrap-datetimepicker-widget').length) {
+                    $('#modalValidasiDonasi').find('.timepicker').datetimepicker({
+                        format: 'HH:mm:ss',
+                        inline: true,
+                        icons: {
+                            up: "fa fa-solid fa-angle-up",
+                            down: "fa fa-solid fa-angle-down",
+                            today: 'waktu-sekarang',
+                            clear: 'clear-waktu'
+                        },
+                        tooltips: {
+                            today: 'Set waktu saat ini',
+                            clear: 'Set waktu ke 00:00:00'
+                        },
+                        showTodayButton: true,
+                        showClear: true
+                    }).on("dp.change", function (e) {
+                        if ($(this).find('.timepicker-picker').is(':hidden')) {
+                            $(this).find('.timepicker-picker').show();
+                            $(this).find('.timepicker-picker').siblings().hide();
+                        }
+                        if ($(this).find('.timepicker-picker > table > tr:nth-child(2) > td.active').length) {
+                            setTimeout(() => {
+                                $(this).find('.timepicker-picker > table > tr:nth-child(2) > td.active').removeClass('active')
+                            }, 900);
+                        }
+
+                        if (e.date != false) {
+                            dataVerivikasi.payment_time = e.date.format('HH:mm:ss');
+                        } else {
+                            dataVerivikasi.payment_time = '00:00:00';
+                            return;
+                        }
+                    }).data("DateTimePicker").date('00:00:00');
+                    $('#modalValidasiDonasi').find('.timepicker .waktu-sekarang').html('<span class="font-weight-bold">Waktu Sekarang</span>');
+                    $('#modalValidasiDonasi').find('.timepicker .clear-waktu').html('<span class="font-weight-bold">Clear Waktu</span>');
+
+                    $('#modalValidasiDonasi').find('.timepicker').on('click', 'tr:nth-child(2) > td', function () {
+                        $(this).siblings('td').removeClass('active');
+                        $(this).addClass('active');
+                    }).on('click', 'tr:not(:nth-child(2)) > td', function () {
+                        $(this).closest('table').find('tr:nth-child(2)').children('td').eq($(this).index()).siblings('td').removeClass('active');
+                        $(this).closest('table').find('tr:nth-child(2)').children('td').eq($(this).index()).addClass('active');
+                    });
+
+                    $('#modalValidasiDonasi').find('.timepicker .clear-waktu').click(function () {
+                        $(this).parents('.timepicker').data("DateTimePicker").date(null);
+                        $(this).parents('.timepicker').data("DateTimePicker").date('00:00:00');
+                    });
+                }
             }).datepicker('setStartDate', d);
 
             $(this).on('click', '#ganti-tanggal', function (e) {
@@ -331,14 +384,17 @@
                 $(this).closest('.d-flex').remove();
                 e.preventDefault();
             });
-
-            const verivikasiBtn = $(this).find('button[type="submit"]');
-            verivikasiBtn.click(function (e) {
-                console.log(data)
-            });
         }).on('hide.bs.modal', function () {
             $(this).find('.datepicker').show();
             $(this).find('.datepicker').datepicker('destroy');
+
+            if ($(this).find('.timepicker > .bootstrap-datetimepicker-widget').length) {
+                $(this).find('.timepicker').data("DateTimePicker").destroy();
+            }
+
+            if ($(this).find('#ganti-tanggal').length) {
+                $(this).find('#ganti-tanggal').parent().remove();
+            }
 
             const checkDoa = $(this).find('#doa_check');
             if (checkDoa.length) {
@@ -346,71 +402,19 @@
             }
         }).modal('show');
 
+        const verivikasiBtn = $('#modalValidasiDonasi').find('button[type="submit"]');
+        verivikasiBtn.on('click', function (e) {
+            dataVerivikasi.waktu_bayar = new Date(dataVerivikasi.payment_date + ' ' + dataVerivikasi.payment_time);
 
-        // let d = new Date('08/11/2021');
-        // $('.datepicker').datepicker({
-        //     todayBtn: "linked",
-        //     language: 'id',
-        //     format: 'd MM yyyy',
-        //     autoclose: true,
-        //     maxViewMode: 2,
-        //     endDate: '+1',
-        //     enableOnReadonly: false // readonly input will not show datepicker . The default value true
-        // }).on('changeDate', function (e) {
-        //     data.tanggal_bayar = e.date;
-        // }).datepicker('setStartDate', d);
+            if (dataVerivikasi.waktu_bayar == 'Invalid Date') {
+                // tampilkan pesan waktu bayar wajib diisi
 
-        $('.timepicker').datetimepicker({
-            format: 'HH:mm:ss',
-            inline: true,
-            icons: {
-                up: "fa fa-solid fa-angle-up",
-                down: "fa fa-solid fa-angle-down",
-                today: 'waktu-sekarang',
-                clear: 'clear-waktu'
-            },
-            tooltips: {
-                today: 'Waktu Sekarang',
-                close: 'Tutup Waktu'
-            },
-            showTodayButton: true,
-            showClear: true
-        }).on("dp.change", function (e) {
-            if ($(this).find('.timepicker-picker').is(':hidden')) {
-                $(this).find('.timepicker-picker').show();
-                $(this).find('.timepicker-picker').siblings().hide();
-            }
-            if ($(this).find('.timepicker-picker > table > tr:nth-child(2) > td.active').length) {
-                setTimeout(() => {
-                    $(this).find('.timepicker-picker > table > tr:nth-child(2) > td.active').removeClass('active')
-                }, 900);
+                e.preventDefault();
+                return false;
             }
 
-            if (e.date != false) {
-                data.time_bayar = e.date.format('HH:mm:ss');
-            } else {
-                data.time_bayar = '00:00:00';
-                return;
-            }
-        }).data("DateTimePicker").date('00:00:00');
-        $('.timepicker .waktu-sekarang').html('<span class="font-weight-bold">Waktu Sekarang</span>');
-        $('.timepicker .clear-waktu').html('<span class="font-weight-bold">Clear Waktu</span>');
-
-        $('.timepicker').on('click', 'tr:nth-child(2) > td', function () {
-            $(this).siblings('td').removeClass('active');
-            $(this).addClass('active');
-        }).on('click', 'tr:not(:nth-child(2)) > td', function () {
-            $(this).closest('table').find('tr:nth-child(2)').children('td').eq($(this).index()).siblings('td').removeClass('active');
-            $(this).closest('table').find('tr:nth-child(2)').children('td').eq($(this).index()).addClass('active');
+            console.log(dataVerivikasi);
         });
-
-        $('.timepicker .clear-waktu').click(function () {
-            $(this).parents('.timepicker').data("DateTimePicker").date(null);
-            $(this).parents('.timepicker').data("DateTimePicker").date('00:00:00');
-        });
-
-        $('.timepicker').hide();
-
     </script>
 </body>
 

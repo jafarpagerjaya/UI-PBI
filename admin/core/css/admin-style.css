@@ -69,6 +69,14 @@ body.nav-open {
     }
 }
 
+body.nav-open {
+    position: fixed;
+}
+
+.small {
+    letter-spacing: 0.5px;
+}
+
 .img-avatar {
     vertical-align: middle;
     width: 100px;
@@ -88,6 +96,10 @@ a.disabled {
     background-color: #f7fafc !important;
 }
 
+.gap-x-1 {
+    column-gap: .25em;
+}
+
 .gap-x-2 {
     column-gap: .5em;
 }
@@ -100,6 +112,10 @@ a.disabled {
     row-gap: 1.5em;
 }
 
+.gap-y-5 {
+    row-gap: 2em;
+}
+
 .form-control:focus {
     box-shadow: 0 0 0 0.2rem rgb(94 114 228 / 25%);
 }
@@ -110,6 +126,10 @@ a.disabled {
 }
 
 .form-group.error .input-group {
+    box-shadow: 0 0 0 0.2rem rgb(220 53 69 / 25%);
+}
+
+.form-group.is-invalid.focused .input-group {
     box-shadow: 0 0 0 0.2rem rgb(220 53 69 / 25%);
 }
 
@@ -141,6 +161,11 @@ a.disabled {
     box-shadow: 0 0 0 0.2rem rgb(94 114 228 / 25%);
 }
 
+/* Pagination */
+.pagination .page-item:last-child .page-link {
+    margin-right: 0px !important;
+}
+
 /* Backdrop On Burger Click */
 #panel.main-content {
     position: relative;
@@ -168,7 +193,29 @@ a.disabled {
 }
 
 #panel.main-content.backdrop::after {
-    background-color: rgb(0 16 32 / 50%);
+    background-color: rgb(0 16 32 / 50%)
+}
+
+/* Modal */
+.modal.show .modal-dialog .modal-content.bg-gradient-info .modal-footer button[data-dismiss="modal"] {
+    color: aqua;
+}
+
+.modal.show .modal-dialog .modal-content.bg-gradient-success .modal-footer button[data-dismiss="modal"] {
+    color: aliceblue;
+}
+
+.modal.show .modal-dialog .modal-content.bg-gradient-danger .modal-footer button[data-dismiss="modal"] {
+    color: cornsilk;
+}
+
+.modal.show .modal-dialog .modal-content[class*="bg-gradient-"] .modal-footer button[data-dismiss="modal"] {
+    transition: all .3s ease;
+}
+
+.modal.show .modal-dialog:not(.modal-error) .modal-content[class*="bg-gradient-"]:not(.bg-gradient-) .modal-footer button[data-dismiss="modal"]:hover {
+    color: #e9ecef;
+    opacity: 1;
 }
 
 @media (min-width: 360px) {
@@ -202,6 +249,7 @@ a.disabled {
 }
 
 @media (min-width: 1200px) {
+    /* Backdrop On Burger Click */
     #panel.main-content.backdrop::after {
         background-color: transparent;
     }
