@@ -110,27 +110,27 @@ h6 {
 }
 
 .text-green {
-    color: var(--green);
+    color: var(--green) !important;
 }
 
 .text-green-box {
-    color: var(--green-box);
+    color: var(--green-box) !important;
 }
 
 .text-orange {
-    color: var(--orange);
+    color: var(--orange) !important;
 }
 
 .border-orange {
-    border-color: var(--orange);
+    border-color: var(--orange) !important;
 }
 
 .border-green {
-    border-color: var(--green);
+    border-color: var(--green) !important;
 }
 
 .border-green-box {
-    border-color: var(--green-box);
+    border-color: var(--green-box) !important;
 }
 
 .border-solid {

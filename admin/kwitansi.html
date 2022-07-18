@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kwitansi</title>
+    <!-- Icons -->
+    <link href="./vendor/nucleo/css/nucleo.css" rel="stylesheet">
+    <link href="./vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <!-- Argon CSS -->
+    <link type="text/css" href="./main/css/argon.min.css" rel="stylesheet">
+    <!-- Core Style -->
+    <link rel="stylesheet" href="../pojok-berbagi-style.css">
+    <link rel="stylesheet" href="./core/css/admin-style.css">
+    <style>
+        #kwitansi {
+            min-height: 100vh;
+        }
+
+        #kwitansi .card {
+            background-image: url(../pojok-berbagi-white.png);
+            /* background-image: url(../pojok-berbagi-transparent.png); */
+            background-repeat: no-repeat;
+            background-position: center;
+            background-blend-mode: luminosity;
+        }
+
+        #kwitansi img {
+            width: 60px;
+        }
+
+        #kwitansi img.img-cp {
+            margin-bottom: 2px;
+        }
+
+        #kwitansi #kwitansi-note {
+            background-image: url(../pattern-to-trasparent.png);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-blend-mode: luminosity;
+        }
+
+        #kwitansi table tr th:first-child,
+        #kwitansi table tr td:first-child {
+            padding-left: 0px;
+        }
+
+        #kwitansi table tr th:last-child,
+        #kwitansi table tr td:last-child {
+            padding-right: 0px;
+            text-align: right;
+        }
+
+        #kwitansi #qs {
+            font-size: small;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row align-items-center" id="kwitansi">
+            <div class="col-12 col-lg-9">
+                <div class="card bg-secondary">
+                    <div class="border-0 card-header bg-transparent justify-content-between d-flex align-items-center">
+                        <h1 class="display-4 mb-0 text-orange font-weight-bolder">Kwitansi Donasi</h1>
+                        <a href="#">
+                            <img src="../pojok-berbagi-transparent.png" alt="Logo Pojok Berbagi" class="img-fluid">
+                        </a>
+                    </div>
+                    <div class="card-body d-flex flex-column gap-y-4">
+                        <div class="box rounded-box bg-orange text-white" id="kwitansi-note">
+                            <div class="px-2">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <b>Nomor Kwitansi
+                                            <div class="text-white-50">#10071</div>
+                                            <small class="text-white">
+                                                Dibuat <span>Kamis, 21 Juli 2022</span>
+                                            </small>
+                                        </b>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <b>
+                                            Donatur
+                                            <div class="font-weight-bolder">
+                                                Adi Rahman <span>(Hamba Allah)</span>
+                                            </div>
+                                        </b>
+                                        <small class="gap-x-2 text-white-50">
+                                            <span class="kontak">08213213214</span>
+                                            <span class="email">donatur@donatur.id</span>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th class="font-weight-bolder">Donasi</th>
+                                            <th class="font-weight-bolder">Jumlah Donasi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>
+                                                <span id="nama-bantuan">Judul Bantuanku dan Bantuanmu Sungguh
+                                                    Keren</span>
+                                            </th>
+                                            <td>Rp. 10.000</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="box rounded-box border">
+                                    <b>Payment Method</b>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div>
+                                                Transfer Bank <div class="text-black-50 small">100990120912</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto align-items-end d-flex">
+                                            <img src="/img/payment/bjb.png" alt="" class="img-cp">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-6">Total Donasi</div>
+                                    <div class="col-6 text-right"><strong class="text-right">Rp. <span
+                                                id="total">10.000</span></strong></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer border-start border-lighter" style="border-top-style: dotted;">
+                        <div class="row">
+                            <div class="col-12">
+                                <div id="qs" class="text-center">
+                                    <i>"Sesungguhnya orang-orang yang bersedekah baik laki-laki maupun perempuan dan
+                                        meminjamkan kepada Allah pinjaman yang baik, niscaya akan dilipat-gandakan
+                                        pembayarannya oleh Allah kepada mereka, dan bagi mereka pahala yang banyak."</i>
+                                    <b class="d-inline-block">QS. Al-Hadid:18</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-secondary border-start border-lighter" style="border-top-style: dotted;">
+                        <div class="row">
+                            <div class="col-4 d-flex gap-x-4 align-items-center">
+                                <div class="item">
+                                    <img src="../pojok-berbagi-transparent.png" alt="Pojok Berbagi">
+                                </div>
+                                <div class="item row">
+                                    <div class="col-12"><b>Kontak</b></div>
+                                    <div class="col-12">cr@pojokberbagi.id</div>
+                                </div>
+                            </div>
+                            <div class="col-8 text-right small">
+                                <div>Jl. Kuningan Raya No. 86</div>
+                                <div>Antapani, Kota Bandung</div>
+                                <div class="font-weight-bolder"><i class="fab fa-whatsapp"></i> 0812-1333-1113</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vendor Script -->
+    <script src="./vendor/jquery/dist/jquery.min.js"></script>
+    <script src="./vendor/js-cookie/js.cookie.js"></script>
+    <script src="./vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="./vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+        crossorigin="anonymous"></script>
+    <!-- Argon JS -->
+    <script src="./main/js/argon.js"></script>
+    <!-- Core Script -->
+    <!-- <script src="./main/js/main.js"></script> -->
+    <!-- Load Script -->
+    <script src="../pojok-berbagi-script.js"></script>
+    <!-- <script src="./core/js/admin-script.js"></script> -->
+    <script>
+
+    </script>
+</body>
+
+</html>

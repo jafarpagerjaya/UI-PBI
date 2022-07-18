@@ -31,7 +31,8 @@
         .modal img[alt="qris"],
         .modal img[alt="BJB"],
         .modal img[alt="BSI"],
-        .modal img[alt="BRI"] {
+        .modal img[alt="BRI"],
+        .modal img[alt]#donasi-cp {
             width: 42.5px;
             margin-top: -.25rem;
         }
@@ -45,14 +46,19 @@
             margin: auto;
         }
 
-        .modal .datepicker table tr td,
-        .modal .datepicker table tr th {
+        .modal .datepicker .datepicker-days>table tr td,
+        .modal .datepicker .datepicker-days>table tr th {
             width: 40px;
             height: 40px;
         }
 
         .modal .datepicker {
             z-index: 2000 !important;
+        }
+
+        .datepicker table tr td span.old.disabled,
+        .datepicker table tr td span.new.disabled {
+            color: #dee2e6;
         }
 
         /* Timepicker */
@@ -120,8 +126,8 @@
         @media (min-width: 360px) {
 
             /* Datepicker */
-            .modal .datepicker table tr td,
-            .modal .datepicker table tr th {
+            .modal .datepicker .datepicker-days>table tr td,
+            .modal .datepicker .datepicker-days>table tr th {
                 width: 47.84px;
                 height: 47.84px;
             }
@@ -130,8 +136,8 @@
         @media (min-width: 768px) {
 
             /* Datepicker */
-            .modal .datepicker table tr td,
-            .modal .datepicker table tr th {
+            .modal .datepicker .datepicker-days>table tr td,
+            .modal .datepicker .datepicker-days>table tr th {
                 width: 40px;
                 height: 40px;
             }
@@ -149,7 +155,7 @@
 </head>
 
 <body>
-    <button type="button" id="add">Add</button>
+    <button type="button" id="adds" data-toggle="modal" data-target="#modalValidasiDonasi">Add</button>
     <!-- Modal -->
     <div class="modal in" id="modalValidasiDonasi" tabindex="-1" role="dialog"
         aria-labelledby="modalValidasiDonasi-label" aria-hidden="true">
@@ -157,6 +163,15 @@
             <div class="modal-content justify-content-center align-items-center scaleIn">
                 <div class="container p-0 py-md-3 py-lg-5 px-lg-3">
                     <div class="row gap-y-4">
+                        <!-- <div class="col-12">
+                            <div class="box rounded-box bg-gradient-danger text-white">
+                                <div class="px-2">
+                                    <h3 class="mb-0 text-white">Bantuan ini sudah di <b>Take Down !!</b></h3>
+                                    <span>Anda diwajib sesegera mungkin untuk menginput data pengeluaran donasi
+                                        ini jika <b>memverivikasinya</b></span>
+                                </div>
+                            </div>
+                        </div> -->
                         <div class="col-12 col-lg-6">
                             <div class="box rounded-box bg-orange">
                                 <div class="row align-items-center px-2">
@@ -222,41 +237,74 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-6 d-flex justify-content-between flex-column">
-                            <div class="row">
+                            <div class="row gap-y-4">
                                 <!-- <div class="col-12 mb-4">
                                     <div
                                         class="app-image img-wrapper d-flex align-items-center justify-content-center overflow-hidden rounded-box">
                                         <img src="/img/bantuan/1651723589-wide.jpeg" alt="Toko" class="img-fluid">
                                     </div>
                                 </div> -->
-                                <div class="col-12">
-                                    <div class="box bg-lighter rounded-box">
-                                        <div class="px-2">
-                                            <h3>Doa dan Pesan Donatur</h3>
-                                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo
-                                                molestias
-                                                ipsum minus animi est nam incidunt et, cupiditate libero iste aperiam
-                                                sit
-                                                vitae
-                                                corrupti quo quia, porro, praesentium voluptatum. Fuga?</p>
+                                <div class="col-12" id="verivikasi-pesan-doa">
+                                    <!-- <div class="row" id="pesan-doa-is-null">
+                                        <div class="col-12">
+                                            <div class="box bg-lighter rounded-box">
+                                                <div class="px-2">
+                                                    <p class="m-0">Tidak ada pesan maupun doa dari donatur</p>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 mt-3 mt-md-0">
-                                    <div class="box">
-                                        <div class="px-2">
-                                            <div class="inputGroup">
-                                                <input type="checkbox" name="doa_check" id="doa_check">
-                                                <label for="doa_check">Tampilkan doa dan pesan donatur</label>
+                                    </div> -->
+                                    <div class="row" id="pesan-doa">
+                                        <div class="col-12">
+                                            <div class="box bg-lighter rounded-box">
+                                                <div class="px-2">
+                                                    <h3>Doa dan Pesan Donatur</h3>
+                                                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                                                        Explicabo
+                                                        molestias
+                                                        ipsum minus animi est nam incidunt et, cupiditate libero iste
+                                                        aperiam
+                                                        sit
+                                                        vitae
+                                                        corrupti quo quia, porro, praesentium voluptatum. Fuga?</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mt-3 mt-md-0">
+                                            <div class="box">
+                                                <div class="px-2">
+                                                    <div class="inputGroup">
+                                                        <input type="checkbox" name="doa_check" id="doa_check">
+                                                        <label for="doa_check">Tampilkan doa dan pesan donatur</label>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <!-- <div class="col-12">
+                                    <div class="box rounded-box bg-gradient-danger text-white">
+                                        <div class="px-2">
+                                            <h3 class="mb-0 text-white">Bantuan ini sudah di <b>Take Down !!</b></h3>
+                                            <span>Anda diwajib sesegera mungkin untuk menginput data pengeluaran donasi
+                                                ini jika <b>memverivikasinya</b></span>
+                                        </div>
+                                    </div>
+                                </div> -->
                             </div>
                             <div class="d-flex justify-content-end d-flex p-3 p-md-0 mx-1 mx-md-0" id="modal-button">
                                 <button class="btn btn-link text-orange font-weight-bolder"
                                     data-dismiss="modal">Batal</button>
                                 <button class="btn btn-outline-green-box" type="submit">Verivikasi Sekarang</button>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="box rounded-box bg-gradient-danger text-white">
+                                <div class="px-2">
+                                    <h3 class="mb-0 text-white">Bantuan ini sudah di <b>Take Down !!</b></h3>
+                                    <span>Anda diwajib sesegera mungkin untuk menginput data pengeluaran donasi
+                                        ini jika <b>memverivikasinya</b></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -274,7 +322,7 @@
         crossorigin="anonymous"></script>
 
     <!-- Argon JS -->
-    <script src="./main/js/argon.min.js"></script>
+    <script src="./main/js/argon.js"></script>
     <!-- Core Script -->
     <!-- <script src="./main/js/main.js"></script> -->
     <!-- Load Script -->
@@ -287,12 +335,14 @@
     <script
         src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/5a991bff/src/js/bootstrap-datetimepicker.js"></script>
     <script>
+        let indod = '31 Mei 2022 00:00:00';
+        console.log(new Date(indod))
         $("[id=add]").click(function () {
             $("#modalValidasiDonasi").modal("show");
         });
 
         let dataVerivikasi = {};
-        const dateRanges = (date = new Date(), rule = 10, sum = 0) => Math.floor(date.getFullYear() / rule) * rule + sum;
+        // const dateRanges = (date = new Date(), rule = 10, sum = 0) => Math.floor(date.getFullYear() / rule) * rule + sum;
         $('#modalValidasiDonasi').on('hidden.bs.modal', function () {
             dataVerivikasi = {};
         }).on('shown.bs.modal', function () {
@@ -313,8 +363,12 @@
                 endDate: '+1',
                 enableOnReadonly: false // readonly input will not show datepicker . The default value true
             }).on('changeDate', function (e) {
-                // dataVerivikasi.payment_date = e.date;
-                dataVerivikasi.payment_date = $(this).datepicker('getFormattedDate');
+                const eDate = e.date,
+                    year = eDate.getFullYear(),
+                    month = eDate.getMonth() + 1,
+                    date = eDate.getDate();
+
+                dataVerivikasi.payment_date = year + '-' + month + '-' + date;
 
 
                 $(this).hide();
