@@ -59,6 +59,30 @@
         #kwitansi #qs {
             font-size: small;
         }
+
+        #kwitansi #signature {
+            background-image: url(../patern-pojok-berbagi-horizontal.png);
+        }
+
+        @media print {
+
+            #kwitansi {
+                align-items: flex-start !important;
+            }
+
+            #kwitansi-section,
+            .card-footer:last-child {
+                border-radius: 20px !important;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            body {
+                -webkit-print-color-adjust: exact !important;
+            }
+        }
     </style>
 </head>
 
@@ -66,7 +90,7 @@
     <div class="container">
         <div class="row align-items-center" id="kwitansi">
             <div class="col-12 col-lg-9">
-                <div class="card bg-secondary">
+                <div class="card bg-secondary" id="kwitansi-section">
                     <div class="border-0 card-header bg-transparent justify-content-between d-flex align-items-center">
                         <h1 class="display-4 mb-0 text-orange font-weight-bolder">Kwitansi Donasi</h1>
                         <a href="#">
@@ -102,28 +126,21 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <table class="table table-borderless">
-                                    <thead>
-                                        <tr>
-                                            <th class="font-weight-bolder">Donasi</th>
-                                            <th class="font-weight-bolder">Jumlah Donasi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th>
-                                                <span id="nama-bantuan">Judul Bantuanku dan Bantuanmu Sungguh
-                                                    Keren</span>
-                                            </th>
-                                            <td>Rp. 10.000</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div class="row">
+                                    <div class="col-6 font-weight-bold">Donasi</div>
+                                    <div class="col-6 font-weight-bold text-right">Jumlah Donasi</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 font-weight-bolder">
+                                        <span id="nama-bantuan">Judul Bantuanku dan Bantuanmu Sungguh Keren</span>
+                                    </div>
+                                    <div class="col-6 font-weight-bolder text-right">Rp. <span>10.000</span></div>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <div class="box rounded-box border">
+                                <div class="box rounded-box border" style="background-color: #88898a08;">
                                     <b>Payment Method</b>
                                     <div class="row">
                                         <div class="col">
@@ -138,10 +155,13 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="row">
-                                    <div class="col-6">Total Donasi</div>
-                                    <div class="col-6 text-right"><strong class="text-right">Rp. <span
-                                                id="total">10.000</span></strong></div>
+                                <div class="row" style="height: 100%;">
+                                    <div class="col d-flex align-items-end justify-content-center">
+                                        <div id="signature"></div>
+                                        <h4 class="mb-0">CR Pojok Berbagi</h4>
+                                    </div>
+                                    <div class="col d-flex align-items-center justify-content-end" id="canvas-qr">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -178,6 +198,13 @@
                     </div>
                 </div>
             </div>
+            <div class="col-12 col-lg-3 no-print">
+                <div class="card">
+                    <div class="box bg-white">
+                        <button id="print-button" class="btn btn-outline-orange w-100">Cetak Kwitansi</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -196,7 +223,16 @@
     <!-- Load Script -->
     <script src="../pojok-berbagi-script.js"></script>
     <!-- <script src="./core/js/admin-script.js"></script> -->
+    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
     <script>
+        let data = "https://pojokberbagi.id/donasi/kwitansi/";
+        let jsonQrOptions = { "image": "../pojok-berbagi-transparent.png", "width": 100, "height": 100, "data": data, "margin": 0, "qrOptions": { "typeNumber": "0", "mode": "Byte", "errorCorrectionLevel": "Q" }, "imageOptions": { "hideBackgroundDots": true, "imageSize": 0.3, "margin": 2 }, "dotsOptions": { "type": "rounded", "color": "#000000", "gradient": null }, "backgroundOptions": { "color": "#ffffff" }, "dotsOptionsHelper": { "colorType": { "single": true, "gradient": false }, "gradient": { "linear": true, "radial": false, "color1": "#6a1a4c", "color2": "#6a1a4c", "rotation": "0" } }, "cornersSquareOptions": { "type": "extra-rounded", "color": "#000000" }, "cornersSquareOptionsHelper": { "colorType": { "single": true, "gradient": false }, "gradient": { "linear": true, "radial": false, "color1": "#000000", "color2": "#000000", "rotation": "0" } }, "cornersDotOptions": { "type": "", "color": "#000000" }, "cornersDotOptionsHelper": { "colorType": { "single": true, "gradient": false }, "gradient": { "linear": true, "radial": false, "color1": "#000000", "color2": "#000000", "rotation": "0" } }, "backgroundOptionsHelper": { "colorType": { "single": true, "gradient": false }, "gradient": { "linear": true, "radial": false, "color1": "#ffffff", "color2": "#ffffff", "rotation": "0" } } }
+        const qrCode = new QRCodeStyling(jsonQrOptions);
+        qrCode.append(document.getElementById("canvas-qr"));
+
+        $('#print-button').on('click', function (e) {
+            window.print();
+        });
 
     </script>
 </body>
