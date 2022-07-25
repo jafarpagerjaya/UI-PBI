@@ -1,0 +1,209 @@
+.custom-height-setter {
+    transition: all 0.3s ease !important;
+}
+
+.row.custom-gap {
+    --c-gap: 1em;
+    gap: var(--c-gap);
+}
+
+.custom-gap .col-6 {
+    width: calc(100% / 2 - var(--c-gap)/2) !important;
+}
+
+.d-grid.progress-box,
+.d-grid.timeup {
+    grid-template-columns: auto 1fr;
+}
+
+.box h6 {
+    font-size: small;
+}
+
+.box p {
+    line-height: 1.25;
+}
+
+.box h6+p {
+    font-size: x-small;
+    line-height: 1;
+}
+
+.box .collapseButton {
+    font-size: xx-small;
+}
+
+#commit-bantuan-area {
+    flex-direction: column;
+}
+
+#commit-bantuan-area p {
+    font-size: .75rem;
+}
+
+#commit-bantuan-area .logo {
+    --avatar-wh: 100px;
+    width: var(--avatar-wh);
+    height: var(--avatar-wh);
+}
+
+#commit-bantuan-area .logo img {
+    width: calc(var(--avatar-wh)/3*2);
+    max-width: var(--avatar-wh);
+}
+
+#commit-bantuan-area .button.donasi.btn-lg {
+    font-size: 1rem;
+}
+
+#info-berita-area .content .app-image.img-wrapper {
+    max-height: calc((100% - var(--bs-gutter-x)) / 16 * 9);
+    min-height: calc((100% - var(--bs-gutter-x)) / 16 * 9);
+}
+
+#detil-banner-area .app-image.img-wrapper img {
+    min-height: inherit;
+    width: 100%;
+}
+
+@media (min-width: 320px) {
+
+    #detil-banner-area .app-image.img-wrapper {
+        max-height: 166.5px;
+        min-height: 166.5px;
+    }
+}
+
+@media (min-width: 321px) {
+
+    #detil-banner-area .app-image.img-wrapper {
+        max-height: calc((100vw - var(--bs-gutter-x)) / 16 * 9);
+        min-height: calc((100vw - var(--bs-gutter-x)) / 16 * 9);
+    }
+}
+
+@media (min-width: 375px) {
+
+    #detil-banner-area .app-image.img-wrapper {
+        max-height: 197.62px;
+        min-height: 197.62px;
+    }
+
+    #commit-bantuan-area {
+        flex-direction: row;
+    }
+
+    #commit-bantuan-area p {
+        font-size: .8rem;
+    }
+}
+
+@media (min-width: 376px) {
+
+    #detil-banner-area .app-image.img-wrapper {
+        max-height: calc((100vw - var(--bs-gutter-x)) / 16 * 9);
+        min-height: calc((100vw - var(--bs-gutter-x)) / 16 * 9);
+    }
+}
+
+@media (min-width: 425px) {
+
+    #detil-banner-area .app-image.img-wrapper {
+        max-height: 225.748px;
+        min-height: 225.748px;
+    }
+
+    #commit-bantuan-area .button.donasi.btn-lg {
+        font-size: 1.25rem;
+    }
+
+    #commit-bantuan-area p {
+        font-size: .85rem;
+    }
+}
+
+@media (min-width: 426px) {
+
+    #detil-banner-area .app-image.img-wrapper {
+        max-height: calc((100vw - var(--bs-gutter-x)) / 16 * 9);
+        min-height: calc((100vw - var(--bs-gutter-x)) / 16 * 9);
+    }
+}
+
+@media (min-width: 480px) {
+
+    #detil-banner-area .app-image.img-wrapper {
+        max-height: 239.625px;
+        min-height: 239.625px;
+    }
+
+    #commit-bantuan-area p {
+        font-size: .9rem;
+    }
+}
+
+@media (min-width: 767px) {
+
+    #detil-banner-area .app-image.img-wrapper {
+        max-height: 290.25px;
+        min-height: 290.25px;
+    }
+}
+
+@media (min-width: 768px) {
+
+    .custom-gap .col-md-12 {
+        width: 100% !important;
+    }
+
+    .box h6 {
+        font-size: 16px;
+    }
+
+    .box h6+p {
+        font-size: small;
+        line-height: 1;
+    }
+
+    #detil-banner-area .app-image.img-wrapper {
+        max-height: none;
+    }
+
+    #commit-bantuan-area .logo {
+        --avatar-wh: 125px;
+    }
+}
+
+@media (min-width: 992px) {
+
+    #detil-banner-area .app-image.img-wrapper {
+        max-height: calc((569px / 1913) * 936);
+        min-height: calc((569px / 1913) * 936);
+    }
+
+    #commit-bantuan-area p {
+        font-size: 1rem;
+    }
+
+    #commit-bantuan-area .logo {
+        --avatar-wh: 150px;
+    }
+
+    .row.custom-gap {
+        --c-gap: 1.5em;
+    }
+}
+
+@media (min-width: 1200px) {
+    #detil-banner-area .app-image.img-wrapper {
+        max-height: calc((569px / 1913) * 1116);
+        min-height: calc((569px / 1913) * 1116);
+    }
+}
+
+@media (min-width: 1400px) {
+    #detil-banner-area .app-image.img-wrapper {
+        max-height: calc((569px / 1913) * 1296);
+        min-height: calc((569px / 1913) * 1296);
+    }
+}

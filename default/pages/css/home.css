@@ -1,0 +1,413 @@
+.app-image>[class*="col"],
+.app-image>[class*="col"] .row,
+.app-image>[class*="col"] [class*="col"],
+.app-image>[class*="col"] [class*="col"]>.box {
+    border-radius: inherit;
+}
+
+/* New */
+header.header+.hero-area {
+    padding: 76px 0px;
+    overflow: hidden;
+}
+
+.hero-area .hero-content {
+    text-align: left;
+    padding: 0px;
+}
+
+.hero-area .hero-content.d-grid {
+    row-gap: 1em;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+}
+
+.hero-area .hero-content h1 {
+    font-size: 1rem !important;
+    line-height: 1.5rem;
+    margin-bottom: 0.5em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.hero-area .hero-content h1>* {
+    font-size: inherit !important;
+}
+
+.hero-area .hero-content h1>div:last-child {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+}
+
+.hero-area .hero-content h1>div,
+.hero-area .hero-content h1>p {
+    transition: all .3s ease;
+}
+
+.hero-area .hero-content p {
+    font-size: 0.7rem;
+    line-height: 1;
+    margin: 0px;
+    height: 0.7rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.hero-area .hero-content .button {
+    margin-top: 10px !important;
+}
+
+.hero-area .app-image {
+    margin-top: 0px;
+}
+
+.custom-height-setter {
+    transition: all 0.3s ease !important;
+}
+
+.row.custom-gap {
+    --c-gap: 1em;
+    gap: var(--c-gap);
+}
+
+.custom-gap .col-6 {
+    width: calc(100% / 2 - var(--c-gap)/2) !important;
+}
+
+.d-grid.progress-box,
+.d-grid.timeup {
+    grid-template-columns: auto 1fr;
+}
+
+.box h6 {
+    font-size: small;
+}
+
+.box p {
+    line-height: 1.25;
+}
+
+.box h6+p {
+    font-size: x-small;
+    line-height: .857;
+}
+
+.box .collapseButton {
+    font-size: xx-small;
+}
+
+.hero-area+*::before {
+    content: '';
+    position: absolute;
+    top: calc(0px - 70px + 0.5em);
+    left: 0px;
+    width: 100%;
+    height: calc(70px - 0.5em);
+    background-color: white;
+    box-shadow: 0px -0.25em 0.5rem 0px rgba(255, 255, 255, 1);
+}
+
+/* Carousel */
+.carousel-indicators {
+    bottom: -50px;
+    margin: 0px;
+}
+
+.carousel-indicators [data-bs-target] {
+    background-color: var(--orange) !important;
+    height: .5rem;
+    width: .5rem;
+    border-radius: 10px !important;
+    border: 1px solid var(--orange);
+    transition: all .3s ease;
+}
+
+.carousel-indicators>[data-bs-target][aria-current="true"] {
+    width: 1.5rem;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+    width: auto;
+}
+
+.panel~.scroll-top {
+    bottom: 80px;
+}
+
+.panel~.footer {
+    padding-bottom: 120px;
+}
+
+/* Handler img broken pojok-berbagi-stype extender */
+.app-image > .img-wrapper > a[href] {
+    max-height: inherit;
+    min-height: inherit;
+    width: 100%;
+}
+.app-image > .img-wrapper > a[href] > img[src=""] {
+    max-height: inherit;
+    min-height: inherit;
+    width: 100%;
+}
+
+@media (min-width: 320px) {
+
+    .hero-area .app-image .img-wrapper {
+        min-height: 166.5px;
+        max-height: 166.5px;
+    }
+}
+
+@media (min-width: 321px) {
+
+    .hero-area .app-image .img-wrapper {
+        min-height: calc((100vw - var(--bs-gutter-x)) / 16 * 9);
+        max-height: calc((100vw - var(--bs-gutter-x)) / 16 * 9);
+    }
+}
+
+@media (min-width: 375px) {
+
+    .hero-area .app-image .img-wrapper {
+        min-height: 197.62px;
+        max-height: 197.62px;
+    }
+}
+
+@media (min-width: 376px) {
+
+    .hero-area .app-image .img-wrapper {
+        min-height: calc((100vw - var(--bs-gutter-x)) / 16 * 9);
+        max-height: calc((100vw - var(--bs-gutter-x)) / 16 * 9);
+    }
+}
+
+@media (min-width: 425px) {
+
+    .hero-area .app-image .img-wrapper {
+        min-height: 225.748px;
+        max-height: 225.748px;
+    }
+}
+
+@media (min-width: 426px) {
+
+    .hero-area .app-image .img-wrapper {
+        min-height: calc((100vw - var(--bs-gutter-x)) / 16 * 9);
+        max-height: calc((100vw - var(--bs-gutter-x)) / 16 * 9);
+    }
+}
+
+@media (min-width: 480px) {
+
+    .hero-area .app-image .img-wrapper {
+        min-height: 239.625px;
+        max-height: 239.625px;
+    }
+}
+
+
+
+@media (min-width: 767px) {
+
+    .services .section-title {
+        padding: 0px 20px;
+    }
+
+    .hero-area .app-image .img-wrapper {
+        min-height: 290.25px;
+        max-height: 290.25px;
+    }
+}
+
+@media (min-width: 768px) {
+
+    header.header+.hero-area {
+        padding: 92px 0px;
+    }
+
+    .hero-area .hero-content.d-grid {
+        grid-template-columns: 1fr 170px;
+    }
+
+    .hero-area .hero-content p {
+        margin-right: 7.65px;
+    }
+
+    .hero-area .hero-content .button {
+        margin: 0px !important;
+        padding: 0px;
+    }
+
+    .hero-area .hero-content .button .btn {
+        padding: 14px 25px;
+        font-size: 14px;
+    }
+
+    .custom-gap .col-md-12 {
+        width: 100% !important;
+    }
+
+    .box h6 {
+        font-size: 16px;
+    }
+
+    .box h6+p {
+        font-size: small;
+    }
+
+    .hero-area .app-image .img-wrapper {
+        min-height: 391.5px;
+        max-height: 391.5px;
+    }
+
+    .panel~.scroll-top {
+        bottom: 20px;
+    }
+
+    .panel~.footer {
+        padding-bottom: 60px;
+    }
+}
+
+@media (min-width: 991px) {}
+
+@media (min-width: 992px) {
+
+    .hero-area .hero-content h1 {
+        font-size: 28px !important;
+        line-height: 38px;
+    }
+
+    .hero-area .hero-content p {
+        text-overflow: unset;
+        white-space: normal;
+        height: 3.25rem;
+        font-size: 1rem;
+        line-height: 28px;
+    }
+
+    .hero-area .hero-content .button {
+        margin-top: 30px !important;
+    }
+
+    .hero-area .hero-content .button .btn {
+        font-size: 15px;
+    }
+
+    .box h6+p {
+        font-size: small;
+    }
+
+    .hero-area .animation .app-image[data-animation-name="pojokers"] {
+        position: relative;
+    }
+
+    .hero-area .animation .app-image[data-animation-name="pojokers"]::before,
+    .hero-area .animation .app-image[data-animation-name="pojokers"]::after {
+        position: absolute;
+        content: '';
+        border-radius: inherit;
+        height: 80px;
+        width: 80px;
+        transition-duration: 0.3s;
+        transition-property: all;
+        transition-timing-function: ease-out;
+        z-index: -10;
+        box-shadow: none;
+    }
+
+    .hero-area .animation .app-image[data-animation-name="pojokers"]:not([data-bg-color-before])::before {
+        background-color: var(--orange);
+    }
+
+    .hero-area .animation .app-image[data-animation-name="pojokers"][data-bg-color-before]::before {
+        background-color: var(--data-bg-color-before) !important;
+    }
+
+    .hero-area .animation .app-image[data-animation-name="pojokers"]::before {
+        bottom: 0px;
+        left: 0px;
+    }
+
+    .hero-area .animation:hover .app-image[data-animation-name="pojokers"]::before {
+        bottom: -0.5rem;
+        left: -0.5rem;
+    }
+
+    .hero-area .animation .app-image[data-animation-name="pojokers"]:not([data-bg-color-after])::after {
+        background-color: var(--green);
+    }
+
+    .hero-area .animation .app-image[data-animation-name="pojokers"][data-bg-color-after]::after {
+        background-color: var(--data-bg-color-after) !important;
+    }
+
+    .hero-area .animation .app-image[data-animation-name="pojokers"]::after {
+        bottom: 0px;
+        right: 0px;
+    }
+
+    .hero-area .animation:hover .app-image[data-animation-name="pojokers"]::after {
+        bottom: -0.5rem;
+        right: -0.5rem;
+    }
+
+    .hero-area .app-image .img-wrapper {
+        min-height: 301px;
+        max-height: 301.5px;
+    }
+}
+
+@media (min-width: 1200px) {
+    header.header+.hero-area {
+        padding: 102px 0px;
+    }
+
+    .hero-area .hero-content h1 {
+        font-size: 38px !important;
+        line-height: 53px;
+    }
+
+    .hero-area .app-image .img-wrapper {
+        min-height: 349px;
+        max-height: 349.3125px;
+    }
+
+    /* Carousel */
+    .carousel-control-next,
+    .carousel-control-prev {
+        width: calc((100% - 1140px)/2);
+    }
+}
+
+/* List Service */
+@media (min-width: 1400px) {
+    header.header+.hero-area {
+        /* padding: 160px 0px; */
+        padding-top: 160px;
+    }
+
+    .hero-area .app-image .img-wrapper {
+        min-height: 408px;
+        max-height: 408.375px;
+    }
+
+    /* Carousel */
+    .carousel-control-next,
+    .carousel-control-prev {
+        width: calc((100% - 1320px)/2);
+    }
+
+    .carousel-control-next {
+        justify-content: start;
+    }
+
+    .carousel-control-prev {
+        justify-content: end;
+    }
+}

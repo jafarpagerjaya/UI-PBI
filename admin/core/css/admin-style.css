@@ -20,7 +20,7 @@ table tbody>tr>th {
 }
 
 table tbody>tr.highlight {
-    --highlight: var(--lighter);
+    --highlight: rgba(50,50,93,0.11);
     animation: pulse 1s linear 3;
 }
 
@@ -224,6 +224,34 @@ a.disabled {
 .modal.show .modal-dialog:not(.modal-error) .modal-content[class*="bg-gradient-"]:not(.bg-gradient-) .modal-footer button[data-dismiss="modal"]:hover {
     color: #e9ecef;
     opacity: 1;
+}
+
+/* Datepicker */
+.datepicker table tr td.day:not(.disabled):not(.active):hover {
+    background: var(--lighter) !important;
+}
+
+.datepicker table tfoot th.today {
+    font-weight: bold;
+    color: var(--primary) !important;
+}
+
+/* Datetimepicker */
+a[data-action]:hover {
+    box-shadow: none !important;
+}
+
+.bootstrap-datetimepicker-widget table td.active, .bootstrap-datetimepicker-widget table td.active:hover {
+    background-color: transparent !important;
+    text-shadow: none !important;
+}
+
+.bootstrap-datetimepicker-widget table tr td span[data-time-component] {
+    vertical-align: middle;
+}
+
+.bootstrap-datetimepicker-widget table tr a[title*="Decrement"]:hover {
+    transform: translateY(1px) !important;
 }
 
 @media (min-width: 360px) {

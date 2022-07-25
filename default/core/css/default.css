@@ -1,0 +1,192 @@
+div.animation [data-animation-name],
+div.animation .opacity {
+    transition-duration: 0.3s;
+    transition-property: all;
+    transition-timing-function: ease-out;
+}
+
+div.animation:hover>.app-image.img-wrapper img[data-animation-name="zoom-in"] {
+    transform: scale(1.1);
+}
+
+div.animation>.app-image.img-wrapper img[data-animation-name="zoom-out"] {
+    transform: scale(1.1);
+}
+
+div.animation:hover>.app-image.img-wrapper img[data-animation-name="zoom-out"] {
+    transform: scale(1);
+}
+
+div.animation:hover>.app-image.img-wrapper img.opacity {
+    opacity: 0.9;
+}
+
+/* Header */
+.header {
+    height: 64px;
+    padding: 10px 0 !important;
+}
+
+.header .navbar-brand img {
+    width: 75px;
+}
+
+.header .navbar-collapse {
+    top: 48px !important;
+    max-height: 80vh;
+}
+
+.header:not(.sticky) .button .signup {
+    background-color: var(--green);
+    color: #fff;
+}
+
+.header:not(.sticky) .button .signin {
+    color: var(--orange) !important;
+}
+
+.header .navbar-collapse .button .signup,
+.header .navbar-collapse .button a.signup:hover {
+    color: #fff !important;
+}
+
+.header .mobile-menu-btn .toggler-icon {
+    width: 20px;
+    margin: 5px auto;
+    border-radius: 5px;
+}
+
+.header .mobile-menu-btn.active .toggler-icon {
+    border-radius: 50%;
+}
+
+.header .mobile-menu-btn {
+    width: 38px;
+    height: 38px;
+    transition: background-color 0.3s ease;
+}
+
+.header.sticky .mobile-menu-btn {
+    background-color: var(--bs-light);
+}
+
+.header .mobile-menu-btn.active {
+    background-color: transparent !important;
+}
+
+header.header+* {
+    padding: 64px 0px;
+}
+
+/* Akhir Header */
+
+/* Footer */
+.kontak .d-grid {
+    width: 100%;
+    grid-auto-flow: column;
+    grid-auto-columns: 50px;
+    gap: 1.25em;
+}
+
+.kontak .d-grid {
+    place-content: center;
+}
+
+/* Akhir Footer */
+
+@media (min-width: 767px) and (max-width: 768px) {
+    .header .navbar-collapse {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        z-index: 9;
+        box-shadow: 0px 15px 20px 0px rgb(0 0 0 / 10%);
+        padding: 10px 20px;
+        overflow-y: scroll;
+        border-top: 1px solid #eee;
+        border-radius: 8px;
+        top: 56px !important;
+    }
+
+    .navbar-nav .nav-item {
+        margin-right: 0px;
+    }
+
+    .header .navbar-nav .nav-item a {
+        padding: 12px 16px;
+        display: flex;
+        justify-content: space-between;
+        -webkit-box-pack: justify;
+    }
+
+    .header .navbar-nav .nav-item a::after {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .navbar-nav .nav-item a.dd-menu::after {
+        top: 18px;
+        right: 0;
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+
+    .navbar-nav .nav-item a.collapsed::after {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    .header .navbar-nav .nav-item .sub-menu {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        padding: 0;
+        border: none;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .navbar-nav .nav-item .sub-menu.collapse:not(.show) {
+        display: none;
+    }
+
+    .header .navbar-nav .nav-item .sub-menu .nav-item {
+        margin: 0px;
+    }
+
+    .header .navbar-nav .nav-item .sub-menu .nav-item a {
+        padding: 10px 12px !important;
+    }
+}
+
+@media (min-width: 767px) {
+    .header .navbar-collapse .d-md-none.d-767-none {
+        display: none;
+    }
+}
+
+@media (min-width: 768px) {
+    .header {
+        height: 80px;
+        padding: 0px !important;
+    }
+
+    .header .navbar-collapse {
+        top: 56px !important;
+    }
+
+    .kontak .d-grid {
+        place-content: start;
+    }
+
+    header.header+* {
+        padding: 80px 0px;
+    }
+}
+
+@media (min-width: 992px) {
+    .kontak .d-grid {
+        gap: 2em;
+    }
+}
