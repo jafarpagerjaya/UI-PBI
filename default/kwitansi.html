@@ -85,7 +85,7 @@
 
         .c-stepper__title {
             font-weight: bold;
-            font-size: clamp(1rem, 4vw, 1.25rem);
+            font-size: 1rem;
         }
 
         /* kwitansi.css */
@@ -252,9 +252,10 @@
                                     <div class="px-1">
                                         <div class="row align-items-end">
                                             <div class="col">
-                                                <h6 class="fw-bold">
+                                                <h6 class="fw-bold mb-1">
                                                     Payment Method
                                                 </h6>
+                                                <p class="mb-0">QRIS</p>
                                             </div>
                                             <div class="col-auto">
                                                 <img src="../img/payment/bjb.png" alt="" class="img-fluid"
@@ -361,7 +362,14 @@
     <!-- Core Script -->
     <script src="../pojok-berbagi-script.js"></script>
     <script src="../default/core/js/default.js"></script>
-
+    <script>
+        let elList = document.querySelectorAll('.c-stepper > .c-stepper__item');
+        let wrapperWidth = 0;
+        elList.forEach(element => {
+            wrapperWidth += element.offsetWidth;
+        });
+        document.querySelector('.c-stepper').scrollLeft = wrapperWidth;
+    </script>
 </body>
 
 </html>
