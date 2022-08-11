@@ -19,6 +19,66 @@
     <link rel="stylesheet" href="./core/css/admin-style.css">
     <link rel="stylesheet" href="./pages/css/data.css">
     <style>
+        /* Tambahkan ke file data.css */
+        #pencairan .avatar {
+            --p-avatar-wh: 35px;
+            height: var(--p-avatar-wh);
+            width: var(--p-avatar-wh);
+        }
+
+
+        #pencairan .btn[data-toggle="collapse"] {
+            z-index: 1;
+        }
+
+        #pencairan .btn[data-toggle="collapse"] i {
+            transition: all .3s ease;
+        }
+
+        #pencairan .btn[aria-expanded="true"][data-toggle="collapse"] i {
+            transform: rotateX(180deg);
+        }
+
+        #pencairan .accordion .card-header:after {
+            content: '';
+        }
+
+        #pencairan .accordion .card-header>.row,
+        #pencairan .accordion .card-header>.row .btn[data-toggle="collapse"] {
+            transition: all .3s ease !important;
+        }
+
+        #pencairan .accordion .card-header>.row:first-of-type:hover {
+            background-color: var(--secondary) !important;
+        }
+
+        #pencairan .accordion .row.collapsing+.card-header>.row,
+        #pencairan .accordion .row.collapse.show+.card-header>.row {
+            background-color: var(--primary) !important;
+        }
+
+        #pencairan .accordion .row.collapsing+.card-header>.row *:not(.badge),
+        #pencairan .accordion .row.collapse.show+.card-header>.row *:not(.badge) {
+            color: white !important;
+        }
+
+        #pencairan .accordion .row.collapsing+.card-header>.row .btn[data-toggle="collapse"],
+        #pencairan .accordion .row.collapse.show+.card-header>.row .btn[data-toggle="collapse"] {
+            background-color: #8d9eff !important;
+            border-color: #8d9eff !important;
+        }
+
+        table tr.rounded td:first-child {
+            border-top-left-radius: inherit;
+            border-bottom-left-radius: inherit;
+        }
+
+        table tr.rounded td:last-child {
+            border-top-right-radius: inherit;
+            border-bottom-right-radius: inherit;
+        }
+
+        /* Table */
     </style>
 </head>
 
@@ -384,20 +444,220 @@
                         </div>
                     </div>
                 </div>
-            </section>
-            <!-- Footer -->
-            <footer class="footer pt-0">
-                <div class="row align-items-center justify-content-lg-between">
-                    <div class="col-lg-6">
-                        <div class="copyright text-center  text-lg-left  text-muted">
-                            &copy; 2021 - 2022 <a href="javascript:;" class="font-weight-bold ml-1"
-                                target="_blank">Pojok
-                                Berbagi</a>
+                <div id="pencairan" class="row mt-4">
+                    <div class="col-lg-6 col-12">
+                        <b class="display-4">Daftar Pencairan</b>
+                        <div class="row my-3 row-head">
+                            <div class="col-12">
+                                <div class="row mx-0 bg-gray text-white rounded py-2">
+                                    <div class="col text-capitalize font-weight-bolder text-right">
+                                        Jumlah</div>
+                                    <div class="col text-capitalize font-weight-bolder">Status</div>
+                                    <div class="col text-capitalize font-weight-bolder">Petugas</div>
+                                    <div class="col text-capitalize font-weight-bolder">Terupdate</div>
+                                    <div class="col-auto text-capitalize font-weight-bolder"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-12">
+                                <div class="accordion">
+                                    <div class="card border border-lighter flex-column-reverse">
+                                        <div class="row collapse show" id="collapse-1">
+                                            <div class="col">
+                                                <div class="p-3">
+                                                    <div class="row small">
+                                                        <div class="col-5">
+                                                            <b class="text-muted">Informasi Pencairan
+                                                                <h2 class="font-weight-bolder">Channel Dana</h2>
+                                                            </b>
+                                                            <div class="box bg-lighter rounded">
+                                                                Lorem ipsum dolor sit amet, consectetur adipisicing
+                                                                elit. Rerum, tempore itaque a perferendis temporibus
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="row flex-column justify-content-between h-100">
+                                                                <div class="col">
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <b class="text-muted">
+                                                                                Total Channel Sumber Dana
+                                                                                <h5 class="font-weight-bolder">
+                                                                                    3
+                                                                                </h5>
+                                                                            </b>
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <b class="text-muted">
+                                                                                Target Channel Dana Tercairkan
+                                                                                <h5 class="font-weight-bolder">
+                                                                                    <span
+                                                                                        class="text-orange">0</span>/<span>2</span>
+                                                                                </h5>
+                                                                            </b>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <b class="text-muted">
+                                                                        ID Pencairan
+                                                                        <h5 class="font-weight-bolder">D09109</h5>
+                                                                    </b>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3 border-left px-4">
+                                                            <b class="text-muted text-center">
+                                                                <div>Total Tercairkan</div>
+                                                                <h1 class="font-weight-bolder">
+                                                                    Rp. 0
+                                                                </h1>
+                                                            </b>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-header p-0">
+                                            <div class="row mx-0 bg-white py-2 align-items-center gap-y-2">
+                                                <div class="col small text-capitalize text-right align-self-center">
+                                                    Ro. 1.000.000.000</div>
+                                                <div class="col- text-capitalize align-self-center">
+                                                    <span class="badge badge-warning p-2 text-capitalize"
+                                                        style="vertical-align: middle;">
+                                                        Pendding
+                                                    </span>
+                                                    <!-- <div class="small text-black-50 font-weight-bolder">Kamis, 26 Juni 2020
+                                            00:00:00</div> -->
+                                                </div>
+                                                <div class="col-4 text-capitalize align-self-center">
+                                                    <div class="media align-items-center">
+                                                        <a href="#" class="avatar rounded-circle mr-3 overflow-hidden"
+                                                            data-toggle="tooltip" data-original-title="Keuangan Pusat"
+                                                            data-placement="left">
+                                                            <img alt="G" src="" class="rounded-circle">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <span class="name mb-0 text-sm">Jafar Pager Jaya</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col small text-capitalize align-self-center">
+                                                    <div class="text-black-50 font-weight-bolder">Kamis, 26 Juni 2020
+                                                        00:00:00
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto text-capitalize align-self-center">
+                                                    <button type="button"
+                                                        class="btn btn-link border d-flex align-items-center p-2 text-black-50"
+                                                        data-toggle="collapse" data-target="#collapse-1">
+                                                        <i class="ni ni-bold-down m-0"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row my-3">
+                        <div class="col-12">
+                            <div class="row mx-0 bg-white rounded py-2 border border-lighter align-items-center">
+                                <div class="col small text-capitalize text-right align-self-center">
+                                    Ro. 1.000.000</div>
+                                <div class="col text-capitalize align-self-center">
+                                    <span class="badge badge-success p-2 text-capitalize"
+                                        style="vertical-align: middle;">
+                                        Sudah Dicairkan
+                                    </span>
+                                </div>
+                                <div class="col text-capitalize align-self-center">
+                                    <div class="media align-items-center">
+                                        <a href="#" class="avatar rounded-circle mr-3 overflow-hidden"
+                                            data-toggle="tooltip" data-original-title="Keuangan Pusat"
+                                            data-placement="left">
+                                            <img alt="G" src="" class="rounded-circle">
+                                        </a>
+                                        <div class="media-body">
+                                            <span class="name mb-0 text-sm">Jafar Pager Jaya</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col small text-capitalize align-self-center">Waktu</div>
+                                <div class="col-auto text-capitalize align-self-center">
+                                    <button type="button" class="btn btn-link border d-flex align-items-center p-2"
+                                        data-toggle="collapse" data-target="#row-2">
+                                        <i class="ni ni-bold-down m-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col">
+                        <div class="card">
+                            <!-- <div class="card-header border-0">
+                                <h3 class="mb-0">Pencairan</h3>
+                            </div> -->
+                            <div class="card-body p-0">
+                                <table class="table">
+                                    <thead class="bg-light py-2">
+                                        <tr class="rounded my-2">
+                                            <td class="py-2 text-right">
+                                                <b><span class="font-weight-bolder">Jumlah</span></b>
+                                            </td>
+                                            <td class="py-2">
+                                                <b><span class="font-weight-bolder">Status</span></b>
+                                            </td>
+                                            <td class="py-2">
+                                                <b><span class="font-weight-bolder">Petugas</span></b>
+                                            </td>
+                                            <td class="py-2">
+                                                <b><span class="font-weight-bolder">Terupdate</span></b>
+                                            </td>
+                                            <td class="py-2 auto">
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="py-2">
+                                        <tr class="rounded my-2">
+                                            <td class="py-2 text-right">
+                                                <b><span class="font-weight-bolder">Jumlah</span></b>
+                                            </td>
+                                            <td class="py-2">
+                                                <b><span class="font-weight-bolder">Status</span></b>
+                                            </td>
+                                            <td class="py-2">
+                                                <b><span class="font-weight-bolder">Petugas</span></b>
+                                            </td>
+                                            <td class="py-2">
+                                                <b><span class="font-weight-bolder">Terupdate</span></b>
+                                            </td>
+                                            <td class="py-2 auto">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </footer>
         </div>
+        </section>
+        <!-- Footer -->
+        <footer class="footer pt-0">
+            <div class="row align-items-center justify-content-lg-between">
+                <div class="col-lg-6">
+                    <div class="copyright text-center  text-lg-left  text-muted">
+                        &copy; 2021 - 2022 <a href="javascript:;" class="font-weight-bold ml-1" target="_blank">Pojok
+                            Berbagi</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
     </div>
     <!-- Modal -->
     <div class="modal fade" id="notif-modal" tabindex="-1" role="dialog" aria-labelledby="notif-modal-label"

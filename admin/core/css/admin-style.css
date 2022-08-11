@@ -35,8 +35,8 @@ table td.auto {
 }
 
 /* table th.fit, td.fit */
-.table td.fit, 
-.table th.fit {
+table td.fit, 
+table th.fit {
     white-space: nowrap;
     width: 1%;
 }
@@ -112,6 +112,10 @@ a.disabled {
     column-gap: 1.5em;
 }
 
+.gap-y-2 {
+    row-gap: .5em;
+}
+
 .gap-y-3 {
     row-gap: 1em;
 }
@@ -122,6 +126,10 @@ a.disabled {
 
 .gap-y-5 {
     row-gap: 2em;
+}
+
+.mt--3 {
+    margin-top: -1em;
 }
 
 .form-control:focus {
