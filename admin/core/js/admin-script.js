@@ -75,3 +75,13 @@ sideNavTogglerBtn.addEventListener('click', function () {
         }, 0);
     }
 });
+
+// warna header for box-info row bg
+const header = document.querySelector('#panel.main-content > .header');
+if (header != null) {
+    let rgb = window.getComputedStyle(header).backgroundColor;
+    const RHeader = document.getElementById('row-header');
+    if (RHeader != null) {
+        RHeader.style.backgroundColor = rgb;
+    }
+}

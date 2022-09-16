@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judul</title>
+    <!-- Icons -->
+    <link href="./vendor/nucleo/css/nucleo.css" rel="stylesheet">
+    <link href="./vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <!-- Argon CSS -->
+    <link type="text/css" href="./main/css/argon.min.css" rel="stylesheet">
+    <!-- Core Style -->
+    <link rel="stylesheet" href="../pojok-berbagi-style.css">
+    <link rel="stylesheet" href="./core/css/admin-style.css">
+    <style>
+        /* Add to admin-style */
+        /* #main-content>#row-header:first-child {
+            margin: 0px -2em;
+            padding: 0.5em 1em;
+            width: calc(100% + 4em);
+        } */
+    </style>
+</head>
+
+<body>
+    <!-- Sidenav -->
+    <nav class="sidenav navbar navbar-vertical fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+        <div class="scrollbar-inner">
+            <!-- Brand -->
+            <div class="sidenav-header  align-items-center">
+                <a class="navbar-brand" href="javascript:;" aria-label="Pojok Berbagi">
+                    <img src="../pojok-berbagi-transparent.png" class="navbar-brand-img" alt="Pojok Berbagi">
+                </a>
+            </div>
+            <div class="navbar-inner">
+                <!-- Collapse -->
+                <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+                    <!-- Nav items -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="dashboard.html">
+                                <i class="ni ni-tv-2 text-primary"></i>
+                                <span class="nav-link-text">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="map.html">
+                                <i class="ni ni-pin-3 text-primary"></i>
+                                <span class="nav-link-text">Google</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="register.html">
+                                <i class="ni ni-circle-08 text-pink"></i>
+                                <span class="nav-link-text">Register</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Divider -->
+                    <hr class="my-3">
+                    <!-- Heading -->
+                    <h6 class="navbar-heading p-0 text-muted">
+                        <span class="docs-normal">Pengaturan</span>
+                    </h6>
+                    <!-- Navigation -->
+                    <ul class="navbar-nav mb-md-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript:;" aria-label="Profil">
+                                <i class="ni ni-single-02 text-yellow"></i>
+                                <span class="nav-link-text">Profile</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active active-pro" href="javascript:;" aria-label="Keluar">
+                                <i class="ni ni-user-run text-dark"></i>
+                                <span class="nav-link-text">Keluar</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Main content -->
+    <div class="main-content" id="panel">
+        <!-- Topnav -->
+        <nav class="navbar navbar-top navbar-expand navbar-dark bg-primary border-bottom">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Navbar links -->
+                    <ul class="navbar-nav align-items-center ml-md-auto ">
+                        <li class="nav-item d-xl-none">
+                            <!-- Sidenav toggler -->
+                            <div class="pr-3 sidenav-toggler sidenav-toggler-dark" data-action="sidenav-pin"
+                                data-target="#sidenav-main">
+                                <div class="sidenav-toggler-inner">
+                                    <i class="sidenav-toggler-line"></i>
+                                    <i class="sidenav-toggler-line"></i>
+                                    <i class="sidenav-toggler-line"></i>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav align-items-center ml-auto ml-md-0 ">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link pr-0" href="javascript:;" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <div class="media align-items-center">
+                                    <span class="avatar bg-white avatar-sm rounded-circle">
+                                        <img alt="Avatarku" src="../male-avatar.jpg">
+                                    </span>
+                                    <div class="media-body  ml-2  d-none d-lg-block">
+                                        <span class="mb-0 text-sm  font-weight-bold">
+                                            Namaku
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu  dropdown-menu-right ">
+                                <div class="dropdown-header noti-title">
+                                    <h6 class="text-overflow m-0">Welcome!</h6>
+                                </div>
+                                <a href="javascript:;" class="dropdown-item">
+                                    <i class="ni ni-single-02"></i>
+                                    <span>My profile</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="javascript:;" class="dropdown-item">
+                                    <i class="ni ni-user-run"></i>
+                                    <span>Logout</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Header -->
+        <div class="header bg-primary pb-6">
+            <div class="container-fluid">
+                <div class="header-body">
+                    <div class="row align-items-center py-4">
+                        <div class="col">
+                            <h6 class="h2 text-white d-inline-block mb-0">Default</h6>
+                            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                                <ol class="breadcrumb breadcrumb-links breadcrumb-dark m-0">
+                                    <li class="breadcrumb-item"><a href="javascript:;" aria-label="Home"><i
+                                                class="fas fa-home"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="javascript:;">Rencana</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">RAB</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page content -->
+        <div class="container-fluid mt--6">
+            <section id="main-content">
+                <div class="row pb-6" id="row-header">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Total Rencana</h5>
+                                        <span class="h2 font-weight-bold mb-0">350,897</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                            <i class="ni ni-active-40"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-sm">
+                                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Tugas</h5>
+                                        <span class="h2 font-weight-bold mb-0">2,356</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div
+                                            class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                                            <i class="ni ni-chart-pie-35"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-sm">
+                                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Perbaikan</h5>
+                                        <span class="h2 font-weight-bold mb-0">924</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                            <i class="ni ni-money-coins"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-sm">
+                                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Disetujui</h5>
+                                        <span class="h2 font-weight-bold mb-0">49,65%</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
+                                            <i class="ni ni-chart-bar-32"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-sm">
+                                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt--6">
+                    <div class="col">
+                        <div class="cards">
+                            <div class="card-header d-flex justify-content-between">
+                                <h2 class="mb-0">Daftar Rencana Pelaksanaan Bantuan</h2>
+                                <div class="btn btn-primary">
+                                    Buat Rencana Baru
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <div>
+                                    <table class="table align-items-center mb-0 table-hover">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col" class="sort" data-sort="id">Rencana</th>
+                                                <th scope="col">Keterangan</th>
+                                                <th scope="col" class="sort" data-sort="anggaran">Anggaran</th>
+                                                <th scope="col" class="sort" data-sort="tahap">Tahap</th>
+                                                <th scope="col" class="sort" data-sort="status">Status</th>
+                                                <th scope="col" class="fit"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">
+                                                    <div class="d-flex flex-column">
+                                                        <a href="#" class="font-weight-bolder">
+                                                            1
+                                                        </a>
+                                                        <span class="mb-0">Nama Bantuan</span>
+                                                    </div>
+                                                </th>
+                                                <td>
+                                                    <div class="d-flex flex-column">
+                                                        <span class="mb-0">Nama Bantuan</span>
+                                                        D eos inventore qui facilis? Soluta, at voluptate.
+                                                    </div>
+                                                </td>
+                                                <td class="anggaran d-flex flex-column">
+                                                    <div class="total_anggaran">
+                                                        $2500 USD
+                                                    </div>
+                                                    <div class="jumlah-item">
+                                                        10 Item
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-warning p-2 text-capitalize"
+                                                        style="vertical-align: middle;">
+                                                        Perencanaan
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-dot mr-4">
+                                                        <i class="bg-warning"></i>
+                                                        <span class="status">belum disetujui</span>
+                                                    </span>
+                                                </td>
+                                                <td class="text-right">
+                                                    <div class="dropdown">
+                                                        <a class="btn btn-sm btn-icon-only text-light" href="#"
+                                                            role="button" data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                            <i class="fas fa-ellipsis-v"></i>
+                                                        </a>
+                                                        <div
+                                                            class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                            <a class="dropdown-item" href="#">Action</a>
+                                                            <a class="dropdown-item" href="#">Another action</a>
+                                                            <a class="dropdown-item" href="#">Something else here</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    <div class="d-flex flex-column">
+                                                        <a href="#" class="font-weight-bolder">
+                                                            2
+                                                        </a>
+                                                        <span class="mb-0">Nama Bantuan</span>
+                                                    </div>
+                                                </th>
+                                                <td>
+                                                    <div class="d-flex flex-column">
+                                                        <span class="mb-0">Nama Bantuan</span>
+                                                        D eos inventore qui facilis? Soluta, at voluptate.
+                                                    </div>
+                                                </td>
+                                                <td class="anggaran d-flex flex-column">
+                                                    <div class="total_anggaran">
+                                                        $2500 USD
+                                                    </div>
+                                                    <div class="jumlah-item">
+                                                        10 Item
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-primary p-2 text-capitalize"
+                                                        style="vertical-align: middle;">
+                                                        Belanja
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-dot mr-4">
+                                                        <i class="bg-success"></i>
+                                                        <span class="status">disetujui</span>
+                                                    </span>
+                                                </td>
+                                                <td class="text-right">
+                                                    <div class="dropdown">
+                                                        <a class="btn btn-sm btn-icon-only text-light" href="#"
+                                                            role="button" data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                            <i class="fas fa-ellipsis-v"></i>
+                                                        </a>
+                                                        <div
+                                                            class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                            <a class="dropdown-item" href="#">Action</a>
+                                                            <a class="dropdown-item" href="#">Another action</a>
+                                                            <a class="dropdown-item" href="#">Something else here</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    <div class="d-flex flex-column">
+                                                        <a href="#" class="font-weight-bolder">
+                                                            1
+                                                        </a>
+                                                        <span class="mb-0">Nama Bantuan</span>
+                                                    </div>
+                                                </th>
+                                                <td>
+                                                    <div class="d-flex flex-column">
+                                                        <span class="mb-0">Nama Bantuan 3</span>
+                                                        D eos inventore qui facilis? Soluta, at voluptate.
+                                                    </div>
+                                                </td>
+                                                <td class="anggaran d-flex flex-column">
+                                                    <div class="total_anggaran">
+                                                        $2500 USD
+                                                    </div>
+                                                    <div class="jumlah-item">
+                                                        10 Item
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-warning p-2 text-capitalize"
+                                                        style="vertical-align: middle;">
+                                                        Perencanaan
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-dot mr-4">
+                                                        <i class="bg-success"></i>
+                                                        <span class="status">disetujui</span>
+                                                    </span>
+                                                </td>
+                                                <td class="text-right">
+                                                    <div class="dropdown">
+                                                        <a class="btn btn-sm btn-icon-only text-light" href="#"
+                                                            role="button" data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                            <i class="fas fa-ellipsis-v"></i>
+                                                        </a>
+                                                        <div
+                                                            class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                            <a class="dropdown-item" href="#">Action</a>
+                                                            <a class="dropdown-item" href="#">Another action</a>
+                                                            <a class="dropdown-item" href="#">Something else here</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot class="tfoot-light">
+                                            <tr>
+                                                <th scope="col" class="sort" data-sort="id">Rencana</th>
+                                                <th scope="col">Keterangan</th>
+                                                <th scope="col" class="sort" data-sort="anggaran">Anggaran</th>
+                                                <th scope="col" class="sort" data-sort="tahap">Tahap</th>
+                                                <th scope="col" class="sort" data-sort="status">Status</th>
+                                                <th scope="col" class="fit"></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Footer -->
+            <footer class="footer pt-0">
+                <div class="row align-items-center justify-content-lg-between">
+                    <div class="col-lg-6">
+                        <div class="copyright text-center  text-lg-left  text-muted">
+                            &copy; 2021 - 2022 <a href="javascript:;" class="font-weight-bold ml-1"
+                                target="_blank">Pojok
+                                Berbagi</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="notif-modal" tabindex="-1" role="dialog" aria-labelledby="notif-modal-label"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Pesan</h5>
+                    <button type="button" class="close p-3" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer p-0">
+                    <button type="button" class="btn btn-link ml-auto shadow-none font-weight-bolder"
+                        data-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Broken Img Handler -->
+
+    <!-- Vendor Script -->
+    <script src="./vendor/jquery/dist/jquery.min.js"></script>
+    <script src="./vendor/js-cookie/js.cookie.js"></script>
+    <script src="./vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="./vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+        crossorigin="anonymous"></script>
+    <!-- Argon JS -->
+    <script src="./main/js/argon.js"></script>
+    <!-- Core Script -->
+    <script src="./main/js/main.js"></script>
+    <!-- Load Script -->
+    <script src="../pojok-berbagi-script.js"></script>
+    <script src="./core/js/admin-script.js"></script>
+    <script>
+
+    </script>
+</body>
+
+</html>
