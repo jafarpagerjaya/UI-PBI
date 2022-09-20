@@ -1,0 +1,33 @@
+.custom-select {
+    height: 80px;
+    padding-top: 40px;
+    padding-left: 1.6em;
+    padding-right: 1.6em;
+}
+
+#bantuan > span {
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+}
+
+#id-bantuan[disabled] {
+    background-color: white;
+    border-color: var(--primary);
+}
+
+#list-area table thead tr th:first-of-type {
+    padding-left: 1.325rem !important;
+
+}
+
+#list-area table thead tr th:first-of-type {
+    border-left: 1px solid #e9ecef !important;
+}
+
+#list-area table thead tr th:last-of-type {
+    border-right: 1px solid #e9ecef !important;
+}
+
+#list-area table tbody tr td:first-of-type {
+    padding-left: 1.6em;
+}

@@ -17,6 +17,8 @@
     <!-- Core Style -->
     <link rel="stylesheet" href="../pojok-berbagi-style.css">
     <link rel="stylesheet" href="./core/css/admin-style.css">
+    <link rel="stylesheet" href="./main/css/utility.css">
+    <link rel="stylesheet" href="./pages/css/rab.css">
     <style>
         /* Add to admin-style */
         /* #main-content>#row-header:first-child {
@@ -258,196 +260,343 @@
 
                 <div class="row mt--6">
                     <div class="col">
-                        <div class="cards">
-                            <div class="card-header d-flex justify-content-between">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between border-0">
                                 <h2 class="mb-0">Daftar Rencana Pelaksanaan Bantuan</h2>
-                                <div class="btn btn-primary">
+                                <div class="btn btn-primary" data-toggle="modal" data-target="#modalBuatRencana">
                                     Buat Rencana Baru
                                 </div>
                             </div>
-                            <div class="table-responsive">
-                                <div>
-                                    <table class="table align-items-center mb-0 table-hover">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th scope="col" class="sort" data-sort="id">Rencana</th>
-                                                <th scope="col">Keterangan</th>
-                                                <th scope="col" class="sort" data-sort="anggaran">Anggaran</th>
-                                                <th scope="col" class="sort" data-sort="tahap">Tahap</th>
-                                                <th scope="col" class="sort" data-sort="status">Status</th>
-                                                <th scope="col" class="fit"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th scope="row">
-                                                    <div class="d-flex flex-column">
-                                                        <a href="#" class="font-weight-bolder">
-                                                            1
-                                                        </a>
-                                                        <span class="mb-0">Nama Bantuan</span>
-                                                    </div>
-                                                </th>
-                                                <td>
-                                                    <div class="d-flex flex-column">
-                                                        <span class="mb-0">Nama Bantuan</span>
-                                                        D eos inventore qui facilis? Soluta, at voluptate.
-                                                    </div>
-                                                </td>
-                                                <td class="anggaran d-flex flex-column">
-                                                    <div class="total_anggaran">
-                                                        $2500 USD
-                                                    </div>
-                                                    <div class="jumlah-item">
-                                                        10 Item
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-warning p-2 text-capitalize"
-                                                        style="vertical-align: middle;">
-                                                        Perencanaan
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-dot mr-4">
-                                                        <i class="bg-warning"></i>
-                                                        <span class="status">belum disetujui</span>
-                                                    </span>
-                                                </td>
-                                                <td class="text-right">
-                                                    <div class="dropdown">
-                                                        <a class="btn btn-sm btn-icon-only text-light" href="#"
-                                                            role="button" data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">
-                                                            <i class="fas fa-ellipsis-v"></i>
-                                                        </a>
-                                                        <div
-                                                            class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                            <a class="dropdown-item" href="#">Action</a>
-                                                            <a class="dropdown-item" href="#">Another action</a>
-                                                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <div>
+                                        <table class="table align-items-center mb-0 table-hover table-borderless">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col" class="sort" data-sort="id">Rencana</th>
+                                                    <th scope="col">Keterangan</th>
+                                                    <th scope="col" class="sort" data-sort="anggaran">Anggaran</th>
+                                                    <th scope="col" class="sort" data-sort="tahap">Tahap</th>
+                                                    <th scope="col" class="sort" data-sort="status">Status</th>
+                                                    <th scope="col" class="fit"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">
+                                                        <div class="d-flex flex-column">
+                                                            <a href="#" class="font-weight-bolder">
+                                                                3
+                                                            </a>
+                                                            <span class="mb-0">19 November 2022 15:00:00</span>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">
-                                                    <div class="d-flex flex-column">
-                                                        <a href="#" class="font-weight-bolder">
-                                                            2
-                                                        </a>
-                                                        <span class="mb-0">Nama Bantuan</span>
-                                                    </div>
-                                                </th>
-                                                <td>
-                                                    <div class="d-flex flex-column">
-                                                        <span class="mb-0">Nama Bantuan</span>
-                                                        D eos inventore qui facilis? Soluta, at voluptate.
-                                                    </div>
-                                                </td>
-                                                <td class="anggaran d-flex flex-column">
-                                                    <div class="total_anggaran">
-                                                        $2500 USD
-                                                    </div>
-                                                    <div class="jumlah-item">
-                                                        10 Item
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-primary p-2 text-capitalize"
-                                                        style="vertical-align: middle;">
-                                                        Belanja
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-dot mr-4">
-                                                        <i class="bg-success"></i>
-                                                        <span class="status">disetujui</span>
-                                                    </span>
-                                                </td>
-                                                <td class="text-right">
-                                                    <div class="dropdown">
-                                                        <a class="btn btn-sm btn-icon-only text-light" href="#"
-                                                            role="button" data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">
-                                                            <i class="fas fa-ellipsis-v"></i>
-                                                        </a>
-                                                        <div
-                                                            class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                            <a class="dropdown-item" href="#">Action</a>
-                                                            <a class="dropdown-item" href="#">Another action</a>
-                                                            <a class="dropdown-item" href="#">Something else here</a>
+                                                    </th>
+                                                    <td>
+                                                        <div class="d-flex flex-column">
+                                                            <span class="mb-0">Nama Bantuan</span>
+                                                            D eos inventore qui facilis? Soluta, at voluptate.
                                                         </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">
-                                                    <div class="d-flex flex-column">
-                                                        <a href="#" class="font-weight-bolder">
-                                                            1
-                                                        </a>
-                                                        <span class="mb-0">Nama Bantuan</span>
-                                                    </div>
-                                                </th>
-                                                <td>
-                                                    <div class="d-flex flex-column">
-                                                        <span class="mb-0">Nama Bantuan 3</span>
-                                                        D eos inventore qui facilis? Soluta, at voluptate.
-                                                    </div>
-                                                </td>
-                                                <td class="anggaran d-flex flex-column">
-                                                    <div class="total_anggaran">
-                                                        $2500 USD
-                                                    </div>
-                                                    <div class="jumlah-item">
-                                                        10 Item
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-warning p-2 text-capitalize"
-                                                        style="vertical-align: middle;">
-                                                        Perencanaan
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-dot mr-4">
-                                                        <i class="bg-success"></i>
-                                                        <span class="status">disetujui</span>
-                                                    </span>
-                                                </td>
-                                                <td class="text-right">
-                                                    <div class="dropdown">
-                                                        <a class="btn btn-sm btn-icon-only text-light" href="#"
-                                                            role="button" data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">
-                                                            <i class="fas fa-ellipsis-v"></i>
-                                                        </a>
-                                                        <div
-                                                            class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                            <a class="dropdown-item" href="#">Action</a>
-                                                            <a class="dropdown-item" href="#">Another action</a>
-                                                            <a class="dropdown-item" href="#">Something else here</a>
+                                                    </td>
+                                                    <td class="anggaran d-flex flex-column">
+                                                        <div class="total_anggaran">
+                                                            Rp. 1.000.000
                                                         </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot class="tfoot-light">
-                                            <tr>
-                                                <th scope="col" class="sort" data-sort="id">Rencana</th>
-                                                <th scope="col">Keterangan</th>
-                                                <th scope="col" class="sort" data-sort="anggaran">Anggaran</th>
-                                                <th scope="col" class="sort" data-sort="tahap">Tahap</th>
-                                                <th scope="col" class="sort" data-sort="status">Status</th>
-                                                <th scope="col" class="fit"></th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
+                                                        <div class="jumlah-item">
+                                                            10 Item
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge badge-warning p-2 text-capitalize"
+                                                            style="vertical-align: middle;">
+                                                            Perencanaan
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge badge-dot mr-4">
+                                                            <i class="bg-warning"></i>
+                                                            <span class="status">belum disetujui</span>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <div class="dropdown">
+                                                            <a class="btn btn-sm btn-icon-only text-light" href="#"
+                                                                role="button" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false">
+                                                                <i class="fas fa-ellipsis-v"></i>
+                                                            </a>
+                                                            <div
+                                                                class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                                <a class="dropdown-item" href="#">Lihat RAB</a>
+                                                                <a class="dropdown-item" href="#">Ubah RAB</a>
+                                                                <a class="dropdown-item" href="#">Something else
+                                                                    here</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">
+                                                        <div class="d-flex flex-column">
+                                                            <a href="#" class="font-weight-bolder">
+                                                                2
+                                                            </a>
+                                                            <span class="mb-0">29 November 2022 14:30:00</span>
+                                                        </div>
+                                                    </th>
+                                                    <td>
+                                                        <div class="d-flex flex-column">
+                                                            <span class="mb-0">Nama Bantuan</span>
+                                                            D eos inventore qui facilis? Soluta, at voluptate.
+                                                        </div>
+                                                    </td>
+                                                    <td class="anggaran d-flex flex-column">
+                                                        <div class="total_anggaran">
+                                                            Rp. 1.000.000
+                                                        </div>
+                                                        <div class="jumlah-item">
+                                                            10 Item
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge badge-primary p-2 text-capitalize"
+                                                            style="vertical-align: middle;">
+                                                            Belanja
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge badge-dot mr-4">
+                                                            <i class="bg-success"></i>
+                                                            <span class="status">disetujui</span>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <div class="dropdown">
+                                                            <a class="btn btn-sm btn-icon-only text-light" href="#"
+                                                                role="button" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false">
+                                                                <i class="fas fa-ellipsis-v"></i>
+                                                            </a>
+                                                            <div
+                                                                class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                                <a class="dropdown-item" href="#">Lihat RAB</a>
+                                                                <a class="dropdown-item text-warning" href="#">Ubah
+                                                                    RAB</a>
+                                                                <a class="dropdown-item" href="#">Something else
+                                                                    here</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">
+                                                        <div class="d-flex flex-column">
+                                                            <a href="#" class="font-weight-bolder">
+                                                                1
+                                                            </a>
+                                                            <span class="mb-0">20 November 2022 22:30:59</span>
+                                                        </div>
+                                                    </th>
+                                                    <td>
+                                                        <div class="d-flex flex-column">
+                                                            <span class="mb-0">Nama Bantuan 3</span>
+                                                            D eos inventore qui facilis? Soluta, at voluptate.
+                                                        </div>
+                                                    </td>
+                                                    <td class="anggaran d-flex flex-column">
+                                                        <div class="total_anggaran">
+                                                            Rp. 1.000.000
+                                                        </div>
+                                                        <div class="jumlah-item">
+                                                            10 Item
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge badge-success p-2 text-capitalize"
+                                                            style="vertical-align: middle;">
+                                                            Pencairan
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge badge-dot mr-4">
+                                                            <i class="bg-success"></i>
+                                                            <span class="status">disetujui</span>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <div class="dropdown">
+                                                            <a class="btn btn-sm btn-icon-only text-light" href="#"
+                                                                role="button" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false">
+                                                                <i class="fas fa-ellipsis-v"></i>
+                                                            </a>
+                                                            <div
+                                                                class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                                <a class="dropdown-item" href="#">Lihat RAB</a>
+                                                                <a class="dropdown-item" href="#">Ubah RAB</a>
+                                                                <a class="dropdown-item" href="#">Something else
+                                                                    here</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">
+                                                        <div class="d-flex flex-column">
+                                                            <a href="#" class="font-weight-bolder">
+                                                                1
+                                                            </a>
+                                                            <span class="mb-0">20 November 2022 22:30:59</span>
+                                                        </div>
+                                                    </th>
+                                                    <td>
+                                                        <div class="d-flex flex-column">
+                                                            <span class="mb-0">Nama Bantuan 3</span>
+                                                            D eos inventore qui facilis? Soluta, at voluptate.
+                                                        </div>
+                                                    </td>
+                                                    <td class="anggaran d-flex flex-column">
+                                                        <div class="total_anggaran">
+                                                            Rp. 1.000.000
+                                                        </div>
+                                                        <div class="jumlah-item">
+                                                            10 Item
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge badge-info p-2 text-capitalize"
+                                                            style="vertical-align: middle;">
+                                                            Pelaksanaan
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge badge-dot mr-4">
+                                                            <i class="bg-success"></i>
+                                                            <span class="status">disetujui</span>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <div class="dropdown">
+                                                            <a class="btn btn-sm btn-icon-only text-light" href="#"
+                                                                role="button" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false">
+                                                                <i class="fas fa-ellipsis-v"></i>
+                                                            </a>
+                                                            <div
+                                                                class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                                <a class="dropdown-item" href="#">Lihat RAB</a>
+                                                                <a class="dropdown-item" href="#">Ubah RAB</a>
+                                                                <a class="dropdown-item" href="#">Something else
+                                                                    here</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot class="tfoot-light">
+                                                <tr>
+                                                    <th scope="col" class="sort" data-sort="id">Rencana</th>
+                                                    <th scope="col">Keterangan</th>
+                                                    <th scope="col" class="sort" data-sort="anggaran">Anggaran</th>
+                                                    <th scope="col" class="sort" data-sort="tahap">Tahap</th>
+                                                    <th scope="col" class="sort" data-sort="status">Status</th>
+                                                    <th scope="col" class="fit"></th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card-footer">
+                            <div class="card-footer border-0">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Cari.." name="search"
+                                                autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <ul class="pagination justify-content-end mb-0" data-pages="10">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="modal in" id="modalBuatRencana" tabindex="-1" role="dialog"
+                    aria-labelledby="modalBuatRencana-label" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
+                        <div class="modal-content justify-content-center align-items-center scaleIn">
+                            <div class="container p-0 py-md-3 py-lg-5 px-lg-3">
+                                <div class="row gap-y-4">
+                                    <div class="col mx-3 px-0">
+                                        <div class="form-group position-relative mb-0" id="bantuan">
+                                            <span class="font-weight-bolder position-absolute pt-3">Rencana Untuk
+                                                Program</span>
+                                            <select class="custom-select" id="id-bantuan" name="id_bantuan">
+                                                <option value="0">Pilih salah satu</option>
+                                                <option value="1">One</option>
+                                                <option value="2">Two</option>
+                                                <option value="3">Three</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col bg-lighter mx-3 p-3 rounded">
+                                        <h4 class="mb-1">Total Max Anggaran</h4>
+                                        <div class="text-sm">Rp. 100.000</div>
+                                    </div>
+                                    <div class="col-12 d-flex gap-4 flex-column" id="list-area">
+                                        <div class="row">
+                                            <div class="col-auto">
+                                                <button class="btn btn-primary">Tambah Item</button>
+                                            </div>
+                                            <div
+                                                class="col d-flex px-0 mx-3 bg-lighter rounded align-items-center px-3 gap-x-2">
+                                                <i class="fa-info fa"></i>
+                                                <h4 class="mb-0">Belum ada daftar RAB</h4>
+                                            </div>
+                                        </div>
+                                        <table class="table">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>Kebutuhan</th>
+                                                    <th>Harga Satuan</th>
+                                                    <th>Jumlah</th>
+                                                    <th>Sub Total</th>
+                                                    <th colspan="2" class="fit text-center">Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        Kebutuhan 1
+                                                    </td>
+                                                    <td>10.000</td>
+                                                    <td>100</td>
+                                                    <td>1.000.000</td>
+                                                    <td class="px-0">
+                                                        <a href="#"
+                                                            class="btn btn-outline-danger btn-sm font-weight-bolder mr-2">
+                                                            Hapus
+                                                        </a>
+                                                    </td>
+                                                    <td class="px-0">
+                                                        <a href="#"
+                                                            class="btn btn-outline-orange btn-sm font-weight-bolder ml-2">
+                                                            Ubah
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-12 d-flex justify-content-between">
+                                        <button class="btn btn-link font-weight-bolder text-warning"
+                                            data-dismiss="modal">Batal</button>
+                                        <button class="btn btn-outline-primary" id="buat-rab">Buat RAB</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -505,6 +654,7 @@
     <!-- Load Script -->
     <script src="../pojok-berbagi-script.js"></script>
     <script src="./core/js/admin-script.js"></script>
+    <script src="./pages/js/rab.js"></script>
     <script>
 
     </script>
