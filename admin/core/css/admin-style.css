@@ -262,13 +262,6 @@ a[data-action]:hover {
     transform: translateY(1px) !important;
 }
 
-#main-content > #row-header:first-child {
-    margin: 0px -2rem;
-    padding: 0.5em 1em;
-    width: calc(100% + 4rem - 2px);
-    overflow: hidden;
-}
-
 tr > th:first-child {
     padding-left: 1.5rem !important;
 }
@@ -303,6 +296,13 @@ tr > th:last-child {
 @media (min-width: 768px) {
     .form-group label {
         font-size: .825rem;
+    }
+
+    #main-content > #row-header:first-child {
+        margin: 0px -2rem;
+        padding: 0.5em 1em;
+        width: calc(100% + 4rem - 2px);
+        overflow: hidden;
     }
 }
 

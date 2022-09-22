@@ -8,10 +8,18 @@ createRab.addEventListener('click', function(e) {
     this.closest('.row').querySelector('#id-bantuan').setAttribute('disabled','disabled');
 });
 
-$('#modalBuatRencana').on('hidden.bs.modal', function(e) {
+$('#modalBuatRencana').on('hidden.bs.modal', function() {
     $(this).find('#id-bantuan').removeAttr('disabled');
     delete data.id_bantuan;
     $(this).find('#id-bantuan').val(0);
+});
+
+$('#modalFormRab').on('show.bs.modal', function(e) {
+    
+}).on('hidden.bs.modal', function(e) {
+    if ($('#modalBuatRencana').hasClass('show')) {
+        $('body').addClass('modal-open');
+    }
 });
 
 const selectBantuan = document.getElementById('id-bantuan');

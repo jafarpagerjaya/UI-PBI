@@ -546,10 +546,18 @@
                                         <h4 class="mb-1">Total Max Anggaran</h4>
                                         <div class="text-sm">Rp. 100.000</div>
                                     </div>
+                                    <div class="col-12">
+                                        <div class="form-label-group">
+                                            <input type="text" id="input-keterangan" class="form-control"
+                                                placeholder="Keterangan" required autofocus>
+                                            <label for="input-keterangan">Keterangan</label>
+                                        </div>
+                                    </div>
                                     <div class="col-12 d-flex gap-4 flex-column" id="list-area">
                                         <div class="row">
                                             <div class="col-auto">
-                                                <button class="btn btn-primary">Tambah Item</button>
+                                                <button class="btn btn-primary" data-target="#modalFormRab"
+                                                    data-toggle="modal">Tambah Item</button>
                                             </div>
                                             <div
                                                 class="col d-flex px-0 mx-3 bg-lighter rounded align-items-center px-3 gap-x-2">
@@ -597,6 +605,30 @@
                                         <button class="btn btn-outline-primary" id="buat-rab">Buat RAB</button>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="modalFormRab" tabindex="-1" role="dialog"
+                    aria-labelledby="modalFormRabLabel" aria-hidden="true" data-backdrop="static">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="formJudul"></h5>
+                                <button type="button" class="close p-3" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button"
+                                    class="btn btn-link text-warning mr-auto shadow-none font-weight-bolder"
+                                    data-dismiss="modal">Batal</button>
+                                <button class="btn btn-outline-default">Reset</button>
+                                <button class="btn btn-primary">Simpan</button>
                             </div>
                         </div>
                     </div>
