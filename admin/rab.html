@@ -557,7 +557,7 @@
                                         <div class="row">
                                             <div class="col-auto">
                                                 <button class="btn btn-primary" data-target="#modalFormRab"
-                                                    data-toggle="modal">Tambah Item</button>
+                                                    data-toggle="modal" id="tambah-item-rab">Tambah Item</button>
                                             </div>
                                             <div
                                                 class="col d-flex px-0 mx-3 bg-lighter rounded align-items-center px-3 gap-x-2">
@@ -602,7 +602,8 @@
                                     <div class="col-12 d-flex justify-content-between">
                                         <button class="btn btn-link font-weight-bolder text-warning"
                                             data-dismiss="modal">Batal</button>
-                                        <button class="btn btn-outline-primary" id="buat-rab">Buat RAB</button>
+                                        <button class="btn btn-outline-primary" id="buat-rab" type="submit">Buat
+                                            RAB</button>
                                     </div>
                                 </div>
                             </div>
@@ -614,21 +615,77 @@
                     aria-labelledby="modalFormRabLabel" aria-hidden="true" data-backdrop="static">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="formJudul"></h5>
-                                <button type="button" class="close p-3" data-dismiss="modal" aria-label="Close">
+                            <div class="modal-header align-items-center justify-content-between">
+                                <i class="ni ni-bold-left text-warning" data-dismiss="modal"></i>
+                                <h5 class="modal-title font-weight-bolder"><span id="formJudul">Tambah</span> Item RAB
+                                </h5>
+                                <button type="button" class="close p-3 ml-0" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-
+                                <div class="form-group position-relative" id="kebutuhan">
+                                    <span class="font-weight-bolder position-absolute pt-2">Kebutuhan</span>
+                                    <select class="custom-select" id="id-kebutuhan" name="id_kebutuhan">
+                                        <option value="0">Pilih salah satu</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                </div>
+                                <div class="form-label-group mb-4">
+                                    <input type="text" name="harga_satuan" id="input-harga-satuan"
+                                        class="form-control px-3" placeholder="Harga Satuan">
+                                    <label for="input-harga-satuan">Harga Satuan</label>
+                                </div>
+                                <div class="form-label-group mb-4">
+                                    <input type="text" name="jumlah" id="input-jumlah" class="form-control px-3"
+                                        placeholder="Jumlah">
+                                    <label for="input-jumlah">Jumlah</label>
+                                </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button"
-                                    class="btn btn-link text-warning mr-auto shadow-none font-weight-bolder"
-                                    data-dismiss="modal">Batal</button>
-                                <button class="btn btn-outline-default">Reset</button>
-                                <button class="btn btn-primary">Simpan</button>
+                                <button class="btn w-100 btn-link" data-toggle="modal"
+                                    data-target="#modalTambahKebutuhan">Tambah Kebutuhan</button>
+                                <button class="btn btn-link font-weight-bolder text-muted" type="reset">Reset</button>
+                                <button class="btn btn-primary ml-auto" type="submit">Simpan</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="modalTambahKebutuhan" tabindex="-1" role="dialog"
+                    aria-labelledby="modalTambahKebutuhanLabel" aria-hidden="true" data-backdrop="static">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header align-items-center justify-content-between">
+                                <i class="ni ni-bold-left text-warning" data-dismiss="modal"></i>
+                                <h5 class="modal-title font-weight-bolder">Tambah Kebutuhan
+                                </h5>
+                                <button type="button" class="close p-3 ml-0" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group position-relative" id="kategori">
+                                    <span class="font-weight-bolder position-absolute pt-2">Kategori</span>
+                                    <select class="custom-select" id="id-kategori" name="id_kategori">
+                                        <option value="0">Pilih salah satu</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                </div>
+                                <div class="form-label-group mb-4">
+                                    <input type="text" name="nama" id="input-nama-kebutuhan" class="form-control px-3"
+                                        placeholder="Nama Kebutuhan" autocomplete="off">
+                                    <label for="input-nama-kebutuhan">Nama Kebutuhan</label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-link font-weight-bolder text-muted"
+                                    type="clear">Kosongkan</button>
+                                <button class="btn btn-primary ml-auto" type="submit">Simpan</button>
                             </div>
                         </div>
                     </div>

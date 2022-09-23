@@ -92,9 +92,16 @@
     border: 1px solid transparent;
     border-radius: 0.25rem;
     transition: all .1s ease-in-out;
-    height: 3.125rem;
 }
 
+.form-label-group input ~ label {
+    top: 0.875em;
+}
+
+
+.form-label-group input:placeholder-shown ~ label {
+    opacity: .5;
+}
 
 .form-label-group input:not(:placeholder-shown) {
     padding-top: 1.25rem;

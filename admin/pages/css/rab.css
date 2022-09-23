@@ -5,9 +5,34 @@
     padding-right: 1.6em;
 }
 
+#modalTambahKebutuhan .custom-select,
+#modalFormRab .custom-select {
+    height: 60px;
+    padding-top: 30px;
+}
+
+#modalTambahKebutuhan .custom-select,
+#modalTambahKebutuhan input,
+#modalFormRab .custom-select,
+#modalFormRab input {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+#modalTambahKebutuhan .form-label-group label,
+#modalFormRab .form-label-group label {
+    left: calc(1rem + 1px) !important;
+}
+
 #bantuan > span {
-    padding-left: 1.5em;
-    padding-right: 1.5em;
+    padding-left: calc(1.6em - 2.6px);
+    padding-right: calc(1.6em - 2.6px);
+}
+
+#kategori > span,
+#kebutuhan > span {
+    padding-left: calc(1rem + 1px) !important;
+    padding-right: calc(1rem + 1px) !important;
 }
 
 #input-keterangan {
@@ -35,4 +60,8 @@
 
 #list-area table tbody tr td:first-of-type {
     padding-left: 1.6em;
+}
+
+[data-dismiss] {
+    cursor: pointer;
 }
