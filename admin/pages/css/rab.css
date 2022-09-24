@@ -1,8 +1,12 @@
 .custom-select {
     height: 80px;
     padding-top: 40px;
-    padding-left: 1.6em;
-    padding-right: 1.6em;
+}
+
+.custom-select#id-bantuan,
+.p-3#balance {
+    padding-left: 1.4rem !important;
+    padding-right: 1.4rem !important;
 }
 
 #modalTambahKebutuhan .custom-select,
@@ -64,4 +68,8 @@
 
 [data-dismiss] {
     cursor: pointer;
+}
+
+.tooltip-inner {
+    text-align: left;
 }
