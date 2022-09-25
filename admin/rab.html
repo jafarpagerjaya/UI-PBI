@@ -17,6 +17,7 @@
     <!-- Core Style -->
     <link rel="stylesheet" href="../pojok-berbagi-style.css">
     <link rel="stylesheet" href="./core/css/admin-style.css">
+    <link rel="stylesheet" href="./core/css/form-element.css">
     <link rel="stylesheet" href="./main/css/utility.css">
     <link rel="stylesheet" href="./pages/css/rab.css">
     <style>
@@ -524,7 +525,7 @@
                     </div>
                 </div>
 
-                <div class="modal in" id="modalBuatRencana" tabindex="-1" role="dialog"
+                <div class="modal in show d-block" id="modalBuatRencana" tabindex="-1" role="dialog"
                     aria-labelledby="modalBuatRencana-label" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
                         <div class="modal-content justify-content-center align-items-center scaleIn">
@@ -584,7 +585,7 @@
                                                         Kebutuhan 1
                                                     </td>
                                                     <td>
-                                                        g elit. Fuga eum quia cum totam quos perspiciatis. 
+                                                        g elit. Fuga eum quia cum totam quos perspiciatis.
                                                     </td>
                                                     <td>10.000</td>
                                                     <td>100</td>
@@ -631,7 +632,9 @@
                             </div>
                             <div class="modal-body">
                                 <div class="form-group position-relative" id="kebutuhan">
-                                    <span class="font-weight-bolder position-absolute pt-2">Kebutuhan</span>
+                                    <span class="font-weight-bolder position-absolute mt-2">
+                                        <label for="id-kebutuhan" class="form-control-label">Kebutuhan</label>
+                                    </span>
                                     <select class="custom-select" id="id-kebutuhan" name="id_kebutuhan">
                                         <option value="0">Pilih salah satu</option>
                                         <option value="1">One</option>
@@ -642,26 +645,30 @@
                                 <div class="form-label-group mb-4">
                                     <input type="text" name="harga_satuan" id="input-harga-satuan"
                                         class="form-control px-3" placeholder="Harga Satuan">
-                                    <label for="input-harga-satuan">Harga Satuan</label>
+                                    <label for="input-harga-satuan" class="form-control-label">Harga Satuan</label>
                                 </div>
                                 <div class="form-label-group mb-4">
                                     <input type="text" name="jumlah" id="input-jumlah" class="form-control px-3"
                                         placeholder="Jumlah">
-                                    <label for="input-jumlah">Jumlah</label>
+                                    <label for="input-jumlah" class="form-control-label">Jumlah</label>
                                 </div>
                                 <div class="form-label-group mb-4">
                                     <input type="text" name="keterangan" id="input-keterangan" class="form-control px-3"
                                         placeholder="Keterangan / Spesifikasi">
-                                    <label for="input-keterangan">Keterangan / Spesifikasi</label>
+                                    <label for="input-keterangan" class="form-control-label">Keterangan /
+                                        Spesifikasi</label>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <div class="d-flex w-100 align-items-center justify-content-center">
                                     <button class="btn d-flex btn-link" data-toggle="modal"
-                                    data-target="#modalTambahKebutuhan">Tambah Kebutuhan</button>
-                                    <i class="fa fa-question-circle text-gray" data-toggle="tooltip" data-placement="top" title="Menambahkan kebutuhan baru jika di kolom perncarian tidak ditemukan."></i>
+                                        data-target="#modalTambahKebutuhan">Tambah Kebutuhan</button>
+                                    <i class="fa fa-question-circle text-gray" data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Menambahkan kebutuhan baru jika di kolom pencarian tidak ditemukan."></i>
                                 </div>
-                                <button class="btn btn-link font-weight-bolder text-muted" type="clear" id="cl">Kosongkan</button>
+                                <button class="btn btn-link font-weight-bolder text-muted" type="clear"
+                                    id="cl">Kosongkan</button>
                                 <button class="btn btn-primary ml-auto" type="submit">Simpan</button>
                             </div>
                         </div>
@@ -682,7 +689,9 @@
                             </div>
                             <div class="modal-body">
                                 <div class="form-group position-relative" id="kategori">
-                                    <span class="font-weight-bolder position-absolute pt-2">Kategori</span>
+                                    <span class="font-weight-bolder position-absolute mt-2">
+                                        <label for="id-kategori" class="form-control-label">Kategori</label>
+                                    </span>
                                     <select class="custom-select" id="id-kategori" name="id_kategori">
                                         <option value="0">Pilih salah satu</option>
                                         <option value="1">One</option>
@@ -693,7 +702,7 @@
                                 <div class="form-label-group mb-4">
                                     <input type="text" name="nama" id="input-nama-kebutuhan" class="form-control px-3"
                                         placeholder="Nama Kebutuhan" autocomplete="off">
-                                    <label for="input-nama-kebutuhan">Nama Kebutuhan</label>
+                                    <label for="input-nama-kebutuhan" class="form-control-label">Nama Kebutuhan</label>
                                 </div>
                             </div>
                             <div class="modal-footer">

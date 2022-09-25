@@ -29,14 +29,20 @@
 }
 
 #bantuan > span {
-    padding-left: calc(1.6em - 2.6px);
-    padding-right: calc(1.6em - 2.6px);
+    margin-left: calc(1.6em - 2.6px);
+    margin-right: calc(1.6em - 2.6px);
 }
 
 #kategori > span,
 #kebutuhan > span {
-    padding-left: calc(1rem + 1px) !important;
-    padding-right: calc(1rem + 1px) !important;
+    margin-left: calc(1rem + 1px) !important;
+    margin-right: calc(1rem + 1px) !important;
+}
+
+#bantuan > span,
+#kategori > span,
+#kebutuhan > span {
+    pointer-events: none;
 }
 
 #input-keterangan {

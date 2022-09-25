@@ -58,15 +58,45 @@ clearList.forEach(btn => {
 
             if (modalId == 'modalTambahKebutuhan') {
                 objectKebutuhan = {};
-                resultRab = {};
                 delete data.kebutuhan;
             }
+
+            if (modalId == 'modalFormRab') {
+                objectRab = {};
+                delete data.rab;
+            }
+
+            resultRab = {};
         }
         if (type == 'reset') {
             e.target.closest('.modal').querySelector('#id-kebutuhan').value = resultRab.id_kebutuhan;
             e.target.closest('.modal').querySelector('#input-harga-satuan').value = resultRab.harga_satuan;
             e.target.closest('.modal').querySelector('#input-jumlah').value = resultRab.jumlah;
             e.target.closest('.modal').querySelector('#input-keterangan').value = resultRab.keterangan;
+        }
+    });
+});
+
+const selectKebutuhan = document.getElementById('id-kebutuhan');
+let objectRab = {};
+selectKebutuhan.addEventListener('change', function() {
+    if (this.value != '0') {
+        objectRab.id_kebutuhan = this.value;
+    } else {
+        delete objectRab.id_kebutuhan;
+    }
+});
+
+const formRab = document.getElementById('modalFormRab'),
+      inputRabList = formRab.querySelectorAll('input');
+
+inputRabList.forEach(inputRab => {
+    inputRab.addEventListener('change', function(e) {
+        const name = e.target.getAttribute('name');
+        if (this.value.length) {
+            objectRab[name] = this.value;
+        } else {
+            delete objectRab[name];
         }
     });
 });
@@ -149,6 +179,8 @@ submitList.forEach(submit => {
 
         switch (modalId) {
             case 'modalTambahKebutuhan':
+                delete data.rab;
+                
                 url = 'admin/fetch/create/kebutuhan';
                 if (Object.keys(objectKebutuhan).length) {
                     data.kebutuhan = objectKebutuhan;
@@ -166,6 +198,12 @@ submitList.forEach(submit => {
                     return false;
                 }
                 url = '/admin/fetch/'+mode+'/kebutuhan';
+
+                if (Object.keys(objectRab).length) {
+                    data.rab = objectRab;
+                } else {
+                    delete data.rab;
+                }
             break;
         
             default:
@@ -177,6 +215,45 @@ submitList.forEach(submit => {
             message = 'Invalid URL to fetching';
         }
 
+        let c_error = 0;
+        const nameList = e.target.closest('.modal').querySelectorAll('[name]');
+        nameList.forEach(name => {
+            let error = false;
+            if (name.tagName.toLowerCase() == 'select') {
+                if (name.value == '0') {
+                    error = true;
+                }
+            }
+
+            if (name.tagName.toLowerCase() == 'input') {
+                if (!name.value.length) {
+                    error = true;
+                }
+            }
+
+            if (error) {
+                c_error++;
+                if (!name.parentElement.classList.contains('error')) {
+                    name.parentElement.classList.add('error');
+                    name.classList.add('is-invalid');
+                    name.parentElement.querySelector('label').setAttribute('data-label-after','wajib diisi');
+                }
+            } else {
+                if (name.parentElement.classList.contains('error')) {
+                    name.parentElement.classList.remove('error');
+                    name.classList.remove('is-invalid');
+                    // name.parentElement.querySelector('label').removeAttribute('data-label-after');
+                }
+            }
+        });
+
+        console.log(c_error)
+
+        if (c_error > 0) {
+            return false;
+        }
+
+        // fetch Here
         console.log(data);
     });
 });
