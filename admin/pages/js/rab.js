@@ -1,17 +1,29 @@
-const createRab = document.getElementById('buat-rab');
 let data = {};
+
+const createRab = document.getElementById('buat-rab');
 createRab.addEventListener('click', function(e) {
     // createRab via fetch if success
     // lock #bantuan
-    console.log(data)
+    // console.log(data)
     if (data.id_bantuan == null) return false;
     this.closest('.row').querySelector('#id-bantuan').setAttribute('disabled','disabled');
 });
 
-$('#modalBuatRencana').on('hidden.bs.modal', function() {
+$('#modalBuatRencana').on('hidden.bs.modal', function(e) {
     $(this).find('#id-bantuan').removeAttr('disabled');
-    delete data.id_bantuan;
     $(this).find('#id-bantuan').val(0);
+
+    e.target.querySelectorAll('[name]').forEach(name => {
+        if (!name.parentElement.classList.contains('error')) {
+            return;
+        }
+        name.parentElement.classList.remove('error');
+        name.parentElement.querySelector('label').removeAttribute('data-label-after');
+        name.classList.remove('is-invalid');
+    });
+
+    delete data.fields;
+    objectRencana = {};
 });
 
 $('#modalFormRab').on('show.bs.modal', function() {
@@ -27,63 +39,137 @@ $('#modalFormRab').on('show.bs.modal', function() {
         e.target.querySelector('#input-jumlah').value = '';
         e.target.querySelector('#input-keterangan').value = '';
     }
+
+    e.target.querySelectorAll('[name]').forEach(name => {
+        if (!name.parentElement.classList.contains('error')) {
+            return;
+        }
+        name.parentElement.classList.remove('error');
+        name.parentElement.querySelector('label').removeAttribute('data-label-after');
+        name.classList.remove('is-invalid');
+    });
+
+    // objectRab = {};
 });
 
 $('#modalTambahKebutuhan').on('show.bs.modal', function() {
 
-}).on('hidden.bs.modal', function() {
+}).on('hidden.bs.modal', function(e) {
     if ($('#modalBuatRencana').hasClass('show')) {
         $('body').addClass('modal-open');
     }
-});
 
-const selectBantuan = document.getElementById('id-bantuan');
-selectBantuan.addEventListener('change', function() {
-    data.id_bantuan = this.value;
-});
-
-const clearList = document.querySelectorAll('[type="clear"]');
-
-clearList.forEach(btn => {
-    btn.addEventListener('click', function(e) {
-        let type = this.getAttribute('type');
-        if (type == 'clear') {
-            this.closest('.modal').querySelectorAll('input').forEach(input => {
-                input.value = '';
-            });
-            this.closest('.modal').querySelectorAll('select').forEach(select => {
-                select.value = '0';
-            });
-            const modalId = this.closest('.modal').getAttribute('id');
-
-            if (modalId == 'modalTambahKebutuhan') {
-                objectKebutuhan = {};
-                delete data.kebutuhan;
-            }
-
-            if (modalId == 'modalFormRab') {
-                objectRab = {};
-                delete data.rab;
-            }
-
-            resultRab = {};
+    e.target.querySelectorAll('[name]').forEach(name => {
+        if (!name.parentElement.classList.contains('error')) {
+            return;
         }
-        if (type == 'reset') {
-            e.target.closest('.modal').querySelector('#id-kebutuhan').value = resultRab.id_kebutuhan;
-            e.target.closest('.modal').querySelector('#input-harga-satuan').value = resultRab.harga_satuan;
-            e.target.closest('.modal').querySelector('#input-jumlah').value = resultRab.jumlah;
-            e.target.closest('.modal').querySelector('#input-keterangan').value = resultRab.keterangan;
-        }
+        name.parentElement.classList.remove('error');
+        name.parentElement.querySelector('label').removeAttribute('data-label-after');
+        name.classList.remove('is-invalid');
     });
 });
 
+
+// Select
+const selectBantuan = document.getElementById('id-bantuan');
+
+let objectRencana = {};
+selectBantuan.addEventListener('change', function() {
+    if (this.value != '0') {
+        objectRencana.id_bantuan = this.value;
+
+        if (this.parentElement.classList.contains('error')) {
+            this.parentElement.classList.remove('error');
+            this.parentElement.querySelector('label').removeAttribute('data-label-after');
+            this.classList.remove('is-invalid');
+        }
+    } else {
+        delete objectRencana.id_bantuan;
+    }
+});
+
 const selectKebutuhan = document.getElementById('id-kebutuhan');
+
 let objectRab = {};
 selectKebutuhan.addEventListener('change', function() {
     if (this.value != '0') {
         objectRab.id_kebutuhan = this.value;
+
+        if (this.parentElement.classList.contains('error')) {
+            this.parentElement.classList.remove('error');
+            this.parentElement.querySelector('label').removeAttribute('data-label-after');
+            this.classList.remove('is-invalid');
+        }
     } else {
         delete objectRab.id_kebutuhan;
+    }
+});
+
+const selectKategori = document.getElementById('id-kategori');
+
+let objectKebutuhan = {};
+selectKategori.addEventListener('change', function() {
+    if (this.value != '0') {
+        objectKebutuhan.id_kategori = this.value;
+
+        if (this.parentElement.classList.contains('error')) {
+            this.parentElement.classList.remove('error');
+            this.parentElement.querySelector('label').removeAttribute('data-label-after');
+            this.classList.remove('is-invalid');
+        }
+    } else {
+        delete objectKebutuhan.id_kategori;
+    }
+});
+
+// Input
+const modalNameListKeyDown = document.querySelectorAll('.modal input');
+
+modalNameListKeyDown.forEach(name => {
+    name.addEventListener('keydown', function(e) {
+
+        if (!e.target.value.length && (e.keyCode == 16 || e.code == 'Space' || e.code == 'Backspace' || e.code == 'Delete' || e.code == 'ArrowDown' || e.code == 'ArrowUp' || e.code == 'ArrowLeft' || e.code == 'ArrowRight')) {
+            return false;
+        }
+
+        if (e.code != undefined) {
+            if (!e.target.value.length && (e.code.indexOf('Key') < 0 && e.code.indexOf('Digit') < 0 && (e.keyCode != 96 && e.keyCode != 97 && e.keyCode != 98 && e.keyCode != 99 && e.keyCode != 100 && e.keyCode != 101 && e.keyCode != 102 && e.keyCode != 103 && e.keyCode != 104 && e.keyCode != 105))) {
+                e.preventDefault();
+                return false;
+            }
+        }
+
+        if (this.parentElement.classList.contains('error')) {
+            this.parentElement.classList.remove('error');
+            this.nextElementSibling.removeAttribute('data-label-after');
+            this.classList.remove('is-invalid');
+        }
+    });
+
+    name.addEventListener('paste', function(e) {
+        setTimeout(() => {
+            this.value = escapeRegExp(escapeRegExp(this.value.trim(),'',/[^a-zA-Z0-9\s\/.-]/g),' ',/\s+/g);
+            
+            if (!this.value.length) {
+                return false;
+            }
+
+            if (this.parentElement.classList.contains('error')) {
+                this.parentElement.classList.remove('error');
+                this.nextElementSibling.removeAttribute('data-label-after');
+                this.classList.remove('is-invalid');
+            }
+        }, 0);
+    });
+});
+
+const inputKeterangan = document.getElementById('input-keterangan');
+
+inputKeterangan.addEventListener('change', function() {
+    if (this.value.length) {
+        objectRencana.keterangan = this.value;
+    } else {
+        delete objectRencana.keterangan;
     }
 });
 
@@ -101,17 +187,8 @@ inputRabList.forEach(inputRab => {
     });
 });
 
-const selectKategori = document.getElementById('id-kategori');
-let objectKebutuhan = {};
-selectKategori.addEventListener('change', function() {
-    if (this.value != '0') {
-        objectKebutuhan.id_kategori = this.value;
-    } else {
-        delete objectKebutuhan.id_kategori;
-    }
-});
-
 const inputNamaKebutuhan = document.getElementById('input-nama-kebutuhan');
+
 inputNamaKebutuhan.addEventListener('change', function() {
     if (this.value.length) {
         objectKebutuhan.nama = this.value;
@@ -121,6 +198,7 @@ inputNamaKebutuhan.addEventListener('change', function() {
 });
 
 const tambahItemRab = document.getElementById('tambah-item-rab');
+
 tambahItemRab.addEventListener('click', function() {
     let mTarget = this.getAttribute('data-target');
     mTarget = document.querySelector(mTarget);
@@ -134,6 +212,7 @@ tambahItemRab.addEventListener('click', function() {
 });
 let resultRab = {};
 const updateListRab = document.querySelectorAll('#list-area table .btn.update');
+
 updateListRab.forEach(update => {
     update.addEventListener('click', function(e) {
         const tr = e.target.closest('tr');
@@ -152,6 +231,7 @@ updateListRab.forEach(update => {
         console.log(modalFRab.querySelector('#formJudul'));
         // data result
         let result = {
+            id_rab: "1",
             id_kebutuhan: "1",
             harga_satuan: "100.000",
             jumlah: "100",
@@ -170,7 +250,55 @@ updateListRab.forEach(update => {
     });
 });
 
-const submitList = document.querySelectorAll('[type="submit"]');
+// Clear
+const clearList = document.querySelectorAll('[type="clear"]');
+
+clearList.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        let type = this.getAttribute('type');
+        if (type == 'clear') {
+            this.closest('.modal').querySelectorAll('input').forEach(input => {
+                input.value = '';
+            });
+            this.closest('.modal').querySelectorAll('select').forEach(select => {
+                select.value = '0';
+            });
+            const modalId = this.closest('.modal').getAttribute('id');
+
+            if (modalId == 'modalTambahKebutuhan') {
+                objectKebutuhan = {};
+            }
+
+            if (modalId == 'modalFormRab') {
+                objectRab = {};
+            }
+        }
+
+        if (type == 'reset') {
+            e.target.closest('.modal').querySelector('#id-kebutuhan').value = resultRab.id_kebutuhan;
+            e.target.closest('.modal').querySelector('#input-harga-satuan').value = resultRab.harga_satuan;
+            e.target.closest('.modal').querySelector('#input-jumlah').value = resultRab.jumlah;
+            e.target.closest('.modal').querySelector('#input-keterangan').value = resultRab.keterangan;
+            objectRab = resultRab;
+        }
+
+        data = {};
+
+        e.target.closest('.modal').querySelectorAll('[name]').forEach(name => {
+            if (!name.classList.contains('is-invalid')) {
+                return;
+            }
+            let fromGroup = name.closest('.error');
+            fromGroup.querySelector('label').removeAttribute('data-label-after');
+            fromGroup.classList.remove('error');
+            name.classList.remove('is-invalid');
+        });
+    });
+});
+
+// Submit
+const submitList = document.querySelectorAll('.modal [type="submit"]');
+
 submitList.forEach(submit => {
     submit.addEventListener('click', function(e) {
 
@@ -179,30 +307,44 @@ submitList.forEach(submit => {
 
         switch (modalId) {
             case 'modalTambahKebutuhan':
-                delete data.rab;
                 
-                url = 'admin/fetch/create/kebutuhan';
+                data.mode = 'create';
                 if (Object.keys(objectKebutuhan).length) {
-                    data.kebutuhan = objectKebutuhan;
+                    data.fields = objectKebutuhan;
+                    data.table = 'kebutuhan';
                 } else {
-                    delete data.kebutuhan;
+                    delete data.fields;
                 }
             break;
 
             case 'modalFormRab':
-                delete data.kebutuhan;
                 
                 const mode = document.getElementById('formJudul').getAttribute('data-mode');
                 if (mode !== 'create' && mode !== 'update') {
                     console.log('Unrecognize mode on #'+modalId);
                     return false;
                 }
-                url = '/admin/fetch/'+mode+'/kebutuhan';
 
+                data.mode = mode;
                 if (Object.keys(objectRab).length) {
-                    data.rab = objectRab;
+                    data.fields = objectRab;
+                    data.table = 'rab';
+                    if (mode == 'update') {
+                        data.id_rab = resultRab.id_rab;
+                    }
                 } else {
-                    delete data.rab;
+                    delete data.fields;
+                }
+            break;
+
+            case 'modalBuatRencana':
+
+                data.mode = 'create';
+                if (Object.keys(objectRencana).length) {
+                    data.fields = objectRencana;
+                    data.table = 'rencana';
+                } else {
+                    delete data.fields;
                 }
             break;
         
@@ -242,18 +384,25 @@ submitList.forEach(submit => {
                 if (name.parentElement.classList.contains('error')) {
                     name.parentElement.classList.remove('error');
                     name.classList.remove('is-invalid');
-                    // name.parentElement.querySelector('label').removeAttribute('data-label-after');
+                    name.parentElement.querySelector('label').removeAttribute('data-label-after');
                 }
             }
         });
-
-        console.log(c_error)
 
         if (c_error > 0) {
             return false;
         }
 
+        url = '/admin/fetch/'+data.mode+'/'+data.table;
+        delete data.mode;
+        delete data.table;
+
+        if (!Object.keys(data).length) {
+            console.log('Failed to fetch, no data object!')
+            return false;
+        }
         // fetch Here
         console.log(data);
+        console.log(url);
     });
 });
