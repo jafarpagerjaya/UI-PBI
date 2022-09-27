@@ -1,17 +1,9 @@
 let data = {};
 
-const createRab = document.getElementById('buat-rab');
-createRab.addEventListener('click', function(e) {
-    // createRab via fetch if success
-    // lock #bantuan
-    // console.log(data)
-    if (data.id_bantuan == null) return false;
-    this.closest('.row').querySelector('#id-bantuan').setAttribute('disabled','disabled');
-});
-
 $('#modalBuatRencana').on('hidden.bs.modal', function(e) {
-    $(this).find('#id-bantuan').removeAttr('disabled');
-    $(this).find('#id-bantuan').val(0);
+    e.target.querySelector('#id-bantuan').removeAttribute('disabled');
+    e.target.querySelector('#id-bantuan').value = '0';
+    e.target.querySelector('#input-keterangan').value = '';
 
     e.target.querySelectorAll('[name]').forEach(name => {
         if (!name.parentElement.classList.contains('error')) {
@@ -29,9 +21,10 @@ $('#modalBuatRencana').on('hidden.bs.modal', function(e) {
 $('#modalFormRab').on('show.bs.modal', function() {
     
 }).on('hidden.bs.modal', function(e) {
-    if ($('#modalBuatRencana').hasClass('show')) {
-        $('body').addClass('modal-open');
+    if (document.getElementById('modalBuatRencana').classList.contains('show')) {
+        document.querySelector('body').classList.add('modal-open');
     }
+    
     const mode = e.target.querySelector('#formJudul').getAttribute('data-mode');
     if (mode == 'update') {
         e.target.querySelector('#id-kebutuhan').value = '0';
@@ -49,14 +42,14 @@ $('#modalFormRab').on('show.bs.modal', function() {
         name.classList.remove('is-invalid');
     });
 
-    // objectRab = {};
+    delete data.id_rab;
 });
 
 $('#modalTambahKebutuhan').on('show.bs.modal', function() {
 
 }).on('hidden.bs.modal', function(e) {
-    if ($('#modalBuatRencana').hasClass('show')) {
-        $('body').addClass('modal-open');
+    if (document.getElementById('modalBuatRencana').classList.contains('show')) {
+        document.querySelector('body').classList.add('modal-open');
     }
 
     e.target.querySelectorAll('[name]').forEach(name => {
@@ -246,6 +239,7 @@ updateListRab.forEach(update => {
             modalFRab.querySelector('.btn[type="clear"]').innerText = "Reset";
             modalFRab.querySelector('.btn[type="clear"]').setAttribute('type','reset');
         }
+        objectRab = {};
         $('#modalFormRab').modal('show');
     });
 });
@@ -279,7 +273,7 @@ clearList.forEach(btn => {
             e.target.closest('.modal').querySelector('#input-harga-satuan').value = resultRab.harga_satuan;
             e.target.closest('.modal').querySelector('#input-jumlah').value = resultRab.jumlah;
             e.target.closest('.modal').querySelector('#input-keterangan').value = resultRab.keterangan;
-            objectRab = resultRab;
+            objectRab = {};
         }
 
         data = {};
@@ -303,7 +297,8 @@ submitList.forEach(submit => {
     submit.addEventListener('click', function(e) {
 
         const modalId = e.target.closest('.modal').getAttribute('id');
-        let url = undefined;
+        let invalidModal = false;
+
 
         switch (modalId) {
             case 'modalTambahKebutuhan':
@@ -330,7 +325,13 @@ submitList.forEach(submit => {
                     data.fields = objectRab;
                     data.table = 'rab';
                     if (mode == 'update') {
-                        data.id_rab = resultRab.id_rab;
+                        const objectNewRab = diff(resultRab, data.fields);
+                        if (Object.keys(objectNewRab).length) {
+                            data.id_rab = resultRab.id_rab;
+                            data.fields = objectNewRab;
+                        } else {
+                            data = {};
+                        }
                     }
                 } else {
                     delete data.fields;
@@ -349,12 +350,13 @@ submitList.forEach(submit => {
             break;
         
             default:
-                url = undefined;
+                invalidModal = true;
             break;
         }
 
-        if (url == undefined) {
-            message = 'Invalid URL to fetching';
+        if (invalidModal) {
+            console.log('Unrecognize modal ID');
+            return false;
         }
 
         let c_error = 0;
@@ -393,7 +395,10 @@ submitList.forEach(submit => {
             return false;
         }
 
-        url = '/admin/fetch/'+data.mode+'/'+data.table;
+        const url = '/admin/fetch/'+data.mode+'/'+data.table;
+        let dataMode = data.mode,
+            dataTable = data.table,
+            message;
         delete data.mode;
         delete data.table;
 
@@ -404,5 +409,35 @@ submitList.forEach(submit => {
         // fetch Here
         console.log(data);
         console.log(url);
+
+        // if fetch success 
+        message = 'Berhasil '+ dataMode +' data '+ dataTable;
+
+        nameList.forEach(name => {
+            if (name.tagName.toLowerCase() == 'select') {
+                name.value = '0';
+            }
+
+            if (name.tagName.toLowerCase() == 'input') {
+                name.value = '';
+            }
+        });
+        
+        
+        $('#'+modalId).modal('hide');
+
+        // End of submit
+        data = {};
     });
 });
+
+function diff(prevObject,nextObject) {
+    return Object.entries(nextObject).reduce((acc,cv) => {
+            if (JSON.stringify(nextObject[cv[0]]) != JSON.stringify(prevObject[cv[0]]))
+                acc.push(cv);
+                return acc;
+            }, []).reduce((acc,cv) => {
+                acc[cv[0]]=cv[1];
+                return acc;
+            }, {});
+}
