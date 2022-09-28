@@ -17,6 +17,8 @@
     <!-- Core Style -->
     <link rel="stylesheet" href="../pojok-berbagi-style.css">
     <link rel="stylesheet" href="./core/css/admin-style.css">
+    <!-- Load Style -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
     <link rel="stylesheet" href="./core/css/form-element.css">
     <link rel="stylesheet" href="./main/css/utility.css">
     <link rel="stylesheet" href="./pages/css/rab.css">
@@ -262,10 +264,12 @@
                 <div class="row mt--6">
                     <div class="col">
                         <div class="card">
-                            <div class="card-header d-flex justify-content-between border-0">
+                            <div class="card-header d-flex justify-content-between align-items-center border-0">
                                 <h2 class="mb-0">Daftar Rencana Pelaksanaan Bantuan</h2>
-                                <div class="btn btn-primary" data-toggle="modal" data-target="#modalBuatRencana">
-                                    Buat Rencana Baru
+                                <div class="btn btn-primary d-flex align-items-center justify-content-center"
+                                    data-toggle="modal" data-target="#modalBuatRencana">
+                                    <span class="d-none d-md-block">Buat Rencana Baru</span>
+                                    <i class="d-md-none fa fa-plus m-0"></i>
                                 </div>
                             </div>
                             <div class="card-body p-0">
@@ -525,13 +529,27 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col">
+                        <div class="card p-3">
+                            <span class="font-weight-bolder position-absolute mt-3">
+                                <label for="id-kebutuhan2" class="form-control-label">Rencana Untuk
+                                    Program</label>
+                            </span>
+                            <select class="custom-select" id="id-kebutuhan2" name="id_kebutuhan2" required>
+                                <option value="0">Pilih salah satu</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="modal in" id="modalBuatRencana" tabindex="-1" role="dialog"
                     aria-labelledby="modalBuatRencana-label" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
                         <div class="modal-content justify-content-center align-items-center scaleIn">
-                            <div class="container p-0 py-md-3 py-lg-5 px-lg-3">
+                            <div class="container p-0 py-md-3 py-lg-5 px-lg-3 px-3 px-md-0">
                                 <div class="row gap-y-4">
-                                    <div class="col mx-3 px-0">
+                                    <div class="col-12 col-md mx-md-3 px-3 px-md-0 px-0">
                                         <div class="form-group position-relative mb-0" id="bantuan">
                                             <span class="font-weight-bolder position-absolute mt-3">
                                                 <label for="id-bantuan" class="form-control-label">Rencana Untuk
@@ -545,7 +563,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col bg-lighter mx-3 p-0 rounded">
+                                    <div class="col-12 col-md mx-md-3 mx-3 mx-md-0 p-0 bg-lighter rounded">
                                         <div class="p-3" id="balance">
                                             <h4 class="mb-1">Total Max Anggaran</h4>
                                             <div class="text-sm">Rp. 100.000</div>
@@ -554,7 +572,7 @@
                                     <div class="col-12">
                                         <div class="form-label-group">
                                             <input type="text" id="input-keterangan" class="form-control"
-                                                name="keterangan" placeholder="Keterangan">
+                                                name="keterangan" placeholder="Keterangan" autocomplete="off">
                                             <label for="input-keterangan" class="form-control-label">Keterangan</label>
                                         </div>
                                     </div>
@@ -570,7 +588,7 @@
                                                 <h4 class="mb-0">Belum ada daftar RAB</h4>
                                             </div>
                                         </div>
-                                        <table class="table">
+                                        <table class="table table-borderless table-hover">
                                             <thead class="thead-light">
                                                 <tr>
                                                     <th>Kebutuhan</th>
@@ -594,7 +612,76 @@
                                                     <td>1.000.000</td>
                                                     <td class="px-0">
                                                         <a href="#"
-                                                            class="btn btn-outline-danger btn-sm font-weight-bolder mr-2">
+                                                            class="btn btn-outline-danger btn-sm font-weight-bolder mr-2 delete">
+                                                            Hapus
+                                                        </a>
+                                                    </td>
+                                                    <td class="px-0">
+                                                        <a href="#"
+                                                            class="btn btn-outline-orange btn-sm font-weight-bolder ml-2 update">
+                                                            Ubah
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr data-id-rab="2">
+                                                    <td>
+                                                        Kebutuhan 2
+                                                    </td>
+                                                    <td>
+                                                        g elit. Fuga eum quia cum totam quos perspiciatis.
+                                                    </td>
+                                                    <td>20.000</td>
+                                                    <td>200</td>
+                                                    <td>2.000.000</td>
+                                                    <td class="px-0">
+                                                        <a href="#"
+                                                            class="btn btn-outline-danger btn-sm font-weight-bolder mr-2 delete">
+                                                            Hapus
+                                                        </a>
+                                                    </td>
+                                                    <td class="px-0">
+                                                        <a href="#"
+                                                            class="btn btn-outline-orange btn-sm font-weight-bolder ml-2 update">
+                                                            Ubah
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr data-id-rab="3">
+                                                    <td>
+                                                        Kebutuhan 3
+                                                    </td>
+                                                    <td>
+                                                        g elit. Fuga eum quia cum totam quos perspiciatis.
+                                                    </td>
+                                                    <td>30.000</td>
+                                                    <td>300</td>
+                                                    <td>3.000.000</td>
+                                                    <td class="px-0">
+                                                        <a href="#"
+                                                            class="btn btn-outline-danger btn-sm font-weight-bolder mr-2 delete">
+                                                            Hapus
+                                                        </a>
+                                                    </td>
+                                                    <td class="px-0">
+                                                        <a href="#"
+                                                            class="btn btn-outline-orange btn-sm font-weight-bolder ml-2 update">
+                                                            Ubah
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr data-id-rab="4">
+                                                    <td>
+                                                        Kebutuhan 4
+                                                    </td>
+                                                    <td>
+                                                        g elit. Fuga eum quia cum totam quos perspiciatis.
+                                                    </td>
+                                                    <td>40.000</td>
+                                                    <td>400</td>
+                                                    <td>4.000.000</td>
+                                                    <td class="px-0">
+                                                        <a href="#"
+                                                            class="btn btn-outline-danger btn-sm font-weight-bolder mr-2 delete">
                                                             Hapus
                                                         </a>
                                                     </td>
@@ -715,6 +802,33 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="modal fade" id="modalKonfirmasiHapusRab" tabindex="-1" role="dialog"
+                    aria-labelledby="modalKonfirmasiHapusRabLabel" aria-hidden="true" data-backdrop="static">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header align-items-center justify-content-between p-4">
+                                <h5 class="modal-title font-weight-bolder">Konfirmasi Hapus RAB</h5>
+                                <button type="button" class="close p-3 ml-0" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <div class="text-sm">Apakah yakin menghapus data RAB kebutuhan
+                                    <span id="kebutuhan" class="font-weight-bolder">Operasional</span>
+                                    <span id="spec-ket" class="text-orange">biaya pengerjaan keseluruhan untuk
+                                        internal</span> ?
+                                </div>
+                            </div>
+                            <div class="modal-footer p-4">
+                                <button class="btn btn-link font-weight-bolder text-orange m-0" data-dismiss="modal"
+                                    aria-label="Close">Batal</button>
+                                <button class="btn btn-danger ml-auto m-0" type="submit">Hapus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </section>
             <!-- Footer -->
             <footer class="footer pt-0">
@@ -766,6 +880,7 @@
     <!-- Core Script -->
     <script src="./main/js/main.js"></script>
     <!-- Load Script -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="../pojok-berbagi-script.js"></script>
     <script src="./core/js/admin-script.js"></script>
     <script src="./core/js/form-function.js"></script>

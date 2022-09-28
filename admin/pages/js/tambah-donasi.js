@@ -113,9 +113,9 @@ $('.datepicker').datepicker({
     enableOnReadonly: false // readonly input will not show datepicker . The default value true
 }).change(function(e) {
     // submitControl(e.target);\
-    alert('c');
+    // alert('c');
 }).on('show', function(e) {
-    alert(1);
+    // alert(1);
 }).datepicker('setStartDate', d);
 
 const inputJumlahDonasi = document.getElementById('input-jumlah-donasi');

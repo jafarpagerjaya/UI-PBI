@@ -14,6 +14,11 @@ $('#modalBuatRencana').on('hidden.bs.modal', function(e) {
         name.classList.remove('is-invalid');
     });
 
+    e.target.querySelectorAll('#id-bantuan option[disabled]').forEach(option => {
+        option.removeAttribute('disabled');
+    });
+    e.target.querySelector('#input-keterangan').removeAttribute('disabled');
+
     delete data.fields;
     objectRencana = {};
 });
@@ -60,6 +65,12 @@ $('#modalTambahKebutuhan').on('show.bs.modal', function() {
         name.parentElement.querySelector('label').removeAttribute('data-label-after');
         name.classList.remove('is-invalid');
     });
+});
+
+$('#modalKonfirmasiHapusRab').on('hidden.bs.modal', function() {
+    if (document.getElementById('modalBuatRencana').classList.contains('show')) {
+        document.querySelector('body').classList.add('modal-open');
+    }
 });
 
 
@@ -244,6 +255,34 @@ updateListRab.forEach(update => {
     });
 });
 
+const deleteListRab = document.querySelectorAll('#list-area table .btn.delete');
+deleteListRab.forEach(deleteEl => {
+    deleteEl.addEventListener('click', function(e) {
+        const tr = e.target.closest('tr');
+        if (tr == null) {
+            console.log('TR data-id-rab is null');
+            return false;
+        }
+        const idRab = tr.getAttribute('data-id-rab');
+        // fetch
+        let url = '/admin/fetch/rab/read/' + idRab;
+
+        // fetch success
+        const modalKDeleteRab = document.getElementById('modalKonfirmasiHapusRab');
+        // data result
+        let result = {
+            id_rab: "1",
+            nama: "Kebutuhan 1",
+            keterangan: "g elit. Fuga eum quia cum totam quos perspiciatis."
+        };
+        resultRab = result;
+        modalKDeleteRab.querySelector('#kebutuhan').innerText = result.nama;
+        modalKDeleteRab.querySelector('#spec-ket').innerText = result.keterangan;
+
+        $('#modalKonfirmasiHapusRab').modal('show');
+    });
+});
+
 // Clear
 const clearList = document.querySelectorAll('[type="clear"]');
 
@@ -323,7 +362,7 @@ submitList.forEach(submit => {
                 data.mode = mode;
                 if (Object.keys(objectRab).length) {
                     data.fields = objectRab;
-                    data.table = 'rab';
+                    data.table = 'rencana_anggaran_belanja';
                     if (mode == 'update') {
                         const objectNewRab = diff(resultRab, data.fields);
                         if (Object.keys(objectNewRab).length) {
@@ -347,6 +386,12 @@ submitList.forEach(submit => {
                 } else {
                     delete data.fields;
                 }
+            break;
+
+            case 'modalKonfirmasiHapusRab':
+                data.mode = 'delete';
+                data.id_rab = resultRab.id_rab;
+                data.table = 'rencana_anggaran_belanja';
             break;
         
             default:
@@ -411,20 +456,33 @@ submitList.forEach(submit => {
         console.log(url);
 
         // if fetch success 
-        message = 'Berhasil '+ dataMode +' data '+ dataTable;
+        if (modalId != 'modalBuatRencana') {
+            message = 'Berhasil '+ dataMode +' data '+ dataTable;
 
-        nameList.forEach(name => {
-            if (name.tagName.toLowerCase() == 'select') {
-                name.value = '0';
-            }
+            nameList.forEach(name => {
+                if (name.tagName.toLowerCase() == 'select') {
+                    name.value = '0';
+                }
 
-            if (name.tagName.toLowerCase() == 'input') {
-                name.value = '';
+                if (name.tagName.toLowerCase() == 'input') {
+                    name.value = '';
+                }
+            });
+            
+            
+            $('#'+modalId).modal('hide');
+        } else {
+            e.target.closest('.modal').querySelector('#id-bantuan').setAttribute('disabled','true');
+            e.target.closest('.modal').querySelector('#input-keterangan').setAttribute('disabled','true');
+
+            const optionList = e.target.closest('.modal').querySelector('#id-bantuan').children;
+            for (let index = 0; index <optionList.length; index++) {
+                const element = optionList[index];
+                if (element.value != data.fields.id_bantuan) {
+                    element.setAttribute('disabled','true');
+                }
             }
-        });
-        
-        
-        $('#'+modalId).modal('hide');
+        }
 
         // End of submit
         data = {};
@@ -441,3 +499,126 @@ function diff(prevObject,nextObject) {
                 return acc;
             }, {});
 }
+
+let fetchData = function(url, data, root) {
+    // Fetch with token
+    fetch(url, {
+        method: "POST",
+        cache: "no-cache",
+        mode: "same-origin",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        referrer: "no-referrer",
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(function(result) {
+        let sentData = data;
+        if (result.error == false) {}
+        else {}
+    })
+};
+
+let x = [
+    {id_kebutuhan: 1, nama: 'Operasional', kategori: 'Jasa', jumlah_item_rab_ini: '0'},
+    {id_kebutuhan: 2, nama: 'Kebutuhan 1', kategori: 'Barang', jumlah_item_rab_ini: '1'},
+    {id_kebutuhan: 3, nama: 'Snak', kategori: 'Makanan', jumlah_item_rab_ini: '0'},
+    {id_kebutuhan: 4, nama: 'Air Mineral', kategori: 'Minuman', jumlah_item_rab_ini: '0'},
+    {id_kebutuhan: 5, nama: 'Galon', kategori: 'Barang', jumlah_item_rab_ini: '0'},
+    {id_kebutuhan: 6, nama: 'Minibus Pickup', kategori: 'Kendaraan', jumlah_item_rab_ini: '0'},
+    {id_kebutuhan: 7, nama: 'Engkel Box', kategori: 'Kendaraan', jumlah_item_rab_ini: '0'},
+    {id_kebutuhan: 8, nama: 'Double Engkel', kategori: 'Kendaraan', jumlah_item_rab_ini: '0'},
+    {id_kebutuhan: 9, nama: 'Geo Elektrik', kategori: 'Jasa', jumlah_item_rab_ini: '0'},
+    {id_kebutuhan: 10, nama: 'Box Snak', kategori: 'Barang', jumlah_item_rab_ini: '0'}
+];
+
+function formatKebutuhan(kebut) {
+    if (kebut.loading) {
+        return kebut.text;
+    }
+    let $kebut;
+    if (kebut.jumlah_item_rab_ini == null || kebut.jumlah_item_rab_ini == undefined) {
+        $kebut = '<div class="font-weight-bolder">'+ kebut.text +'</div>'
+    } else {
+        $kebut = '<div class="row w-100 m-0 align-items-center"><div class="col p-0"><span class="font-weight-bold">' + kebut.text + '</span></div><div class="col-auto px-1 d-flex align-items-center"><span class="badge badge-circle badge-primary border-white badge-sm badge-floating font-weight-bold">'+kebut.jumlah_item_rab_ini+'</span></div></div>'
+    }
+    return $kebut;
+};
+
+function selectLabelKebutuhan(array) {
+    return Object.values(array.reduce((accu, { id_kebutuhan: id, kategori: text, nama, jumlah_item_rab_ini }) => {
+        (accu[text] ??= { text, children: [] }).children.push({ id, text: nama, jumlah_item_rab_ini });
+        return accu;
+    }, {}));
+}
+
+// Select2 for Kebutuhan
+function modelMatcher(params, data) {
+    data.parentText = data.parentText || "";
+
+    // Always return the object if there is nothing to compare
+    if ($.trim(params.term) === '') {
+        return data;
+    }
+
+    // Do a recursive check for options with children
+    if (data.children && data.children.length > 0) {
+        // Clone the data object if there are children
+        // This is required as we modify the object to remove any non-matches
+        var match = $.extend(true, {}, data);
+
+        // Check each child of the option
+        for (var c = data.children.length - 1; c >= 0; c--) {
+            var child = data.children[c];
+            child.parentText += data.parentText + " " + data.text;
+
+            var matches = modelMatcher(params, child);
+
+            // If there wasn't a match, remove the object in the array
+            if (matches == null) {
+                match.children.splice(c, 1);
+            }
+        }
+
+        // If any children matched, return the new object
+        if (match.children.length > 0) {
+            return match;
+        }
+
+        // If there were no matching children, check just the plain object
+        return modelMatcher(params, match);
+    }
+
+    // If the typed-in term matches the text of this term, or the text from any
+    // parent term, then it's a match.
+    var original = (data.parentText + ' ' + data.text).toUpperCase();
+    var term = params.term.toUpperCase();
+
+    // Check if the text contains the term
+    if (original.indexOf(term) > -1) {
+        return data;
+    }
+
+    // If it doesn't contain the term, don't return anything
+    return null;
+}
+
+console.log(selectLabelKebutuhan(x));
+
+$('#id-kebutuhan2').select2({
+    placeholder: "Pilih salah satu",
+    data: selectLabelKebutuhan(x),
+    matcher: modelMatcher,
+    escapeMarkup: function (markup) { return markup; },
+    templateResult: formatKebutuhan
+// }).on('select2:open', function() {
+//     // if ($(this).hasClass("select2-hidden-accessible")) {
+//     //     if ($(this).hasClass('is-invalid')) {
+//     //         $('#select2-'+ $(this).attr('id') +'-results').parents('span.select2-dropdown').addClass('is-invalid');
+//     //     } else {
+//     //         $('#select2-'+ $(this).attr('id') +'-results').parents('span.select2-dropdown').removeClass('is-invalid');
+//     //     }
+//     // }
+});

@@ -272,7 +272,7 @@ span.selection {
 }
 
 .select2-results .select2-results__option--highlighted {
-    background-color: var(--primary);
+    background-color: var(--primary) !important;
     color: #fff !important;
 }
 
