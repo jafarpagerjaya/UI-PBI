@@ -283,3 +283,8 @@ span.selection {
 .select2-results ul {
     background-color: var(--primary);
 }
+
+.error .select2-container .select2-selection--single,
+.is-invalid .select2-container .select2-selection--single {
+    transition-duration: 0s;
+}

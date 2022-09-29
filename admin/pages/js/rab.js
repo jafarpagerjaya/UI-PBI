@@ -6,10 +6,10 @@ $('#modalBuatRencana').on('hidden.bs.modal', function(e) {
     e.target.querySelector('#input-keterangan').value = '';
 
     e.target.querySelectorAll('[name]').forEach(name => {
-        if (!name.parentElement.classList.contains('error')) {
+        if (!name.parentElement.classList.contains('is-invalid')) {
             return;
         }
-        name.parentElement.classList.remove('error');
+        name.parentElement.classList.remove('is-invalid');
         name.parentElement.querySelector('label').removeAttribute('data-label-after');
         name.classList.remove('is-invalid');
     });
@@ -36,13 +36,16 @@ $('#modalFormRab').on('show.bs.modal', function() {
         e.target.querySelector('#input-harga-satuan').value = '';
         e.target.querySelector('#input-jumlah').value = '';
         e.target.querySelector('#input-keterangan').value = '';
+
+        // for select2
+        $('#id-kebutuhan').select2('val','0');
     }
 
     e.target.querySelectorAll('[name]').forEach(name => {
-        if (!name.parentElement.classList.contains('error')) {
+        if (!name.parentElement.classList.contains('is-invalid')) {
             return;
         }
-        name.parentElement.classList.remove('error');
+        name.parentElement.classList.remove('is-invalid');
         name.parentElement.querySelector('label').removeAttribute('data-label-after');
         name.classList.remove('is-invalid');
     });
@@ -58,10 +61,10 @@ $('#modalTambahKebutuhan').on('show.bs.modal', function() {
     }
 
     e.target.querySelectorAll('[name]').forEach(name => {
-        if (!name.parentElement.classList.contains('error')) {
+        if (!name.parentElement.classList.contains('is-invalid')) {
             return;
         }
-        name.parentElement.classList.remove('error');
+        name.parentElement.classList.remove('is-invalid');
         name.parentElement.querySelector('label').removeAttribute('data-label-after');
         name.classList.remove('is-invalid');
     });
@@ -82,8 +85,8 @@ selectBantuan.addEventListener('change', function() {
     if (this.value != '0') {
         objectRencana.id_bantuan = this.value;
 
-        if (this.parentElement.classList.contains('error')) {
-            this.parentElement.classList.remove('error');
+        if (this.parentElement.classList.contains('is-invalid')) {
+            this.parentElement.classList.remove('is-invalid');
             this.parentElement.querySelector('label').removeAttribute('data-label-after');
             this.classList.remove('is-invalid');
         }
@@ -95,12 +98,13 @@ selectBantuan.addEventListener('change', function() {
 const selectKebutuhan = document.getElementById('id-kebutuhan');
 
 let objectRab = {};
+// event ini jalan hanya untuk non select2
 selectKebutuhan.addEventListener('change', function() {
     if (this.value != '0') {
         objectRab.id_kebutuhan = this.value;
 
-        if (this.parentElement.classList.contains('error')) {
-            this.parentElement.classList.remove('error');
+        if (this.parentElement.classList.contains('is-invalid')) {
+            this.parentElement.classList.remove('is-invalid');
             this.parentElement.querySelector('label').removeAttribute('data-label-after');
             this.classList.remove('is-invalid');
         }
@@ -116,8 +120,8 @@ selectKategori.addEventListener('change', function() {
     if (this.value != '0') {
         objectKebutuhan.id_kategori = this.value;
 
-        if (this.parentElement.classList.contains('error')) {
-            this.parentElement.classList.remove('error');
+        if (this.parentElement.classList.contains('is-invalid')) {
+            this.parentElement.classList.remove('is-invalid');
             this.parentElement.querySelector('label').removeAttribute('data-label-after');
             this.classList.remove('is-invalid');
         }
@@ -143,8 +147,8 @@ modalNameListKeyDown.forEach(name => {
             }
         }
 
-        if (this.parentElement.classList.contains('error')) {
-            this.parentElement.classList.remove('error');
+        if (this.parentElement.classList.contains('is-invalid')) {
+            this.parentElement.classList.remove('is-invalid');
             this.nextElementSibling.removeAttribute('data-label-after');
             this.classList.remove('is-invalid');
         }
@@ -158,8 +162,8 @@ modalNameListKeyDown.forEach(name => {
                 return false;
             }
 
-            if (this.parentElement.classList.contains('error')) {
-                this.parentElement.classList.remove('error');
+            if (this.parentElement.classList.contains('is-invalid')) {
+                this.parentElement.classList.remove('is-invalid');
                 this.nextElementSibling.removeAttribute('data-label-after');
                 this.classList.remove('is-invalid');
             }
@@ -246,6 +250,10 @@ updateListRab.forEach(update => {
         modalFRab.querySelector('#input-harga-satuan').value = result.harga_satuan;
         modalFRab.querySelector('#input-jumlah').value = result.jumlah;
         modalFRab.querySelector('#input-keterangan').value = result.keterangan;
+
+        // for select2
+        $('#id-kebutuhan').select2('val',result.id_kebutuhan);
+
         if (modalFRab.querySelector('.btn[type="clear"]') != null) {
             modalFRab.querySelector('.btn[type="clear"]').innerText = "Reset";
             modalFRab.querySelector('.btn[type="clear"]').setAttribute('type','reset');
@@ -276,7 +284,7 @@ deleteListRab.forEach(deleteEl => {
             keterangan: "g elit. Fuga eum quia cum totam quos perspiciatis."
         };
         resultRab = result;
-        modalKDeleteRab.querySelector('#kebutuhan').innerText = result.nama;
+        modalKDeleteRab.querySelector('#nama-kebutuhan').innerText = result.nama;
         modalKDeleteRab.querySelector('#spec-ket').innerText = result.keterangan;
 
         $('#modalKonfirmasiHapusRab').modal('show');
@@ -293,8 +301,12 @@ clearList.forEach(btn => {
             this.closest('.modal').querySelectorAll('input').forEach(input => {
                 input.value = '';
             });
+            console.log(this)
             this.closest('.modal').querySelectorAll('select').forEach(select => {
                 select.value = '0';
+
+                // for select2
+                $('#'+select.getAttribute('id')).val(0).trigger('change');
             });
             const modalId = this.closest('.modal').getAttribute('id');
 
@@ -312,6 +324,9 @@ clearList.forEach(btn => {
             e.target.closest('.modal').querySelector('#input-harga-satuan').value = resultRab.harga_satuan;
             e.target.closest('.modal').querySelector('#input-jumlah').value = resultRab.jumlah;
             e.target.closest('.modal').querySelector('#input-keterangan').value = resultRab.keterangan;
+
+            // for select2
+            $('#id-kebutuhan').select2('val',resultRab.id_kebutuhan);
             objectRab = {};
         }
 
@@ -321,9 +336,10 @@ clearList.forEach(btn => {
             if (!name.classList.contains('is-invalid')) {
                 return;
             }
-            let fromGroup = name.closest('.error');
+            let fromGroup = name.parentElement;
+            console.log(fromGroup)
             fromGroup.querySelector('label').removeAttribute('data-label-after');
-            fromGroup.classList.remove('error');
+            fromGroup.classList.remove('is-invalid');
             name.classList.remove('is-invalid');
         });
     });
@@ -422,14 +438,14 @@ submitList.forEach(submit => {
 
             if (error) {
                 c_error++;
-                if (!name.parentElement.classList.contains('error')) {
-                    name.parentElement.classList.add('error');
+                if (!name.parentElement.classList.contains('is-invalid')) {
+                    name.parentElement.classList.add('is-invalid');
                     name.classList.add('is-invalid');
                     name.parentElement.querySelector('label').setAttribute('data-label-after','wajib diisi');
                 }
             } else {
-                if (name.parentElement.classList.contains('error')) {
-                    name.parentElement.classList.remove('error');
+                if (name.parentElement.classList.contains('is-invalid')) {
+                    name.parentElement.classList.remove('is-invalid');
                     name.classList.remove('is-invalid');
                     name.parentElement.querySelector('label').removeAttribute('data-label-after');
                 }
@@ -462,6 +478,9 @@ submitList.forEach(submit => {
             nameList.forEach(name => {
                 if (name.tagName.toLowerCase() == 'select') {
                     name.value = '0';
+
+                    // for select2
+                    $('#id_kebutuhan').select2('val','0');
                 }
 
                 if (name.tagName.toLowerCase() == 'input') {
@@ -539,13 +558,35 @@ function formatKebutuhan(kebut) {
         return kebut.text;
     }
     let $kebut;
-    if (kebut.jumlah_item_rab_ini == null || kebut.jumlah_item_rab_ini == undefined) {
+    if (kebut.jumlah_item_rab_ini == null || kebut.jumlah_item_rab_ini == undefined || kebut.jumlah_item_rab_ini == '0') {
         $kebut = '<div class="font-weight-bolder">'+ kebut.text +'</div>'
     } else {
         $kebut = '<div class="row w-100 m-0 align-items-center"><div class="col p-0"><span class="font-weight-bold">' + kebut.text + '</span></div><div class="col-auto px-1 d-flex align-items-center"><span class="badge badge-circle badge-primary border-white badge-sm badge-floating font-weight-bold">'+kebut.jumlah_item_rab_ini+'</span></div></div>'
     }
     return $kebut;
 };
+
+function formatSelected(objectSelected) {
+    const label = objectSelected.element.closest('select').parentElement.querySelector('label');
+
+    if (objectSelected.loading) {
+        return objectSelected.text;
+    }
+
+    let $objectSelected = '';
+    
+    if (label != null) {
+        $objectSelected = label.outerHTML;
+    }
+
+    if (objectSelected.jumlah_item_rab_ini == null || objectSelected.jumlah_item_rab_ini == undefined || objectSelected.jumlah_item_rab_ini == '0') {
+        $objectSelected = $objectSelected + '<div class="font-weight-bolder">'+ objectSelected.text +'</div>';
+    } else {
+        $objectSelected = $objectSelected + '<div class="row w-100 m-0 align-items-center"><div class="col p-0"><span class="font-weight-bold">' + objectSelected.text + '</span></div><div class="col-auto px-1 d-flex align-items-center"><span class="badge badge-circle badge-primary border-white badge-sm badge-floating font-weight-bold">'+objectSelected.jumlah_item_rab_ini+'</span></div></div>'
+    }
+    return $objectSelected;
+
+}
 
 function selectLabelKebutuhan(array) {
     return Object.values(array.reduce((accu, { id_kebutuhan: id, kategori: text, nama, jumlah_item_rab_ini }) => {
@@ -605,14 +646,15 @@ function modelMatcher(params, data) {
     return null;
 }
 
-console.log(selectLabelKebutuhan(x));
+// console.log(selectLabelKebutuhan(x));
 
-$('#id-kebutuhan2').select2({
+$('#id-kebutuhan').select2({
     placeholder: "Pilih salah satu",
     data: selectLabelKebutuhan(x),
     matcher: modelMatcher,
     escapeMarkup: function (markup) { return markup; },
-    templateResult: formatKebutuhan
+    templateResult: formatKebutuhan,
+    templateSelection: formatSelected
 // }).on('select2:open', function() {
 //     // if ($(this).hasClass("select2-hidden-accessible")) {
 //     //     if ($(this).hasClass('is-invalid')) {
@@ -621,4 +663,34 @@ $('#id-kebutuhan2').select2({
 //     //         $('#select2-'+ $(this).attr('id') +'-results').parents('span.select2-dropdown').removeClass('is-invalid');
 //     //     }
 //     // }
+}).on('change', function(e) {
+    if (this.value != '0') {
+        objectRab.id_kebutuhan = this.value;
+
+        if (this.parentElement.classList.contains('is-invalid')) {
+            this.parentElement.classList.remove('is-invalid');
+            this.parentElement.querySelector('label').removeAttribute('data-label-after');
+            this.classList.remove('is-invalid');
+        }
+    } else {
+        delete objectRab.id_kebutuhan;
+    }
+}).on('select2:open',function() {
+    if ($(this).hasClass("select2-hidden-accessible")) {
+        if ($(this).hasClass('is-invalid')) {
+            $('#select2-'+ $(this).attr('id') +'-results').parents('span.select2-dropdown').addClass('is-invalid');
+        } else {
+            $('#select2-'+ $(this).attr('id') +'-results').parents('span.select2-dropdown').removeClass('is-invalid');
+        }
+    }
 });
+
+// $('#id-bantuan').select2({
+//     placeholder: "Pilih salah satu",
+//     data: selectLabelKebutuhan(x),
+//     matcher: modelMatcher,
+//     escapeMarkup: function (markup) { return markup; },
+//     templateResult: formatKebutuhan,
+//     templateSelection: formatSelected,
+//     dropdownParent: $(this).parent().parent()
+// });
