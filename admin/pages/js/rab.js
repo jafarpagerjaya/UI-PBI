@@ -5,6 +5,9 @@ $('#modalBuatRencana').on('hidden.bs.modal', function(e) {
     e.target.querySelector('#id-bantuan').value = '0';
     e.target.querySelector('#input-keterangan').value = '';
 
+    // for select2
+    $('#id-bantuan').select2('val','0');
+
     e.target.querySelectorAll('[name]').forEach(name => {
         if (!name.parentElement.classList.contains('is-invalid')) {
             return;
@@ -24,7 +27,6 @@ $('#modalBuatRencana').on('hidden.bs.modal', function(e) {
 });
 
 $('#modalFormRab').on('show.bs.modal', function() {
-    
 }).on('hidden.bs.modal', function(e) {
     if (document.getElementById('modalBuatRencana').classList.contains('show')) {
         document.querySelector('body').classList.add('modal-open');
@@ -301,7 +303,6 @@ clearList.forEach(btn => {
             this.closest('.modal').querySelectorAll('input').forEach(input => {
                 input.value = '';
             });
-            console.log(this)
             this.closest('.modal').querySelectorAll('select').forEach(select => {
                 select.value = '0';
 
@@ -337,7 +338,6 @@ clearList.forEach(btn => {
                 return;
             }
             let fromGroup = name.parentElement;
-            console.log(fromGroup)
             fromGroup.querySelector('label').removeAttribute('data-label-after');
             fromGroup.classList.remove('is-invalid');
             name.classList.remove('is-invalid');
@@ -480,15 +480,14 @@ submitList.forEach(submit => {
                     name.value = '0';
 
                     // for select2
-                    $('#id_kebutuhan').select2('val','0');
+                    $('#'+name.getAttribute('id')).select2('val','0');
                 }
 
                 if (name.tagName.toLowerCase() == 'input') {
                     name.value = '';
                 }
             });
-            
-            
+
             $('#'+modalId).modal('hide');
         } else {
             e.target.closest('.modal').querySelector('#id-bantuan').setAttribute('disabled','true');
@@ -503,7 +502,12 @@ submitList.forEach(submit => {
             }
         }
 
+        $('.toast[data-toast="feedback"] .toast-header .small-box').removeClass('bg-danger').addClass('bg-success');
+        $('.toast[data-toast="feedback"] .toast-header strong').text('Informasi');
         // End of submit
+        $('.toast[data-toast="feedback"] .toast-body').html(message);
+        $('.toast[data-toast="feedback"] .time-passed').text('Baru Saja');
+        $('.toast').toast('show');
         data = {};
     });
 });
@@ -573,18 +577,18 @@ function formatSelected(objectSelected) {
         return objectSelected.text;
     }
 
-    let $objectSelected = '';
+    let $elSelected = '';
     
     if (label != null) {
-        $objectSelected = label.outerHTML;
+        $elSelected = label.outerHTML;
     }
 
     if (objectSelected.jumlah_item_rab_ini == null || objectSelected.jumlah_item_rab_ini == undefined || objectSelected.jumlah_item_rab_ini == '0') {
-        $objectSelected = $objectSelected + '<div class="font-weight-bolder">'+ objectSelected.text +'</div>';
+        $elSelected = $elSelected + '<div class="font-weight-normal">'+ objectSelected.text +'</div>';
     } else {
-        $objectSelected = $objectSelected + '<div class="row w-100 m-0 align-items-center"><div class="col p-0"><span class="font-weight-bold">' + objectSelected.text + '</span></div><div class="col-auto px-1 d-flex align-items-center"><span class="badge badge-circle badge-primary border-white badge-sm badge-floating font-weight-bold">'+objectSelected.jumlah_item_rab_ini+'</span></div></div>'
+        $elSelected = $elSelected + '<div class="row w-100 m-0 align-items-center"><div class="col p-0"><span class="font-weight-bold">' + objectSelected.text + '</span></div><div class="col-auto px-1 d-flex align-items-center"><span class="badge badge-circle badge-primary border-white badge-sm badge-floating font-weight-bold">'+objectSelected.jumlah_item_rab_ini+'</span></div></div>'
     }
-    return $objectSelected;
+    return $elSelected;
 
 }
 
@@ -655,15 +659,7 @@ $('#id-kebutuhan').select2({
     escapeMarkup: function (markup) { return markup; },
     templateResult: formatKebutuhan,
     templateSelection: formatSelected
-// }).on('select2:open', function() {
-//     // if ($(this).hasClass("select2-hidden-accessible")) {
-//     //     if ($(this).hasClass('is-invalid')) {
-//     //         $('#select2-'+ $(this).attr('id') +'-results').parents('span.select2-dropdown').addClass('is-invalid');
-//     //     } else {
-//     //         $('#select2-'+ $(this).attr('id') +'-results').parents('span.select2-dropdown').removeClass('is-invalid');
-//     //     }
-//     // }
-}).on('change', function(e) {
+}).on('select2:select', function(e) {
     if (this.value != '0') {
         objectRab.id_kebutuhan = this.value;
 
@@ -685,12 +681,60 @@ $('#id-kebutuhan').select2({
     }
 });
 
-// $('#id-bantuan').select2({
-//     placeholder: "Pilih salah satu",
-//     data: selectLabelKebutuhan(x),
-//     matcher: modelMatcher,
-//     escapeMarkup: function (markup) { return markup; },
-//     templateResult: formatKebutuhan,
-//     templateSelection: formatSelected,
-//     dropdownParent: $(this).parent().parent()
-// });
+let xBantuan = [
+    {id_bantuan: 1, text: 'Bantuan 1'},
+    {id_bantuan: 2, text: 'Bantuan 2'},
+    {id_bantuan: 3, text: 'Bantuan 3'}
+];
+
+$('#id-bantuan').select2({
+    placeholder: "Pilih salah satu",
+    escapeMarkup: function (markup) { return markup; },
+    templateSelection: formatSelected
+}).on('select2:select', function(e) {
+    if (this.value != '0') {
+        objectRencana.id_bantuan = this.value;
+
+        if (this.parentElement.classList.contains('is-invalid')) {
+            this.parentElement.classList.remove('is-invalid');
+            this.parentElement.querySelector('label').removeAttribute('data-label-after');
+            this.classList.remove('is-invalid');
+        }
+    } else {
+        delete objectRencana.id_bantuan;
+    }
+}).on('select2:open',function() {
+    if ($(this).hasClass("select2-hidden-accessible")) {
+        if ($(this).hasClass('is-invalid')) {
+            $('#select2-'+ $(this).attr('id') +'-results').parents('span.select2-dropdown').addClass('is-invalid');
+        } else {
+            $('#select2-'+ $(this).attr('id') +'-results').parents('span.select2-dropdown').removeClass('is-invalid');
+        }
+    }
+});
+
+$('#id-kategori').select2({
+    placeholder: "Pilih salah satu",
+    escapeMarkup: function (markup) { return markup; },
+    templateSelection: formatSelected
+}).on('select2:select', function(e) {
+    if (this.value != '0') {
+        objectKebutuhan.id_kategori = this.value;
+
+        if (this.parentElement.classList.contains('is-invalid')) {
+            this.parentElement.classList.remove('is-invalid');
+            this.parentElement.querySelector('label').removeAttribute('data-label-after');
+            this.classList.remove('is-invalid');
+        }
+    } else {
+        delete objectKebutuhan.id_kategori;
+    }
+}).on('select2:open',function() {
+    if ($(this).hasClass("select2-hidden-accessible")) {
+        if ($(this).hasClass('is-invalid')) {
+            $('#select2-'+ $(this).attr('id') +'-results').parents('span.select2-dropdown').addClass('is-invalid');
+        } else {
+            $('#select2-'+ $(this).attr('id') +'-results').parents('span.select2-dropdown').removeClass('is-invalid');
+        }
+    }
+});

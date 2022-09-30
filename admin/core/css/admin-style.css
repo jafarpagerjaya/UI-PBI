@@ -153,6 +153,10 @@ a.disabled {
 }
 
 /* Toast */
+div[aria-live="polite"] {
+    z-index: 1050;
+}
+
 .d-flex>.toast {
     flex-basis: auto;
 }
