@@ -78,6 +78,49 @@ $('#modalKonfirmasiHapusRab').on('hidden.bs.modal', function() {
     }
 });
 
+$('#modalRincianRAB').on('hidden.bs.modal', function() {
+    if (document.getElementById('modalBuatRencana').classList.contains('show')) {
+        document.querySelector('body').classList.add('modal-open');
+    }
+});
+
+$('#modalKeteranganPerbaikanRAB').on('hidden.bs.modal', function(e) {
+    if (document.getElementById('modalRincianRAB').classList.contains('show')) {
+        document.querySelector('body').classList.add('modal-open');
+    }
+
+    e.target.querySelectorAll('[name]').forEach(name => {
+        if (!name.parentElement.classList.contains('is-invalid')) {
+            return;
+        }
+        name.parentElement.classList.remove('is-invalid');
+        name.parentElement.querySelector('label').removeAttribute('data-label-after');
+        name.classList.remove('is-invalid');
+    });
+});
+
+$('#modalKonfirmasiAksi').on('show.bs.modal', function(e) {
+    const mode = e.relatedTarget.getAttribute('data-mode');
+    let desc;
+    switch (mode) {
+        case 'TD':
+            desc = 'tidak melanjutkan';
+            break;
+        case 'SD':
+            desc = 'melanjutkan'
+            break;
+        default:
+            console.log('Unrecognize action mode');
+            return false;
+            break;
+    }
+    e.target.querySelector('.text-sm > span').innerText = desc;
+}).on('hidden.bs.modal', function(e) {
+    if (document.getElementById('modalRincianRAB').classList.contains('show')) {
+        document.querySelector('body').classList.add('modal-open');
+    }
+});
+
 
 // Select
 const selectBantuan = document.getElementById('id-bantuan');
@@ -303,6 +346,9 @@ clearList.forEach(btn => {
             this.closest('.modal').querySelectorAll('input').forEach(input => {
                 input.value = '';
             });
+            this.closest('.modal').querySelectorAll('textarea').forEach(textarea => {
+                textarea.value = '';
+            });
             this.closest('.modal').querySelectorAll('select').forEach(select => {
                 select.value = '0';
 
@@ -500,6 +546,10 @@ submitList.forEach(submit => {
                     element.setAttribute('disabled','true');
                 }
             }
+
+            objectRencana = {};
+            
+            e.target.innerText = 'Lanjut Pencairan';
         }
 
         $('.toast[data-toast="feedback"] .toast-header .small-box').removeClass('bg-danger').addClass('bg-success');
@@ -737,4 +787,19 @@ $('#id-kategori').select2({
             $('#select2-'+ $(this).attr('id') +'-results').parents('span.select2-dropdown').removeClass('is-invalid');
         }
     }
+});
+
+
+document.querySelectorAll('table.table-responsive.table-absolute-first thead tr > th:first-of-type').forEach(el => {
+    el.nextElementSibling.setAttribute('style','padding-left: calc('+el.offsetWidth+'px + 1rem)');
+});
+
+document.querySelectorAll('table.table-responsive.table-absolute-first tfoot tr > th:first-of-type').forEach(el => {
+    let widthTh1 = el.closest('table').querySelector('thead tr th:first-of-type').offsetWidth;
+    el.setAttribute('style','width: '+widthTh1+'px');
+    el.nextElementSibling.setAttribute('style','padding-left: calc('+widthTh1+'px + 1rem)')
+});
+
+document.querySelectorAll('table.table-responsive.table-absolute-first tbody tr > td:first-of-type').forEach(el => {
+    el.nextElementSibling.setAttribute('style','padding-left: calc('+el.offsetWidth+'px + 1rem)');
 });

@@ -72,6 +72,7 @@
     position: relative;
 }
 
+.form-label-group textarea::placeholder,
 .form-label-group input::placeholder {
     color: transparent !important;
 }
@@ -94,20 +95,23 @@
     transition: all .1s ease-in-out;
 }
 
+.form-label-group textarea ~ label,
 .form-label-group input ~ label {
     top: 0.875em;
 }
 
-
+.form-label-group textarea:placeholder-shown ~ label,
 .form-label-group input:placeholder-shown ~ label {
     opacity: .5;
 }
 
+.form-label-group textarea:not(:placeholder-shown),
 .form-label-group input:not(:placeholder-shown) {
     padding-top: 1.25rem;
     padding-bottom: 0.25rem;
 }
 
+.form-label-group textarea:not(:placeholder-shown) ~ label,
 .form-label-group input:not(:placeholder-shown) ~ label {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
