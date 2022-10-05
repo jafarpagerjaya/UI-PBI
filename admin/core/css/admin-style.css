@@ -42,6 +42,33 @@ table th.fit {
     width: 1%;
 }
 
+/* Table absolute first with responsive scroll */
+table.table-responsive.table-absolute-first th:first-of-type {
+    z-index: 1;
+}
+
+table.table-responsive.table-absolute-first tr > th:first-of-type,
+table.table-responsive.table-absolute-first tr > td:first-of-type {
+    position: absolute;
+    width: auto;
+    box-shadow: 1px 0px 2px 0px var(--lighter);
+}
+
+table.table-responsive.table-absolute-first tbody tr > td:first-of-type,
+table.table-responsive.table-absolute-first tbody tr > th:first-of-type {
+    background-color: white;
+}
+
+table.table-responsive.table-absolute-first th:not(.fit):not(.auto),
+table.table-responsive.table-absolute-first td:not(.fit):not(.auto) {
+    width: 1%;
+}
+
+table.table-responsive.table-absolute-first th:not(.fit):not(.auto):nth-child(2),
+table.table-responsive.table-absolute-first td:not(.fit):not(.auto):nth-child(2) {
+    width: 100%;
+}
+
 /* badge */
 .badge {
     letter-spacing: 1px;
@@ -111,6 +138,10 @@ a.disabled {
 
 .gap-x-4 {
     column-gap: 1.5em;
+}
+
+.gap-x-5 {
+    column-gap: 2em;
 }
 
 .gap-y-2 {

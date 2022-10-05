@@ -78,10 +78,14 @@ $('#modalKonfirmasiHapusRab').on('hidden.bs.modal', function() {
     }
 });
 
-$('#modalRincianRAB').on('hidden.bs.modal', function() {
+$('#modalRincianRAB').on('show.bs.modal', function(e) {
+    objectRencana.id_rencana = e.relatedTarget.closest('tr').getAttribute('data-id-rencana');
+}).on('hidden.bs.modal', function() {
     if (document.getElementById('modalBuatRencana').classList.contains('show')) {
         document.querySelector('body').classList.add('modal-open');
     }
+
+    objectRencana = {};
 });
 
 $('#modalKeteranganPerbaikanRAB').on('hidden.bs.modal', function(e) {
@@ -115,6 +119,7 @@ $('#modalKonfirmasiAksi').on('show.bs.modal', function(e) {
             break;
     }
     e.target.querySelector('.text-sm > span').innerText = desc;
+    objectRencana.status = mode;
 }).on('hidden.bs.modal', function(e) {
     if (document.getElementById('modalRincianRAB').classList.contains('show')) {
         document.querySelector('body').classList.add('modal-open');
@@ -455,6 +460,18 @@ submitList.forEach(submit => {
                 data.id_rab = resultRab.id_rab;
                 data.table = 'rencana_anggaran_belanja';
             break;
+
+            case 'modalKonfirmasiAksi':
+                data.mode = 'update';
+                if (Object.keys(objectRencana).length) {
+                    data.fields = objectRencana;
+                    data.id_rencana = objectRencana.id_rencana;
+                    delete objectRencana.id_rencana;
+                    data.table = 'rencana';
+                } else {
+                    delete data.fields;
+                }
+            break;
         
             default:
                 invalidModal = true;
@@ -789,17 +806,56 @@ $('#id-kategori').select2({
     }
 });
 
+function doAbsoluteFirstAdd(table) {
+    table.querySelectorAll('thead tr > th:first-of-type').forEach(el => {
+        el.nextElementSibling.setAttribute('style','padding-left: calc('+el.offsetWidth+'px + 1rem)');
+    });
+    
+    table.querySelectorAll('tfoot tr > th:first-of-type').forEach(el => {
+        let widthTh1 = el.closest('table').querySelector('thead tr th:first-of-type').offsetWidth;
+        el.setAttribute('style','width: '+widthTh1+'px');
+        el.nextElementSibling.setAttribute('style','padding-left: calc('+widthTh1+'px + 1rem)')
+    });
+    
+    table.querySelectorAll('tbody tr > td:first-of-type').forEach(el => {
+        el.nextElementSibling.setAttribute('style','padding-left: calc('+el.offsetWidth+'px + 1rem)');
+    });
+}
 
-document.querySelectorAll('table.table-responsive.table-absolute-first thead tr > th:first-of-type').forEach(el => {
-    el.nextElementSibling.setAttribute('style','padding-left: calc('+el.offsetWidth+'px + 1rem)');
-});
+function doAbsoluteFirstRemove(table) {
+    table.querySelectorAll('thead tr > th:first-of-type').forEach(el => {
+        el.nextElementSibling.removeAttribute('style');
+    });
+    
+    table.querySelectorAll('tfoot tr > th:first-of-type').forEach(el => {
+        el.nextElementSibling.removeAttribute('style')
+    });
+    
+    table.querySelectorAll('tbody tr > td:first-of-type').forEach(el => {
+        el.nextElementSibling.removeAttribute('style');
+    });
+}
 
-document.querySelectorAll('table.table-responsive.table-absolute-first tfoot tr > th:first-of-type').forEach(el => {
-    let widthTh1 = el.closest('table').querySelector('thead tr th:first-of-type').offsetWidth;
-    el.setAttribute('style','width: '+widthTh1+'px');
-    el.nextElementSibling.setAttribute('style','padding-left: calc('+widthTh1+'px + 1rem)')
-});
-
-document.querySelectorAll('table.table-responsive.table-absolute-first tbody tr > td:first-of-type').forEach(el => {
-    el.nextElementSibling.setAttribute('style','padding-left: calc('+el.offsetWidth+'px + 1rem)');
-});
+const tableAbsoluteFirstList = document.querySelectorAll('table.table-absolute-first');
+if (tableAbsoluteFirstList.length > 0) {
+    tableAbsoluteFirstList.forEach(table => {
+        if (table.classList.contains('table-responsive')) {
+            doAbsoluteFirstAdd(table);
+        }
+    });
+    let resizeTimeoutRab
+    window.addEventListener('resize', function(e) {
+        clearTimeout(resizeTimeoutRab)
+        resizeTimeoutRab = setTimeout(() => {
+            if (tableAbsoluteFirstList.length > 0) {
+                tableAbsoluteFirstList.forEach(table => {
+                    if (table.classList.contains('table-responsive')) {
+                        doAbsoluteFirstAdd(table);
+                    } else {
+                        doAbsoluteFirstRemove(table);
+                    }
+                })
+            }
+        }, 50);
+    })
+}

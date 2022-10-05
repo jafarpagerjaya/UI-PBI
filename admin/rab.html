@@ -287,7 +287,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
+                                                <tr data-id-rencana="3">
                                                     <th scope="row">
                                                         <div class="d-flex flex-column">
                                                             <a href="#" class="font-weight-bolder">
@@ -318,7 +318,7 @@
                                                     </td>
                                                     <td>
                                                         <span class="badge badge-dot mr-4">
-                                                            <i class="bg-warning"></i>
+                                                            <i class="bg-gradient-orange"></i>
                                                             <span class="status">belum disetujui</span>
                                                         </span>
                                                     </td>
@@ -340,7 +340,7 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <tr data-id-rencana="2">
                                                     <th scope="row">
                                                         <div class="d-flex flex-column">
                                                             <a href="#" class="font-weight-bolder">
@@ -394,7 +394,7 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <tr data-id-rencana="1">
                                                     <th scope="row">
                                                         <div class="d-flex flex-column">
                                                             <a href="#" class="font-weight-bolder">
@@ -447,11 +447,11 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <tr data-id-rencana="4">
                                                     <th scope="row">
                                                         <div class="d-flex flex-column">
                                                             <a href="#" class="font-weight-bolder">
-                                                                1
+                                                                4
                                                             </a>
                                                             <span class="mb-0">20 November 2022 22:30:59</span>
                                                         </div>
@@ -480,6 +480,59 @@
                                                         <span class="badge badge-dot mr-4">
                                                             <i class="bg-success"></i>
                                                             <span class="status">disetujui</span>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <div class="dropdown">
+                                                            <a class="btn btn-sm btn-icon-only text-light" href="#"
+                                                                role="button" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false">
+                                                                <i class="fas fa-ellipsis-v"></i>
+                                                            </a>
+                                                            <div
+                                                                class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                                <a class="dropdown-item" href="#" data-toggle="modal"
+                                                                    data-target="#modalRincianRAB">Lihat RAB</a>
+                                                                <a class="dropdown-item" href="#">Ubah RAB</a>
+                                                                <a class="dropdown-item" href="#">Something else
+                                                                    here</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr data-id-rencana="5">
+                                                    <th scope="row">
+                                                        <div class="d-flex flex-column">
+                                                            <a href="#" class="font-weight-bolder">
+                                                                5
+                                                            </a>
+                                                            <span class="mb-0">20 November 2022 22:30:59</span>
+                                                        </div>
+                                                    </th>
+                                                    <td>
+                                                        <div class="d-flex flex-column">
+                                                            <span class="mb-0">Nama Bantuan 3</span>
+                                                            D eos inventore qui facilis? Soluta, at voluptate.
+                                                        </div>
+                                                    </td>
+                                                    <td class="anggaran d-flex flex-column">
+                                                        <div class="total_anggaran">
+                                                            Rp. 1.000.000
+                                                        </div>
+                                                        <div class="jumlah-item">
+                                                            10 Item
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge badge-warning p-2 text-capitalize"
+                                                            style="vertical-align: middle;">
+                                                            Perencanaan
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge badge-dot mr-4">
+                                                            <i class="bg-warning"></i>
+                                                            <span class="status">butuh perbaikan</span>
                                                         </span>
                                                     </td>
                                                     <td class="text-right">
@@ -830,7 +883,7 @@
                     </div>
                 </div>
 
-                <div class="modal in show d-block" id="modalRincianRAB" tabindex="-1" role="dialog">
+                <div class="modal in" id="modalRincianRAB" tabindex="-1" role="dialog">
                     <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
                         <div class="modal-content justify-content-center align-items-center scaleIn">
                             <div class="container p-0 py-md-3 py-lg-5 px-lg-3 px-3 px-md-0">
@@ -847,11 +900,38 @@
                                             300.000
                                         </div>
                                     </div>
-                                    <div class="col-12 p-0">
-                                        <div class="bg-ligter rounded px-3 py-0">
-                                            <input type="text" class="form-control"
-                                                value="adl ask asda as daslk asdas dasda  asdasdasdlkasdk asdsadas dsa sadasdasdssa asdasdsa sds dssdsd"
-                                                readonly disabled>
+                                    <div class="col-12">
+                                        <div class="bg-lighter rounded py-4">
+                                            <div class="row gap-4 mx-0">
+                                                <div class="col-md col-12 px-4">
+                                                    <h5>Keterangan Rencana</h5>
+                                                    <div class="text-sm">Lorem, ipsum dolor sit amet consectetur
+                                                        adipisicing elit. Maxime voluptates placeat ea, aperiam odit
+                                                        dicta quam hic laudantium qui saepe.</div>
+                                                </div>
+                                                <div class="col-md col-12 px-4">
+                                                    <div class="row gap-y-3">
+                                                        <div class="col-6">
+                                                            <div class="text-sm">Pembuat Rencana</div>
+                                                            <div class="text-sm font-weight-bold">
+                                                                Bobobouy
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="text-sm">Waktu Pembuatan</div>
+                                                            <div class="text-sm font-weight-bold">20 Juni 2022
+                                                                22:30:33
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="text-sm">Status Rencana</div>
+                                                            <div class="text-sm font-weight-bold text-orange">Belum
+                                                                Disetujui
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -869,7 +949,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr data-id-rab="1">
-                                                    <td>
+                                                    <td class="fit">
                                                         Kebutuhan 1
                                                     </td>
                                                     <td>
@@ -880,7 +960,7 @@
                                                     <td class="text-right">1.000.000</td>
                                                 </tr>
                                                 <tr data-id-rab="2">
-                                                    <td>
+                                                    <td class="fit">
                                                         Kebutuhan 2
                                                     </td>
                                                     <td>
@@ -891,7 +971,7 @@
                                                     <td class="text-right">2.000.000</td>
                                                 </tr>
                                                 <tr data-id-rab="3">
-                                                    <td>
+                                                    <td class="fit">
                                                         Kebutuhan 3
                                                     </td>
                                                     <td>
@@ -902,7 +982,7 @@
                                                     <td class="text-right">3.000.000</td>
                                                 </tr>
                                                 <tr data-id-rab="4">
-                                                    <td>
+                                                    <td class="fit">
                                                         Kebutuhan 4
                                                     </td>
                                                     <td>
