@@ -145,6 +145,11 @@ h6 {
     padding: 1em;
 }
 
+[aria-live="polite"].position-fixed {
+    bottom: 1em;
+    right: 1em;
+}
+
 /* Handling style for broken img */
 
 img {
@@ -256,8 +261,8 @@ textarea {
 .kontak a.medsos-icon i[class*="instagram"] {
     background: #fdf497;
     background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-    background-clip: text;
     -webkit-background-clip: text;
+    background-clip: text;
 }
 
 .kontak a.medsos-icon:hover i[class*="instagram"] {

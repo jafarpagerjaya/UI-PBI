@@ -3,7 +3,7 @@ let data = {};
 $('#modalBuatRencana').on('hidden.bs.modal', function(e) {
     e.target.querySelector('#id-bantuan').removeAttribute('disabled');
     e.target.querySelector('#id-bantuan').value = '0';
-    e.target.querySelector('#input-keterangan').value = '';
+    e.target.querySelector('#input-keterangan-rencana').value = '';
 
     // for select2
     $('#id-bantuan').select2('val','0');
@@ -20,7 +20,7 @@ $('#modalBuatRencana').on('hidden.bs.modal', function(e) {
     e.target.querySelectorAll('#id-bantuan option[disabled]').forEach(option => {
         option.removeAttribute('disabled');
     });
-    e.target.querySelector('#input-keterangan').removeAttribute('disabled');
+    e.target.querySelector('#input-keterangan-rencana').removeAttribute('disabled');
 
     delete data.fields;
     objectRencana = {};
@@ -37,7 +37,7 @@ $('#modalFormRab').on('show.bs.modal', function() {
         e.target.querySelector('#id-kebutuhan').value = '0';
         e.target.querySelector('#input-harga-satuan').value = '';
         e.target.querySelector('#input-jumlah').value = '';
-        e.target.querySelector('#input-keterangan').value = '';
+        e.target.querySelector('#input-keterangan-rab').value = '';
 
         // for select2
         $('#id-kebutuhan').select2('val','0');
@@ -80,6 +80,17 @@ $('#modalKonfirmasiHapusRab').on('hidden.bs.modal', function() {
 
 $('#modalRincianRAB').on('show.bs.modal', function(e) {
     objectRencana.id_rencana = e.relatedTarget.closest('tr').getAttribute('data-id-rencana');
+}).on('shown.bs.modal', function(e) {
+    let tableAbsoluteFirstList = document.querySelectorAll('table.table-absolute-first');
+    if (tableAbsoluteFirstList.length > 0) {
+        tableAbsoluteFirstList.forEach(table => {
+            if (table.classList.contains('table-responsive')) {
+                doAbsoluteFirstAdd(table);
+            } else {
+                doAbsoluteFirstRemove(table);
+            }
+        });
+    }
 }).on('hidden.bs.modal', function() {
     if (document.getElementById('modalBuatRencana').classList.contains('show')) {
         document.querySelector('body').classList.add('modal-open');
@@ -221,9 +232,9 @@ modalNameListKeyDown.forEach(name => {
     });
 });
 
-const inputKeterangan = document.getElementById('input-keterangan');
+const inputKeteranganRencana = document.getElementById('input-keterangan-rencana');
 
-inputKeterangan.addEventListener('change', function() {
+inputKeteranganRencana.addEventListener('change', function() {
     if (this.value.length) {
         objectRencana.keterangan = this.value;
     } else {
@@ -269,7 +280,7 @@ tambahItemRab.addEventListener('click', function() {
     console.log(mTarget.querySelector('#formJudul'));
 });
 let resultRab = {};
-const updateListRab = document.querySelectorAll('#list-area table .btn.update');
+const updateListRab = document.querySelectorAll('#rab table .btn.update');
 
 updateListRab.forEach(update => {
     update.addEventListener('click', function(e) {
@@ -299,7 +310,7 @@ updateListRab.forEach(update => {
         modalFRab.querySelector('#id-kebutuhan').value = result.id_kebutuhan;
         modalFRab.querySelector('#input-harga-satuan').value = result.harga_satuan;
         modalFRab.querySelector('#input-jumlah').value = result.jumlah;
-        modalFRab.querySelector('#input-keterangan').value = result.keterangan;
+        modalFRab.querySelector('#input-keterangan-rab').value = result.keterangan;
 
         // for select2
         $('#id-kebutuhan').select2('val',result.id_kebutuhan);
@@ -313,7 +324,7 @@ updateListRab.forEach(update => {
     });
 });
 
-const deleteListRab = document.querySelectorAll('#list-area table .btn.delete');
+const deleteListRab = document.querySelectorAll('#rab table .btn.delete');
 deleteListRab.forEach(deleteEl => {
     deleteEl.addEventListener('click', function(e) {
         const tr = e.target.closest('tr');
@@ -334,7 +345,7 @@ deleteListRab.forEach(deleteEl => {
             keterangan: "g elit. Fuga eum quia cum totam quos perspiciatis."
         };
         resultRab = result;
-        modalKDeleteRab.querySelector('#nama-kebutuhan').innerText = result.nama;
+        modalKDeleteRab.querySelector('#kebutuhan').innerText = result.nama;
         modalKDeleteRab.querySelector('#spec-ket').innerText = result.keterangan;
 
         $('#modalKonfirmasiHapusRab').modal('show');
@@ -375,7 +386,7 @@ clearList.forEach(btn => {
             e.target.closest('.modal').querySelector('#id-kebutuhan').value = resultRab.id_kebutuhan;
             e.target.closest('.modal').querySelector('#input-harga-satuan').value = resultRab.harga_satuan;
             e.target.closest('.modal').querySelector('#input-jumlah').value = resultRab.jumlah;
-            e.target.closest('.modal').querySelector('#input-keterangan').value = resultRab.keterangan;
+            e.target.closest('.modal').querySelector('#input-keterangan-rab').value = resultRab.keterangan;
 
             // for select2
             $('#id-kebutuhan').select2('val',resultRab.id_kebutuhan);
@@ -554,7 +565,7 @@ submitList.forEach(submit => {
             $('#'+modalId).modal('hide');
         } else {
             e.target.closest('.modal').querySelector('#id-bantuan').setAttribute('disabled','true');
-            e.target.closest('.modal').querySelector('#input-keterangan').setAttribute('disabled','true');
+            e.target.closest('.modal').querySelector('#input-keterangan-rencana').setAttribute('disabled','true');
 
             const optionList = e.target.closest('.modal').querySelector('#id-bantuan').children;
             for (let index = 0; index <optionList.length; index++) {

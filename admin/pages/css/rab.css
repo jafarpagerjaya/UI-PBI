@@ -64,14 +64,14 @@ h2 {
     pointer-events: none;
 }
 
-#input-keterangan,
+#input-keterangan-rencana,
 #input-jumlah-pelaksanaan {
     padding-left: 1.6em;
     padding-right: 1.6em;
 }
 
 #id-bantuan[disabled],
-#input-keterangan[disabled] {
+#input-keterangan-rencana[disabled] {
     opacity: 1;
     background-color: white;
     border-color: var(--primary);
@@ -132,10 +132,40 @@ table.table-absolute-first {
     text-align: left;
 }
 
+/* stepper */
+:root {
+    --circle-size: 2.25rem;
+}
+
+ol {
+    padding: 0px;
+}
+
+.c-stepper__item:last-child {
+    min-width: 250px;
+}
+
+.c-stepper__item span.date,
+.c-stepper__item:last-child p.text-sm {
+    font-size: 0.75em !important;
+}
+
+.c-stepper__item:last-child span.date {
+    display: none;
+}
+
+.c-stepper__item:not(:last-child):before {
+    background-color: #fff;
+}
+
+.c-stepper__item:not(:last-child) p.text-sm {
+    display: none;
+}
+
 /* floating */
 #modalKeteranganPerbaikanRAB .form-label-group textarea ~ label {
     top: 1rem;
-    width: calc(100% - 3rem);
+    min-: calc(100% - 3rem);
     background-color: #fff;
     padding-left: 1px;
     padding-right: 1px;

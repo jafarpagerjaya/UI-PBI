@@ -8,6 +8,22 @@
     gap: var(--gap-x);
 }
 
+.border-dashed {
+    border-style: dashed;
+}
+
+.border-bottom-dashed {
+    border-bottom-style: dashed;
+}
+
+.border-dotted {
+    border-style: dotted;
+}
+
+.border-bottom-dotted {
+    border-bottom-style: dotted;
+}
+
 .border-2 {
     border-width: 2px !important;
 }
@@ -139,5 +155,34 @@
     .modal .d-flex.buttons {
         flex-direction: row !important;
         align-items: flex-start !important;
+    }
+}
+
+/* Reseter */
+.fa-rotate-90 {
+    filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+}
+
+.fa-rotate-180 {
+    filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+}
+
+.fa-rotate-270 {
+    filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+}
+
+.fa-flip-horizontal {
+    filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
+}
+
+.fa-flip-both,
+.fa-flip-horizontal.fa-flip-vertical,
+.fa-flip-vertical {
+    filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+}
+
+@media (min-width:576px) {
+    .card-columns {
+        orphans: 1;
     }
 }
