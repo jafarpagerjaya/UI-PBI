@@ -111,13 +111,13 @@
     transition: all .1s ease-in-out;
 }
 
-.form-label-group textarea ~ label,
-.form-label-group input ~ label {
+.form-label-group textarea~label,
+.form-label-group input~label {
     top: 0.875em;
 }
 
-.form-label-group textarea:placeholder-shown ~ label,
-.form-label-group input:placeholder-shown ~ label {
+.form-label-group textarea:placeholder-shown~label,
+.form-label-group input:placeholder-shown~label {
     opacity: .5;
 }
 
@@ -127,8 +127,8 @@
     padding-bottom: 0.25rem;
 }
 
-.form-label-group textarea:not(:placeholder-shown) ~ label,
-.form-label-group input:not(:placeholder-shown) ~ label {
+.form-label-group textarea:not(:placeholder-shown)~label,
+.form-label-group input:not(:placeholder-shown)~label {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
     font-size: 12px;
@@ -155,34 +155,5 @@
     .modal .d-flex.buttons {
         flex-direction: row !important;
         align-items: flex-start !important;
-    }
-}
-
-/* Reseter */
-.fa-rotate-90 {
-    filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
-}
-
-.fa-rotate-180 {
-    filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
-}
-
-.fa-rotate-270 {
-    filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
-}
-
-.fa-flip-horizontal {
-    filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
-}
-
-.fa-flip-both,
-.fa-flip-horizontal.fa-flip-vertical,
-.fa-flip-vertical {
-    filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
-}
-
-@media (min-width:576px) {
-    .card-columns {
-        orphans: 1;
     }
 }
