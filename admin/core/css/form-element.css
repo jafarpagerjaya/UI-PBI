@@ -180,6 +180,14 @@ span.selection {
     border-color: #fb6340 !important;
 }
 
+select[disabled]~.select2-container--default .select2-selection--single {
+    border-color: var(--lighter) !important;
+}
+
+.select2-container--default.select2-container--disabled .select2-selection--single {
+    background-color: var(--lighter);
+}
+
 .select2-container--default .select2-selection--single:focus-visible {
     border: 1px solid #5e72e4 !important;
 }

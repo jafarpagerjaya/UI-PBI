@@ -10,21 +10,21 @@ function preventNonNumbersInInput(event){
     }
 };
 
-function numberToPrice(angka, prefix) {
-    var number_string = angka.replace(/[^,\d]/g, '').toString(),
+function numberToPrice(angka, prefix = '', e) {
+    var number_string = angka.toString().replace(/[^,\d]/g, ''),
         split = number_string.split(','),
         sisa = split[0].length % 3,
-        rupiah = split[0].substr(0, sisa),
+        formed = split[0].substr(0, sisa),
         ribuan = split[0].substr(sisa).match(/\d{3}/gi);
 
     // tambahkan titik jika yang di input sudah menjadi angka ribuan
     if (ribuan) {
         separator = sisa ? '.' : '';
-        rupiah += separator + ribuan.join('.');
+        formed += separator + ribuan.join('.');
     }
 
-    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-    return prefix == undefined ? rupiah : (rupiah ? prefix + rupiah : '');
+    formed = split[1] != undefined ? formed + ',' + split[1] : formed;
+    return e == undefined ? prefix == undefined ? formed : (formed ? prefix + formed : '') : [prefix == undefined ? formed : (formed ? prefix + formed : ''), sisa, ribuan, prefix];
 }
 
 function priceToNumber(v){
@@ -35,6 +35,10 @@ function priceToNumber(v){
 }
 
 function isNumber(n) { return /^[0-9.]+$/.test(n); }
+
+function removeByIndex(str,index) {
+    return str.slice(0,index) + str.slice(index+1);
+}
 
 function autoResize() { 
     this.style.height = 'auto'; 
@@ -73,3 +77,33 @@ function checkEmailPattern(str) {
 
     return pattern.test(str.toLowerCase());
 }
+
+const inputMaxlengthList = document.querySelectorAll('input[maxlength]');
+inputMaxlengthList.forEach(input => {
+    let maxlength = input.getAttribute('maxlength');
+    let tag = document.createElement('span');
+    tag.classList.add('input-char-left');
+    tag.innerHTML = '<span class="current-length text-orange">'+ input.value.length +'</span> / <span>'+ maxlength +'</span>';
+    input.parentElement.appendChild(tag);
+
+    if (input.currentStyle ? input.currentStyle.display : getComputedStyle(input, null).display == 'none') {
+        input.parentElement.querySelector('.input-char-left').classList.add('d-none');
+    }
+
+    // Event
+    input.addEventListener('keyup', function(e) {
+        this.parentElement.querySelector('.current-length').innerText = this.value.length;
+    });
+});
+
+$('select').on('change', function() {
+    if (this.classList.contains('is-invalid')) {
+        this.classList.remove('is-invalid');
+    }
+    if (this.closest('.form-group').classList.contains('error')) {
+        this.closest('.form-group').classList.remove('error');
+    }
+    if (this.closest('.form-group').classList.contains('is-invalid')) {
+        this.closest('.form-group').classList.remove('is-invalid');
+    }
+});

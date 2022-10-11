@@ -52,6 +52,15 @@ h2 {
     margin-right: calc(1.6em - 2.6px);
 }
 
+#rencana>.row,
+#rab>.row {
+    column-gap: 2.15em;
+}
+
+#balance>.text-sm::before {
+    content: 'Rp. ';
+}
+
 #kategori>span,
 #kebutuhan>span {
     margin-left: calc(1rem + 1px) !important;
@@ -73,8 +82,8 @@ h2 {
 #id-bantuan[disabled],
 #input-keterangan-rencana[disabled] {
     opacity: 1;
-    background-color: white;
-    border-color: var(--primary);
+    background-color: var(--lighter);
+    border-color: var(--lighter);
 }
 
 #spec-ket::before {
