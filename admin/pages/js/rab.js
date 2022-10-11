@@ -23,6 +23,9 @@ $('#modalBuatRencana').on('hidden.bs.modal', function (e) {
         option.removeAttribute('disabled');
     });
     e.target.querySelector('#input-keterangan-rencana').removeAttribute('disabled');
+    e.target.querySelector('#buat-pencairan[type="button"]').innerText = 'Buat RAB';
+    e.target.querySelector('#buat-pencairan[type="button"]').setAttribute('id', 'buat-rab');
+    e.target.querySelector('#buat-rab[type="button"]').setAttribute('type', 'submit');
 
     delete data.fields;
     objectRencana = {};
@@ -127,6 +130,9 @@ $('#modalKonfirmasiAksi').on('show.bs.modal', function (e) {
         case 'SD':
             desc = 'melanjutkan'
             break;
+        case 'BP':
+            desc = 'perbaikan'
+            break;
         default:
             console.log('Unrecognize action mode');
             return false;
@@ -195,10 +201,51 @@ selectKategori.addEventListener('change', function () {
     }
 });
 
-// Input
-const modalNameListKeyDown = document.querySelectorAll('.modal input');
+// Textarea
+modalNameListKeyDownTextarea = document.querySelectorAll('.modal textarea');
 
-modalNameListKeyDown.forEach(name => {
+modalNameListKeyDownTextarea.forEach(name => {
+    name.addEventListener('keydown', function (e) {
+
+        if (!e.target.value.length && (e.keyCode == 16 || e.code == 'Space' || e.code == 'Backspace' || e.code == 'Delete' || e.code == 'ArrowDown' || e.code == 'ArrowUp' || e.code == 'ArrowLeft' || e.code == 'ArrowRight')) {
+            return false;
+        }
+
+        if (e.code != undefined) {
+            if (!e.target.value.length && (e.code.indexOf('Key') < 0 && e.code.indexOf('Digit') < 0 && (e.keyCode != 96 && e.keyCode != 97 && e.keyCode != 98 && e.keyCode != 99 && e.keyCode != 100 && e.keyCode != 101 && e.keyCode != 102 && e.keyCode != 103 && e.keyCode != 104 && e.keyCode != 105))) {
+                e.preventDefault();
+                return false;
+            }
+        }
+
+        if (this.parentElement.classList.contains('is-invalid')) {
+            this.parentElement.classList.remove('is-invalid');
+            this.nextElementSibling.removeAttribute('data-label-after');
+            this.classList.remove('is-invalid');
+        }
+    });
+
+    name.addEventListener('paste', function (e) {
+        setTimeout(() => {
+            this.value = escapeRegExp(escapeRegExp(this.value.trim(), '', /[^a-zA-Z0-9\s\/.-]/g), ' ', /\s+/g);
+
+            if (!this.value.length) {
+                return false;
+            }
+
+            if (this.parentElement.classList.contains('is-invalid')) {
+                this.parentElement.classList.remove('is-invalid');
+                this.nextElementSibling.removeAttribute('data-label-after');
+                this.classList.remove('is-invalid');
+            }
+        }, 0);
+    });
+});
+
+// Input
+const modalNameListKeyDownInput = document.querySelectorAll('.modal input');
+
+modalNameListKeyDownInput.forEach(name => {
     name.addEventListener('keydown', function (e) {
 
         if (!e.target.value.length && (e.keyCode == 16 || e.code == 'Space' || e.code == 'Backspace' || e.code == 'Delete' || e.code == 'ArrowDown' || e.code == 'ArrowUp' || e.code == 'ArrowLeft' || e.code == 'ArrowRight')) {
@@ -435,9 +482,13 @@ const submitList = document.querySelectorAll('.modal [type="submit"]');
 
 submitList.forEach(submit => {
     submit.addEventListener('click', function (e) {
+        if (e.target.getAttribute('type') == 'button') {
+            e.preventDefault();
+            return false;
+        }
+
         const modalId = e.target.closest('.modal').getAttribute('id');
         let invalidModal = false;
-
 
         switch (modalId) {
             case 'modalTambahKebutuhan':
@@ -499,6 +550,22 @@ submitList.forEach(submit => {
                 if (Object.keys(objectRencana).length) {
                     data.fields = objectRencana;
                     data.id_rencana = objectRencana.id_rencana;
+                    delete objectRencana.id_rencana;
+                    data.table = 'rencana';
+                } else {
+                    delete data.fields;
+                }
+                break;
+
+            case 'modalKeteranganPerbaikanRAB':
+                data.mode = 'update';
+                if (Object.keys(objectRencana).length && e.target.closest('.modal').querySelector('textarea').value.length) {
+                    data.fields = {
+                        status: 'BP',
+                        pesan: e.target.closest('.modal').querySelector('textarea').value
+                    };
+                    data.id_rencana = objectRencana.id_rencana;
+                    delete objectRencana.id_rencana;
                     data.table = 'rencana';
                 } else {
                     delete data.fields;
@@ -526,6 +593,12 @@ submitList.forEach(submit => {
             }
 
             if (name.tagName.toLowerCase() == 'input') {
+                if (!name.value.length) {
+                    error = true;
+                }
+            }
+
+            if (name.tagName.toLowerCase() == 'textarea') {
                 if (!name.value.length) {
                     error = true;
                 }
@@ -581,6 +654,10 @@ submitList.forEach(submit => {
                 if (name.tagName.toLowerCase() == 'input') {
                     name.value = '';
                 }
+
+                if (name.tagName.toLowerCase() == 'textarea') {
+                    name.value = '';
+                }
             });
 
             $('#' + modalId).modal('hide');
@@ -599,6 +676,8 @@ submitList.forEach(submit => {
             objectRencana = {};
 
             e.target.innerText = 'Lanjut Pencairan';
+            e.target.setAttribute('type', 'button');
+            e.target.setAttribute('id', 'buat-pencairan');
         }
 
         if (modalId == 'modalKonfirmasiAksi') {
@@ -614,6 +693,19 @@ submitList.forEach(submit => {
             }, 3000);
             $('#' + relatedModal).modal('hide');
         }
+
+        if (modalId == 'modalKeteranganPerbaikanRAB') {
+            let statusR = statusRencana(data.fields.status);
+            document.querySelector('#modalRincianRAB #status-rencana').innerText = statusR[0];
+            relatedTarget.querySelector('span.status').innerText = statusR[0].toLowerCase();
+            relatedTarget.querySelector('span.status').previousElementSibling.setAttribute('class', statusR[1]);
+            relatedTarget.classList.add('highlight');
+            setTimeout(() => {
+                relatedTarget.classList.remove('highlight');
+            }, 3000);
+            $('#modalRincianRAB').modal('hide');
+        }
+
 
         $('.toast[data-toast="feedback"] .toast-header .small-box').removeClass('bg-danger').addClass('bg-success');
         $('.toast[data-toast="feedback"] .toast-header strong').text('Informasi');

@@ -47,20 +47,20 @@ h2 {
     left: calc(1rem + 1px) !important;
 }
 
-#bantuan > span {
+#bantuan>span {
     margin-left: calc(1.6em - 2.6px);
     margin-right: calc(1.6em - 2.6px);
 }
 
-#kategori > span,
-#kebutuhan > span {
+#kategori>span,
+#kebutuhan>span {
     margin-left: calc(1rem + 1px) !important;
     margin-right: calc(1rem + 1px) !important;
 }
 
-#bantuan > span,
-#kategori > span,
-#kebutuhan > span {
+#bantuan>span,
+#kategori>span,
+#kebutuhan>span {
     pointer-events: none;
 }
 
@@ -91,13 +91,13 @@ h2 {
 
 table.list-rab:not(.table-borderless):not(.table-responsive.table-absolute-first) thead tr th:first-of-type,
 table.list-rab:not(.table-borderless):not(.table-responsive.table-absolute-first) tfoot tr th:first-of-type,
-table.list-rab:not(.table-borderless):not(.table-responsive.table-absolute-first) tbody > tr > *:first-of-type {
+table.list-rab:not(.table-borderless):not(.table-responsive.table-absolute-first) tbody>tr>*:first-of-type {
     border-left: 1px solid #e9ecef !important;
 }
 
 table.list-rab:not(.table-borderless):not(.table-responsive.table-absolute-first) thead tr th:last-of-type,
 table.list-rab:not(.table-borderless):not(.table-responsive.table-absolute-first) tfoot tr th:last-of-type,
-table.list-rab:not(.table-borderless):not(.table-responsive.table-absolute-first) tbody > tr > *:last-of-type {
+table.list-rab:not(.table-borderless):not(.table-responsive.table-absolute-first) tbody>tr>*:last-of-type {
     border-right: 1px solid #e9ecef !important;
 }
 
@@ -163,7 +163,7 @@ ol {
 }
 
 /* floating */
-#modalKeteranganPerbaikanRAB .form-label-group textarea ~ label {
+#modalKeteranganPerbaikanRAB .form-label-group textarea~label {
     top: 1rem;
     min-: calc(100% - 3rem);
     background-color: #fff;
@@ -175,7 +175,7 @@ ol {
     padding-top: 1.75rem !important;
 }
 
-#modalKeteranganPerbaikanRAB .form-label-group textarea:not(:placeholder-shown) ~ label {
+#modalKeteranganPerbaikanRAB .form-label-group textarea:not(:placeholder-shown)~label {
     padding-top: 0.5rem !important;
     padding-left: 1.5px;
     padding-right: 1.5px;
@@ -187,50 +187,50 @@ ol {
     color: var(--primary);
 }
 
-select.custom-select:not(#id-bantuan) ~ .select2 > .selection > .select2-selection {
+select.custom-select:not(#id-bantuan)~.select2>.selection>.select2-selection {
     padding-top: .45em;
     padding-bottom: 0px;
     height: 60px;
 }
 
-select.custom-select:not(#id-bantuan) ~ .select2 > .selection > .select2-selection .select2-selection__rendered {
+select.custom-select:not(#id-bantuan)~.select2>.selection>.select2-selection .select2-selection__rendered {
     padding-left: 6px !important;
     padding-right: 0px;
     gap: .25em;
     line-height: normal;
 }
 
-select.custom-select#id-bantuan ~ .select2 > .selection > .select2-selection {
+select.custom-select#id-bantuan~.select2>.selection>.select2-selection {
     padding-top: 1.1rem;
     height: 80px;
 }
 
-select.custom-select#id-bantuan ~ .select2 > .selection > .select2-selection .select2-selection__rendered {
+select.custom-select#id-bantuan~.select2>.selection>.select2-selection .select2-selection__rendered {
     padding-left: 10px !important;
     padding-right: 0px;
     gap: .5em;
     line-height: normal;
 }
 
-select.custom-select:not(#id-bantuan) ~ .select2 > .selection > .select2-selection .select2-selection__rendered > label,
-select.custom-select:not(#id-bantuan) ~ .select2 > .selection > .select2-selection .select2-selection__rendered > label + div {
+select.custom-select:not(#id-bantuan)~.select2>.selection>.select2-selection .select2-selection__rendered>label,
+select.custom-select:not(#id-bantuan)~.select2>.selection>.select2-selection .select2-selection__rendered>label+div {
     height: 18px;
 }
 
-select.custom-select:not(#id-bantuan) ~ .select2 > .selection > .select2-selection .select2-selection__rendered > label {
+select.custom-select:not(#id-bantuan)~.select2>.selection>.select2-selection .select2-selection__rendered>label {
     font-size: 12px;
 }
 
-select.custom-select ~ .select2 > .selection > .select2-selection .select2-selection__rendered > label {
+select.custom-select~.select2>.selection>.select2-selection .select2-selection__rendered>label {
     font-weight: bold;
     margin-bottom: 0.25rem;
 }
 
-select.custom-select#id-bantuan ~ .select2 > .selection > .select2-selection .select2-selection__rendered > label {
+select.custom-select#id-bantuan~.select2>.selection>.select2-selection .select2-selection__rendered>label {
     margin-bottom: 0.5rem;
 }
 
-select.custom-select ~ .select2 .select2-selection__arrow {
+select.custom-select~.select2 .select2-selection__arrow {
     display: flex;
     height: 50%;
     width: 40px;
@@ -238,7 +238,7 @@ select.custom-select ~ .select2 .select2-selection__arrow {
     right: 7px;
 }
 
-select.custom-select.is-invalid ~ .select2::after {
+select.custom-select.is-invalid~.select2::after {
     background-repeat: no-repeat;
     background-position: center;
     background-size: calc(.75em + .375rem) calc(.75em + .375rem);

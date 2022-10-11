@@ -1,10 +1,10 @@
-<div class="modal in" id="modalBuatRencana" tabindex="-1" role="dialog" aria-labelledby="modalBuatRencana-label"
+<div class="modal fade in" id="modalBuatRencana" tabindex="-1" role="dialog" aria-labelledby="modalBuatRencana-label"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
         <div class="modal-content justify-content-center align-items-center scaleIn">
             <div class="container p-0 py-md-3 py-lg-5 px-lg-3 px-3 px-md-0">
-                <div class="row mx-0 py-3 mb-2">
-                    <div class="col bg-lighter rounded">
+                <div class="row gap-y-4 p-3">
+                    <div class="col-12 bg-lighter rounded" id="stepper">
                         <div class="wrapper py-3 px-2">
                             <ol class="c-stepper mb-0">
                                 <li class="c-stepper__item">
@@ -19,83 +19,47 @@
                                         <span class="date">29 Juli 2022 23:30</span>
                                     </div>
                                 </li>
-                                <li class="c-stepper__item">
-                                    <div class="d-flex flex-column gap-1">
-                                        <h6 class="mb-0 c-stepper__title">
-                                            <span class="d-none d-md-block">Perencanaan Pencairan</span>
-                                            <span class="d-md-none">Pencairan</span>
-                                        </h6>
-                                        <p class="mb-0 text-sm">
-                                            Menentukan sumber pencairan beserta petugasnya
-                                        </p>
-                                        <span class="date">30 Juli 2022 06:15</span>
-                                    </div>
-                                </li>
-                                <li class="c-stepper__item">
-                                    <div class="d-flex flex-column gap-1">
-                                        <h6 class="mb-0 c-stepper__title">
-                                            <span class="d-none d-md-block">
-                                                Perkembangan Penarikan
-                                            </span>
-                                            <span class="d-md-none">Penarikan</span>
-                                        </h6>
-                                        <p class="mb-0 text-sm">
-                                            Menampilkan status perkembangan penarikan
-                                        </p>
-                                        <span class="date">30 Juli 2022 06:15</span>
-                                    </div>
-                                </li>
-                                <li class="c-stepper__item">
-                                    <div class="d-flex flex-column gap-1">
-                                        <h6 class="mb-0 c-stepper__title">
-                                            <span class="d-none d-md-block">
-                                                Perkembangan Belanja
-                                            </span>
-                                            <span class="d-md-none">Belanja</span>
-                                        </h6>
-                                        <p class="mb-0 text-sm">
-                                            Menampilkan status anggaran belanja
-                                        </p>
-                                        <span class="date">30 Juli 2022 06:15</span>
-                                    </div>
-                                </li>
                             </ol>
                         </div>
                     </div>
-                </div>
-                <div class="row gap-y-4">
-                    <div class="col-12 col-md mx-md-3 px-3 px-md-0 px-0">
-                        <div class="form-group position-relative mb-0" id="rencana-bantuan">
-                            <span class="font-weight-bolder position-absolute mt-3">
-                                <label for="id-bantuan" class="form-control-label">Rencana Untuk
-                                    Program</label>
-                            </span>
-                            <select class="custom-select" id="id-bantuan" name="id_bantuan" required>
-                                <option value="0" disabled selected hidden>Pilih salah satu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
+                    <div class="col-12 px-0" id="rencana">
+                        <div class="row mx-0 gap-x-4 gap-y-4">
+                            <div class="px-0 col-12 col-md" id="rencana-program">
+                                <div class="form-group position-relative mb-0">
+                                    <span class="font-weight-bolder position-absolute mt-3">
+                                        <label for="id-bantuan" class="form-control-label">Rencana Untuk
+                                            Program</label>
+                                    </span>
+                                    <select class="custom-select" id="id-bantuan" name="id_bantuan" required>
+                                        <option value="0" disabled selected hidden>Pilih salah satu
+                                        </option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="px-0 col-12 col-md bg-lighter rounded">
+                                <div class="p-3" id="balance">
+                                    <h4 class="mb-1">Total Max Anggaran</h4>
+                                    <div class="text-sm">Rp. 100.000</div>
+                                </div>
+                            </div>
+                            <div class="px-0 col-12">
+                                <div class="form-label-group">
+                                    <input type="text" id="input-keterangan-rencana" class="form-control"
+                                        name="keterangan" placeholder="Keterangan" autocomplete="off">
+                                    <label for="input-keterangan-rencana" class="form-control-label">Keterangan</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md mx-md-3 mx-3 mx-md-0 p-0 bg-lighter rounded">
-                        <div class="p-3" id="balance">
-                            <h4 class="mb-1">Total Max Anggaran</h4>
-                            <div class="text-sm">Rp. 100.000</div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-label-group">
-                            <input type="text" id="input-keterangan" class="form-control" name="keterangan"
-                                placeholder="Keterangan" autocomplete="off">
-                            <label for="input-keterangan" class="form-control-label">Keterangan</label>
-                        </div>
-                    </div>
-                    <div class="col-12 d-flex gap-4 flex-column" id="list-area">
+                    <div class="col-12 px-0 d-flex gap-4 flex-column" id="rab">
                         <div class="row">
                             <div class="col-auto">
                                 <button class="btn btn-primary" data-target="#modalFormRab" data-toggle="modal"
-                                    id="tambah-item-rab">Tambah Item</button>
+                                    id="tambah-item-rab" type="button">Tambah
+                                    Item</button>
                             </div>
                             <div class="col d-flex px-0 mx-3 bg-lighter rounded align-items-center px-3 gap-x-2">
                                 <i class="fa-info fa"></i>
@@ -125,14 +89,12 @@
                                     <td>100</td>
                                     <td>1.000.000</td>
                                     <td class="px-0">
-                                        <a href="#"
-                                            class="btn btn-outline-danger btn-sm font-weight-bolder mr-2 delete">
+                                        <a href="#" class="btn btn-outline-danger btn-sm font-weight-bolder delete">
                                             Hapus
                                         </a>
                                     </td>
-                                    <td class="px-0">
-                                        <a href="#"
-                                            class="btn btn-outline-orange btn-sm font-weight-bolder ml-2 update">
+                                    <td>
+                                        <a href="#" class="btn btn-outline-orange btn-sm font-weight-bolder update">
                                             Ubah
                                         </a>
                                     </td>
@@ -148,14 +110,12 @@
                                     <td>200</td>
                                     <td>2.000.000</td>
                                     <td class="px-0">
-                                        <a href="#"
-                                            class="btn btn-outline-danger btn-sm font-weight-bolder mr-2 delete">
+                                        <a href="#" class="btn btn-outline-danger btn-sm font-weight-bolder delete">
                                             Hapus
                                         </a>
                                     </td>
-                                    <td class="px-0">
-                                        <a href="#"
-                                            class="btn btn-outline-orange btn-sm font-weight-bolder ml-2 update">
+                                    <td>
+                                        <a href="#" class="btn btn-outline-orange btn-sm font-weight-bolder update">
                                             Ubah
                                         </a>
                                     </td>
@@ -171,14 +131,12 @@
                                     <td>300</td>
                                     <td>3.000.000</td>
                                     <td class="px-0">
-                                        <a href="#"
-                                            class="btn btn-outline-danger btn-sm font-weight-bolder mr-2 delete">
+                                        <a href="#" class="btn btn-outline-danger btn-sm font-weight-bolder delete">
                                             Hapus
                                         </a>
                                     </td>
-                                    <td class="px-0">
-                                        <a href="#"
-                                            class="btn btn-outline-orange btn-sm font-weight-bolder ml-2 update">
+                                    <td>
+                                        <a href="#" class="btn btn-outline-orange btn-sm font-weight-bolder update">
                                             Ubah
                                         </a>
                                     </td>
@@ -194,14 +152,12 @@
                                     <td>400</td>
                                     <td>4.000.000</td>
                                     <td class="px-0">
-                                        <a href="#"
-                                            class="btn btn-outline-danger btn-sm font-weight-bolder mr-2 delete">
+                                        <a href="#" class="btn btn-outline-danger btn-sm font-weight-bolder delete">
                                             Hapus
                                         </a>
                                     </td>
-                                    <td class="px-0">
-                                        <a href="#"
-                                            class="btn btn-outline-orange btn-sm font-weight-bolder ml-2 update">
+                                    <td>
+                                        <a href="#" class="btn btn-outline-orange btn-sm font-weight-bolder update">
                                             Ubah
                                         </a>
                                     </td>
@@ -209,10 +165,11 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-12 d-flex justify-content-between py-3" id="actioon-area">
-                        <button class="btn btn-link font-weight-bolder text-warning" data-dismiss="modal">Batal</button>
-                        <button class="btn btn-outline-primary" id="buat-rab" type="submit">Buat
-                            RAB</button>
+                    <div class="col-12 d-flex justify-content-between py-3" id="action">
+                        <button class="btn btn-link font-weight-bolder text-warning" data-dismiss="modal"
+                            type="button">Batal</button>
+                        <div class="btn btn-outline-primary" id="buat-rab" type="submit">Buat
+                            RAB</div>
                     </div>
                 </div>
             </div>
