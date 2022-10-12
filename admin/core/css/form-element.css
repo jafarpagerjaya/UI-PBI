@@ -19,7 +19,8 @@ textarea {
     min-height: 128px !important;
 }
 
-input[maxlength]+span.input-char-left {
+textarea[maxlength]~span.input-char-left,
+input[maxlength]~span.input-char-left {
     font-size: 0.5rem;
     position: absolute;
     right: 1.25rem;
@@ -56,24 +57,40 @@ input[maxlength]+span.input-char-left {
     white-space: nowrap;
 }
 
+.form-label-group.error textarea~label.form-control-label,
+.form-label-group.is-invalid textarea~label.form-control-label,
+.form-group.is-invalid textarea~label.form-control-label,
+.form-group.error textarea~label.form-control-label {
+    display: flex;
+    column-gap: .25rem;
+}
+
+.form-label-group.error textarea~.form-control-label::after,
+.form-label-group.is-invalid textarea~.form-control-label::after,
+.form-group.is-invalid textarea~.form-control-label::after,
+.form-group.error textarea~.form-control-label::after {
+    position: relative;
+    right: auto;
+}
+
 .form-group.error .input-group-append>.form-control-label,
 .form-group.error .input-group-prepend>.form-control-label,
-.form-group.error > .input-group > .input-group-append > span.input-group-text,
-.form-group.error > .input-group > .input-group-prepend > span.input-group-text {
+.form-group.error>.input-group>.input-group-append>span.input-group-text,
+.form-group.error>.input-group>.input-group-prepend>span.input-group-text {
     border-color: var(--danger);
 }
 
 .form-group.is-invalid .input-group-append>.form-control-label,
 .form-group.is-invalid .input-group-prepend>.form-control-label,
-.form-group.is-invalid > .input-group > .input-group-append > span.input-group-text,
-.form-group.is-invalid > .input-group > .input-group-prepend > span.input-group-text {
+.form-group.is-invalid>.input-group>.input-group-append>span.input-group-text,
+.form-group.is-invalid>.input-group>.input-group-prepend>span.input-group-text {
     border-color: #fb6340;
 }
 
-.form-group.error > .input-group > .input-group-prepend > span.input-group-text,
-.form-group.error > .input-group > .input-group-append > span.input-group-text,
-.form-group.is-invalid > .input-group > .input-group-prepend > span.input-group-text,
-.form-group.is-invalid > .input-group > .input-group-append > span.input-group-text {
+.form-group.error>.input-group>.input-group-prepend>span.input-group-text,
+.form-group.error>.input-group>.input-group-append>span.input-group-text,
+.form-group.is-invalid>.input-group>.input-group-prepend>span.input-group-text,
+.form-group.is-invalid>.input-group>.input-group-append>span.input-group-text {
     transition: border-color 0s ease;
 }
 

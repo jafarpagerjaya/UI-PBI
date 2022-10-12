@@ -318,7 +318,7 @@ inputRabList.forEach(inputRab => {
 const inputPriceList = document.querySelectorAll('.modal .price');
 inputPriceList.forEach(price => {
     price.addEventListener('keypress', preventNonNumbersInInput);
-    price.addEventListener('keydown', function(e) {
+    price.addEventListener('keydown', function (e) {
         let prefix = '';
         if (e.code == "ArrowUp" || e.target.selectionStart == 0 && e.target.selectionStart != e.target.selectionEnd && e.code == "ArrowLeft" || e.code == "ArrowLeft" && e.target.selectionStart == prefix.length || e.code == "Home") {
             e.target.selectionStart = prefix.length;
@@ -343,7 +343,7 @@ inputPriceList.forEach(price => {
             sisa = numberTPArray[1],
             ribuan = numberTPArray[2],
             prefix = numberTPArray[3];
-    
+
         this.value = value;
         if (e.code != undefined) {
             if (e.code.match('Digit')) {
@@ -356,11 +356,11 @@ inputPriceList.forEach(price => {
                 }
             }
         }
-    
+
         if (e.code == "Delete") {
             if (ribuan != null) {
                 if (sisa == 0 && ceret != prefix.length && ceret != this.value.length && ceret != this.value.length - 1 || sisa == 0 && ceret >= this.value.length - 3 && ceret > prefix.length) {
-                    ceret --;
+                    ceret--;
                 }
                 if (oldValue == this.value) {
                     if (sisa == 0) {
@@ -379,7 +379,7 @@ inputPriceList.forEach(price => {
                 e.target.selectionEnd = ceret;
             }
         }
-    
+
         if (e.code == "Backspace") {
             if (ceret <= prefix.length && ribuan == null || ribuan != null && sisa == 0 && ceret == prefix.length) {
                 e.target.selectionStart = ceret;
@@ -442,87 +442,87 @@ if (tambahItemRab != null) {
     });
 }
 
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     if (e.target && e.target.parentElement.id == 'tambah-item-rab') {
         // e.target.parentElement.addEventListener('click', function () {
-            let mTarget = e.target.parentElement.getAttribute('data-target');
-            mTarget = document.querySelector(mTarget);
-            mTarget.querySelector('#formJudul').setAttribute('data-mode', 'create');
-            mTarget.querySelector('#formJudul').innerText = 'Tambah';
-            if (mTarget.querySelector('.btn[type="reset"]') != null) {
-                mTarget.querySelector('.btn[type="reset"]').innerText = "Kosongkan";
-                mTarget.querySelector('.btn[type="reset"]').setAttribute('type', 'clear');
-            }
-            console.log(mTarget.querySelector('#formJudul'));
+        let mTarget = e.target.parentElement.getAttribute('data-target');
+        mTarget = document.querySelector(mTarget);
+        mTarget.querySelector('#formJudul').setAttribute('data-mode', 'create');
+        mTarget.querySelector('#formJudul').innerText = 'Tambah';
+        if (mTarget.querySelector('.btn[type="reset"]') != null) {
+            mTarget.querySelector('.btn[type="reset"]').innerText = "Kosongkan";
+            mTarget.querySelector('.btn[type="reset"]').setAttribute('type', 'clear');
+        }
+        console.log(mTarget.querySelector('#formJudul'));
         // });
     } else if (e.target && e.target.classList.contains('update')) {
         // updateListRab.forEach(update => {
-            // update.addEventListener('click', function (e) {
-                const tr = e.target.closest('tr');
-                if (tr == null) {
-                    console.log('TR data-id-rab is null');
-                    return false;
-                }
-                const idRab = tr.getAttribute('data-id-rab');
-                // fetch
-                let url = '/admin/fetch/rab/read/' + idRab;
-        
-                // fetch success
-                const modalFRab = document.getElementById('modalFormRab');
-                modalFRab.querySelector('#formJudul').setAttribute('data-mode', 'update');
-                modalFRab.querySelector('#formJudul').innerText = 'Ubah';
-                console.log(modalFRab.querySelector('#formJudul'));
-                // data result
-                let result = {
-                    id_rab: "1",
-                    id_kebutuhan: "1",
-                    harga_satuan: "100.000",
-                    jumlah: "100",
-                    keterangan: "g elit. Fuga eum quia cum totam quos perspiciatis."
-                };
-                resultRab = result;
-                modalFRab.querySelector('#id-kebutuhan').value = result.id_kebutuhan;
-                modalFRab.querySelector('#input-harga-satuan').value = result.harga_satuan;
-                modalFRab.querySelector('#input-jumlah').value = result.jumlah;
-                modalFRab.querySelector('#input-keterangan-rab').value = result.keterangan;
-        
-                // for select2
-                $('#id-kebutuhan').select2('val', result.id_kebutuhan);
-        
-                if (modalFRab.querySelector('.btn[type="clear"]') != null) {
-                    modalFRab.querySelector('.btn[type="clear"]').innerText = "Reset";
-                    modalFRab.querySelector('.btn[type="clear"]').setAttribute('type', 'reset');
-                }
-                objectRab = {};
-                $('#modalFormRab').modal('show');
-            // });
+        // update.addEventListener('click', function (e) {
+        const tr = e.target.closest('tr');
+        if (tr == null) {
+            console.log('TR data-id-rab is null');
+            return false;
+        }
+        const idRab = tr.getAttribute('data-id-rab');
+        // fetch
+        let url = '/admin/fetch/rab/read/' + idRab;
+
+        // fetch success
+        const modalFRab = document.getElementById('modalFormRab');
+        modalFRab.querySelector('#formJudul').setAttribute('data-mode', 'update');
+        modalFRab.querySelector('#formJudul').innerText = 'Ubah';
+        console.log(modalFRab.querySelector('#formJudul'));
+        // data result
+        let result = {
+            id_rab: "1",
+            id_kebutuhan: "1",
+            harga_satuan: "100.000",
+            jumlah: "100",
+            keterangan: "g elit. Fuga eum quia cum totam quos perspiciatis."
+        };
+        resultRab = result;
+        modalFRab.querySelector('#id-kebutuhan').value = result.id_kebutuhan;
+        modalFRab.querySelector('#input-harga-satuan').value = result.harga_satuan;
+        modalFRab.querySelector('#input-jumlah').value = result.jumlah;
+        modalFRab.querySelector('#input-keterangan-rab').value = result.keterangan;
+
+        // for select2
+        $('#id-kebutuhan').select2('val', result.id_kebutuhan);
+
+        if (modalFRab.querySelector('.btn[type="clear"]') != null) {
+            modalFRab.querySelector('.btn[type="clear"]').innerText = "Reset";
+            modalFRab.querySelector('.btn[type="clear"]').setAttribute('type', 'reset');
+        }
+        objectRab = {};
+        $('#modalFormRab').modal('show');
+        // });
         // });
     } else if (e.target && e.target.classList.contains('delete')) {
         // deleteListRab.forEach(deleteEl => {
-            // deleteEl.addEventListener('click', function (e) {
-                const tr = e.target.closest('tr');
-                if (tr == null) {
-                    console.log('TR data-id-rab is null');
-                    return false;
-                }
-                const idRab = tr.getAttribute('data-id-rab');
-                // fetch
-                let url = '/admin/fetch/rab/read/' + idRab;
-        
-                // fetch success
-                const modalKDeleteRab = document.getElementById('modalKonfirmasiHapusRab');
-                // data result
-                let result = {
-                    id_rab: "1",
-                    nama: "Operasional",
-                    keterangan: "g elit. Fuga eum quia cum totam quos perspiciatis."
-                };
-                resultRab = result;
-                modalKDeleteRab.querySelector('#kebutuhan').innerText = result.nama;
-                modalKDeleteRab.querySelector('#spec-ket').innerText = result.keterangan;
-        
-                $('#modalKonfirmasiHapusRab').modal('show');
-            // });
+        // deleteEl.addEventListener('click', function (e) {
+        const tr = e.target.closest('tr');
+        if (tr == null) {
+            console.log('TR data-id-rab is null');
+            return false;
+        }
+        const idRab = tr.getAttribute('data-id-rab');
+        // fetch
+        let url = '/admin/fetch/rab/read/' + idRab;
+
+        // fetch success
+        const modalKDeleteRab = document.getElementById('modalKonfirmasiHapusRab');
+        // data result
+        let result = {
+            id_rab: "1",
+            nama: "Operasional",
+            keterangan: "g elit. Fuga eum quia cum totam quos perspiciatis."
+        };
+        resultRab = result;
+        modalKDeleteRab.querySelector('#kebutuhan').innerText = result.nama;
+        modalKDeleteRab.querySelector('#spec-ket').innerText = result.keterangan;
+
+        $('#modalKonfirmasiHapusRab').modal('show');
+        // });
         // });
     }
 });
@@ -842,7 +842,7 @@ submitList.forEach(submit => {
 
         // if fetch success 
         if (modalId != 'modalBuatRencana') {
-            message = 'Berhasil ' + dataMode + ' data ' + dataTable.replaceAll('_',' ');
+            message = 'Berhasil ' + dataMode + ' data ' + dataTable.replaceAll('_', ' ');
 
             nameList.forEach(name => {
                 if (name.tagName.toLowerCase() == 'select') {
@@ -872,17 +872,17 @@ submitList.forEach(submit => {
                     if (document.querySelector('#rab table>tbody>tr:not([data-id-rab])') != undefined) {
                         document.querySelector('#rab table>tbody>tr:not([data-id-rab])').remove();
                     }
-                    
-                    const trRab = '<tr data-id-rab="'+ dataRab.id_rab +'" class="highlight"><td>'+ namaKebutuhan +'</td><td>'+ data.fields.keterangan +'</td><td>'+ data.fields.harga_satuan +'</td><td>'+ data.fields.jumlah +'</td><td>'+ numberToPrice(priceToNumber(data.fields.harga_satuan) * priceToNumber(data.fields.jumlah)) +'</td><td class="px-0"><a href="#" class="btn btn-outline-danger btn-sm font-weight-bolder delete">Hapus</a></td><td><a href="#" class="btn btn-outline-orange btn-sm font-weight-bolder update">Ubah</a></td></tr>';
+
+                    const trRab = '<tr data-id-rab="' + dataRab.id_rab + '" class="highlight"><td>' + namaKebutuhan + '</td><td>' + data.fields.keterangan + '</td><td>' + data.fields.harga_satuan + '</td><td>' + data.fields.jumlah + '</td><td>' + numberToPrice(priceToNumber(data.fields.harga_satuan) * priceToNumber(data.fields.jumlah)) + '</td><td class="px-0"><a href="#" class="btn btn-outline-danger btn-sm font-weight-bolder delete">Hapus</a></td><td><a href="#" class="btn btn-outline-orange btn-sm font-weight-bolder update">Ubah</a></td></tr>';
                     document.querySelector('#rab table>tbody').insertAdjacentHTML('afterbegin', trRab);
-                    document.querySelector('#rab .bg-lighter .mb-0').innerText = 'Rp. '+ dataRab.total_anggaran;
+                    document.querySelector('#rab .bg-lighter .mb-0').innerText = 'Rp. ' + dataRab.total_anggaran;
                     setTimeout(() => {
-                        document.querySelector('#rab table>tbody>tr[data-id-rab="'+ dataRab.id_rab +'"]').classList.remove('highlight');
+                        document.querySelector('#rab table>tbody>tr[data-id-rab="' + dataRab.id_rab + '"]').classList.remove('highlight');
                     }, 3000);
                 }
 
                 if (dataMode == 'update') {
-                    const trRabUpdateEl = document.querySelector('#rab table>tbody>tr[data-id-rab="'+ data.id_rab +'"]');
+                    const trRabUpdateEl = document.querySelector('#rab table>tbody>tr[data-id-rab="' + data.id_rab + '"]');
                     Object.keys(data.fields).forEach(key => {
                         if (key == 'id_kebutuhan') {
                             trRabUpdateEl.children[0].innerText = namaKebutuhan;
@@ -904,7 +904,7 @@ submitList.forEach(submit => {
             }
 
             if (modalId == 'modalKonfirmasiHapusRab') {
-                const trRabDeleteEl = document.querySelector('#rab table>tbody>tr[data-id-rab="'+ data.id_rab +'"]');
+                const trRabDeleteEl = document.querySelector('#rab table>tbody>tr[data-id-rab="' + data.id_rab + '"]');
                 trRabDeleteEl.remove();
             }
 
@@ -931,7 +931,7 @@ submitList.forEach(submit => {
             e.target.setAttribute('type', 'button');
             e.target.setAttribute('id', 'buat-pencairan');
 
-            const rencanaEl = document.querySelector('#'+modalId+' #rencana');
+            const rencanaEl = document.querySelector('#' + modalId + ' #rencana');
             const rabEl = '<div class="col-12 px-0 d-flex gap-4 flex-column" id="rab"><div class="row m-0"><button class="col-12 col-md-auto px-0 btn btn-primary m-0" data-target="#modalFormRab" data-toggle="modal" id="tambah-item-rab" type="button"><span class="p-3">Tambah Item</span></button><div class="col-12 col-md d-flex p-3 bg-lighter rounded align-items-center gap-x-2"><i class="fa-info fa"></i><h4 class="mb-0">Rp. 0</h4></div></div><table class="table table-borderless table-hover list-rab"><thead class="thead-light"><tr><th>Kebutuhan</th><th>Keterangan / Spesifikasi</th><th>Harga Satuan</th><th>Jumlah</th><th>Sub Total</th><th colspan="2" class="fit text-center">Aksi</th></tr></thead><tbody><tr><td colspan="6">Belum ada item RAB yang dibuat</td></tr></tbody></table></div>';
             rencanaEl.insertAdjacentHTML('afterend', rabEl);
             message = 'Rencana anggaran baru telah dibuat';
@@ -945,6 +945,7 @@ submitList.forEach(submit => {
             relatedTarget.querySelector('span.status').innerText = statusR[0].toLowerCase();
             relatedTarget.querySelector('span.status').previousElementSibling.setAttribute('class', statusR[1]);
             relatedTarget.classList.add('highlight');
+            message = message + ' menjadi <b>' + statusR[0].toLowerCase() + '</b>';
             setTimeout(() => {
                 relatedTarget.classList.remove('highlight');
             }, 3000);
@@ -957,6 +958,7 @@ submitList.forEach(submit => {
             relatedTarget.querySelector('span.status').innerText = statusR[0].toLowerCase();
             relatedTarget.querySelector('span.status').previousElementSibling.setAttribute('class', statusR[1]);
             relatedTarget.classList.add('highlight');
+            message = message + ' menjadi <b>' + statusR[0].toLowerCase() + '</b>';
             setTimeout(() => {
                 relatedTarget.classList.remove('highlight');
             }, 3000);
@@ -1171,7 +1173,7 @@ $('#id-bantuan').select2({
         // fetch success
         const elment = document.getElementById('rencana-program');
         if (document.getElementById('balance') == null) {
-            let boxInfo = '<div class="px-0 col-12 col-md bg-lighter rounded"><div class="p-3" id="balance"><h4 class="mb-1">Total Max Anggaran</h4><div class="text-sm">'+ result.max_anggaran +'</div></div></div>';
+            let boxInfo = '<div class="px-0 col-12 col-md bg-lighter rounded"><div class="p-3" id="balance"><h4 class="mb-1">Total Max Anggaran</h4><div class="text-sm">' + result.max_anggaran + '</div></div></div>';
             elment.insertAdjacentHTML('afterend', boxInfo);
         } else {
             document.querySelector('#balance>.text-sm').innerText = result.max_anggaran;
