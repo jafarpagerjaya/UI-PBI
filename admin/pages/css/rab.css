@@ -174,7 +174,7 @@ ol {
 /* floating */
 #modalKeteranganPerbaikanRAB .form-label-group textarea~label {
     top: 1rem;
-    min-: calc(100% - 3rem);
+    min-width: calc(100% - 3rem);
     background-color: #fff;
     padding-left: 1px;
     padding-right: 1px;

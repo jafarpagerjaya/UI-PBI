@@ -315,6 +315,106 @@ inputRabList.forEach(inputRab => {
     });
 });
 
+const inputPriceList = document.querySelectorAll('.modal .price');
+inputPriceList.forEach(price => {
+    price.addEventListener('keypress', preventNonNumbersInInput);
+    price.addEventListener('keydown', function(e) {
+        let prefix = '';
+        if (e.code == "ArrowUp" || e.target.selectionStart == 0 && e.target.selectionStart != e.target.selectionEnd && e.code == "ArrowLeft" || e.code == "ArrowLeft" && e.target.selectionStart == prefix.length || e.code == "Home") {
+            e.target.selectionStart = prefix.length;
+            e.target.selectionEnd = prefix.length;
+            e.preventDefault();
+            return false;
+        }
+        if (e.code == "Delete" || e.code == "Backspace") {
+            oldValue = this.value;
+            if (e.target.selectionStart <= prefix.length && e.target.selectionStart == e.target.selectionEnd && e.code == "Backspace") {
+                e.target.selectionStart = prefix.length;
+                e.target.selectionEnd = prefix.length;
+                e.preventDefault();
+                return false;
+            }
+        }
+    });
+    price.addEventListener('keyup', function (e) {
+        let ceret = e.target.selectionStart,
+            numberTPArray = numberToPrice(this.value, '', e),
+            value = numberTPArray[0],
+            sisa = numberTPArray[1],
+            ribuan = numberTPArray[2],
+            prefix = numberTPArray[3];
+    
+        this.value = value;
+        if (e.code != undefined) {
+            if (e.code.match('Digit')) {
+                if (ribuan != null) {
+                    if ((sisa == 1 && ceret + sisa > value.length - 3) || (sisa == 1 && ceret != prefix.length + 1 && ceret != value.length - prefix.length)) {
+                        ceret++;
+                    }
+                    e.target.selectionStart = ceret;
+                    e.target.selectionEnd = ceret;
+                }
+            }
+        }
+    
+        if (e.code == "Delete") {
+            if (ribuan != null) {
+                if (sisa == 0 && ceret != prefix.length && ceret != this.value.length && ceret != this.value.length - 1 || sisa == 0 && ceret >= this.value.length - 3 && ceret > prefix.length) {
+                    ceret --;
+                }
+                if (oldValue == this.value) {
+                    if (sisa == 0) {
+                        ceret += 2;
+                    } else if (sisa == 2) {
+                        ceret++;
+                    } else {
+                        ceret++;
+                    }
+                    this.value = numberToPrice(removeByIndex(this.value, ceret), prefix);
+                    if (sisa == 1) {
+                        ceret--;
+                    }
+                }
+                e.target.selectionStart = ceret;
+                e.target.selectionEnd = ceret;
+            }
+        }
+    
+        if (e.code == "Backspace") {
+            if (ceret <= prefix.length && ribuan == null || ribuan != null && sisa == 0 && ceret == prefix.length) {
+                e.target.selectionStart = ceret;
+                e.target.selectionEnd = ceret;
+            }
+            if (ribuan != null && ceret > prefix.length) {
+                if (sisa == 0 && oldValue != this.value) {
+                    ceret--;
+                }
+                if (oldValue == this.value) {
+                    this.value = numberToPrice(removeByIndex(this.value, --ceret), prefix);
+                    if (sisa == 1 && ceret > prefix.length + 1) {
+                        ceret--;
+                    }
+                }
+                e.target.selectionStart = ceret;
+                e.target.selectionEnd = ceret;
+            }
+        }
+    });
+    price.addEventListener('change', function () {
+        if (typeof this.value == "string") {
+            if (priceToNumber(this.value) > 0) {
+                this.value = priceToNumber(this.value);
+            }
+        }
+        this.value = numberToPrice(this.value, '');
+    });
+    price.addEventListener('paste', function (e) {
+        setTimeout(() => {
+            this.value = numberToPrice(escapeRegExp(escapeRegExp(this.value.trim(), '', /[^a-zA-Z0-9\s\/.]/g), ' ', /\s+/g), '');
+        }, 0);
+    });
+});
+
 const inputNamaKebutuhan = document.getElementById('input-nama-kebutuhan');
 
 inputNamaKebutuhan.addEventListener('change', function () {
@@ -414,7 +514,7 @@ document.addEventListener('click', function(e) {
                 // data result
                 let result = {
                     id_rab: "1",
-                    nama: "Kebutuhan 1",
+                    nama: "Operasional",
                     keterangan: "g elit. Fuga eum quia cum totam quos perspiciatis."
                 };
                 resultRab = result;
@@ -742,7 +842,7 @@ submitList.forEach(submit => {
 
         // if fetch success 
         if (modalId != 'modalBuatRencana') {
-            message = 'Berhasil ' + dataMode + ' data ' + dataTable;
+            message = 'Berhasil ' + dataMode + ' data ' + dataTable.replaceAll('_',' ');
 
             nameList.forEach(name => {
                 if (name.tagName.toLowerCase() == 'select') {
@@ -765,7 +865,8 @@ submitList.forEach(submit => {
                 if (dataMode == 'create') {
                     // return
                     const dataRab = {
-                        id_rab: 1
+                        id_rab: 1,
+                        total_anggaran: '10.000.000'
                     };
 
                     if (document.querySelector('#rab table>tbody>tr:not([data-id-rab])') != undefined) {
@@ -774,14 +875,37 @@ submitList.forEach(submit => {
                     
                     const trRab = '<tr data-id-rab="'+ dataRab.id_rab +'" class="highlight"><td>'+ namaKebutuhan +'</td><td>'+ data.fields.keterangan +'</td><td>'+ data.fields.harga_satuan +'</td><td>'+ data.fields.jumlah +'</td><td>'+ numberToPrice(priceToNumber(data.fields.harga_satuan) * priceToNumber(data.fields.jumlah)) +'</td><td class="px-0"><a href="#" class="btn btn-outline-danger btn-sm font-weight-bolder delete">Hapus</a></td><td><a href="#" class="btn btn-outline-orange btn-sm font-weight-bolder update">Ubah</a></td></tr>';
                     document.querySelector('#rab table>tbody').insertAdjacentHTML('afterbegin', trRab);
+                    document.querySelector('#rab .bg-lighter .mb-0').innerText = 'Rp. '+ dataRab.total_anggaran;
                     setTimeout(() => {
                         document.querySelector('#rab table>tbody>tr[data-id-rab="'+ dataRab.id_rab +'"]').classList.remove('highlight');
                     }, 3000);
                 }
 
                 if (dataMode == 'update') {
-
+                    const trRabUpdateEl = document.querySelector('#rab table>tbody>tr[data-id-rab="'+ data.id_rab +'"]');
+                    Object.keys(data.fields).forEach(key => {
+                        if (key == 'id_kebutuhan') {
+                            trRabUpdateEl.children[0].innerText = namaKebutuhan;
+                        } else if (key == 'keterangan') {
+                            trRabUpdateEl.children[1].innerText = data.fields.keterangan;
+                        } else if (key == 'harga_satuan' && data.fields.jumlah == null) {
+                            trRabUpdateEl.children[2].innerText = data.fields.harga_satuan;
+                            trRabUpdateEl.children[4].innerText = numberToPrice(priceToNumber(data.fields.harga_satuan) * priceToNumber(resultRab.jumlah));
+                        } else if (key == 'jumlah' && data.fields.harga_satuan == null) {
+                            trRabUpdateEl.children[3].innerText = data.fields.jumlah;
+                            trRabUpdateEl.children[4].innerText = numberToPrice(priceToNumber(resultRab.harga_satuan) * priceToNumber(data.fields.jumlah));
+                        }
+                    });
+                    trRabUpdateEl.classList.add('highlight');
+                    setTimeout(() => {
+                        trRabUpdateEl.classList.remove('highlight');
+                    }, 3000);
                 }
+            }
+
+            if (modalId == 'modalKonfirmasiHapusRab') {
+                const trRabDeleteEl = document.querySelector('#rab table>tbody>tr[data-id-rab="'+ data.id_rab +'"]');
+                trRabDeleteEl.remove();
             }
 
             $('#' + modalId).modal('hide');
@@ -808,8 +932,9 @@ submitList.forEach(submit => {
             e.target.setAttribute('id', 'buat-pencairan');
 
             const rencanaEl = document.querySelector('#'+modalId+' #rencana');
-            const rabEl = '<div class="col-12 px-0 d-flex gap-4 flex-column" id="rab"><div class="row m-0"><button class="col-12 col-md-auto px-0 btn btn-primary m-0" data-target="#modalFormRab" data-toggle="modal" id="tambah-item-rab" type="button"><span class="p-3">Tambah Item</span></button><div class="col-12 col-md d-flex p-3 bg-lighter rounded align-items-center gap-x-2"><i class="fa-info fa"></i><h4 class="mb-0">Belum ada daftar RAB</h4></div></div><table class="table table-borderless table-hover list-rab"><thead class="thead-light"><tr><th>Kebutuhan</th><th>Keterangan / Spesifikasi</th><th>Harga Satuan</th><th>Jumlah</th><th>Sub Total</th><th colspan="2" class="fit text-center">Aksi</th></tr></thead><tbody><tr><td colspan="6">Belum ada item RAB yang dibuat</td></tr></tbody></table></div>';
+            const rabEl = '<div class="col-12 px-0 d-flex gap-4 flex-column" id="rab"><div class="row m-0"><button class="col-12 col-md-auto px-0 btn btn-primary m-0" data-target="#modalFormRab" data-toggle="modal" id="tambah-item-rab" type="button"><span class="p-3">Tambah Item</span></button><div class="col-12 col-md d-flex p-3 bg-lighter rounded align-items-center gap-x-2"><i class="fa-info fa"></i><h4 class="mb-0">Rp. 0</h4></div></div><table class="table table-borderless table-hover list-rab"><thead class="thead-light"><tr><th>Kebutuhan</th><th>Keterangan / Spesifikasi</th><th>Harga Satuan</th><th>Jumlah</th><th>Sub Total</th><th colspan="2" class="fit text-center">Aksi</th></tr></thead><tbody><tr><td colspan="6">Belum ada item RAB yang dibuat</td></tr></tbody></table></div>';
             rencanaEl.insertAdjacentHTML('afterend', rabEl);
+            message = 'Rencana anggaran baru telah dibuat';
         }
 
         if (modalId == 'modalKonfirmasiAksi') {
