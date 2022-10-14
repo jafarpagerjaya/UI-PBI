@@ -587,7 +587,7 @@
                     </div>
                 </div>
 
-                <div class="modal fade in " id="modalBuatRencana" tabindex="-1" role="dialog"
+                <div class="modal fade in d-block show" id="modalBuatRencana" tabindex="-1" role="dialog"
                     aria-labelledby="modalBuatRencana-label" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
                         <div class="modal-content justify-content-center align-items-center scaleIn">
@@ -611,31 +611,51 @@
                                             </ol>
                                         </div>
                                     </div>
-                                    <div class="col-12 px-0" id="rencana">
-                                        <div class="row mx-0 gap-y-5">
-                                            <div class="px-0 col-12 col-md" id="rencana-program">
-                                                <div class="form-group position-relative mb-0">
-                                                    <span class="font-weight-bolder position-absolute mt-3">
-                                                        <label for="id-bantuan" class="form-control-label">Rencana Untuk
-                                                            Program</label>
-                                                    </span>
-                                                    <select class="custom-select" id="id-bantuan" name="id_bantuan"
-                                                        required>
-                                                        <option value="0" disabled selected hidden>Pilih salah satu
-                                                        </option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
-                                                    </select>
+                                    <div class="col-12 px-0 tab-content" id="tab-rencana-pencairan">
+                                        <div class="tab-pane gap-y-5" id="tab-rencana">
+                                            <div class="w-100" id="rencana">
+                                                <div class="row mx-0 gap-y-5">
+                                                    <div class="px-0 col-12 col-md" id="rencana-program">
+                                                        <div class="form-group position-relative mb-0">
+                                                            <span class="font-weight-bolder position-absolute mt-3">
+                                                                <label for="id-bantuan"
+                                                                    class="form-control-label">Rencana Untuk
+                                                                    Program</label>
+                                                            </span>
+                                                            <select class="custom-select" id="id-bantuan"
+                                                                name="id_bantuan" required>
+                                                                <option value="0" disabled selected hidden>Pilih salah
+                                                                    satu
+                                                                </option>
+                                                                <option value="1">One</option>
+                                                                <option value="2">Two</option>
+                                                                <option value="3">Three</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="px-0 col-12">
+                                                        <div class="form-label-group">
+                                                            <input type="text" id="input-keterangan-rencana"
+                                                                class="form-control" name="keterangan"
+                                                                placeholder="Keterangan" autocomplete="off"
+                                                                maxlength="50">
+                                                            <label for="input-keterangan-rencana"
+                                                                class="form-control-label">Keterangan</label>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="px-0 col-12">
-                                                <div class="form-label-group">
-                                                    <input type="text" id="input-keterangan-rencana"
-                                                        class="form-control" name="keterangan" placeholder="Keterangan"
-                                                        autocomplete="off" maxlength="50">
-                                                    <label for="input-keterangan-rencana"
-                                                        class="form-control-label">Keterangan</label>
+                                        </div>
+                                        <div class="tab-pane gap-y-5 show active" id="tab-pencairan">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-label-group">
+                                                        <input type="text" name="persentase_pencairan"
+                                                            placeholder="Persentase Pencairan" class="form-control"
+                                                            id="input-persentase-pencairan" autocomplete="off">
+                                                        <label for="input-persentase-pencairan"
+                                                            class="form-label-group">Persentase Pencairan</label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -732,8 +752,8 @@
                                 </div>
                                 <div class="form-label-group mb-4">
                                     <input type="text" name="nama" id="input-nama-kebutuhan" class="form-control px-3"
-                                        placeholder="Keterangan" autocomplete="off" maxlength="50">
-                                    <label for="input-nama-kebutuhan" class="form-control-label">Keterangan</label>
+                                        placeholder="Nama" autocomplete="off" maxlength="50">
+                                    <label for="input-nama-kebutuhan" class="form-control-label">Nama</label>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -838,7 +858,7 @@
                                             <tbody>
                                                 <tr data-id-rab="1">
                                                     <td class="fit">
-                                                        Kebutuhan 1
+                                                        <span>Kebutuhan 1</span>
                                                     </td>
                                                     <td>
                                                         g elit. Fuga eum quia cum totam quos perspiciatis.
@@ -849,7 +869,7 @@
                                                 </tr>
                                                 <tr data-id-rab="2">
                                                     <td class="fit">
-                                                        Kebutuhan 2
+                                                        <span>Kebutuhan 2 dan Seterusnya</span>
                                                     </td>
                                                     <td>
                                                         g elit. Fuga eum quia cum totam quos perspiciatis.
@@ -860,7 +880,7 @@
                                                 </tr>
                                                 <tr data-id-rab="3">
                                                     <td class="fit">
-                                                        Kebutuhan 3
+                                                        <span>Kebutuhan 3</span>
                                                     </td>
                                                     <td>
                                                         g elit. Fuga eum quia cum totam quos perspiciatis.
@@ -871,7 +891,7 @@
                                                 </tr>
                                                 <tr data-id-rab="4">
                                                     <td class="fit">
-                                                        Kebutuhan 4
+                                                        <span>Kebutuhan 4</span>
                                                     </td>
                                                     <td>
                                                         g elit. Fuga eum quia cum totam quos perspiciatis.

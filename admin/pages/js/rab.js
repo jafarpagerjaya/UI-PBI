@@ -6,6 +6,9 @@ $('#modalBuatRencana').on('hidden.bs.modal', function (e) {
     e.target.querySelector('#id-bantuan').removeAttribute('disabled');
     e.target.querySelector('#id-bantuan').value = '0';
     e.target.querySelector('#input-keterangan-rencana').value = '';
+    if (e.target.querySelector('#input-keterangan-rencana').hasAttribute('maxlength')) {
+        e.target.querySelector('#input-keterangan-rencana').parentElement.querySelector('.current-length').innerText = e.target.querySelector('#input-keterangan-rencana').value.length;
+    }
 
     // for select2
     $('#id-bantuan').select2('val', '0');
@@ -31,6 +34,10 @@ $('#modalBuatRencana').on('hidden.bs.modal', function (e) {
         e.target.querySelector('#action [data-dismiss="modal"]').innerText = 'Batal';
     }
 
+    if (e.target.querySelector('#rencana #balance') != null) {
+        e.target.querySelector('#rencana #balance').parentElement.remove();
+    }
+
     if (e.target.querySelector('#rab') != null) {
         document.getElementById('rab').remove();
     }
@@ -39,7 +46,10 @@ $('#modalBuatRencana').on('hidden.bs.modal', function (e) {
     objectRencana = {};
 });
 
-$('#modalFormRab').on('show.bs.modal', function () {
+$('#modalFormRab').on('show.bs.modal', function (e) {
+    if (e.target.querySelector('#input-keterangan-rab').hasAttribute('maxlength')) {
+        e.target.querySelector('#input-keterangan-rab').parentElement.querySelector('.current-length').innerText = e.target.querySelector('#input-keterangan-rab').value.length;
+    }
 }).on('hidden.bs.modal', function (e) {
     if (document.getElementById('modalBuatRencana').classList.contains('show')) {
         document.querySelector('body').classList.add('modal-open');
@@ -315,7 +325,173 @@ inputRabList.forEach(inputRab => {
     });
 });
 
+function putValueInKeypress(str, index, value) {
+    return str.substr(0, index) + value + str.substr(index);
+}
+
+const inputPersentase = document.getElementById('input-persentase-pencairan');
+let oldValuePersentase;
+// inputPersentase.addEventListener('keypress', preventNonNumbersAndDecimalInInput);
+inputPersentase.addEventListener('keypress', function (e) {
+    if (e.code == "ArrowUp" || e.target.selectionStart == 0 && e.target.selectionStart != e.target.selectionEnd && e.code == "ArrowLeft" || e.code == "ArrowLeft" && e.target.selectionStart == prefix.length || e.code == "Home") {
+        e.target.selectionStart = prefix.length;
+        e.target.selectionEnd = prefix.length;
+        e.preventDefault();
+        return false;
+    }
+    if (e.code == "Delete" || e.code == "Backspace") {
+        oldValuePersentase = this.value;
+        if (e.target.selectionStart <= prefix.length && e.target.selectionStart == e.target.selectionEnd && e.code == "Backspace") {
+            e.target.selectionStart = prefix.length;
+            e.target.selectionEnd = prefix.length;
+            e.preventDefault();
+            return false;
+        }
+    }
+
+    if (!(/[0-9\.]/.test(e.key))) {
+        e.preventDefault();
+        return false;
+    }
+
+    let cStart = e.target.selectionStart,
+        cEnd = e.target.selectionEnd,
+        nan = +(e.key) / +(e.key) == 1,
+        nBlock = (cStart == cEnd);
+
+    if (!nBlock) {
+        return false;
+    }
+
+    if (e.target.value.indexOf('.') >= 0 && e.key == '.' || e.key == '.' && e.target.value == 100) {
+        e.preventDefault();
+        return false;
+    }
+
+    e.target.value = putValueInKeypress(e.target.value, cStart, e.key);
+
+    if (e.target.value > 100) {
+        e.target.value = 100;
+    }
+
+    if (cStart <= 5 && e.key == '0' && e.target.value.substring(0, 3) == '000') {
+        e.target.value = +e.target.value;
+        return false;
+    }
+
+    if (cStart == 1 && e.target.value.substring(0, 1) == '0' && e.target.value.substring(2, 3) == '0' && e.key != '0') {
+        e.target.value = +e.target.value;
+    }
+
+    if (cStart == 2 && nan && e.key != '0' && e.target.value.substring(0, 2) == '00') {
+        e.target.value = +e.target.value;
+    }
+
+    // if (cStart <= 3 && e.key == '0' && e.target.value.substring(0, 2) == '00') {
+    // e.target.value = +e.target.value;
+    // e.preventDefault();
+    // return false;
+    // }
+
+
+
+    // console.log(e.target.value, e.target.value > 9, nBlock, cStart, cStart < 3, nan)
+
+    // if (e.target.value > 99 && nBlock && cStart < 3 && nan || +(e.target.value + e.key) > 100) {
+    //     e.target.value = 100;
+    //     e.target.selectionStart = e.target.value - 1;
+    //     e.preventDefault();
+    //     return false;
+    // }
+
+    // if (e.target.value.indexOf('.') >= 0 && e.key == '.' || e.key == '.' && e.target.value == 100) {
+    //     e.preventDefault();
+    //     return false;
+    // }
+    // if (nBlock && cStart > 4 && +e.key >= 0 || nBlock && e.target.value.indexOf('.') >= 0 && nan && e.target.value.length > 4 && cStart >= 3) {
+    //     e.preventDefault();
+    //     return false;
+    // }
+
+    // e.target.value = putValueInKeypress(e.target.value, cStart, e.key);
+
+    // if (e.target.value > 100) {
+    //     e.target.value = 100;
+    //     e.target.selectionStart = e.target.value - 1;
+    //     e.preventDefault();
+    //     return false;
+    // }
+
+    console.log(e.target.value, nan, e.key == 0, e.target.value.substring(0, 2) == '00')
+
+    // if (nBlock && cStart < e.target.value.length - 1 && e.target.value.indexOf('.') < 0) {
+    //     e.target.selectionStart = e.target.value.length - 1;
+    //     e.target.selectionEnd = e.target.value.length - 1;
+    // }
+
+    // if (nBlock && cStart < e.target.value.length - 1 && e.target.value.indexOf('.') >= 0) {
+    //     e.target.selectionStart = cStart + 1;
+    //     e.target.selectionEnd = cEnd + 1;
+    // }
+
+    // if (cStart < 3 && e.target.value.substring(0, 2) == '00') {
+    //     e.target.value = +e.target.value;
+    // }
+
+    e.preventDefault();
+
+    // if (nBlock && e.target.value.substring(0,2) == 0)
+    // console.log(+e.target.value.substring(0, 2))
+
+    // handleMask(e, '99.99 %');
+});
+
+inputPersentase.addEventListener('keyup', function (e) {
+    // console.log(this.value)
+    // e.target.value = +e.target.value;
+    //     if (this.value > 100) {
+    //         this.value = 100;
+    //     }
+});
+
+function handleMask(event, mask) {
+    with (event) {
+        stopPropagation()
+        preventDefault()
+        if (!charCode) return
+        var c = String.fromCharCode(charCode)
+        if (c.match(/\D/)) return
+        with (target) {
+            var val = value.substring(0, selectionStart) + c + value.substr(selectionEnd)
+            var pos = selectionStart + 1
+        }
+    }
+    var nan = count(val, /\D/, pos)
+    val = val.replace(/\D/g, '')
+
+    var mask = mask.match(/^(\D*)(.+9)(\D*)$/)
+    if (!mask) return
+    if (val.length > count(mask[2], /9/)) return
+
+    for (var txt = '', im = 0, iv = 0; im < mask[2].length && iv < val.length; im += 1) {
+        var c = mask[2].charAt(im)
+        txt += c.match(/\D/) ? c : val.charAt(iv++)
+    }
+
+    with (event.target) {
+        value = mask[1] + txt + mask[3]
+        selectionStart = selectionEnd = pos + (pos == 1 ? mask[1].length : count(value, /\D/, pos) - nan)
+    }
+
+    function count(str, c, e) {
+        e = e || str.length
+        for (var n = 0, i = 0; i < e; i += 1) if (str.charAt(i).match(c)) n += 1
+        return n
+    }
+}
+
 const inputPriceList = document.querySelectorAll('.modal .price');
+let oldValuePrice = {};
 inputPriceList.forEach(price => {
     price.addEventListener('keypress', preventNonNumbersInInput);
     price.addEventListener('keydown', function (e) {
@@ -327,7 +503,7 @@ inputPriceList.forEach(price => {
             return false;
         }
         if (e.code == "Delete" || e.code == "Backspace") {
-            oldValue = this.value;
+            oldValuePrice[price.getAttribute('name')] = this.value;
             if (e.target.selectionStart <= prefix.length && e.target.selectionStart == e.target.selectionEnd && e.code == "Backspace") {
                 e.target.selectionStart = prefix.length;
                 e.target.selectionEnd = prefix.length;
@@ -362,7 +538,7 @@ inputPriceList.forEach(price => {
                 if (sisa == 0 && ceret != prefix.length && ceret != this.value.length && ceret != this.value.length - 1 || sisa == 0 && ceret >= this.value.length - 3 && ceret > prefix.length) {
                     ceret--;
                 }
-                if (oldValue == this.value) {
+                if (oldValuePrice[price.getAttribute('name')] == this.value) {
                     if (sisa == 0) {
                         ceret += 2;
                     } else if (sisa == 2) {
@@ -386,10 +562,10 @@ inputPriceList.forEach(price => {
                 e.target.selectionEnd = ceret;
             }
             if (ribuan != null && ceret > prefix.length) {
-                if (sisa == 0 && oldValue != this.value) {
+                if (sisa == 0 && oldValuePrice[price.getAttribute('name')] != this.value) {
                     ceret--;
                 }
-                if (oldValue == this.value) {
+                if (oldValuePrice[price.getAttribute('name')] == this.value) {
                     this.value = numberToPrice(removeByIndex(this.value, --ceret), prefix);
                     if (sisa == 1 && ceret > prefix.length + 1) {
                         ceret--;
@@ -609,9 +785,15 @@ clearList.forEach(btn => {
         if (type == 'clear') {
             this.closest('.modal').querySelectorAll('input').forEach(input => {
                 input.value = '';
+                if (input.hasAttribute('maxlength')) {
+                    input.parentElement.querySelector('.current-length').innerText = 0;
+                }
             });
             this.closest('.modal').querySelectorAll('textarea').forEach(textarea => {
                 textarea.value = '';
+                if (input.hasAttribute('maxlength')) {
+                    input.parentElement.querySelector('.current-length').innerText = 0;
+                }
             });
             this.closest('.modal').querySelectorAll('select').forEach(select => {
                 select.value = '0';
@@ -635,6 +817,10 @@ clearList.forEach(btn => {
             e.target.closest('.modal').querySelector('#input-harga-satuan').value = resultRab.harga_satuan;
             e.target.closest('.modal').querySelector('#input-jumlah').value = resultRab.jumlah;
             e.target.closest('.modal').querySelector('#input-keterangan-rab').value = resultRab.keterangan;
+
+            if (e.target.closest('.modal').querySelector('#input-keterangan-rab').hasAttribute('maxlength')) {
+                e.target.closest('.modal').querySelector('#input-keterangan-rab').parentElement.querySelector('.current-length').innerText = resultRab.keterangan.length;
+            }
 
             // for select2
             $('#id-kebutuhan').select2('val', resultRab.id_kebutuhan);
@@ -854,10 +1040,16 @@ submitList.forEach(submit => {
 
                 if (name.tagName.toLowerCase() == 'input') {
                     name.value = '';
+                    if (name.hasAttribute('maxlength')) {
+                        name.parentElement.querySelector('.current-length').innerText = 0;
+                    }
                 }
 
                 if (name.tagName.toLowerCase() == 'textarea') {
                     name.value = '';
+                    if (name.hasAttribute('maxlength')) {
+                        name.parentElement.querySelector('.current-length').innerText = 0;
+                    }
                 }
             });
 
@@ -1218,33 +1410,78 @@ $('#id-kategori').select2({
 });
 
 function doAbsoluteFirstAdd(table) {
-    table.querySelectorAll('thead tr > th:first-of-type').forEach(el => {
-        el.nextElementSibling.setAttribute('style', 'padding-left: calc(' + el.offsetWidth + 'px + 1rem)');
+    let theadThEl = table.querySelector('thead tr > th:first-of-type'),
+        theadThFW = theadThEl.offsetWidth,
+        tfootThEl = table.querySelector('tfoot tr > th:first-of-type'),
+        tableHW = table.offsetWidth / 2;
+
+    let tbodyTFW = 0;
+
+    if (theadThFW > tableHW) {
+        theadThFW = tableHW;
+        tbodyTFW = tableHW;
+    }
+
+    if (tbodyTFW == 0) {
+        table.querySelectorAll('tbody tr > *:first-of-type').forEach(el => {
+            if (tableHW <= el.offsetWidth) {
+                tbodyTFW = tableHW;
+                theadThFW = tableHW;
+                return false;
+            }
+            if (el.offsetWidth > theadThFW) {
+                theadThFW = el.offsetWidth;
+            } else {
+                tbodyTFW = theadThFW;
+            }
+            if (tbodyTFW < el.offsetWidth) {
+                tbodyTFW = el.offsetWidth;
+            }
+        });
+    }
+
+    theadThEl.setAttribute('style', 'width: ' + theadThFW + 'px');
+    theadThEl.nextElementSibling.setAttribute('style', 'padding-left: calc(' + theadThFW + 'px + 1rem)');
+    // theadThEl.parentElement.setAttribute('style', 'height: ' + theadThEl.offsetHeight + 'px');
+
+    table.querySelectorAll('tbody tr > *:first-of-type').forEach(el => {
+        el.setAttribute('style', 'width:' + tbodyTFW + 'px');
+        el.nextElementSibling.setAttribute('style', 'padding-left: calc(' + tbodyTFW + 'px + 1rem)');
+        if (el.querySelector('span') != null) {
+            const computedStyle = getComputedStyle(el);
+            let elementWidth = el.clientWidth;
+            elementWidth -= parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight);
+            if (el.querySelector('span').offsetWidth > elementWidth) {
+                el.parentElement.setAttribute('style', '');
+                setTimeout(() => {
+                    el.parentElement.setAttribute('style', 'height: ' + el.offsetHeight + 'px');
+                }, 0)
+            }
+        }
     });
 
-    table.querySelectorAll('tfoot tr > th:first-of-type').forEach(el => {
-        let widthTh1 = el.closest('table').querySelector('thead tr th:first-of-type').offsetWidth;
-        el.setAttribute('style', 'width: ' + widthTh1 + 'px');
-        el.nextElementSibling.setAttribute('style', 'padding-left: calc(' + widthTh1 + 'px + 1rem)')
-    });
-
-    table.querySelectorAll('tbody tr > td:first-of-type').forEach(el => {
-        el.nextElementSibling.setAttribute('style', 'padding-left: calc(' + el.offsetWidth + 'px + 1rem)');
-    });
+    tfootThEl.setAttribute('style', 'width: ' + theadThFW + 'px');
+    tfootThEl.nextElementSibling.setAttribute('style', 'padding-left: calc(' + theadThFW + 'px + 1rem)');
+    // tfootThEl.parentElement.setAttribute('style', 'height: ' + tfootThEl.offsetHeight + 'px');
 }
 
 function doAbsoluteFirstRemove(table) {
-    table.querySelectorAll('thead tr > th:first-of-type').forEach(el => {
+    let theadThEl = table.querySelector('thead tr > th:first-of-type'),
+        tfootThEl = table.querySelector('tfoot tr > th:first-of-type');
+
+    theadThEl.removeAttribute('style');
+    theadThEl.nextElementSibling.removeAttribute('style');
+    theadThEl.parentElement.removeAttribute('style');
+
+    table.querySelectorAll('tbody tr > *:first-of-type').forEach(el => {
+        el.removeAttribute('style');
         el.nextElementSibling.removeAttribute('style');
+        el.parentElement.removeAttribute('style');
     });
 
-    table.querySelectorAll('tfoot tr > th:first-of-type').forEach(el => {
-        el.nextElementSibling.removeAttribute('style')
-    });
-
-    table.querySelectorAll('tbody tr > td:first-of-type').forEach(el => {
-        el.nextElementSibling.removeAttribute('style');
-    });
+    tfootThEl.removeAttribute('style');
+    tfootThEl.nextElementSibling.removeAttribute('style');
+    tfootThEl.parentElement.removeAttribute('style');
 }
 
 const tableAbsoluteFirstList = document.querySelectorAll('table.table-absolute-first');

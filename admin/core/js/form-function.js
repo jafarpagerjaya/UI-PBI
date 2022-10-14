@@ -10,6 +10,13 @@ function preventNonNumbersInInput(event) {
     }
 };
 
+function preventNonNumbersAndDecimalInInput(event) {
+    let characters = String.fromCharCode(event.which);
+    if (!(/[0-9\,]/.test(characters))) {
+        event.preventDefault();
+    }
+};
+
 function numberToPrice(angka, prefix = '', e) {
     var number_string = angka.toString().replace(/[^,\d]/g, ''),
         split = number_string.split(','),
@@ -93,6 +100,12 @@ inputMaxlengthList.forEach(input => {
     // Event
     input.addEventListener('keyup', function (e) {
         this.parentElement.querySelector('.current-length').innerText = this.value.length;
+    });
+
+    input.addEventListener('paste', function (e) {
+        setTimeout(() => {
+            this.parentElement.querySelector('.current-length').innerText = this.value.length;
+        }, 0);
     });
 });
 
