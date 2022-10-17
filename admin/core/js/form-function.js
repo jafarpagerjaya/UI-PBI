@@ -10,13 +10,6 @@ function preventNonNumbersInInput(event) {
     }
 };
 
-function preventNonNumbersAndDecimalInInput(event) {
-    let characters = String.fromCharCode(event.which);
-    if (!(/[0-9\,]/.test(characters))) {
-        event.preventDefault();
-    }
-};
-
 function numberToPrice(angka, prefix = '', e) {
     var number_string = angka.toString().replace(/[^,\d]/g, ''),
         split = number_string.split(','),

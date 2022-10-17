@@ -42,6 +42,15 @@ $('#modalBuatRencana').on('hidden.bs.modal', function (e) {
         document.getElementById('rab').remove();
     }
 
+    let activeTab = e.target.querySelector('#tab-rencana-pencairan > .tab-pane.active.show');
+
+    if (activeTab.getAttribute('id') != 'tab-rencana') {
+        activeTab.classList.remove('show');
+        activeTab.classList.remove('active');
+        e.target.querySelector('#tab-rencana-pencairan #tab-rencana').classList.add('active');
+        e.target.querySelector('#tab-rencana-pencairan #tab-rencana').classList.add('show');
+    }
+
     delete data.fields;
     objectRencana = {};
 });
@@ -330,28 +339,69 @@ function putValueInKeypress(str, index, value) {
 }
 
 const inputPersentase = document.getElementById('input-persentase-pencairan');
-let oldValuePersentase;
-// inputPersentase.addEventListener('keypress', preventNonNumbersAndDecimalInInput);
-inputPersentase.addEventListener('keypress', function (e) {
-    if (e.code == "ArrowUp" || e.target.selectionStart == 0 && e.target.selectionStart != e.target.selectionEnd && e.code == "ArrowLeft" || e.code == "ArrowLeft" && e.target.selectionStart == prefix.length || e.code == "Home") {
-        e.target.selectionStart = prefix.length;
-        e.target.selectionEnd = prefix.length;
+let oldValuePersentase,
+    inputKeyState;
+inputPersentase.addEventListener('keydown', function (e) {
+    if (numberToPrice(this.value) == 100 && +e.key >= 0) {
         e.preventDefault();
         return false;
     }
-    if (e.code == "Delete" || e.code == "Backspace") {
-        oldValuePersentase = this.value;
-        if (e.target.selectionStart <= prefix.length && e.target.selectionStart == e.target.selectionEnd && e.code == "Backspace") {
-            e.target.selectionStart = prefix.length;
-            e.target.selectionEnd = prefix.length;
+
+    const prefix = ' %';
+
+    if (e.target.value.indexOf(prefix) >= 0) {
+        if (e.code == "ArrowRight" && e.target.selectionStart >= e.target.value.length - prefix.length) {
+            e.target.selectionStart = e.target.value.length - prefix.length;
+            e.target.selectionEnd = e.target.value.length - prefix.length;
+            inputKeyState = 'down';
             e.preventDefault();
             return false;
         }
     }
 
+    if (inputKeyState == 'down') {
+        e.preventDefault();
+        return false;
+    }
+
+    if (e.code == "ArrowUp" || e.code == "ArrowDown" || e.code == "Home" || e.code == "End") {
+        if (e.code == "ArrowUp" || e.code == "Home") {
+            e.target.selectionStart = 0;
+            e.target.selectionEnd = 0;
+        } else if (e.code == "ArrowDown" || e.code == "End") {
+            if (e.target.value.indexOf(prefix) >= 0) {
+                e.target.selectionStart = e.target.value.length - prefix.length;
+                e.target.selectionEnd = e.target.value.length - prefix.length;
+            }
+        }
+        inputKeyState = 'down';
+        e.preventDefault();
+        return false;
+    }
+
+    setTimeout(() => {
+        if (e.target.value == prefix) {
+            e.target.value = '';
+            e.preventDefault();
+            return false;
+        }
+    }, 0);
+});
+
+inputPersentase.addEventListener('keypress', function (e) {
+    if (inputKeyState == 'press') {
+        e.preventDefault();
+        return false;
+    }
+
+    let prefix = ' %';
     if (!(/[0-9\.]/.test(e.key))) {
         e.preventDefault();
         return false;
+    }
+
+    if (e.target.value.indexOf('%') >= 0) {
+        e.target.value = e.target.value.replace(prefix, '');
     }
 
     let cStart = e.target.selectionStart,
@@ -360,22 +410,55 @@ inputPersentase.addEventListener('keypress', function (e) {
         nBlock = (cStart == cEnd);
 
     if (!nBlock) {
+        if (e.target.value.indexOf('%') == -1) {
+            e.target.value = percentMask(e, prefix, 'after');
+        }
         return false;
     }
 
     if (e.target.value.indexOf('.') >= 0 && e.key == '.' || e.key == '.' && e.target.value == 100) {
+        if (e.target.value.indexOf('%') == -1) {
+            e.target.value = percentMask(e, prefix, 'after');
+            e.target.selectionStart = e.target.value.length - prefix.length;
+            e.target.selectionEnd = e.target.value.length - prefix.length;
+        }
         e.preventDefault();
         return false;
+    }
+
+    if (e.target.value.indexOf('.') >= 0 && e.key != '.') {
+        let indexDecimal = e.target.value.indexOf('.');
+        if (e.target.value.indexOf('%') != -1) {
+            indexDecimal = indexDecimal + 2;
+        }
+        if (e.target.value.length - indexDecimal != 2 && e.target.value.length > indexDecimal + 1) {
+            if (e.target.value.indexOf('%') == -1) {
+                e.target.value = percentMask(e, prefix, 'after');
+                e.target.selectionStart = e.target.value.length - prefix.length;
+                e.target.selectionEnd = e.target.value.length - prefix.length;
+            }
+            e.preventDefault();
+            return false;
+        }
     }
 
     e.target.value = putValueInKeypress(e.target.value, cStart, e.key);
 
     if (e.target.value > 100) {
         e.target.value = 100;
+        e.target.value = percentMask(e, prefix, 'after');
+        e.target.selectionStart = 3;
+        e.target.selectionEnd = 3;
+        inputKeyState = 'press';
+        e.preventDefault();
+        return false;
     }
 
     if (cStart <= 5 && e.key == '0' && e.target.value.substring(0, 3) == '000') {
         e.target.value = +e.target.value;
+        if (e.target.value.indexOf('%') == -1) {
+            e.target.value = percentMask(e, prefix, 'after');
+        }
         return false;
     }
 
@@ -387,106 +470,62 @@ inputPersentase.addEventListener('keypress', function (e) {
         e.target.value = +e.target.value;
     }
 
-    // if (cStart <= 3 && e.key == '0' && e.target.value.substring(0, 2) == '00') {
-    // e.target.value = +e.target.value;
-    // e.preventDefault();
-    // return false;
-    // }
+    if (e.target.value.indexOf('%') == -1) {
+        e.target.value = percentMask(e, prefix, 'after');
+    }
 
-
-
-    // console.log(e.target.value, e.target.value > 9, nBlock, cStart, cStart < 3, nan)
-
-    // if (e.target.value > 99 && nBlock && cStart < 3 && nan || +(e.target.value + e.key) > 100) {
-    //     e.target.value = 100;
-    //     e.target.selectionStart = e.target.value - 1;
-    //     e.preventDefault();
-    //     return false;
-    // }
-
-    // if (e.target.value.indexOf('.') >= 0 && e.key == '.' || e.key == '.' && e.target.value == 100) {
-    //     e.preventDefault();
-    //     return false;
-    // }
-    // if (nBlock && cStart > 4 && +e.key >= 0 || nBlock && e.target.value.indexOf('.') >= 0 && nan && e.target.value.length > 4 && cStart >= 3) {
-    //     e.preventDefault();
-    //     return false;
-    // }
-
-    // e.target.value = putValueInKeypress(e.target.value, cStart, e.key);
-
-    // if (e.target.value > 100) {
-    //     e.target.value = 100;
-    //     e.target.selectionStart = e.target.value - 1;
-    //     e.preventDefault();
-    //     return false;
-    // }
-
-    console.log(e.target.value, nan, e.key == 0, e.target.value.substring(0, 2) == '00')
-
-    // if (nBlock && cStart < e.target.value.length - 1 && e.target.value.indexOf('.') < 0) {
-    //     e.target.selectionStart = e.target.value.length - 1;
-    //     e.target.selectionEnd = e.target.value.length - 1;
-    // }
-
-    // if (nBlock && cStart < e.target.value.length - 1 && e.target.value.indexOf('.') >= 0) {
-    //     e.target.selectionStart = cStart + 1;
-    //     e.target.selectionEnd = cEnd + 1;
-    // }
-
-    // if (cStart < 3 && e.target.value.substring(0, 2) == '00') {
-    //     e.target.value = +e.target.value;
-    // }
+    e.target.selectionStart = cEnd + 1;
+    e.target.selectionEnd = cEnd + 1;
 
     e.preventDefault();
-
-    // if (nBlock && e.target.value.substring(0,2) == 0)
-    // console.log(+e.target.value.substring(0, 2))
-
-    // handleMask(e, '99.99 %');
 });
 
 inputPersentase.addEventListener('keyup', function (e) {
-    // console.log(this.value)
-    // e.target.value = +e.target.value;
-    //     if (this.value > 100) {
-    //         this.value = 100;
-    //     }
-});
+    if (inputKeyState == 'press') {
+        inputKeyState = 'up';
+    }
 
-function handleMask(event, mask) {
-    with (event) {
-        stopPropagation()
-        preventDefault()
-        if (!charCode) return
-        var c = String.fromCharCode(charCode)
-        if (c.match(/\D/)) return
-        with (target) {
-            var val = value.substring(0, selectionStart) + c + value.substr(selectionEnd)
-            var pos = selectionStart + 1
+    const prefix = ' %';
+
+    if (e.target.value.indexOf(prefix) >= 0) {
+        if (e.code == "ArrowRight" && e.target.selectionStart >= e.target.value.length - prefix.length) {
+            inputKeyState = 'up';
+            e.preventDefault();
+            return false;
         }
     }
-    var nan = count(val, /\D/, pos)
-    val = val.replace(/\D/g, '')
 
-    var mask = mask.match(/^(\D*)(.+9)(\D*)$/)
-    if (!mask) return
-    if (val.length > count(mask[2], /9/)) return
-
-    for (var txt = '', im = 0, iv = 0; im < mask[2].length && iv < val.length; im += 1) {
-        var c = mask[2].charAt(im)
-        txt += c.match(/\D/) ? c : val.charAt(iv++)
+    if (e.code == "ArrowUp" || e.code == "ArrowDown" || e.code == "Home" || e.code == "End") {
+        inputKeyState = 'up';
+        e.preventDefault();
+        return false;
     }
+});
 
-    with (event.target) {
-        value = mask[1] + txt + mask[3]
-        selectionStart = selectionEnd = pos + (pos == 1 ? mask[1].length : count(value, /\D/, pos) - nan)
+inputPersentase.addEventListener('paste', function (e) {
+    setTimeout(() => {
+        const prefix = ' %';
+        e.target.value = escapeRegExp(e.target.value.trim(), '', /[^0-9.]/g);
+        if (e.target.value != '' && e.target.value.indexOf(prefix) == -1) {
+            e.target.value = percentMask(e, prefix, 'after');
+        }
+    }, 0);
+});
+
+inputPersentase.addEventListener('click', function (e) {
+    const prefix = ' %';
+    if (this.value.length && e.target.selectionStart > this.value.length - prefix.length) {
+        e.target.selectionStart = this.value.length - prefix.length;
+        e.target.selectionEnd = this.value.length - prefix.length;
     }
+});
 
-    function count(str, c, e) {
-        e = e || str.length
-        for (var n = 0, i = 0; i < e; i += 1) if (str.charAt(i).match(c)) n += 1
-        return n
+function percentMask(event, mask = '', mask_position = 'after') {
+    const value = event.target.value;
+    if (mask_position == 'before') {
+        return mask + value;
+    } else {
+        return value + mask;
     }
 }
 
@@ -866,6 +905,12 @@ const submitList = document.querySelectorAll('.modal [type="submit"]');
 submitList.forEach(submit => {
     submit.addEventListener('click', function (e) {
         if (e.target.getAttribute('type') == 'button') {
+            if (e.target.getAttribute('id') == 'buat-pencairan') {
+                e.target.closest('.modal').querySelector('#tab-rencana').classList.remove('active');
+                e.target.closest('.modal').querySelector('#tab-rencana').classList.remove('show');
+                e.target.closest('.modal').querySelector('#tab-pencairan').classList.add('active');
+                e.target.closest('.modal').querySelector('#tab-pencairan').classList.add('show');
+            }
             e.preventDefault();
             return false;
         }
@@ -969,8 +1014,16 @@ submitList.forEach(submit => {
             return false;
         }
 
-        let c_error = 0;
-        const nameList = e.target.closest('.modal').querySelectorAll('[name]');
+        let c_error = 0,
+            nameList;
+
+        if (modalId == 'modalBuatRencana') {
+            nameList = e.target.closest('.modal').querySelectorAll('.tab-pane.active.show [name]');
+
+        } else {
+            nameList = e.target.closest('.modal').querySelectorAll('[name]');
+        }
+
         nameList.forEach(name => {
             let error = false;
             if (name.tagName.toLowerCase() == 'select') {

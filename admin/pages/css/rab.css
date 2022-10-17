@@ -75,7 +75,8 @@ h2 {
 
 #input-keterangan-rencana,
 #input-jumlah-pelaksanaan,
-#input-persentase-pencairan {
+#input-persentase-pencairan,
+#input-nominal-pencairan {
     padding-left: 1.6em;
     padding-right: 1.6em;
 }

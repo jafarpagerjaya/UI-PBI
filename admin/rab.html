@@ -587,7 +587,7 @@
                     </div>
                 </div>
 
-                <div class="modal fade in d-block show" id="modalBuatRencana" tabindex="-1" role="dialog"
+                <div class="modal fade in " id="modalBuatRencana" tabindex="-1" role="dialog"
                     aria-labelledby="modalBuatRencana-label" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
                         <div class="modal-content justify-content-center align-items-center scaleIn">
@@ -612,7 +612,7 @@
                                         </div>
                                     </div>
                                     <div class="col-12 px-0 tab-content" id="tab-rencana-pencairan">
-                                        <div class="tab-pane gap-y-5" id="tab-rencana">
+                                        <div class="tab-pane gap-y-5 show active" id="tab-rencana">
                                             <div class="w-100" id="rencana">
                                                 <div class="row mx-0 gap-y-5">
                                                     <div class="px-0 col-12 col-md" id="rencana-program">
@@ -646,15 +646,49 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="tab-pane gap-y-5 show active" id="tab-pencairan">
-                                            <div class="row">
+                                        <div class="tab-pane gap-y-5 " id="tab-pencairan">
+                                            <div class="row gap-y-5">
                                                 <div class="col">
+                                                    <div class="py-3 px-4 rounded bg-lighter">
+                                                        <h4 class="mb-1">Total RAB</h4>
+                                                        <div class="text-sm" id="total-rab">3.000.000</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="py-3 px-4 rounded bg-lighter">
+                                                        <h4 class="mb-1">Sisa Anggaran</h4>
+                                                        <div class="text-sm" id="sisa-anggaran">2.000.000</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="py-3 px-4 rounded bg-lighter">
+                                                        <h4 class="mb-1">Pencairan Ke</h4>
+                                                        <div class="text-sm d-flex justify-content-between align-items-center"
+                                                            id="banyak-pencairan">
+                                                            <span>2</span>
+                                                            <a href="#"
+                                                                class="btn-link font-weight-bolder small">Detil</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row gap-y-4">
+                                                <div class="col-12 col-md">
                                                     <div class="form-label-group">
                                                         <input type="text" name="persentase_pencairan"
                                                             placeholder="Persentase Pencairan" class="form-control"
                                                             id="input-persentase-pencairan" autocomplete="off">
                                                         <label for="input-persentase-pencairan"
                                                             class="form-label-group">Persentase Pencairan</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md">
+                                                    <div class="form-label-group">
+                                                        <input type="text" name="nominal_pencairan"
+                                                            placeholder="Nominal Pencairan" class="form-control price"
+                                                            id="input-nominal-pencairan" autocomplete="off">
+                                                        <label for="input-nominal-pencairan"
+                                                            class="form-label-group">Nominal Pencairan</label>
                                                     </div>
                                                 </div>
                                             </div>
