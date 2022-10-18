@@ -26,13 +26,10 @@ $('#modalBuatRencana').on('hidden.bs.modal', function (e) {
         option.removeAttribute('disabled');
     });
     e.target.querySelector('#input-keterangan-rencana').removeAttribute('disabled');
-    if (e.target.querySelector('#buat-pencairan[type="button"]') != null) {
-        e.target.querySelector('#buat-pencairan[type="button"]').innerText = 'Buat RAB';
-        e.target.querySelector('#buat-pencairan[type="button"]').setAttribute('id', 'buat-rab');
-        e.target.querySelector('#buat-rab[type="button"]').setAttribute('type', 'submit');
-
-        e.target.querySelector('#action [data-dismiss="modal"]').innerText = 'Batal';
-    }
+    e.target.querySelector('#action .btn[data-btn="true"]').innerText = 'Buat RAB';
+    e.target.querySelector('#action .btn[data-btn="true"]').setAttribute('id', 'buat-rab');
+    e.target.querySelector('#action .btn[data-btn="true"]').setAttribute('type', 'submit');
+    e.target.querySelector('#action [data-dismiss="modal"]').innerText = 'Batal';
 
     if (e.target.querySelector('#rencana #balance') != null) {
         e.target.querySelector('#rencana #balance').parentElement.remove();
@@ -49,6 +46,14 @@ $('#modalBuatRencana').on('hidden.bs.modal', function (e) {
         activeTab.classList.remove('active');
         e.target.querySelector('#tab-rencana-pencairan #tab-rencana').classList.add('active');
         e.target.querySelector('#tab-rencana-pencairan #tab-rencana').classList.add('show');
+
+        activeTab.querySelector('#total-rab').innerText = 0;
+        activeTab.querySelector('#anggaran-tersedia').innerText = 0;
+        const namePencairanList = activeTab.querySelectorAll('input');
+        namePencairanList.forEach(name => {
+            name.value = '';
+        });
+        objectAnggaran = {};
     }
 
     delete data.fields;
@@ -338,6 +343,10 @@ function putValueInKeypress(str, index, value) {
     return str.substr(0, index) + value + str.substr(index);
 }
 
+let objectAnggaran2 = {
+    saldo_anggaran: '1.500.000'
+};
+
 const inputPersentase = document.getElementById('input-persentase-pencairan');
 let oldValuePersentase,
     inputKeyState;
@@ -382,11 +391,33 @@ inputPersentase.addEventListener('keydown', function (e) {
     setTimeout(() => {
         if (e.target.value == prefix) {
             e.target.value = '';
+
+            setNominalPencairan(e);
             e.preventDefault();
             return false;
         }
+
+        setNominalPencairan(e);
     }, 0);
 });
+
+function setNominalPencairan(e) {
+    const persentase_pencairan = +e.target.value.replace(' %', '');
+    let nominal_pencairan = '';
+    if (persentase_pencairan > 0) {
+        nominal_pencairan = numberToPrice(Math.round(priceToNumber(objectAnggaran2.saldo_anggaran) * (persentase_pencairan / 100).toFixed(4)));
+    }
+    document.getElementById('input-nominal-pencairan').value = nominal_pencairan;
+}
+
+function setPersentasePencairan(e) {
+    const nominal_pencairan = priceToNumber(e.target.value);
+    let persentase_pencairan = '';
+    if (nominal_pencairan > 0) {
+        persentase_pencairan = ((nominal_pencairan / priceToNumber(objectAnggaran2.saldo_anggaran)) * 100).toFixed(2) + ' %';
+    }
+    document.getElementById('input-persentase-pencairan').value = persentase_pencairan;
+}
 
 inputPersentase.addEventListener('keypress', function (e) {
     if (inputKeyState == 'press') {
@@ -476,7 +507,6 @@ inputPersentase.addEventListener('keypress', function (e) {
 
     e.target.selectionStart = cEnd + 1;
     e.target.selectionEnd = cEnd + 1;
-
     e.preventDefault();
 });
 
@@ -532,6 +562,16 @@ function percentMask(event, mask = '', mask_position = 'after') {
 const inputPriceList = document.querySelectorAll('.modal .price');
 let oldValuePrice = {};
 inputPriceList.forEach(price => {
+    price.addEventListener('focusout', function (e) {
+        if (e.target.name == 'nominal_pencairan') {
+            setTimeout(() => {
+                const persentase_pencairan = +inputPersentase.value.replace(' %', '');
+                if (persentase_pencairan > 0) {
+                    e.target.value = numberToPrice(Math.round(priceToNumber(objectAnggaran2.saldo_anggaran) * (persentase_pencairan / 100).toFixed(4)));
+                }
+            }, 0)
+        }
+    });
     price.addEventListener('keypress', preventNonNumbersInInput);
     price.addEventListener('keydown', function (e) {
         let prefix = '';
@@ -549,6 +589,11 @@ inputPriceList.forEach(price => {
                 e.preventDefault();
                 return false;
             }
+        }
+        if (e.target.name == 'nominal_pencairan') {
+            setTimeout(() => {
+                setPersentasePencairan(e);
+            }, 0);
         }
     });
     price.addEventListener('keyup', function (e) {
@@ -615,7 +660,7 @@ inputPriceList.forEach(price => {
             }
         }
     });
-    price.addEventListener('change', function () {
+    price.addEventListener('change', function (e) {
         if (typeof this.value == "string") {
             if (priceToNumber(this.value) > 0) {
                 this.value = priceToNumber(this.value);
@@ -626,6 +671,9 @@ inputPriceList.forEach(price => {
     price.addEventListener('paste', function (e) {
         setTimeout(() => {
             this.value = numberToPrice(escapeRegExp(escapeRegExp(this.value.trim(), '', /[^a-zA-Z0-9\s\/.]/g), ' ', /\s+/g), '');
+            if (e.target.name == 'nominal_pencairan') {
+                setPersentasePencairan(e);
+            }
         }, 0);
     });
 });
@@ -901,16 +949,39 @@ function statusRencana(status) {
 
 // Submit
 const submitList = document.querySelectorAll('.modal [type="submit"]');
+let objectAnggaran = {};
 
 submitList.forEach(submit => {
     submit.addEventListener('click', function (e) {
         if (e.target.getAttribute('type') == 'button') {
             if (e.target.getAttribute('id') == 'buat-pencairan') {
-                e.target.closest('.modal').querySelector('#tab-rencana').classList.remove('active');
-                e.target.closest('.modal').querySelector('#tab-rencana').classList.remove('show');
+                const tabRencana = e.target.closest('.modal').querySelector('#tab-rencana');
+
+                if (!tabRencana.querySelectorAll('#rab table>tbody>tr[data-id-rab]').length) {
+                    $('.toast[data-toast="feedback"] .toast-header .small-box').removeClass('bg-success').addClass('bg-danger');
+                    $('.toast[data-toast="feedback"] .toast-header strong').text('Pemberitahuan');
+                    // End of submit
+                    $('.toast[data-toast="feedback"] .toast-body').html('Daftar Rancangan Anggaran Belanja masih kosong, mohon <b>Tambah Item</b> RAB terlebih dahulu');
+                    $('.toast[data-toast="feedback"] .time-passed').text('Baru Saja');
+                    $('.toast').toast('show');
+                    return false;
+                }
+
+                tabRencana.classList.remove('active');
+                tabRencana.classList.remove('show');
                 e.target.closest('.modal').querySelector('#tab-pencairan').classList.add('active');
                 e.target.closest('.modal').querySelector('#tab-pencairan').classList.add('show');
+
+                e.target.classList.remove('btn-outline-orange');
+                e.target.classList.add('btn-outline-primary');
+                e.target.innerText = 'Pencairan';
+                e.target.setAttribute('type', 'submit');
+                // fetch data saldo anggaran bantuan rencana ini
+                // success
+                objectAnggaran.saldo_anggaran = '1.500.000';
+                e.target.closest('.modal').querySelector('#anggaran-tersedia').innerText = objectAnggaran.saldo_anggaran;
             }
+            console.log('ll')
             e.preventDefault();
             return false;
         }
@@ -1173,6 +1244,8 @@ submitList.forEach(submit => {
             e.target.closest('#action').querySelector('[data-dismiss="modal"]').innerText = 'Tutup';
 
             e.target.innerText = 'Lanjut Pencairan';
+            e.target.classList.remove('btn-outline-primary');
+            e.target.classList.add('btn-outline-orange');
             e.target.setAttribute('type', 'button');
             e.target.setAttribute('id', 'buat-pencairan');
 
@@ -1423,6 +1496,8 @@ $('#id-bantuan').select2({
         } else {
             document.querySelector('#balance>.text-sm').innerText = result.max_anggaran;
         }
+
+        document.getElementById('total-rab').innerText = result.max_anggaran;
     } else {
         delete objectRencana.id_bantuan;
     }
@@ -1460,6 +1535,29 @@ $('#id-kategori').select2({
             $('#select2-' + $(this).attr('id') + '-results').parents('span.select2-dropdown').removeClass('is-invalid');
         }
     }
+});
+
+function formatSelectedMultiple(objectSelected) {
+    const label = objectSelected.element.closest('select').parentElement.querySelector('label');
+
+    console.log(objectSelected)
+
+    if (objectSelected.loading) {
+        return objectSelected.text;
+    }
+
+    let $elSelected = '<div class="font-weight-normal">' + objectSelected.text + '</div>';
+    return $elSelected;
+}
+
+$('#petugas-pencairan').select2({
+    placeholder: "Pilih salah satu",
+    escapeMarkup: function (markup) { return markup; },
+    templateSelection: formatSelectedMultiple
+});
+
+$('#example').select2({
+    placeholder: 'Select a month'
 });
 
 function doAbsoluteFirstAdd(table) {

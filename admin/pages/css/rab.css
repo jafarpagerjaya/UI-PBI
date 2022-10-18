@@ -57,7 +57,9 @@ h2 {
     column-gap: 2.15em;
 }
 
-#balance>.text-sm::before {
+#balance>.text-sm::before,
+#total-rab.text-sm::before,
+#anggaran-tersedia.text-sm::before {
     content: 'Rp. ';
 }
 
