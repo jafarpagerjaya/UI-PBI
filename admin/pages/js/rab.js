@@ -591,6 +591,12 @@ inputPriceList.forEach(price => {
             }
         }
         if (e.target.name == 'nominal_pencairan') {
+            // if (priceToNumber(e.target.value) > priceToNumber(objectAnggaran2.saldo_anggaran)) {
+            //     e.target.value = objectAnggaran2.saldo_anggaran;
+            //     e.preventDefault();
+            //     return false;
+            // }
+            console.log(e.target.value, e.key)
             setTimeout(() => {
                 setPersentasePencairan(e);
             }, 0);
@@ -1370,8 +1376,17 @@ function formatSelected(objectSelected) {
     } else {
         $elSelected = $elSelected + '<div class="row w-100 m-0 align-items-center"><div class="col p-0"><span class="font-weight-bold">' + objectSelected.text + '</span></div><div class="col-auto px-1 d-flex align-items-center"><span class="badge badge-circle badge-primary border-white badge-sm badge-floating font-weight-bold">' + objectSelected.jumlah_item_rab_ini + '</span></div></div>'
     }
-    return $elSelected;
 
+    return $elSelected;
+}
+
+function formatSelectedMultiple(objectSelected) {
+    if (objectSelected.loading) {
+        return objectSelected.text;
+    }
+
+    let $elSelected = '<div class="font-weight-normal">' + objectSelected.text + '</div>';
+    return $elSelected;
 }
 
 function selectLabelKebutuhan(array) {
@@ -1471,6 +1486,7 @@ let xBantuan = [
 ];
 
 $('#id-bantuan').select2({
+    language: { inputTooShort: function () { return 'Ketikan minimal 1 huruf'; }, noResults: function () { return "Data yang dicari tidak ditemukan"; }, searching: function () { return "Sedang melakukan pencarian..."; }, loadingMore: function () { return "Menampilkan data yang lainnya"; }, },
     placeholder: "Pilih salah satu",
     escapeMarkup: function (markup) { return markup; },
     templateSelection: formatSelected
@@ -1512,6 +1528,7 @@ $('#id-bantuan').select2({
 });
 
 $('#id-kategori').select2({
+    language: { inputTooShort: function () { return 'Ketikan minimal 1 huruf'; }, noResults: function () { return "Data yang dicari tidak ditemukan"; }, searching: function () { return "Sedang melakukan pencarian..."; }, loadingMore: function () { return "Menampilkan data yang lainnya"; }, },
     placeholder: "Pilih salah satu",
     escapeMarkup: function (markup) { return markup; },
     templateSelection: formatSelected
@@ -1537,27 +1554,14 @@ $('#id-kategori').select2({
     }
 });
 
-function formatSelectedMultiple(objectSelected) {
-    const label = objectSelected.element.closest('select').parentElement.querySelector('label');
-
-    console.log(objectSelected)
-
-    if (objectSelected.loading) {
-        return objectSelected.text;
-    }
-
-    let $elSelected = '<div class="font-weight-normal">' + objectSelected.text + '</div>';
-    return $elSelected;
-}
-
 $('#petugas-pencairan').select2({
-    placeholder: "Pilih salah satu",
+    language: {
+        inputTooShort: function () { return 'Ketikan minimal 1 huruf'; }, noResults: function () { return "Data yang dicari tidak ditemukan"; }, searching: function () { return "Sedang melakukan pencarian..."; }, loadingMore: function () { return "Menampilkan data yang lainnya"; }, maximumSelected: function (e) { return 'Maksimum petugas pencairan terpilih adalah ' + e.maximum + ' orang'; },
+    },
+    placeholder: "Pilih max dua orang",
     escapeMarkup: function (markup) { return markup; },
+    maximumSelectionLength: 2,
     templateSelection: formatSelectedMultiple
-});
-
-$('#example').select2({
-    placeholder: 'Select a month'
 });
 
 function doAbsoluteFirstAdd(table) {
