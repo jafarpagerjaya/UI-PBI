@@ -339,6 +339,28 @@ inputRabList.forEach(inputRab => {
     });
 });
 
+function setNominalPencairan(e) {
+    const persentase_pencairan = +e.target.value.replace(' %', '');
+    let nominal_pencairan = '';
+    if (persentase_pencairan > 0) {
+        nominal_pencairan = numberToPrice(Math.round(priceToNumber(objectAnggaran2.saldo_anggaran) * (persentase_pencairan / 100).toFixed(4)));
+    }
+    document.getElementById('input-nominal-pencairan').value = nominal_pencairan;
+    objectPencairan[e.target.name] = persentase_pencairan;
+    objectPencairan[document.getElementById('input-nominal-pencairan').getAttribute('name')] = priceToNumber(nominal_pencairan);
+}
+
+function setPersentasePencairan(e) {
+    const nominal_pencairan = priceToNumber(e.target.value);
+    let persentase_pencairan = '';
+    if (nominal_pencairan > 0) {
+        persentase_pencairan = ((nominal_pencairan / priceToNumber(objectAnggaran2.saldo_anggaran)) * 100).toFixed(2) + ' %';
+    }
+    document.getElementById('input-persentase-pencairan').value = persentase_pencairan;
+    objectPencairan[e.target.name] = nominal_pencairan;
+    objectPencairan[document.getElementById('input-persentase-pencairan').getAttribute('name')] = +persentase_pencairan.replace(' %', '');
+}
+
 function putValueInKeypress(str, index, value) {
     return str.substr(0, index) + value + str.substr(index);
 }
@@ -347,11 +369,13 @@ let objectAnggaran2 = {
     saldo_anggaran: '1.500.000'
 };
 
+let objectPencairan = {};
+
 const inputPersentase = document.getElementById('input-persentase-pencairan');
 let oldValuePersentase,
     inputKeyState;
 inputPersentase.addEventListener('keydown', function (e) {
-    if (numberToPrice(this.value) == 100 && +e.key >= 0) {
+    if (e.target.value == 100 && +e.key >= 0 && e.target.selectionStart == e.target.selectionEnd || e.key == '.' && e.target.value == 100 && e.target.selectionStart == e.target.selectionEnd && e.target.selectionStart == 3 || e.key == '.' && e.target.value.indexOf('.') >= 0) {
         e.preventDefault();
         return false;
     }
@@ -388,6 +412,14 @@ inputPersentase.addEventListener('keydown', function (e) {
         return false;
     }
 
+    if (+e.key >= 0 && e.target.selectionStart == e.target.selectionEnd) {
+        e.target.value = putValueInKeypress(e.target.value, e.target.selectionStart, e.key);
+        if (e.target.value > 100) {
+            e.target.value = 100;
+        }
+        e.preventDefault();
+    }
+
     setTimeout(() => {
         if (e.target.value == prefix) {
             e.target.value = '';
@@ -401,135 +433,124 @@ inputPersentase.addEventListener('keydown', function (e) {
     }, 0);
 });
 
-function setNominalPencairan(e) {
-    const persentase_pencairan = +e.target.value.replace(' %', '');
-    let nominal_pencairan = '';
-    if (persentase_pencairan > 0) {
-        nominal_pencairan = numberToPrice(Math.round(priceToNumber(objectAnggaran2.saldo_anggaran) * (persentase_pencairan / 100).toFixed(4)));
-    }
-    document.getElementById('input-nominal-pencairan').value = nominal_pencairan;
-}
-
-function setPersentasePencairan(e) {
-    const nominal_pencairan = priceToNumber(e.target.value);
-    let persentase_pencairan = '';
-    if (nominal_pencairan > 0) {
-        persentase_pencairan = ((nominal_pencairan / priceToNumber(objectAnggaran2.saldo_anggaran)) * 100).toFixed(2) + ' %';
-    }
-    document.getElementById('input-persentase-pencairan').value = persentase_pencairan;
-}
-
 inputPersentase.addEventListener('keypress', function (e) {
     if (inputKeyState == 'press') {
         e.preventDefault();
         return false;
     }
 
-    let prefix = ' %';
-    if (!(/[0-9\.]/.test(e.key))) {
-        e.preventDefault();
-        return false;
-    }
+    // let prefix = ' %';
+    // if (!(/[0-9\.]/.test(e.key))) {
+    //     e.preventDefault();
+    //     return false;
+    // }
 
-    if (e.target.value.indexOf('%') >= 0) {
-        e.target.value = e.target.value.replace(prefix, '');
-    }
+    // console.log('press 2', e.target.selectionStart, e.target.selectionEnd)
 
-    let cStart = e.target.selectionStart,
-        cEnd = e.target.selectionEnd,
-        nan = +(e.key) / +(e.key) == 1,
-        nBlock = (cStart == cEnd);
+    // if (e.target.value.indexOf(prefix) >= 0) {
+    //     e.target.value = e.target.value.replace(prefix, '');
+    // }
 
-    if (!nBlock) {
-        if (e.target.value.indexOf('%') == -1) {
-            e.target.value = percentMask(e, prefix, 'after');
-        }
-        return false;
-    }
+    // console.log('press 3', e.target.selectionStart, e.target.selectionEnd)
 
-    if (e.target.value.indexOf('.') >= 0 && e.key == '.' || e.key == '.' && e.target.value == 100) {
-        if (e.target.value.indexOf('%') == -1) {
-            e.target.value = percentMask(e, prefix, 'after');
-            e.target.selectionStart = e.target.value.length - prefix.length;
-            e.target.selectionEnd = e.target.value.length - prefix.length;
-        }
-        e.preventDefault();
-        return false;
-    }
+    // let cStart = e.target.selectionStart,
+    //     cEnd = e.target.selectionEnd,
+    //     nan = +(e.key) / +(e.key) == 1,
+    //     nBlock = (cStart == cEnd);
 
-    if (e.target.value.indexOf('.') >= 0 && e.key != '.') {
-        let indexDecimal = e.target.value.indexOf('.');
-        if (e.target.value.indexOf('%') != -1) {
-            indexDecimal = indexDecimal + 2;
-        }
-        if (e.target.value.length - indexDecimal != 2 && e.target.value.length > indexDecimal + 1) {
-            if (e.target.value.indexOf('%') == -1) {
-                e.target.value = percentMask(e, prefix, 'after');
-                e.target.selectionStart = e.target.value.length - prefix.length;
-                e.target.selectionEnd = e.target.value.length - prefix.length;
-            }
-            e.preventDefault();
-            return false;
-        }
-    }
+    // console.log('press 4', cStart, cEnd, nBlock);
 
-    e.target.value = putValueInKeypress(e.target.value, cStart, e.key);
 
-    if (e.target.value > 100) {
-        e.target.value = 100;
-        e.target.value = percentMask(e, prefix, 'after');
-        e.target.selectionStart = 3;
-        e.target.selectionEnd = 3;
-        inputKeyState = 'press';
-        e.preventDefault();
-        return false;
-    }
+    // if (!nBlock) {
+    //     if (e.target.value.indexOf('%') == -1) {
+    //         e.target.value = percentMask(e, prefix, 'after');
+    //     }
+    //     return false;
+    // }
 
-    if (cStart <= 5 && e.key == '0' && e.target.value.substring(0, 3) == '000') {
-        e.target.value = +e.target.value;
-        if (e.target.value.indexOf('%') == -1) {
-            e.target.value = percentMask(e, prefix, 'after');
-        }
-        return false;
-    }
+    // if (e.target.value.indexOf('.') >= 0 && e.key == '.' || e.key == '.' && e.target.value == 100) {
+    //     if (e.target.value.indexOf('%') == -1) {
+    //         e.target.value = percentMask(e, prefix, 'after');
+    //         e.target.selectionStart = e.target.value.length - prefix.length;
+    //         e.target.selectionEnd = e.target.value.length - prefix.length;
+    //     }
+    //     e.preventDefault();
+    //     return false;
+    // }
 
-    if (cStart == 1 && e.target.value.substring(0, 1) == '0' && e.target.value.substring(2, 3) == '0' && e.key != '0') {
-        e.target.value = +e.target.value;
-    }
+    // if (e.target.value.indexOf('.') >= 0 && e.key != '.') {
+    //     let indexDecimal = e.target.value.indexOf('.');
+    //     if (e.target.value.indexOf('%') != -1) {
+    //         indexDecimal = indexDecimal + 2;
+    //     }
+    //     if (e.target.value.length - indexDecimal != 2 && e.target.value.length > indexDecimal + 1) {
+    //         if (e.target.value.indexOf('%') == -1) {
+    //             e.target.value = percentMask(e, prefix, 'after');
+    //             e.target.selectionStart = e.target.value.length - prefix.length;
+    //             e.target.selectionEnd = e.target.value.length - prefix.length;
+    //         }
+    //         e.preventDefault();
+    //         return false;
+    //     }
+    // }
 
-    if (cStart == 2 && nan && e.key != '0' && e.target.value.substring(0, 2) == '00') {
-        e.target.value = +e.target.value;
-    }
+    // e.target.value = putValueInKeypress(e.target.value, cStart, e.key);
 
-    if (e.target.value.indexOf('%') == -1) {
-        e.target.value = percentMask(e, prefix, 'after');
-    }
+    // if (e.target.value > 100) {
+    //     e.target.value = 100;
+    //     e.target.value = percentMask(e, prefix, 'after');
+    //     e.target.selectionStart = 3;
+    //     e.target.selectionEnd = 3;
+    //     inputKeyState = 'press';
+    //     e.preventDefault();
+    //     return false;
+    // }
 
-    e.target.selectionStart = cEnd + 1;
-    e.target.selectionEnd = cEnd + 1;
-    e.preventDefault();
+    // if (cStart <= 5 && e.key == '0' && e.target.value.substring(0, 3) == '000') {
+    //     e.target.value = +e.target.value;
+    //     if (e.target.value.indexOf('%') == -1) {
+    //         e.target.value = percentMask(e, prefix, 'after');
+    //     }
+    //     return false;
+    // }
+
+    // if (cStart == 1 && e.target.value.substring(0, 1) == '0' && e.target.value.substring(2, 3) == '0' && e.key != '0') {
+    //     e.target.value = +e.target.value;
+    // }
+
+    // if (cStart == 2 && nan && e.key != '0' && e.target.value.substring(0, 2) == '00') {
+    //     e.target.value = +e.target.value;
+    // }
+
+    // if (e.target.value.indexOf('%') == -1) {
+    //     e.target.value = percentMask(e, prefix, 'after');
+    // }
+
+    // e.target.selectionStart = cEnd + 1;
+    // e.target.selectionEnd = cEnd + 1;
+    // e.preventDefault();
 });
 
 inputPersentase.addEventListener('keyup', function (e) {
-    if (inputKeyState == 'press') {
-        inputKeyState = 'up';
-    }
+    // if (inputKeyState == 'press') {
+    //     inputKeyState = 'up';
+    // }
 
-    const prefix = ' %';
+    // const prefix = ' %';
 
-    if (e.target.value.indexOf(prefix) >= 0) {
-        if (e.code == "ArrowRight" && e.target.selectionStart >= e.target.value.length - prefix.length) {
-            inputKeyState = 'up';
-            e.preventDefault();
-            return false;
-        }
-    }
+    // if (e.target.value.indexOf(prefix) >= 0) {
+    //     if (e.code == "ArrowRight" && e.target.selectionStart >= e.target.value.length - prefix.length) {
+    //         inputKeyState = 'up';
+    //         e.preventDefault();
+    //         return false;
+    //     }
+    // }
 
-    if (e.code == "ArrowUp" || e.code == "ArrowDown" || e.code == "Home" || e.code == "End") {
-        inputKeyState = 'up';
-        e.preventDefault();
-        return false;
-    }
+    // if (e.code == "ArrowUp" || e.code == "ArrowDown" || e.code == "Home" || e.code == "End") {
+    //     inputKeyState = 'up';
+    //     e.preventDefault();
+    //     return false;
+    // }
 });
 
 inputPersentase.addEventListener('paste', function (e) {
@@ -559,6 +580,10 @@ function percentMask(event, mask = '', mask_position = 'after') {
     }
 }
 
+// var test = "Mar 16, 2010 00:00 AM";
+// test = test.replace(test.substring(13, 15), "12");
+// console.log(test)
+
 const inputPriceList = document.querySelectorAll('.modal .price');
 let oldValuePrice = {};
 inputPriceList.forEach(price => {
@@ -569,6 +594,7 @@ inputPriceList.forEach(price => {
                 if (persentase_pencairan > 0) {
                     e.target.value = numberToPrice(Math.round(priceToNumber(objectAnggaran2.saldo_anggaran) * (persentase_pencairan / 100).toFixed(4)));
                 }
+                objectPencairan[e.target.name] = priceToNumber(e.target.value);
             }, 0)
         }
     });
@@ -589,14 +615,60 @@ inputPriceList.forEach(price => {
                 e.preventDefault();
                 return false;
             }
+            if (e.target.name == 'nominal_pencairan') {
+                setTimeout(() => {
+                    setPersentasePencairan(e);
+                }, 0);
+            }
         }
         if (e.target.name == 'nominal_pencairan') {
-            // if (priceToNumber(e.target.value) > priceToNumber(objectAnggaran2.saldo_anggaran)) {
-            //     e.target.value = objectAnggaran2.saldo_anggaran;
-            //     e.preventDefault();
-            //     return false;
-            // }
-            console.log(e.target.value, e.key)
+            let number = +e.key >= 0,
+                cStart = e.target.selectionStart,
+                cEnd = e.target.selectionEnd,
+                cBlock = cStart != cEnd;
+
+            if (!number) {
+                return false;
+            }
+
+            if (cBlock) {
+                e.target.value = e.target.value.replace(e.target.value.substring(cStart, cEnd), e.key);
+                if (priceToNumber(e.target.value) > priceToNumber(objectAnggaran2.saldo_anggaran)) {
+                    e.target.value = objectAnggaran2.saldo_anggaran;
+                }
+                e.target.selectionStart = cStart;
+                e.target.selectionEnd = cStart;
+                setPersentasePencairan(e);
+                e.preventDefault();
+                return false;
+            }
+
+            if (!cBlock && cStart != e.target.value.length) {
+                let sValue = priceToNumber(e.target.value.slice(0, cStart) + e.key + e.target.value.slice(cEnd));
+                if (sValue > priceToNumber(objectAnggaran2.saldo_anggaran)) {
+                    e.target.value = objectAnggaran2.saldo_anggaran;
+                } else {
+                    e.target.value = numberToPrice(sValue);
+                    e.target.selectionStart = cStart + 1;
+                    e.target.selectionEnd = cEnd + 1;
+                }
+                setPersentasePencairan(e);
+                e.preventDefault();
+                return false;
+            }
+
+            if (!cBlock && cStart == e.target.value.length && priceToNumber(e.target.value) >= priceToNumber(objectAnggaran2.saldo_anggaran)) {
+                e.preventDefault();
+                return false;
+            }
+
+            if (priceToNumber(e.target.value + e.key) > priceToNumber(objectAnggaran2.saldo_anggaran) && cStart == e.target.value.length) {
+                e.target.value = objectAnggaran2.saldo_anggaran;
+                setPersentasePencairan(e);
+                e.preventDefault();
+                return false;
+            }
+
             setTimeout(() => {
                 setPersentasePencairan(e);
             }, 0);
@@ -611,14 +683,17 @@ inputPriceList.forEach(price => {
             prefix = numberTPArray[3];
 
         this.value = value;
+
         if (e.code != undefined) {
-            if (e.code.match('Digit')) {
+            if (+e.key >= 0) {
                 if (ribuan != null) {
                     if ((sisa == 1 && ceret + sisa > value.length - 3) || (sisa == 1 && ceret != prefix.length + 1 && ceret != value.length - prefix.length)) {
                         ceret++;
                     }
-                    e.target.selectionStart = ceret;
-                    e.target.selectionEnd = ceret;
+                    if (value != objectAnggaran2.saldo_anggaran) {
+                        e.target.selectionStart = ceret;
+                        e.target.selectionEnd = ceret;
+                    }
                 }
             }
         }
@@ -644,6 +719,9 @@ inputPriceList.forEach(price => {
                 e.target.selectionStart = ceret;
                 e.target.selectionEnd = ceret;
             }
+            if (e.target.name == 'nominal_pencairan') {
+                setPersentasePencairan(e);
+            }
         }
 
         if (e.code == "Backspace") {
@@ -663,6 +741,9 @@ inputPriceList.forEach(price => {
                 }
                 e.target.selectionStart = ceret;
                 e.target.selectionEnd = ceret;
+            }
+            if (e.target.name == 'nominal_pencairan') {
+                setPersentasePencairan(e);
             }
         }
     });
@@ -1046,6 +1127,10 @@ submitList.forEach(submit => {
                 } else {
                     delete data.fields;
                 }
+
+                console.log(objectPencairan)
+                // console.log(e.target.closest('.modal').querySelectorAll('.tab-pane.active.show [name]', objectPencairan))
+                // return false;
                 break;
 
             case 'modalKonfirmasiHapusRab':
