@@ -26,9 +26,9 @@ $('#modalBuatRencana').on('hidden.bs.modal', function (e) {
         option.removeAttribute('disabled');
     });
     e.target.querySelector('#input-keterangan-rencana').removeAttribute('disabled');
-    e.target.querySelector('#action .btn[data-btn="true"]').innerText = 'Buat RAB';
-    e.target.querySelector('#action .btn[data-btn="true"]').setAttribute('id', 'buat-rab');
-    e.target.querySelector('#action .btn[data-btn="true"]').setAttribute('type', 'submit');
+    e.target.querySelector('#action .btn[data-reactive-btn="true"]').innerText = 'Buat RAB';
+    e.target.querySelector('#action .btn[data-reactive-btn="true"]').setAttribute('id', 'buat-rab');
+    e.target.querySelector('#action .btn[data-reactive-btn="true"]').setAttribute('type', 'submit');
     e.target.querySelector('#action [data-dismiss="modal"]').innerText = 'Batal';
 
     if (e.target.querySelector('#rencana #balance') != null) {
@@ -291,7 +291,7 @@ modalNameListKeyDownInput.forEach(name => {
             }
         }
 
-        if (this.parentElement.classList.contains('is-invalid')) {
+        if (this.parentElement.classList.contains('is-invalid') && this.value.length) {
             this.parentElement.classList.remove('is-invalid');
             this.nextElementSibling.removeAttribute('data-label-after');
             this.classList.remove('is-invalid');
@@ -344,10 +344,22 @@ function setNominalPencairan(e) {
     let nominal_pencairan = '';
     if (persentase_pencairan > 0) {
         nominal_pencairan = numberToPrice(Math.round(priceToNumber(objectAnggaran2.saldo_anggaran) * (persentase_pencairan / 100).toFixed(4)));
+        if (e.target.parentElement.classList.contains('is-invalid')) {
+            e.target.parentElement.classList.remove('is-invalid');
+            e.target.parentElement.querySelector('label').removeAttribute('data-label-after');
+            e.target.classList.remove('is-invalid');
+        }
     }
     document.getElementById('input-nominal-pencairan').value = nominal_pencairan;
     objectPencairan[e.target.name] = persentase_pencairan;
     objectPencairan[document.getElementById('input-nominal-pencairan').getAttribute('name')] = priceToNumber(nominal_pencairan);
+
+    const elSebrang = document.getElementById('input-nominal-pencairan');
+    if (elSebrang.parentElement.classList.contains('is-invalid') && persentase_pencairan != '') {
+        elSebrang.parentElement.classList.remove('is-invalid');
+        elSebrang.parentElement.querySelector('label').removeAttribute('data-label-after');
+        elSebrang.classList.remove('is-invalid');
+    }
 }
 
 function setPersentasePencairan(e) {
@@ -355,13 +367,25 @@ function setPersentasePencairan(e) {
     let persentase_pencairan = '';
     if (nominal_pencairan > 0) {
         persentase_pencairan = ((nominal_pencairan / priceToNumber(objectAnggaran2.saldo_anggaran)) * 100).toFixed(2) + ' %';
+        if (e.target.parentElement.classList.contains('is-invalid')) {
+            e.target.parentElement.classList.remove('is-invalid');
+            e.target.parentElement.querySelector('label').removeAttribute('data-label-after');
+            e.target.classList.remove('is-invalid');
+        }
     }
     document.getElementById('input-persentase-pencairan').value = persentase_pencairan;
     objectPencairan[e.target.name] = nominal_pencairan;
     objectPencairan[document.getElementById('input-persentase-pencairan').getAttribute('name')] = +persentase_pencairan.replace(' %', '');
+
+    const elSebrang = document.getElementById('input-persentase-pencairan');
+    if (elSebrang.parentElement.classList.contains('is-invalid') && nominal_pencairan != '') {
+        elSebrang.parentElement.classList.remove('is-invalid');
+        elSebrang.parentElement.querySelector('label').removeAttribute('data-label-after');
+        elSebrang.classList.remove('is-invalid');
+    }
 }
 
-function putValueInKeypress(str, index, value) {
+function putValueInKeydown(str, index, value) {
     return str.substr(0, index) + value + str.substr(index);
 }
 
@@ -375,12 +399,12 @@ const inputPersentase = document.getElementById('input-persentase-pencairan');
 let oldValuePersentase,
     inputKeyState;
 inputPersentase.addEventListener('keydown', function (e) {
-    if (e.target.value == 100 && +e.key >= 0 && e.target.selectionStart == e.target.selectionEnd || e.key == '.' && e.target.value == 100 && e.target.selectionStart == e.target.selectionEnd && e.target.selectionStart == 3 || e.key == '.' && e.target.value.indexOf('.') >= 0) {
+    const prefix = ' %';
+    let selfValue = e.target.value.replace(prefix, '');
+    if (selfValue == 100 && +e.key >= 0 && e.target.selectionStart == e.target.selectionEnd || e.key == '.' && selfValue == 100 && e.target.selectionStart == e.target.selectionEnd && e.target.selectionStart == 3 || e.key == '.' && selfValue.indexOf('.') >= 0) {
         e.preventDefault();
         return false;
     }
-
-    const prefix = ' %';
 
     if (e.target.value.indexOf(prefix) >= 0) {
         if (e.code == "ArrowRight" && e.target.selectionStart >= e.target.value.length - prefix.length) {
@@ -413,9 +437,23 @@ inputPersentase.addEventListener('keydown', function (e) {
     }
 
     if (+e.key >= 0 && e.target.selectionStart == e.target.selectionEnd) {
-        e.target.value = putValueInKeypress(e.target.value, e.target.selectionStart, e.key);
-        if (e.target.value > 100) {
+        if (selfValue.indexOf('.') != -1) {
+            let indexDecimal = selfValue.indexOf('.');
+            if (selfValue.length - indexDecimal >= 3 && e.target.selectionStart > indexDecimal) {
+                e.preventDefault();
+                return false;
+            }
+        }
+        e.target.value = putValueInKeydown(selfValue, e.target.selectionStart, e.key);
+        if (e.target.value >= 100) {
             e.target.value = 100;
+        }
+        if (e.target.value.indexOf(prefix) == -1) {
+            e.target.value = percentMask(e, prefix, 'after');
+        }
+        if (e.target.value.indexOf(prefix) != -1) {
+            e.target.selectionStart = e.target.value.length - prefix.length;
+            e.target.selectionEnd = e.target.value.length - prefix.length;
         }
         e.preventDefault();
     }
@@ -434,132 +472,29 @@ inputPersentase.addEventListener('keydown', function (e) {
 });
 
 inputPersentase.addEventListener('keypress', function (e) {
-    if (inputKeyState == 'press') {
+    if (!(/[0-9\.]/.test(e.key))) {
         e.preventDefault();
         return false;
     }
-
-    // let prefix = ' %';
-    // if (!(/[0-9\.]/.test(e.key))) {
-    //     e.preventDefault();
-    //     return false;
-    // }
-
-    // console.log('press 2', e.target.selectionStart, e.target.selectionEnd)
-
-    // if (e.target.value.indexOf(prefix) >= 0) {
-    //     e.target.value = e.target.value.replace(prefix, '');
-    // }
-
-    // console.log('press 3', e.target.selectionStart, e.target.selectionEnd)
-
-    // let cStart = e.target.selectionStart,
-    //     cEnd = e.target.selectionEnd,
-    //     nan = +(e.key) / +(e.key) == 1,
-    //     nBlock = (cStart == cEnd);
-
-    // console.log('press 4', cStart, cEnd, nBlock);
-
-
-    // if (!nBlock) {
-    //     if (e.target.value.indexOf('%') == -1) {
-    //         e.target.value = percentMask(e, prefix, 'after');
-    //     }
-    //     return false;
-    // }
-
-    // if (e.target.value.indexOf('.') >= 0 && e.key == '.' || e.key == '.' && e.target.value == 100) {
-    //     if (e.target.value.indexOf('%') == -1) {
-    //         e.target.value = percentMask(e, prefix, 'after');
-    //         e.target.selectionStart = e.target.value.length - prefix.length;
-    //         e.target.selectionEnd = e.target.value.length - prefix.length;
-    //     }
-    //     e.preventDefault();
-    //     return false;
-    // }
-
-    // if (e.target.value.indexOf('.') >= 0 && e.key != '.') {
-    //     let indexDecimal = e.target.value.indexOf('.');
-    //     if (e.target.value.indexOf('%') != -1) {
-    //         indexDecimal = indexDecimal + 2;
-    //     }
-    //     if (e.target.value.length - indexDecimal != 2 && e.target.value.length > indexDecimal + 1) {
-    //         if (e.target.value.indexOf('%') == -1) {
-    //             e.target.value = percentMask(e, prefix, 'after');
-    //             e.target.selectionStart = e.target.value.length - prefix.length;
-    //             e.target.selectionEnd = e.target.value.length - prefix.length;
-    //         }
-    //         e.preventDefault();
-    //         return false;
-    //     }
-    // }
-
-    // e.target.value = putValueInKeypress(e.target.value, cStart, e.key);
-
-    // if (e.target.value > 100) {
-    //     e.target.value = 100;
-    //     e.target.value = percentMask(e, prefix, 'after');
-    //     e.target.selectionStart = 3;
-    //     e.target.selectionEnd = 3;
-    //     inputKeyState = 'press';
-    //     e.preventDefault();
-    //     return false;
-    // }
-
-    // if (cStart <= 5 && e.key == '0' && e.target.value.substring(0, 3) == '000') {
-    //     e.target.value = +e.target.value;
-    //     if (e.target.value.indexOf('%') == -1) {
-    //         e.target.value = percentMask(e, prefix, 'after');
-    //     }
-    //     return false;
-    // }
-
-    // if (cStart == 1 && e.target.value.substring(0, 1) == '0' && e.target.value.substring(2, 3) == '0' && e.key != '0') {
-    //     e.target.value = +e.target.value;
-    // }
-
-    // if (cStart == 2 && nan && e.key != '0' && e.target.value.substring(0, 2) == '00') {
-    //     e.target.value = +e.target.value;
-    // }
-
-    // if (e.target.value.indexOf('%') == -1) {
-    //     e.target.value = percentMask(e, prefix, 'after');
-    // }
-
-    // e.target.selectionStart = cEnd + 1;
-    // e.target.selectionEnd = cEnd + 1;
-    // e.preventDefault();
 });
 
 inputPersentase.addEventListener('keyup', function (e) {
-    // if (inputKeyState == 'press') {
-    //     inputKeyState = 'up';
-    // }
-
-    // const prefix = ' %';
-
-    // if (e.target.value.indexOf(prefix) >= 0) {
-    //     if (e.code == "ArrowRight" && e.target.selectionStart >= e.target.value.length - prefix.length) {
-    //         inputKeyState = 'up';
-    //         e.preventDefault();
-    //         return false;
-    //     }
-    // }
-
-    // if (e.code == "ArrowUp" || e.code == "ArrowDown" || e.code == "Home" || e.code == "End") {
-    //     inputKeyState = 'up';
-    //     e.preventDefault();
-    //     return false;
-    // }
+    inputKeyState = 'up';
 });
 
 inputPersentase.addEventListener('paste', function (e) {
     setTimeout(() => {
         const prefix = ' %';
-        e.target.value = escapeRegExp(e.target.value.trim(), '', /[^0-9.]/g);
+        e.target.value = +escapeRegExp(e.target.value.trim(), '', /[^0-9.]/g);
+        if (e.target.value >= 100) {
+            e.target.value = 100;
+        }
         if (e.target.value != '' && e.target.value.indexOf(prefix) == -1) {
             e.target.value = percentMask(e, prefix, 'after');
+            e.target.selectionStart = e.target.value.length - prefix.length;
+            e.target.selectionEnd = e.target.value.length - prefix.length;
         }
+        setNominalPencairan(e);
     }, 0);
 });
 
@@ -568,6 +503,20 @@ inputPersentase.addEventListener('click', function (e) {
     if (this.value.length && e.target.selectionStart > this.value.length - prefix.length) {
         e.target.selectionStart = this.value.length - prefix.length;
         e.target.selectionEnd = this.value.length - prefix.length;
+    }
+    if (e.target.value.indexOf(prefix) != -1 && e.target.selectionEnd == e.target.value.length) {
+        e.target.selectionStart = e.target.value.length - prefix.length;
+        e.target.selectionEnd = e.target.value.length - prefix.length;
+    }
+});
+
+inputPersentase.addEventListener('focusout', function (e) {
+    const prefix = ' %';
+    if (+e.target.value.replace(prefix, '') < 0.01) {
+        e.target.value = '';
+        document.getElementById('input-nominal-pencairan').value = '';
+        delete objectPencairan[e.target.name];
+        delete objectPencairan[document.getElementById('input-nominal-pencairan').getAttribute('name')]
     }
 });
 
@@ -580,10 +529,6 @@ function percentMask(event, mask = '', mask_position = 'after') {
     }
 }
 
-// var test = "Mar 16, 2010 00:00 AM";
-// test = test.replace(test.substring(13, 15), "12");
-// console.log(test)
-
 const inputPriceList = document.querySelectorAll('.modal .price');
 let oldValuePrice = {};
 inputPriceList.forEach(price => {
@@ -593,8 +538,11 @@ inputPriceList.forEach(price => {
                 const persentase_pencairan = +inputPersentase.value.replace(' %', '');
                 if (persentase_pencairan > 0) {
                     e.target.value = numberToPrice(Math.round(priceToNumber(objectAnggaran2.saldo_anggaran) * (persentase_pencairan / 100).toFixed(4)));
+                    objectPencairan[e.target.name] = priceToNumber(e.target.value);
+                } else {
+                    delete objectPencairan[e.target.name];
+                    delete objectPencairan[document.getElementById('input-persentase-pencairan').getAttribute('name')];
                 }
-                objectPencairan[e.target.name] = priceToNumber(e.target.value);
             }, 0)
         }
     });
@@ -1068,7 +1016,6 @@ submitList.forEach(submit => {
                 objectAnggaran.saldo_anggaran = '1.500.000';
                 e.target.closest('.modal').querySelector('#anggaran-tersedia').innerText = objectAnggaran.saldo_anggaran;
             }
-            console.log('ll')
             e.preventDefault();
             return false;
         }
@@ -1120,17 +1067,24 @@ submitList.forEach(submit => {
 
             case 'modalBuatRencana':
 
-                data.mode = 'create';
-                if (Object.keys(objectRencana).length) {
-                    data.fields = objectRencana;
-                    data.table = 'rencana';
-                } else {
-                    delete data.fields;
+                const tabActive = e.target.closest('.modal').querySelector('.tab-pane.active.show').getAttribute('id');
+                if (tabActive == 'tab-rencana') {
+                    if (Object.keys(objectRencana).length) {
+                        data.fields = objectRencana;
+                        data.table = 'rencana';
+                    } else {
+                        delete data.fields;
+                    }
+                } else if (tabActive == 'tab-pencairan') {
+                    if (Object.keys(objectPencairan).length) {
+                        data.fields = objectPencairan;
+                        data.table = 'pencairan';
+                    } else {
+                        delete data.fields;
+                    }
                 }
 
-                console.log(objectPencairan)
-                // console.log(e.target.closest('.modal').querySelectorAll('.tab-pane.active.show [name]', objectPencairan))
-                // return false;
+                data.mode = 'create';
                 break;
 
             case 'modalKonfirmasiHapusRab':
@@ -1181,22 +1135,35 @@ submitList.forEach(submit => {
 
         if (modalId == 'modalBuatRencana') {
             nameList = e.target.closest('.modal').querySelectorAll('.tab-pane.active.show [name]');
-
         } else {
             nameList = e.target.closest('.modal').querySelectorAll('[name]');
         }
 
         nameList.forEach(name => {
-            let error = false;
+            let error = false,
+                errorText = 'wajib diisi';
             if (name.tagName.toLowerCase() == 'select') {
-                if (name.value == '0') {
+                if (name.value == '0' || !name.value.length) {
                     error = true;
+                    errorText = 'wajib dipilih';
                 }
             }
 
             if (name.tagName.toLowerCase() == 'input') {
                 if (!name.value.length) {
                     error = true;
+                } else {
+                    if (name.name == 'nominal_pencairan') {
+                        if (priceToNumber(name.value) < 10000) {
+                            error = true;
+                            errorText = 'terlalu sedikit';
+                        }
+                    } else if (name.name == 'persentase_pencairan') {
+                        if (+name.value.replace(' %', '') < 10) {
+                            error = true;
+                            errorText = 'minimal 10 %';
+                        }
+                    }
                 }
             }
 
@@ -1211,8 +1178,8 @@ submitList.forEach(submit => {
                 if (!name.parentElement.classList.contains('is-invalid')) {
                     name.parentElement.classList.add('is-invalid');
                     name.classList.add('is-invalid');
-                    name.parentElement.querySelector('label').setAttribute('data-label-after', 'wajib diisi');
                 }
+                name.parentElement.querySelector('label').setAttribute('data-label-after', errorText);
             } else {
                 if (name.parentElement.classList.contains('is-invalid')) {
                     name.parentElement.classList.remove('is-invalid');
@@ -1317,33 +1284,55 @@ submitList.forEach(submit => {
 
             $('#' + modalId).modal('hide');
         } else {
-            e.target.closest('.modal').querySelector('#id-bantuan').setAttribute('disabled', 'true');
-            e.target.closest('.modal').querySelector('#input-keterangan-rencana').setAttribute('disabled', 'true');
+            if (e.target.getAttribute('id') == 'buat-rab') {
+                e.target.closest('.modal').querySelector('#id-bantuan').setAttribute('disabled', 'true');
+                e.target.closest('.modal').querySelector('#input-keterangan-rencana').setAttribute('disabled', 'true');
 
-            const optionList = e.target.closest('.modal').querySelector('#id-bantuan').children;
-            for (let index = 0; index < optionList.length; index++) {
-                const element = optionList[index];
-                if (element.value != data.fields.id_bantuan) {
-                    element.setAttribute('disabled', 'true');
+                const optionList = e.target.closest('.modal').querySelector('#id-bantuan').children;
+                for (let index = 0; index < optionList.length; index++) {
+                    const element = optionList[index];
+                    if (element.value != data.fields.id_bantuan) {
+                        element.setAttribute('disabled', 'true');
+                    }
                 }
+
+                objectRencana = {
+                    id_rencana: '10'
+                };
+
+                e.target.closest('#action').querySelector('[data-dismiss="modal"]').innerText = 'Tutup';
+
+                e.target.innerText = 'Lanjut Pencairan';
+                e.target.classList.remove('btn-outline-primary');
+                e.target.classList.add('btn-outline-orange');
+                e.target.setAttribute('type', 'button');
+                e.target.setAttribute('id', 'buat-pencairan');
+
+                const rencanaEl = document.querySelector('#' + modalId + ' #rencana');
+                const rabEl = '<div class="col-12 px-0 d-flex gap-4 flex-column" id="rab"><div class="row m-0"><button class="col-12 col-md-auto px-0 btn btn-primary m-0" data-target="#modalFormRab" data-toggle="modal" id="tambah-item-rab" type="button"><span class="p-3">Tambah Item</span></button><div class="col-12 col-md d-flex p-3 bg-lighter rounded align-items-center gap-x-2"><i class="fa-info fa"></i><h4 class="mb-0">Rp. 0</h4></div></div><table class="table table-borderless table-hover list-rab"><thead class="thead-light"><tr><th>Kebutuhan</th><th>Keterangan / Spesifikasi</th><th>Harga Satuan</th><th>Jumlah</th><th>Sub Total</th><th colspan="2" class="fit text-center">Aksi</th></tr></thead><tbody><tr><td colspan="6">Belum ada item RAB yang dibuat</td></tr></tbody></table></div>';
+                rencanaEl.insertAdjacentHTML('afterend', rabEl);
+                message = 'Rencana anggaran baru telah dibuat';
+            } else if (e.target.getAttribute('id') == 'buat-pencairan') {
+                objectPencairan = {
+                    id_pencairan: '2'
+                };
+                // if success create pelaksanaan -> apd -> pencairan
+                // fetch create petugas_pencairan
+                $('.toast[data-toast="feedback"] .toast-header .small-box').removeClass('bg-danger').addClass('bg-success');
+                $('.toast[data-toast="feedback"] .toast-header strong').text('Informasi');
+                message = 'Pelaksanaan program telah berhasil dibuatkan pencairannya';
+
+                // else failed create in pelaksanaan -> apd -> pencairan
+                // $('.toast[data-toast="feedback"] .toast-header .small-box').removeClass('bg-success').addClass('bg-danger');
+                // $('.toast[data-toast="feedback"] .toast-header strong').text('Pemberitahuan');
+                // message = 'Gagal create ...';
+
+                // End of submit
+                $('.toast[data-toast="feedback"] .toast-body').html(message);
+                $('.toast[data-toast="feedback"] .time-passed').text('Baru Saja');
+                $('.toast').toast('show');
+                $('#' + modalId).modal('hide');
             }
-
-            objectRencana = {
-                id_rencana: '10'
-            };
-
-            e.target.closest('#action').querySelector('[data-dismiss="modal"]').innerText = 'Tutup';
-
-            e.target.innerText = 'Lanjut Pencairan';
-            e.target.classList.remove('btn-outline-primary');
-            e.target.classList.add('btn-outline-orange');
-            e.target.setAttribute('type', 'button');
-            e.target.setAttribute('id', 'buat-pencairan');
-
-            const rencanaEl = document.querySelector('#' + modalId + ' #rencana');
-            const rabEl = '<div class="col-12 px-0 d-flex gap-4 flex-column" id="rab"><div class="row m-0"><button class="col-12 col-md-auto px-0 btn btn-primary m-0" data-target="#modalFormRab" data-toggle="modal" id="tambah-item-rab" type="button"><span class="p-3">Tambah Item</span></button><div class="col-12 col-md d-flex p-3 bg-lighter rounded align-items-center gap-x-2"><i class="fa-info fa"></i><h4 class="mb-0">Rp. 0</h4></div></div><table class="table table-borderless table-hover list-rab"><thead class="thead-light"><tr><th>Kebutuhan</th><th>Keterangan / Spesifikasi</th><th>Harga Satuan</th><th>Jumlah</th><th>Sub Total</th><th colspan="2" class="fit text-center">Aksi</th></tr></thead><tbody><tr><td colspan="6">Belum ada item RAB yang dibuat</td></tr></tbody></table></div>';
-            rencanaEl.insertAdjacentHTML('afterend', rabEl);
-            message = 'Rencana anggaran baru telah dibuat';
         }
 
         if (modalId == 'modalKonfirmasiAksi') {
@@ -1377,6 +1366,11 @@ submitList.forEach(submit => {
 
         $('.toast[data-toast="feedback"] .toast-header .small-box').removeClass('bg-danger').addClass('bg-success');
         $('.toast[data-toast="feedback"] .toast-header strong').text('Informasi');
+
+        // else failed fetch
+        // $('.toast[data-toast="feedback"] .toast-header .small-box').removeClass('bg-success').addClass('bg-danger');
+        // $('.toast[data-toast="feedback"] .toast-header strong').text('Pemberitahuan');
+
         // End of submit
         $('.toast[data-toast="feedback"] .toast-body').html(message);
         $('.toast[data-toast="feedback"] .time-passed').text('Baru Saja');
@@ -1592,7 +1586,7 @@ $('#id-bantuan').select2({
         // fetch success
         const elment = document.getElementById('rencana-program');
         if (document.getElementById('balance') == null) {
-            let boxInfo = '<div class="px-0 col-12 col-md bg-lighter rounded"><div class="p-3" id="balance"><h4 class="mb-1">Total Max Anggaran</h4><div class="text-sm">' + result.max_anggaran + '</div></div></div>';
+            let boxInfo = '<div class="px-0 col-12 col-md bg-lighter rounded"><div class="p-3" id="balance"><h4 class="mb-1">Saldo Anggaran Program</h4><div class="text-sm">' + result.max_anggaran + '</div></div></div>';
             elment.insertAdjacentHTML('afterend', boxInfo);
         } else {
             document.querySelector('#balance>.text-sm').innerText = result.max_anggaran;
@@ -1646,7 +1640,18 @@ $('#petugas-pencairan').select2({
     placeholder: "Pilih max dua orang",
     escapeMarkup: function (markup) { return markup; },
     maximumSelectionLength: 2,
-    templateSelection: formatSelectedMultiple
+    templateSelection: formatSelectedMultiple,
+    multiple: true
+}).on('change', function (e) {
+    objectPencairan[e.target.name] = $(this).val();
+}).on('select2:open', function () {
+    if ($(this).hasClass("select2-hidden-accessible")) {
+        if ($(this).hasClass('is-invalid')) {
+            $('#select2-' + $(this).attr('id') + '-results').parents('span.select2-dropdown').addClass('is-invalid');
+        } else {
+            $('#select2-' + $(this).attr('id') + '-results').parents('span.select2-dropdown').removeClass('is-invalid');
+        }
+    }
 });
 
 function doAbsoluteFirstAdd(table) {

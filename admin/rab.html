@@ -612,9 +612,27 @@
                                         </div>
                                     </div>
                                     <div class="col-12 px-0 tab-content" id="tab-rencana-pencairan">
-                                        <div class="tab-pane gap-y-5 " id="tab-rencana">
+                                        <div class="tab-pane gap-y-5 show active" id="tab-rencana">
                                             <div class="w-100" id="rencana">
                                                 <div class="row mx-0 gap-y-5">
+                                                    <div class="px-0 col-12">
+                                                        <div class="box rounded bg-gradient-danger text-white">
+                                                            <div class="px-2">
+                                                                <h3 class="mb-0 text-white">Saldo anggaran program
+                                                                    <b>Tidak mencukupi !!</b>
+                                                                </h3>
+                                                                <p class="mb-0">
+                                                                    Anda diwajib menyesuaikan budget atau gunakan
+                                                                    <span class="font-weight-bolder">data talang</span>
+                                                                    nanti
+                                                                    <a href="#"
+                                                                        class="font-weight-light text-white small">
+                                                                        (Syarat dan ketentuan berlaku *)
+                                                                    </a>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="px-0 col-12 col-md" id="rencana-program">
                                                         <div class="form-group position-relative mb-0">
                                                             <span class="font-weight-bolder position-absolute mt-3">
@@ -646,7 +664,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="tab-pane gap-y-5 show active" id="tab-pencairan">
+                                        <div class="tab-pane gap-y-5 " id="tab-pencairan">
                                             <div class="row gap-y-5">
                                                 <div class="col-md col-12">
                                                     <div class="py-3 px-4 rounded bg-lighter">
@@ -695,7 +713,7 @@
                                                                 class="form-control-label">Petugas</label>
                                                         </span>
                                                         <select class="custom-select" id="petugas-pencairan"
-                                                            name="petugas_pencairan" multiple>
+                                                            name="petugas_pencairan[]" multiple>
                                                             <!-- <option value="0" disabled hidden>
                                                                 Pilih salah satu
                                                             </option> -->
@@ -711,12 +729,9 @@
                                     <div class="col-12 d-flex justify-content-between py-3" id="action">
                                         <button class="btn btn-link font-weight-bolder text-warning"
                                             data-dismiss="modal" type="button">Batal</button>
-                                        <!-- <div class="btn btn-outline-primary" id="buat-rab" type="submit"
-                                            data-btn="true">Buat
-                                            RAB</div> -->
-                                        <div class="btn btn-outline-primary" id="buat-pencairan" type="submit"
-                                            data-btn="true">Buat
-                                            Pencairan</div>
+                                        <div class="btn btn-outline-primary" id="buat-rab" type="submit"
+                                            data-reactive-btn="true">Buat
+                                            RAB</div>
                                     </div>
                                 </div>
                             </div>

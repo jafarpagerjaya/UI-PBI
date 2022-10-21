@@ -55,6 +55,7 @@ input[maxlength]~span.input-char-left {
     height: 100%;
     text-transform: capitalize;
     white-space: nowrap;
+    align-items: center;
 }
 
 .form-label-group.error textarea~label.form-control-label,
