@@ -343,7 +343,7 @@ function setNominalPencairan(e) {
     const persentase_pencairan = +e.target.value.replace(' %', '');
     let nominal_pencairan = '';
     if (persentase_pencairan > 0) {
-        nominal_pencairan = numberToPrice(Math.round(priceToNumber(objectAnggaran2.saldo_anggaran) * (persentase_pencairan / 100).toFixed(4)));
+        nominal_pencairan = numberToPrice(Math.round(objectAnggaran2.saldo_anggaran * (persentase_pencairan / 100).toFixed(4)));
         if (e.target.parentElement.classList.contains('is-invalid')) {
             e.target.parentElement.classList.remove('is-invalid');
             e.target.parentElement.querySelector('label').removeAttribute('data-label-after');
@@ -366,7 +366,7 @@ function setPersentasePencairan(e) {
     const nominal_pencairan = priceToNumber(e.target.value);
     let persentase_pencairan = '';
     if (nominal_pencairan > 0) {
-        persentase_pencairan = ((nominal_pencairan / priceToNumber(objectAnggaran2.saldo_anggaran)) * 100).toFixed(2) + ' %';
+        persentase_pencairan = ((nominal_pencairan / objectAnggaran2.saldo_anggaran) * 100).toFixed(2) + ' %';
         if (e.target.parentElement.classList.contains('is-invalid')) {
             e.target.parentElement.classList.remove('is-invalid');
             e.target.parentElement.querySelector('label').removeAttribute('data-label-after');
@@ -390,7 +390,7 @@ function putValueInKeydown(str, index, value) {
 }
 
 let objectAnggaran2 = {
-    saldo_anggaran: '1.500.000'
+    saldo_anggaran: 1500000
 };
 
 let objectPencairan = {};
@@ -537,7 +537,7 @@ inputPriceList.forEach(price => {
             setTimeout(() => {
                 const persentase_pencairan = +inputPersentase.value.replace(' %', '');
                 if (persentase_pencairan > 0) {
-                    e.target.value = numberToPrice(Math.round(priceToNumber(objectAnggaran2.saldo_anggaran) * (persentase_pencairan / 100).toFixed(4)));
+                    e.target.value = numberToPrice(Math.round(objectAnggaran2.saldo_anggaran * (persentase_pencairan / 100).toFixed(4)));
                     objectPencairan[e.target.name] = priceToNumber(e.target.value);
                 } else {
                     delete objectPencairan[e.target.name];
@@ -581,8 +581,8 @@ inputPriceList.forEach(price => {
 
             if (cBlock) {
                 e.target.value = e.target.value.replace(e.target.value.substring(cStart, cEnd), e.key);
-                if (priceToNumber(e.target.value) > priceToNumber(objectAnggaran2.saldo_anggaran)) {
-                    e.target.value = objectAnggaran2.saldo_anggaran;
+                if (priceToNumber(e.target.value) > objectAnggaran2.saldo_anggaran) {
+                    e.target.value = numberToPrice(objectAnggaran2.saldo_anggaran);
                 }
                 e.target.selectionStart = cStart;
                 e.target.selectionEnd = cStart;
@@ -593,8 +593,8 @@ inputPriceList.forEach(price => {
 
             if (!cBlock && cStart != e.target.value.length) {
                 let sValue = priceToNumber(e.target.value.slice(0, cStart) + e.key + e.target.value.slice(cEnd));
-                if (sValue > priceToNumber(objectAnggaran2.saldo_anggaran)) {
-                    e.target.value = objectAnggaran2.saldo_anggaran;
+                if (sValue > objectAnggaran2.saldo_anggaran) {
+                    e.target.value = numberToPrice(objectAnggaran2.saldo_anggaran);
                 } else {
                     e.target.value = numberToPrice(sValue);
                     e.target.selectionStart = cStart + 1;
@@ -605,13 +605,13 @@ inputPriceList.forEach(price => {
                 return false;
             }
 
-            if (!cBlock && cStart == e.target.value.length && priceToNumber(e.target.value) >= priceToNumber(objectAnggaran2.saldo_anggaran)) {
+            if (!cBlock && cStart == e.target.value.length && priceToNumber(e.target.value) >= objectAnggaran2.saldo_anggaran) {
                 e.preventDefault();
                 return false;
             }
 
-            if (priceToNumber(e.target.value + e.key) > priceToNumber(objectAnggaran2.saldo_anggaran) && cStart == e.target.value.length) {
-                e.target.value = objectAnggaran2.saldo_anggaran;
+            if (priceToNumber(e.target.value + e.key) > objectAnggaran2.saldo_anggaran && cStart == e.target.value.length) {
+                e.target.value = numberToPrice(objectAnggaran2.saldo_anggaran);
                 setPersentasePencairan(e);
                 e.preventDefault();
                 return false;
@@ -1013,8 +1013,8 @@ submitList.forEach(submit => {
                 e.target.setAttribute('type', 'submit');
                 // fetch data saldo anggaran bantuan rencana ini
                 // success
-                objectAnggaran.saldo_anggaran = '1.500.000';
-                e.target.closest('.modal').querySelector('#anggaran-tersedia').innerText = objectAnggaran.saldo_anggaran;
+                objectAnggaran.saldo_anggaran = 1500000;
+                e.target.closest('.modal').querySelector('#anggaran-tersedia').innerText = numberToPrice(objectAnggaran.saldo_anggaran);
             }
             e.preventDefault();
             return false;
@@ -1236,12 +1236,17 @@ submitList.forEach(submit => {
             });
 
             if (modalId == 'modalFormRab') {
+                let budget_warning = false;
                 if (dataMode == 'create') {
                     // return
                     const dataRab = {
                         id_rab: 1,
-                        total_anggaran: '10.000.000'
+                        total_anggaran: 10000000
                     };
+
+                    if (dataRab.total_anggaran > objectAnggaran.saldo_anggaran) {
+                        budget_warning = true;
+                    }
 
                     if (document.querySelector('#rab table>tbody>tr:not([data-id-rab])') != undefined) {
                         document.querySelector('#rab table>tbody>tr:not([data-id-rab])').remove();
@@ -1249,13 +1254,21 @@ submitList.forEach(submit => {
 
                     const trRab = '<tr data-id-rab="' + dataRab.id_rab + '" class="highlight"><td>' + namaKebutuhan + '</td><td>' + data.fields.keterangan + '</td><td>' + data.fields.harga_satuan + '</td><td>' + data.fields.jumlah + '</td><td>' + numberToPrice(priceToNumber(data.fields.harga_satuan) * priceToNumber(data.fields.jumlah)) + '</td><td class="px-0"><a href="#" class="btn btn-outline-danger btn-sm font-weight-bolder delete">Hapus</a></td><td><a href="#" class="btn btn-outline-orange btn-sm font-weight-bolder update">Ubah</a></td></tr>';
                     document.querySelector('#rab table>tbody').insertAdjacentHTML('afterbegin', trRab);
-                    document.querySelector('#rab .bg-lighter .mb-0').innerText = 'Rp. ' + dataRab.total_anggaran;
+                    document.querySelector('#rab .bg-lighter .mb-0').innerText = 'Rp. ' + numberToPrice(dataRab.total_anggaran);
                     setTimeout(() => {
                         document.querySelector('#rab table>tbody>tr[data-id-rab="' + dataRab.id_rab + '"]').classList.remove('highlight');
                     }, 3000);
                 }
 
                 if (dataMode == 'update') {
+                    // return
+                    const dataRab = {
+                        total_anggaran: 10000000
+                    };
+
+                    if (dataRab.total_anggaran > objectAnggaran.saldo_anggaran) {
+                        budget_warning = true;
+                    }
                     const trRabUpdateEl = document.querySelector('#rab table>tbody>tr[data-id-rab="' + data.id_rab + '"]');
                     Object.keys(data.fields).forEach(key => {
                         if (key == 'id_kebutuhan') {
@@ -1274,6 +1287,13 @@ submitList.forEach(submit => {
                     setTimeout(() => {
                         trRabUpdateEl.classList.remove('highlight');
                     }, 3000);
+                }
+
+                if (budget_warning == true) {
+                    if (document.querySelector('#budget-warning') == null) {
+                        const budget_warning_html = '<div class="col-12 px-0" id="budget-warning"><div class="box rounded bg-gradient-danger text-white"><div class="px-2"><h4 class="mb-0 text-white">Saldo anggaran program <span class="font-weight-bolder">Tidak mencukupi !!</span></h4><div class="text-sm">Resiko program kekurangan anggaran, anda diwajib menyesuaikan budget atau gunakan <span class="font-weight-bolder">data talang</span> nanti <a href="#" class="font-weight-light text-white small">(Syarat dan ketentuan berlaku *)</a></div></div></div></div>';
+                        document.querySelector('#stepper').insertAdjacentHTML('afterend', budget_warning_html);
+                    }
                 }
             }
 
@@ -1581,20 +1601,22 @@ $('#id-bantuan').select2({
 
         // fetch data
         const result = {
-            max_anggaran: '3.000.000'
+            max_anggaran: 3000000
         };
         // fetch success
         const elment = document.getElementById('rencana-program');
         if (document.getElementById('balance') == null) {
-            let boxInfo = '<div class="px-0 col-12 col-md bg-lighter rounded"><div class="p-3" id="balance"><h4 class="mb-1">Saldo Anggaran Program</h4><div class="text-sm">' + result.max_anggaran + '</div></div></div>';
+            let boxInfo = '<div class="px-0 col-12 col-md bg-lighter rounded"><div class="p-3" id="balance"><h4 class="mb-1">Saldo Anggaran Program</h4><div class="text-sm">' + numberToPrice(result.max_anggaran + '</div></div></div>');
             elment.insertAdjacentHTML('afterend', boxInfo);
         } else {
-            document.querySelector('#balance>.text-sm').innerText = result.max_anggaran;
+            document.querySelector('#balance>.text-sm').innerText = numberToPrice(result.max_anggaran);
         }
 
-        document.getElementById('total-rab').innerText = result.max_anggaran;
+        document.getElementById('total-rab').innerText = numberToPrice(result.max_anggaran);
+        objectAnggaran.saldo_anggaran = result.max_anggaran;
     } else {
         delete objectRencana.id_bantuan;
+        objectAnggaran = {};
     }
 }).on('select2:open', function () {
     if ($(this).hasClass("select2-hidden-accessible")) {
