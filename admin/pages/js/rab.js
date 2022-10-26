@@ -343,7 +343,7 @@ function setNominalPencairan(e) {
     const persentase_pencairan = +e.target.value.replace(' %', '');
     let nominal_pencairan = '';
     if (persentase_pencairan > 0) {
-        nominal_pencairan = numberToPrice(Math.round(objectAnggaran2.saldo_anggaran * (persentase_pencairan / 100).toFixed(4)));
+        nominal_pencairan = numberToPrice(Math.round(objectAnggaran.saldo_anggaran * (persentase_pencairan / 100).toFixed(4)));
         if (e.target.parentElement.classList.contains('is-invalid')) {
             e.target.parentElement.classList.remove('is-invalid');
             e.target.parentElement.querySelector('label').removeAttribute('data-label-after');
@@ -366,7 +366,7 @@ function setPersentasePencairan(e) {
     const nominal_pencairan = priceToNumber(e.target.value);
     let persentase_pencairan = '';
     if (nominal_pencairan > 0) {
-        persentase_pencairan = ((nominal_pencairan / objectAnggaran2.saldo_anggaran) * 100).toFixed(2) + ' %';
+        persentase_pencairan = ((nominal_pencairan / objectAnggaran.saldo_anggaran) * 100).toFixed(2) + ' %';
         if (e.target.parentElement.classList.contains('is-invalid')) {
             e.target.parentElement.classList.remove('is-invalid');
             e.target.parentElement.querySelector('label').removeAttribute('data-label-after');
@@ -537,7 +537,7 @@ inputPriceList.forEach(price => {
             setTimeout(() => {
                 const persentase_pencairan = +inputPersentase.value.replace(' %', '');
                 if (persentase_pencairan > 0) {
-                    e.target.value = numberToPrice(Math.round(objectAnggaran2.saldo_anggaran * (persentase_pencairan / 100).toFixed(4)));
+                    e.target.value = numberToPrice(Math.round(objectAnggaran.saldo_anggaran * (persentase_pencairan / 100).toFixed(4)));
                     objectPencairan[e.target.name] = priceToNumber(e.target.value);
                 } else {
                     delete objectPencairan[e.target.name];
@@ -569,132 +569,158 @@ inputPriceList.forEach(price => {
                 }, 0);
             }
         }
-        if (e.target.name == 'nominal_pencairan') {
-            let number = +e.key >= 0,
-                cStart = e.target.selectionStart,
-                cEnd = e.target.selectionEnd,
-                cBlock = cStart != cEnd;
 
-            if (!number) {
-                return false;
-            }
+        let number = +e.key >= 0,
+            cStart = e.target.selectionStart,
+            cEnd = e.target.selectionEnd,
+            cBlock = cStart != cEnd,
+            value = e.target.value;
 
-            if (cBlock) {
-                e.target.value = e.target.value.replace(e.target.value.substring(cStart, cEnd), e.key);
-                if (priceToNumber(e.target.value) > objectAnggaran2.saldo_anggaran) {
-                    e.target.value = numberToPrice(objectAnggaran2.saldo_anggaran);
-                }
-                e.target.selectionStart = cStart;
-                e.target.selectionEnd = cStart;
-                setPersentasePencairan(e);
-                e.preventDefault();
-                return false;
-            }
-
-            if (!cBlock && cStart != e.target.value.length) {
-                let sValue = priceToNumber(e.target.value.slice(0, cStart) + e.key + e.target.value.slice(cEnd));
-                if (sValue > objectAnggaran2.saldo_anggaran) {
-                    e.target.value = numberToPrice(objectAnggaran2.saldo_anggaran);
-                } else {
-                    e.target.value = numberToPrice(sValue);
-                    e.target.selectionStart = cStart + 1;
-                    e.target.selectionEnd = cEnd + 1;
-                }
-                setPersentasePencairan(e);
-                e.preventDefault();
-                return false;
-            }
-
-            if (!cBlock && cStart == e.target.value.length && priceToNumber(e.target.value) >= objectAnggaran2.saldo_anggaran) {
-                e.preventDefault();
-                return false;
-            }
-
-            if (priceToNumber(e.target.value + e.key) > objectAnggaran2.saldo_anggaran && cStart == e.target.value.length) {
-                e.target.value = numberToPrice(objectAnggaran2.saldo_anggaran);
-                setPersentasePencairan(e);
-                e.preventDefault();
-                return false;
-            }
-
-            setTimeout(() => {
-                setPersentasePencairan(e);
-            }, 0);
+        if (!number) {
+            return false;
         }
+
+        if (cBlock) {
+            e.target.value = numberToPrice(priceToNumber(value.replace(value.substring(cStart, cEnd), e.key)));
+            e.preventDefault();
+            return false;
+        }
+
+        if (!cBlock && cStart != value.length) {
+            e.target.value = numberToPrice(priceToNumber(value.slice(0, cStart) + e.key + value.slice(cEnd)));
+            e.target.selectionStart = cStart + 1;
+            e.target.selectionEnd = cEnd + 1;
+            e.preventDefault();
+            return false;
+        }
+
+        if (!cBlock && cStart == value.length) {
+            e.target.value = numberToPrice(priceToNumber(putValueInKeydown(value, cStart, e.key)) >= 1000000000000000 ? 1000000000000000 : priceToNumber(putValueInKeydown(value, cStart, e.key)));
+            e.preventDefault();
+            return false;
+        }
+
+        // if (e.target.name == 'nominal_pencairan') {
+        //     if (cBlock) {
+        //         e.target.value = e.target.value.replace(e.target.value.substring(cStart, cEnd), e.key);
+        //         if (priceToNumber(e.target.value) > objectAnggaran.saldo_anggaran) {
+        //             e.target.value = numberToPrice(objectAnggaran.saldo_anggaran);
+        //         }
+        //         e.target.selectionStart = cStart;
+        //         e.target.selectionEnd = cStart;
+        //         setPersentasePencairan(e);
+        //         e.preventDefault();
+        //         return false;
+        //     }
+
+        //     if (!cBlock && cStart != e.target.value.length) {
+        //         let sValue = priceToNumber(e.target.value.slice(0, cStart) + e.key + e.target.value.slice(cEnd));
+        //         if (sValue > objectAnggaran.saldo_anggaran) {
+        //             e.target.value = numberToPrice(objectAnggaran.saldo_anggaran);
+        //         } else {
+        //             e.target.value = numberToPrice(sValue);
+        //             e.target.selectionStart = cStart + 1;
+        //             e.target.selectionEnd = cEnd + 1;
+        //         }
+        //         setPersentasePencairan(e);
+        //         e.preventDefault();
+        //         return false;
+        //     }
+
+        //     if (!cBlock && cStart == e.target.value.length && priceToNumber(e.target.value) >= objectAnggaran.saldo_anggaran) {
+        //         e.preventDefault();
+        //         return false;
+        //     }
+
+        //     if (priceToNumber(e.target.value + e.key) > objectAnggaran.saldo_anggaran && cStart == e.target.value.length) {
+        //         e.target.value = numberToPrice(objectAnggaran.saldo_anggaran);
+        //         setPersentasePencairan(e);
+        //         e.preventDefault();
+        //         return false;
+        //     }
+
+        //     setTimeout(() => {
+        //         setPersentasePencairan(e);
+        //     }, 0);
+        // }
+        e.preventDefault();
+        return false;
     });
-    price.addEventListener('keyup', function (e) {
-        let ceret = e.target.selectionStart,
-            numberTPArray = numberToPrice(this.value, '', e),
-            value = numberTPArray[0],
-            sisa = numberTPArray[1],
-            ribuan = numberTPArray[2],
-            prefix = numberTPArray[3];
+    // price.addEventListener('keyup', function (e) {
+    //     let ceret = e.target.selectionStart,
+    //         numberTPArray = numberToPrice(this.value, '', e),
+    //         value = numberTPArray[0],
+    //         sisa = numberTPArray[1],
+    //         ribuan = numberTPArray[2],
+    //         prefix = numberTPArray[3];
 
-        this.value = value;
+    //     this.value = value;
 
-        if (e.code != undefined) {
-            if (+e.key >= 0) {
-                if (ribuan != null) {
-                    if ((sisa == 1 && ceret + sisa > value.length - 3) || (sisa == 1 && ceret != prefix.length + 1 && ceret != value.length - prefix.length)) {
-                        ceret++;
-                    }
-                    if (value != objectAnggaran2.saldo_anggaran) {
-                        e.target.selectionStart = ceret;
-                        e.target.selectionEnd = ceret;
-                    }
-                }
-            }
-        }
+    //     console.log(this.value)
 
-        if (e.code == "Delete") {
-            if (ribuan != null) {
-                if (sisa == 0 && ceret != prefix.length && ceret != this.value.length && ceret != this.value.length - 1 || sisa == 0 && ceret >= this.value.length - 3 && ceret > prefix.length) {
-                    ceret--;
-                }
-                if (oldValuePrice[price.getAttribute('name')] == this.value) {
-                    if (sisa == 0) {
-                        ceret += 2;
-                    } else if (sisa == 2) {
-                        ceret++;
-                    } else {
-                        ceret++;
-                    }
-                    this.value = numberToPrice(removeByIndex(this.value, ceret), prefix);
-                    if (sisa == 1) {
-                        ceret--;
-                    }
-                }
-                e.target.selectionStart = ceret;
-                e.target.selectionEnd = ceret;
-            }
-            if (e.target.name == 'nominal_pencairan') {
-                setPersentasePencairan(e);
-            }
-        }
+    //     if (e.code != undefined) {
+    //         if (+e.key >= 0) {
+    //             if (ribuan != null) {
+    //                 if ((sisa == 1 && ceret + sisa > value.length - 3) || (sisa == 1 && ceret != prefix.length + 1 && ceret != value.length - prefix.length)) {
+    //                     ceret++;
+    //                 }
+    //                 if (value != objectAnggaran.saldo_anggaran) {
+    //                     e.target.selectionStart = ceret;
+    //                     e.target.selectionEnd = ceret;
+    //                 }
+    //             }
+    //         }
+    //     }
 
-        if (e.code == "Backspace") {
-            if (ceret <= prefix.length && ribuan == null || ribuan != null && sisa == 0 && ceret == prefix.length) {
-                e.target.selectionStart = ceret;
-                e.target.selectionEnd = ceret;
-            }
-            if (ribuan != null && ceret > prefix.length) {
-                if (sisa == 0 && oldValuePrice[price.getAttribute('name')] != this.value) {
-                    ceret--;
-                }
-                if (oldValuePrice[price.getAttribute('name')] == this.value) {
-                    this.value = numberToPrice(removeByIndex(this.value, --ceret), prefix);
-                    if (sisa == 1 && ceret > prefix.length + 1) {
-                        ceret--;
-                    }
-                }
-                e.target.selectionStart = ceret;
-                e.target.selectionEnd = ceret;
-            }
-            if (e.target.name == 'nominal_pencairan') {
-                setPersentasePencairan(e);
-            }
-        }
-    });
+    //     if (e.code == "Delete") {
+    //         if (ribuan != null) {
+    //             if (sisa == 0 && ceret != prefix.length && ceret != this.value.length && ceret != this.value.length - 1 || sisa == 0 && ceret >= this.value.length - 3 && ceret > prefix.length) {
+    //                 ceret--;
+    //             }
+    //             if (oldValuePrice[price.getAttribute('name')] == this.value) {
+    //                 if (sisa == 0) {
+    //                     ceret += 2;
+    //                 } else if (sisa == 2) {
+    //                     ceret++;
+    //                 } else {
+    //                     ceret++;
+    //                 }
+    //                 this.value = numberToPrice(removeByIndex(this.value, ceret), prefix);
+    //                 if (sisa == 1) {
+    //                     ceret--;
+    //                 }
+    //             }
+    //             e.target.selectionStart = ceret;
+    //             e.target.selectionEnd = ceret;
+    //         }
+    //         if (e.target.name == 'nominal_pencairan') {
+    //             setPersentasePencairan(e);
+    //         }
+    //     }
+
+    //     if (e.code == "Backspace") {
+    //         if (ceret <= prefix.length && ribuan == null || ribuan != null && sisa == 0 && ceret == prefix.length) {
+    //             e.target.selectionStart = ceret;
+    //             e.target.selectionEnd = ceret;
+    //         }
+    //         if (ribuan != null && ceret > prefix.length) {
+    //             if (sisa == 0 && oldValuePrice[price.getAttribute('name')] != this.value) {
+    //                 ceret--;
+    //             }
+    //             if (oldValuePrice[price.getAttribute('name')] == this.value) {
+    //                 this.value = numberToPrice(removeByIndex(this.value, --ceret), prefix);
+    //                 if (sisa == 1 && ceret > prefix.length + 1) {
+    //                     ceret--;
+    //                 }
+    //             }
+    //             e.target.selectionStart = ceret;
+    //             e.target.selectionEnd = ceret;
+    //         }
+    //         if (e.target.name == 'nominal_pencairan') {
+    //             setPersentasePencairan(e);
+    //         }
+    //     }
+    // });
     price.addEventListener('change', function (e) {
         if (typeof this.value == "string") {
             if (priceToNumber(this.value) > 0) {
@@ -1291,7 +1317,7 @@ submitList.forEach(submit => {
 
                 if (budget_warning == true) {
                     if (document.querySelector('#budget-warning') == null) {
-                        const budget_warning_html = '<div class="col-12 px-0" id="budget-warning"><div class="box rounded bg-gradient-danger text-white"><div class="px-2"><h4 class="mb-0 text-white">Saldo anggaran program <span class="font-weight-bolder">Tidak mencukupi !!</span></h4><div class="text-sm">Resiko program kekurangan anggaran, anda diwajib menyesuaikan budget atau gunakan <span class="font-weight-bolder">data talang</span> nanti <a href="#" class="font-weight-light text-white small">(Syarat dan ketentuan berlaku *)</a></div></div></div></div>';
+                        const budget_warning_html = '<div class="col-12 px-0" id="budget-warning"><div class="box rounded bg-gradient-danger text-white"><div class="px-2"><h4 class="mb-0 text-white">Saldo anggaran program <span class="font-weight-bolder">Tidak Cukup !!</span></h4><div class="text-sm">Resiko anda hanya dapat mencairkan program sejumlah <b>Rp. ' + numberToPrice(objectAnggaran.saldo_anggaran) + '</b> untuk anggaran tertentu di tahap ini, atau gunakan <span class="font-weight-bolder" id="btn-dana-talang">data talang</span> nanti <a href="#" class="font-weight-light text-white small">(Syarat dan ketentuan berlaku *)</a></div></div></div></div>';
                         document.querySelector('#stepper').insertAdjacentHTML('afterend', budget_warning_html);
                     }
                 }

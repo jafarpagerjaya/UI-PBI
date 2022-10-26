@@ -612,7 +612,7 @@
                                         </div>
                                     </div>
                                     <div class="col-12 px-0 tab-content" id="tab-rencana-pencairan">
-                                        <div class="tab-pane gap-y-5 show active" id="tab-rencana">
+                                        <div class="tab-pane gap-y-5 " id="tab-rencana">
                                             <div class="w-100" id="rencana">
                                                 <div class="row mx-0 gap-y-5">
                                                     <div class="px-0 col-12 col-md" id="rencana-program">
@@ -642,6 +642,61 @@
                                                             <label for="input-keterangan-rencana"
                                                                 class="form-control-label">Keterangan</label>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane gap-y-5 show active" id="tab-pelaksanaan">
+                                            <div class="row gap-y-5 gap-x-2">
+                                                <div class="col-md col-12">
+                                                    <div class="py-3 px-4 rounded bg-lighter">
+                                                        <h4 class="mb-1">Total RAB</h4>
+                                                        <div class="text-sm" id="total-rab">0</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md col-12">
+                                                    <div class="py-3 px-4 rounded bg-lighter">
+                                                        <h4 class="mb-1">Anggaran Tersedia</h4>
+                                                        <div class="text-sm" id="anggaran-tersedia">0</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md col-12">
+                                                    <div class="py-3 px-4 rounded bg-lighter">
+                                                        <h4 class="mb-1">Pelaksanaan Ke</h4>
+                                                        <div class="text-sm">
+                                                            1
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row gap-y-5 gap-x-2">
+                                                <div class="col-12 col-md">
+                                                    <div class="form-label-group">
+                                                        <input type="text" name="jumlah_pelaksanaan"
+                                                            placeholder="Jumlah Pelaksanaan" class="form-control price"
+                                                            id="input-jumlah-pelaksanaan" autocomplete="off">
+                                                        <label for="input-jumlah-pelaksanaan"
+                                                            class="form-control-label">Jumlah Pelaksanaan</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md">
+                                                    <div class="form-label-group">
+                                                        <input type="text" name="anggaran_pelaksanaan"
+                                                            placeholder="Anggaran Pelaksanaan"
+                                                            class="form-control price" id="input-anggaran-pelaksanaan"
+                                                            autocomplete="off">
+                                                        <label for="input-anggaran-pelaksanaan"
+                                                            class="form-control-label">Anggaran Pelaksanaan</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-label-group mb-4">
+                                                        <textarea type="text" name="deskripsi" id="textarea-deskripsi"
+                                                            class="form-control px-4 py-3"
+                                                            placeholder="Deskripsi Pelaksanaan" autocomplete="off"
+                                                            maxlength="255"></textarea>
+                                                        <label for="textarea-deskripsi"
+                                                            class="form-control-label">Deskripsi Pelaksanaan</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -882,7 +937,8 @@
                                                         <div class="col-6">
                                                             <div class="text-sm">Status Rencana</div>
                                                             <div class="text-sm font-weight-bold text-orange"
-                                                                id="status-rencana">Belum
+                                                                id="status-rencana">
+                                                                Belum
                                                                 Disetujui
                                                             </div>
                                                         </div>
