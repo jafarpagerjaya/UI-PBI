@@ -58,6 +58,11 @@ input[maxlength]~span.input-char-left {
     align-items: center;
 }
 
+.form-label-group.error textarea+.form-control-label::after,
+.form-label-group.is-invalid textarea+.form-control-label::after {
+    width: auto;
+}
+
 .form-label-group.error textarea~label.form-control-label,
 .form-label-group.is-invalid textarea~label.form-control-label,
 .form-group.is-invalid textarea~label.form-control-label,

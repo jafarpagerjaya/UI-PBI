@@ -59,7 +59,8 @@ h2 {
 
 #balance>.text-sm::before,
 #total-rab.text-sm::before,
-#anggaran-tersedia.text-sm::before {
+#anggaran-tersedia.text-sm::before,
+#penggunaan-anggaran::before {
     content: 'Rp. ';
 }
 
@@ -338,6 +339,14 @@ select.custom-select.is-invalid[multiple]~.select2::after {
 #rab>.row>.col-12:not(button) {
     border-top-left-radius: 0px !important;
     border-top-right-radius: 0px !important;
+}
+
+table .custom-toggle {
+    width: 66px;
+}
+
+table .custom-toggle input:checked+.custom-toggle-slider::before {
+    left: 15px;
 }
 
 @media (min-width: 768px) {

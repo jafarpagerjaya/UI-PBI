@@ -40,6 +40,10 @@ function removeByIndex(str, index) {
     return str.slice(0, index) + str.slice(index + 1);
 }
 
+String.prototype.replaceAt = function (indexStart, indexEnd, replacement) {
+    return this.substring(0, indexStart) + replacement + this.substring(indexEnd);
+}
+
 function autoResize() {
     this.style.height = 'auto';
     this.style.height = this.scrollHeight + 'px';

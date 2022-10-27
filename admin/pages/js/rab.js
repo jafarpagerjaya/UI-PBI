@@ -533,6 +533,9 @@ const inputPriceList = document.querySelectorAll('.modal .price');
 let oldValuePrice = {};
 inputPriceList.forEach(price => {
     price.addEventListener('focusout', function (e) {
+        if (priceToNumber(e.target.value) == 0) {
+
+        }
         if (e.target.name == 'nominal_pencairan') {
             setTimeout(() => {
                 const persentase_pencairan = +inputPersentase.value.replace(' %', '');
@@ -548,46 +551,89 @@ inputPriceList.forEach(price => {
     });
     price.addEventListener('keypress', preventNonNumbersInInput);
     price.addEventListener('keydown', function (e) {
-        let prefix = '';
+        let number = +e.key >= 0,
+            cStart = e.target.selectionStart,
+            cEnd = e.target.selectionEnd,
+            cBlock = cStart != cEnd,
+            value = e.target.value,
+            cSparator = (e.target.value.match(/\./g) || []).length,
+            prefix = '';
+
         if (e.code == "ArrowUp" || e.target.selectionStart == 0 && e.target.selectionStart != e.target.selectionEnd && e.code == "ArrowLeft" || e.code == "ArrowLeft" && e.target.selectionStart == prefix.length || e.code == "Home") {
             e.target.selectionStart = prefix.length;
             e.target.selectionEnd = prefix.length;
             e.preventDefault();
             return false;
         }
-        if (e.code == "Delete" || e.code == "Backspace") {
-            oldValuePrice[price.getAttribute('name')] = this.value;
-            if (e.target.selectionStart <= prefix.length && e.target.selectionStart == e.target.selectionEnd && e.code == "Backspace") {
-                e.target.selectionStart = prefix.length;
-                e.target.selectionEnd = prefix.length;
-                e.preventDefault();
-                return false;
-            }
-            if (e.target.name == 'nominal_pencairan') {
-                setTimeout(() => {
-                    setPersentasePencairan(e);
-                }, 0);
-            }
-        }
 
-        let number = +e.key >= 0,
-            cStart = e.target.selectionStart,
-            cEnd = e.target.selectionEnd,
-            cBlock = cStart != cEnd,
-            value = e.target.value;
+        if (e.code == "Delete" || e.code == "Backspace") {
+            setTimeout(() => {
+                let indexRemoveStart = cStart;
+
+                if (e.code == "Backspace") {
+                    if (value.substr(cStart - 1, 1) == '.') {
+                        indexRemoveStart--;
+                    }
+
+                    e.target.value = numberToPrice(removeByIndex(e.target.value, indexRemoveStart - 1));
+                    if ((e.target.value.match(/\./g) || []).length < cSparator) {
+                        cStart--;
+                    }
+                    cStart--;
+                    if (cStart < 0) {
+                        cStart = 0;
+                    }
+                } else {
+                    if (value.substr(cStart, 1) == '.') {
+                        indexRemoveStart++;
+                        cStart = indexRemoveStart;
+                    }
+
+                    e.target.value = numberToPrice(removeByIndex(e.target.value, indexRemoveStart));
+
+                    if ((e.target.value.match(/\./g) || []).length < cSparator) {
+                        cStart--;
+                    }
+
+                    if (cStart < 0) {
+                        cStart = 0;
+                    }
+                }
+
+                e.target.selectionStart = cStart;
+                e.target.selectionEnd = cStart;
+
+                if (e.target.name == 'nominal_pencairan') {
+                    setPersentasePencairan(e);
+                }
+            }, 0);
+            e.preventDefault();
+            return false;
+        }
 
         if (!number) {
             return false;
         }
 
         if (cBlock) {
-            e.target.value = numberToPrice(priceToNumber(value.replace(value.substring(cStart, cEnd), e.key)));
+            e.target.value = numberToPrice(priceToNumber(value.replaceAt(cStart, cEnd, e.key)));
+
+            if ((e.target.value.match(/\./g) || []).length < cSparator) {
+                cStart++;
+            }
+
+            e.target.selectionStart = cStart + 1;
+            e.target.selectionEnd = cStart + 1;
             e.preventDefault();
             return false;
         }
 
         if (!cBlock && cStart != value.length) {
             e.target.value = numberToPrice(priceToNumber(value.slice(0, cStart) + e.key + value.slice(cEnd)));
+            if ((e.target.value.match(/\./g) || []).length > cSparator) {
+                cStart++;
+                cEnd++;
+            }
             e.target.selectionStart = cStart + 1;
             e.target.selectionEnd = cEnd + 1;
             e.preventDefault();
@@ -1179,6 +1225,13 @@ submitList.forEach(submit => {
                 if (!name.value.length) {
                     error = true;
                 } else {
+                    if (name.classList.contains('price')) {
+                        if (priceToNumber(name.value) < 1) {
+                            error = true;
+                            errorText = 'tidak valid';
+                        }
+                    }
+
                     if (name.name == 'nominal_pencairan') {
                         if (priceToNumber(name.value) < 10000) {
                             error = true;
