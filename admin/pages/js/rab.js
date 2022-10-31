@@ -813,9 +813,14 @@ if (tambahItemRab != null) {
 }
 
 document.addEventListener('click', function (e) {
-    if (e.target && e.target.parentElement.id == 'tambah-item-rab') {
+    if (e.target && (e.target.parentElement.id == 'tambah-item-rab' || e.target.getAttribute('id') == 'tambah-item-rab')) {
         // e.target.parentElement.addEventListener('click', function () {
-        let mTarget = e.target.parentElement.getAttribute('data-target');
+        let mTarget
+        if (e.target.parentElement.id == 'tambah-item-rab') {
+            mTarget = e.target.parentElement.getAttribute('data-target');
+        } else {
+            mTarget = e.target.getAttribute('data-target');
+        }
         mTarget = document.querySelector(mTarget);
         mTarget.querySelector('#formJudul').setAttribute('data-mode', 'create');
         mTarget.querySelector('#formJudul').innerText = 'Tambah';
@@ -894,6 +899,38 @@ document.addEventListener('click', function (e) {
         $('#modalKonfirmasiHapusRab').modal('show');
         // });
         // });
+    } else if (e.target.closest('td') && e.target.type == 'checkbox') {
+        const idRab = e.target.closest('tr').getAttribute('data-id-rab'),
+            dataRab = objectPenganggaran.result.find(key => key.id_rab == idRab);
+
+        if (e.target.checked == true) {
+            if (dataRab.sub_total + objectPenganggaran.total_penganggaran > objectAnggaran.saldo_anggaran) {
+                let message = 'Saldo anggaran tidak mencukupi <b>(max. penganggaran ' + numberToPrice(objectAnggaran.saldo_anggaran) + ')</b>';
+
+                $('.toast[data-toast="feedback"] .toast-header .small-box').removeClass('bg-success').addClass('bg-danger');
+                $('.toast[data-toast="feedback"] .toast-header strong').text('Pemberitahuan');
+                // End of submit
+                $('.toast[data-toast="feedback"] .toast-body').html(message);
+                $('.toast[data-toast="feedback"] .time-passed').text('Baru Saja');
+                $('.toast').toast('show');
+                e.target.checked = false;
+                e.target.removeAttribute('checked');
+                return false;
+            }
+            e.target.checked = true;
+            e.target.setAttribute('checked', 'true');
+            objectPenganggaran.total_penganggaran += dataRab.sub_total;
+            objectPenganggaran.selected.push(dataRab.id_rab);
+        } else {
+            e.target.checked = false;
+            e.target.removeAttribute('checked');
+            objectPenganggaran.total_penganggaran -= dataRab.sub_total;
+
+            let index = objectPenganggaran.selected.indexOf(dataRab.id_rab);
+            objectPenganggaran.selected.splice(index, 1);
+        }
+
+        document.getElementById('penggunaan-anggaran').innerText = numberToPrice(objectPenganggaran.total_penganggaran);
     }
 });
 
@@ -1056,12 +1093,13 @@ function statusRencana(status) {
 
 // Submit
 const submitList = document.querySelectorAll('.modal [type="submit"]');
-let objectAnggaran = {};
+let objectAnggaran = {},
+    objectPenganggaran = {};
 
 submitList.forEach(submit => {
     submit.addEventListener('click', function (e) {
         if (e.target.getAttribute('type') == 'button') {
-            if (e.target.getAttribute('id') == 'buat-pencairan') {
+            if (e.target.getAttribute('id') == 'buat-pelaksanaan') {
                 const tabRencana = e.target.closest('.modal').querySelector('#tab-rencana');
 
                 if (!tabRencana.querySelectorAll('#rab table>tbody>tr[data-id-rab]').length) {
@@ -1076,17 +1114,81 @@ submitList.forEach(submit => {
 
                 tabRencana.classList.remove('active');
                 tabRencana.classList.remove('show');
-                e.target.closest('.modal').querySelector('#tab-pencairan').classList.add('active');
-                e.target.closest('.modal').querySelector('#tab-pencairan').classList.add('show');
+                e.target.closest('.modal').querySelector('#tab-pelaksanaan').classList.add('active');
+                e.target.closest('.modal').querySelector('#tab-pelaksanaan').classList.add('show');
 
                 e.target.classList.remove('btn-outline-orange');
                 e.target.classList.add('btn-outline-primary');
-                e.target.innerText = 'Pencairan';
+                e.target.innerText = 'Lanjut Pencairan';
                 e.target.setAttribute('type', 'submit');
+                e.target.setAttribute('id', 'buat-pencairan');
+
                 // fetch data saldo anggaran bantuan rencana ini
                 // success
                 objectAnggaran.saldo_anggaran = 1500000;
+                e.target.closest('.modal').querySelector('#total-rab').innerText = numberToPrice(objectAnggaran.total_rab);
                 e.target.closest('.modal').querySelector('#anggaran-tersedia').innerText = numberToPrice(objectAnggaran.saldo_anggaran);
+
+                if (objectAnggaran.saldo_anggaran < objectAnggaran.total_rab) {
+                    if (e.target.closest('.modal').querySelector('#budget-warning') != null) {
+                        e.target.closest('.modal').querySelector('#budget-warning .text-sm>b').innerText = numberToPrice(objectAnggaran.saldo_anggaran);
+                    } else {
+                        const budget_warning_html_pelaksanaan = '<div class="col-12 px-0" id="budget-warning"><div class="box rounded bg-gradient-danger text-white"><div class="px-2"><h4 class="mb-0 text-white">Saldo anggaran program <span class="font-weight-bolder">Tidak Cukup !!</span></h4><div class="text-sm">Resiko anda hanya dapat mencairkan program sejumlah <b>Rp. ' + numberToPrice(objectAnggaran.saldo_anggaran) + '</b> untuk anggaran tertentu di tahap ini, atau gunakan <span class="font-weight-bolder" id="btn-dana-talang">data talang</span> nanti <a href="#" class="font-weight-light text-white small">(Syarat dan ketentuan berlaku *)</a></div></div></div></div>';
+                        document.querySelector('#stepper').insertAdjacentHTML('afterend', budget_warning_html_pelaksanaan);
+                    }
+                } else {
+                    if (document.querySelector('#budget-warning') != null) {
+                        document.querySelector('#budget-warning').remove();
+                    }
+                }
+
+                let dataListRab = [
+                    {
+                        id_rab: '28',
+                        nama_kebutuhan: 'Operasional',
+                        keterangan: 'g elit. Fuga eum quia cum totam quos perspiciatis.',
+                        sub_total: 1000000
+                    },
+                    {
+                        id_rab: '29',
+                        nama_kebutuhan: 'Minuman',
+                        keterangan: 'Kebutuhan yang menyenangkan',
+                        sub_total: 500000
+                    },
+                    {
+                        id_rab: '30',
+                        nama_kebutuhan: 'Makanan',
+                        keterangan: 'Makan dan minum',
+                        sub_total: 500000
+                    }
+                ];
+
+                let total_penggunaaan_anggaran = 0;
+                rab_list = [];
+                dataListRab.forEach(data => {
+                    let checked = '';
+                    if (total_penggunaaan_anggaran < objectAnggaran.saldo_anggaran) {
+                        total_penggunaaan_anggaran += data.sub_total;
+                        rab_list.push(data.id_rab);
+                        checked = ' checked="true"';
+                    }
+
+                    const trRab = '<tr data-id-rab="' + data.id_rab + '"><td>' + data.nama_kebutuhan + '</td><td>' + data.keterangan + '</td><td class="text-right">' + numberToPrice(data.sub_total) + '</td><td class="text-right"><label class="custom-toggle ml-auto"><input type="checkbox"' + checked + '><span class="custom-toggle-slider rounded-circle" data-label-off="Jangan" data-label-on="Ya"></span></label></td></tr>';
+                    document.querySelector('table#pilih-anggaran>tbody').insertAdjacentHTML('beforeend', trRab);
+                    document.getElementById('penggunaan-anggaran').innerText = numberToPrice(total_penggunaaan_anggaran);
+                });
+
+                objectPenganggaran.total_penganggaran = total_penggunaaan_anggaran;
+                objectPenganggaran.result = dataListRab;
+                objectPenganggaran.selected = rab_list;
+
+                let tablePAnggaran = document.querySelector('table#pilih-anggaran');
+
+                if (tablePAnggaran.classList.contains('table-responsive')) {
+                    doAbsoluteFirstAdd(tablePAnggaran);
+                } else {
+                    doAbsoluteFirstRemove(tablePAnggaran);
+                }
             }
             e.preventDefault();
             return false;
@@ -1151,6 +1253,17 @@ submitList.forEach(submit => {
                     if (Object.keys(objectPencairan).length) {
                         data.fields = objectPencairan;
                         data.table = 'pencairan';
+                    } else {
+                        delete data.fields;
+                    }
+                } else if (tabActive == 'tab-pelaksanaan') {
+                    objectPenganggaran.selected.sort(function (a, b) { return a - b });
+
+                    console.log(objectPenganggaran);
+                    console.log(objectAnggaran);
+                    if (Object.keys(objectPenganggaran).length) {
+                        data.fields = objectPenganggaran.fields;
+                        data.table = 'anggaran_pelaksanaan_donasi';
                     } else {
                         delete data.fields;
                     }
@@ -1320,10 +1433,12 @@ submitList.forEach(submit => {
                     // return
                     const dataRab = {
                         id_rab: 1,
-                        total_anggaran: 10000000
+                        total_rab: 10000000
                     };
 
-                    if (dataRab.total_anggaran > objectAnggaran.saldo_anggaran) {
+                    objectAnggaran.total_rab = dataRab.total_rab;
+
+                    if (dataRab.total_rab > objectAnggaran.saldo_anggaran) {
                         budget_warning = true;
                     }
 
@@ -1333,7 +1448,7 @@ submitList.forEach(submit => {
 
                     const trRab = '<tr data-id-rab="' + dataRab.id_rab + '" class="highlight"><td>' + namaKebutuhan + '</td><td>' + data.fields.keterangan + '</td><td>' + data.fields.harga_satuan + '</td><td>' + data.fields.jumlah + '</td><td>' + numberToPrice(priceToNumber(data.fields.harga_satuan) * priceToNumber(data.fields.jumlah)) + '</td><td class="px-0"><a href="#" class="btn btn-outline-danger btn-sm font-weight-bolder delete">Hapus</a></td><td><a href="#" class="btn btn-outline-orange btn-sm font-weight-bolder update">Ubah</a></td></tr>';
                     document.querySelector('#rab table>tbody').insertAdjacentHTML('afterbegin', trRab);
-                    document.querySelector('#rab .bg-lighter .mb-0').innerText = 'Rp. ' + numberToPrice(dataRab.total_anggaran);
+                    document.querySelector('#rab .bg-lighter .mb-0').innerText = 'Rp. ' + numberToPrice(dataRab.total_rab);
                     setTimeout(() => {
                         document.querySelector('#rab table>tbody>tr[data-id-rab="' + dataRab.id_rab + '"]').classList.remove('highlight');
                     }, 3000);
@@ -1342,10 +1457,12 @@ submitList.forEach(submit => {
                 if (dataMode == 'update') {
                     // return
                     const dataRab = {
-                        total_anggaran: 10000000
+                        total_rab: 10000000
                     };
 
-                    if (dataRab.total_anggaran > objectAnggaran.saldo_anggaran) {
+                    objectAnggaran.total_rab = dataRab.total_rab;
+
+                    if (dataRab.total_rab > objectAnggaran.saldo_anggaran) {
                         budget_warning = true;
                     }
                     const trRabUpdateEl = document.querySelector('#rab table>tbody>tr[data-id-rab="' + data.id_rab + '"]');
@@ -1370,8 +1487,8 @@ submitList.forEach(submit => {
 
                 if (budget_warning == true) {
                     if (document.querySelector('#budget-warning') == null) {
-                        const budget_warning_html = '<div class="col-12 px-0" id="budget-warning"><div class="box rounded bg-gradient-danger text-white"><div class="px-2"><h4 class="mb-0 text-white">Saldo anggaran program <span class="font-weight-bolder">Tidak Cukup !!</span></h4><div class="text-sm">Resiko anda hanya dapat mencairkan program sejumlah <b>Rp. ' + numberToPrice(objectAnggaran.saldo_anggaran) + '</b> untuk anggaran tertentu di tahap ini, atau gunakan <span class="font-weight-bolder" id="btn-dana-talang">data talang</span> nanti <a href="#" class="font-weight-light text-white small">(Syarat dan ketentuan berlaku *)</a></div></div></div></div>';
-                        document.querySelector('#stepper').insertAdjacentHTML('afterend', budget_warning_html);
+                        const budget_warning_html_rab = '<div class="col-12 px-0" id="budget-warning"><div class="box rounded bg-gradient-danger text-white"><div class="px-2"><h4 class="mb-0 text-white">Saldo anggaran program <span class="font-weight-bolder">Tidak Cukup !!</span></h4><div class="text-sm">Resiko anda hanya dapat mencairkan program sejumlah <b>Rp. ' + numberToPrice(objectAnggaran.saldo_anggaran) + '</b> untuk anggaran tertentu di tahap ini, atau gunakan <span class="font-weight-bolder" id="btn-dana-talang">data talang</span> nanti <a href="#" class="font-weight-light text-white small">(Syarat dan ketentuan berlaku *)</a></div></div></div></div>';
+                        document.querySelector('#stepper').insertAdjacentHTML('afterend', budget_warning_html_rab);
                     }
                 }
             }
@@ -1401,14 +1518,14 @@ submitList.forEach(submit => {
 
                 e.target.closest('#action').querySelector('[data-dismiss="modal"]').innerText = 'Tutup';
 
-                e.target.innerText = 'Lanjut Pencairan';
+                e.target.innerText = 'Lanjut Penganggranan';
                 e.target.classList.remove('btn-outline-primary');
                 e.target.classList.add('btn-outline-orange');
                 e.target.setAttribute('type', 'button');
-                e.target.setAttribute('id', 'buat-pencairan');
+                e.target.setAttribute('id', 'buat-pelaksanaan');
 
                 const rencanaEl = document.querySelector('#' + modalId + ' #rencana');
-                const rabEl = '<div class="col-12 px-0 d-flex gap-4 flex-column" id="rab"><div class="row m-0"><button class="col-12 col-md-auto px-0 btn btn-primary m-0" data-target="#modalFormRab" data-toggle="modal" id="tambah-item-rab" type="button"><span class="p-3">Tambah Item</span></button><div class="col-12 col-md d-flex p-3 bg-lighter rounded align-items-center gap-x-2"><i class="fa-info fa"></i><h4 class="mb-0">Rp. 0</h4></div></div><table class="table table-borderless table-hover list-rab"><thead class="thead-light"><tr><th>Kebutuhan</th><th>Keterangan / Spesifikasi</th><th>Harga Satuan</th><th>Jumlah</th><th>Sub Total</th><th colspan="2" class="fit text-center">Aksi</th></tr></thead><tbody><tr><td colspan="6">Belum ada item RAB yang dibuat</td></tr></tbody></table></div>';
+                const rabEl = '<div class="col-12 px-0 d-flex gap-4 flex-column" id="rab"><div class="row m-0"><button class="col-12 col-md-auto px-0 btn btn-primary m-0" data-target="#modalFormRab" data-toggle="modal" id="tambah-item-rab" type="button"><span class="p-3">Tambah Item</span></button><div class="col-12 col-md d-flex p-3 bg-lighter rounded align-items-center gap-x-2"><i class="fa-info fa"></i><h4 class="mb-0">Rp. 0</h4></div></div><table class="table table-borderless table-hover table-responsive list-rab"><thead class="thead-light"><tr><th>Kebutuhan</th><th>Keterangan / Spesifikasi</th><th>Harga Satuan</th><th>Jumlah</th><th>Sub Total</th><th colspan="2" class="fit text-center">Aksi</th></tr></thead><tbody><tr><td colspan="6">Belum ada item RAB yang dibuat</td></tr></tbody></table></div>';
                 rencanaEl.insertAdjacentHTML('afterend', rabEl);
                 message = 'Rencana anggaran baru telah dibuat';
             } else if (e.target.getAttribute('id') == 'buat-pencairan') {
@@ -1691,7 +1808,7 @@ $('#id-bantuan').select2({
             document.querySelector('#balance>.text-sm').innerText = numberToPrice(result.max_anggaran);
         }
 
-        document.getElementById('total-rab').innerText = numberToPrice(result.max_anggaran);
+        document.getElementById('anggaran-tersedia').innerText = numberToPrice(result.max_anggaran);
         objectAnggaran.saldo_anggaran = result.max_anggaran;
     } else {
         delete objectRencana.id_bantuan;
@@ -1809,6 +1926,10 @@ function doAbsoluteFirstAdd(table) {
     tfootThEl.setAttribute('style', 'width: ' + theadThFW + 'px');
     tfootThEl.nextElementSibling.setAttribute('style', 'padding-left: calc(' + theadThFW + 'px + 1rem)');
     // tfootThEl.parentElement.setAttribute('style', 'height: ' + tfootThEl.offsetHeight + 'px');
+
+    if (!table.classList.contains('table-absolute-first')) {
+        table.classList.add('table-absolute-first');
+    }
 }
 
 function doAbsoluteFirstRemove(table) {
