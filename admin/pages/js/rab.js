@@ -291,11 +291,13 @@ modalNameListKeyDownInput.forEach(name => {
             }
         }
 
-        if (this.parentElement.classList.contains('is-invalid') && this.value.length) {
-            this.parentElement.classList.remove('is-invalid');
-            this.nextElementSibling.removeAttribute('data-label-after');
-            this.classList.remove('is-invalid');
-        }
+        setTimeout(() => {
+            if (this.parentElement.classList.contains('is-invalid') && this.value.length) {
+                this.parentElement.classList.remove('is-invalid');
+                this.nextElementSibling.removeAttribute('data-label-after');
+                this.classList.remove('is-invalid');
+            }
+        }, 0);
     });
 
     name.addEventListener('paste', function (e) {
@@ -329,12 +331,17 @@ const formRab = document.getElementById('modalFormRab'),
     inputRabList = formRab.querySelectorAll('input');
 
 inputRabList.forEach(inputRab => {
-    inputRab.addEventListener('change', function (e) {
-        const name = e.target.getAttribute('name');
+    inputRab.addEventListener('focusout', function () {
+        if (oldValuePrice[this.name] == this.value) {
+            return false;
+        }
+
+        oldValuePrice[this.name] = this.value;
+
         if (this.value.length) {
-            objectRab[name] = this.value;
+            objectRab[this.name] = this.value;
         } else {
-            delete objectRab[name];
+            delete objectRab[this.name];
         }
     });
 });
@@ -646,49 +653,6 @@ inputPriceList.forEach(price => {
             return false;
         }
 
-        // if (e.target.name == 'nominal_pencairan') {
-        //     if (cBlock) {
-        //         e.target.value = e.target.value.replace(e.target.value.substring(cStart, cEnd), e.key);
-        //         if (priceToNumber(e.target.value) > objectAnggaran.saldo_anggaran) {
-        //             e.target.value = numberToPrice(objectAnggaran.saldo_anggaran);
-        //         }
-        //         e.target.selectionStart = cStart;
-        //         e.target.selectionEnd = cStart;
-        //         setPersentasePencairan(e);
-        //         e.preventDefault();
-        //         return false;
-        //     }
-
-        //     if (!cBlock && cStart != e.target.value.length) {
-        //         let sValue = priceToNumber(e.target.value.slice(0, cStart) + e.key + e.target.value.slice(cEnd));
-        //         if (sValue > objectAnggaran.saldo_anggaran) {
-        //             e.target.value = numberToPrice(objectAnggaran.saldo_anggaran);
-        //         } else {
-        //             e.target.value = numberToPrice(sValue);
-        //             e.target.selectionStart = cStart + 1;
-        //             e.target.selectionEnd = cEnd + 1;
-        //         }
-        //         setPersentasePencairan(e);
-        //         e.preventDefault();
-        //         return false;
-        //     }
-
-        //     if (!cBlock && cStart == e.target.value.length && priceToNumber(e.target.value) >= objectAnggaran.saldo_anggaran) {
-        //         e.preventDefault();
-        //         return false;
-        //     }
-
-        //     if (priceToNumber(e.target.value + e.key) > objectAnggaran.saldo_anggaran && cStart == e.target.value.length) {
-        //         e.target.value = numberToPrice(objectAnggaran.saldo_anggaran);
-        //         setPersentasePencairan(e);
-        //         e.preventDefault();
-        //         return false;
-        //     }
-
-        //     setTimeout(() => {
-        //         setPersentasePencairan(e);
-        //     }, 0);
-        // }
         e.preventDefault();
         return false;
     });
@@ -767,14 +731,6 @@ inputPriceList.forEach(price => {
     //         }
     //     }
     // });
-    price.addEventListener('change', function (e) {
-        if (typeof this.value == "string") {
-            if (priceToNumber(this.value) > 0) {
-                this.value = priceToNumber(this.value);
-            }
-        }
-        this.value = numberToPrice(this.value, '');
-    });
     price.addEventListener('paste', function (e) {
         setTimeout(() => {
             this.value = numberToPrice(escapeRegExp(escapeRegExp(this.value.trim(), '', /[^a-zA-Z0-9\s\/.]/g), ' ', /\s+/g), '');
@@ -783,6 +739,24 @@ inputPriceList.forEach(price => {
             }
         }, 0);
     });
+});
+
+const inputJumlahPelaksanaan = document.getElementById('input-jumlah-pelaksanaan');
+let objectPelaksanaan = {};
+inputJumlahPelaksanaan.addEventListener('focusout', function () {
+    if (oldValuePrice[this.name] == this.value) {
+        return false;
+    }
+
+    oldValuePrice[this.name] = this.value;
+
+    if (this.value.length) {
+        objectPelaksanaan[this.name] = this.value;
+    } else {
+        delete objectPelaksanaan[this.name];
+    }
+
+    console.log(objectPelaksanaan);
 });
 
 const inputNamaKebutuhan = document.getElementById('input-nama-kebutuhan');
@@ -1195,125 +1169,6 @@ submitList.forEach(submit => {
         }
 
         const modalId = e.target.closest('.modal').getAttribute('id');
-        let invalidModal = false,
-            namaKebutuhan = undefined;
-
-        switch (modalId) {
-            case 'modalTambahKebutuhan':
-
-                data.mode = 'create';
-                if (Object.keys(objectKebutuhan).length) {
-                    data.fields = objectKebutuhan;
-                    data.table = 'kebutuhan';
-                } else {
-                    delete data.fields;
-                }
-                break;
-
-            case 'modalFormRab':
-
-                const mode = document.getElementById('formJudul').getAttribute('data-mode');
-                if (mode !== 'create' && mode !== 'update') {
-                    console.log('Unrecognize mode on #' + modalId);
-                    return false;
-                }
-
-                data.mode = mode;
-                if (Object.keys(objectRab).length) {
-                    namaKebutuhan = objectRab.nama_kebutuhan;
-                    delete objectRab.nama_kebutuhan;
-                    data.fields = objectRab;
-                    data.table = 'rencana_anggaran_belanja';
-                    data.id_rencana = objectRencana.id_rencana;
-                    if (mode == 'update') {
-                        const objectNewRab = diff(resultRab, data.fields);
-                        if (Object.keys(objectNewRab).length) {
-                            data.id_rab = resultRab.id_rab;
-                            data.fields = objectNewRab;
-                        } else {
-                            data = {};
-                        }
-                    }
-                } else {
-                    delete data.fields;
-                }
-                break;
-
-            case 'modalBuatRencana':
-
-                const tabActive = e.target.closest('.modal').querySelector('.tab-pane.active.show').getAttribute('id');
-                if (tabActive == 'tab-rencana') {
-                    if (Object.keys(objectRencana).length) {
-                        data.fields = objectRencana;
-                        data.table = 'rencana';
-                    } else {
-                        delete data.fields;
-                    }
-                } else if (tabActive == 'tab-pencairan') {
-                    if (Object.keys(objectPencairan).length) {
-                        data.fields = objectPencairan;
-                        data.table = 'pencairan';
-                    } else {
-                        delete data.fields;
-                    }
-                } else if (tabActive == 'tab-pelaksanaan') {
-                    objectPenganggaran.selected.sort(function (a, b) { return a - b });
-
-                    console.log(objectPenganggaran);
-                    console.log(objectAnggaran);
-                    if (Object.keys(objectPenganggaran).length) {
-                        data.fields = objectPenganggaran.fields;
-                        data.table = 'anggaran_pelaksanaan_donasi';
-                    } else {
-                        delete data.fields;
-                    }
-                }
-
-                data.mode = 'create';
-                break;
-
-            case 'modalKonfirmasiHapusRab':
-                data.mode = 'delete';
-                data.id_rab = resultRab.id_rab;
-                data.table = 'rencana_anggaran_belanja';
-                break;
-
-            case 'modalKonfirmasiAksi':
-                data.mode = 'update';
-                if (Object.keys(objectRencana).length) {
-                    data.fields = objectRencana;
-                    data.id_rencana = objectRencana.id_rencana;
-                    delete objectRencana.id_rencana;
-                    data.table = 'rencana';
-                } else {
-                    delete data.fields;
-                }
-                break;
-
-            case 'modalKeteranganPerbaikanRAB':
-                data.mode = 'update';
-                if (Object.keys(objectRencana).length && e.target.closest('.modal').querySelector('textarea').value.length) {
-                    data.fields = {
-                        status: 'BP',
-                        pesan: e.target.closest('.modal').querySelector('textarea').value
-                    };
-                    data.id_rencana = objectRencana.id_rencana;
-                    delete objectRencana.id_rencana;
-                    data.table = 'rencana';
-                } else {
-                    delete data.fields;
-                }
-                break;
-
-            default:
-                invalidModal = true;
-                break;
-        }
-
-        if (invalidModal) {
-            console.log('Unrecognize modal ID');
-            return false;
-        }
 
         let c_error = 0,
             nameList;
@@ -1382,6 +1237,135 @@ submitList.forEach(submit => {
         });
 
         if (c_error > 0) {
+            return false;
+        }
+
+        let invalidModal = false,
+            namaKebutuhan = undefined;
+
+        switch (modalId) {
+            case 'modalTambahKebutuhan':
+
+                data.mode = 'create';
+                if (Object.keys(objectKebutuhan).length) {
+                    data.fields = objectKebutuhan;
+                    data.table = 'kebutuhan';
+                } else {
+                    delete data.fields;
+                }
+                break;
+
+            case 'modalFormRab':
+
+                const mode = document.getElementById('formJudul').getAttribute('data-mode');
+                if (mode !== 'create' && mode !== 'update') {
+                    console.log('Unrecognize mode on #' + modalId);
+                    return false;
+                }
+
+                data.mode = mode;
+                if (Object.keys(objectRab).length) {
+                    namaKebutuhan = objectRab.nama_kebutuhan;
+                    delete objectRab.nama_kebutuhan;
+                    data.fields = objectRab;
+                    data.table = 'rencana_anggaran_belanja';
+                    data.id_rencana = objectRencana.id_rencana;
+                    if (mode == 'update') {
+                        const objectNewRab = diff(resultRab, data.fields);
+                        if (Object.keys(objectNewRab).length) {
+                            data.id_rab = resultRab.id_rab;
+                            data.fields = objectNewRab;
+                        } else {
+                            data = {};
+                        }
+                    }
+                } else {
+                    delete data.fields;
+                }
+                break;
+
+            case 'modalBuatRencana':
+
+                const tabActive = e.target.closest('.modal').querySelector('.tab-pane.active.show').getAttribute('id');
+                if (tabActive == 'tab-rencana') {
+                    if (Object.keys(objectRencana).length) {
+                        data.fields = objectRencana;
+                        data.table = 'rencana';
+                    } else {
+                        delete data.fields;
+                    }
+                } else if (tabActive == 'tab-pencairan') {
+                    if (Object.keys(objectPencairan).length) {
+                        data.fields = objectPencairan;
+                        data.table = 'pencairan';
+                    } else {
+                        delete data.fields;
+                    }
+                } else if (tabActive == 'tab-pelaksanaan') {
+                    // objectPenganggaran.selected.sort(function (a, b) { return a - b });
+
+                    // console.log(objectPenganggaran);
+                    // console.log(objectAnggaran);
+                    // if (Object.keys(objectPenganggaran).length) {
+                    //     delete objectPenganggaran.result;
+                    //     data.fields = objectPenganggaran;
+                    //     data.table = 'anggaran_pelaksanaan_donasi';
+                    // } else {
+                    //     delete data.fields;
+                    // }
+                    console.log(objectPelaksanaan);
+                    if (Object.keys(objectPelaksanaan).length && e.target.closest('.modal').querySelector('#' + tabActive + ' textarea').value.length) {
+                        objectPelaksanaan.deskripsi = e.target.closest('.modal').querySelector('#' + tabActive + ' textarea').value;
+                        data.fields = objectPelaksanaan;
+                        data.table = 'pelaksanaan';
+                    } else {
+                        delete data.fields;
+                    }
+                }
+
+                data.mode = 'create';
+                break;
+
+            case 'modalKonfirmasiHapusRab':
+                data.mode = 'delete';
+                data.id_rab = resultRab.id_rab;
+                data.table = 'rencana_anggaran_belanja';
+                break;
+
+            case 'modalKonfirmasiAksi':
+                data.mode = 'update';
+                if (Object.keys(objectRencana).length) {
+                    data.fields = objectRencana;
+                    data.id_rencana = objectRencana.id_rencana;
+                    delete objectRencana.id_rencana;
+                    data.table = 'rencana';
+                } else {
+                    delete data.fields;
+                }
+                break;
+
+            case 'modalKeteranganPerbaikanRAB':
+                data.mode = 'update';
+                if (Object.keys(objectRencana).length && e.target.closest('.modal').querySelector('textarea').value.length) {
+                    data.fields = {
+                        status: 'BP',
+                        pesan: e.target.closest('.modal').querySelector('textarea').value
+                    };
+                    data.id_rencana = objectRencana.id_rencana;
+                    delete objectRencana.id_rencana;
+                    data.table = 'rencana';
+                } else {
+                    delete data.fields;
+                }
+                break;
+
+            default:
+                invalidModal = true;
+                break;
+        }
+
+        if (invalidModal) {
+            console.log('Unrecognize modal ID');
             return false;
         }
 
