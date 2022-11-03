@@ -755,8 +755,6 @@ inputJumlahPelaksanaan.addEventListener('focusout', function () {
     } else {
         delete objectPelaksanaan[this.name];
     }
-
-    console.log(objectPelaksanaan);
 });
 
 const inputNamaKebutuhan = document.getElementById('input-nama-kebutuhan');
@@ -873,7 +871,7 @@ document.addEventListener('click', function (e) {
         $('#modalKonfirmasiHapusRab').modal('show');
         // });
         // });
-    } else if (e.target.closest('td') && e.target.type == 'checkbox') {
+    } else if (e.target.closest('td') && e.target.type == 'checkbox' && objectBantuan.jumlah_target == null) {
         const idRab = e.target.closest('tr').getAttribute('data-id-rab'),
             dataRab = objectPenganggaran.result.find(key => key.id_rab == idRab);
 
@@ -905,6 +903,8 @@ document.addEventListener('click', function (e) {
         }
 
         document.getElementById('penggunaan-anggaran').innerText = numberToPrice(objectPenganggaran.total_penganggaran);
+    } else if (e.target.closest('td') && e.target.type == 'checkbox' && objectBantuan.jumlah_target != null) {
+        e.preventDefault();
     }
 });
 
@@ -1068,7 +1068,8 @@ function statusRencana(status) {
 // Submit
 const submitList = document.querySelectorAll('.modal [type="submit"]');
 let objectAnggaran = {},
-    objectPenganggaran = {};
+    objectPenganggaran = {},
+    objectBantuan = {};
 
 submitList.forEach(submit => {
     submit.addEventListener('click', function (e) {
@@ -1099,11 +1100,14 @@ submitList.forEach(submit => {
 
                 // fetch data saldo anggaran bantuan rencana ini
                 // success
+                // hasil fetch <=> objectAnggaran.saldo_anggaran
                 objectAnggaran.saldo_anggaran = 1500000;
+                // hasil fetch <=> objectAnggaran.saldo_anggaran
+                objectAnggaran.saldo_total_rab = 10000000;
                 e.target.closest('.modal').querySelector('#total-rab').innerText = numberToPrice(objectAnggaran.total_rab);
                 e.target.closest('.modal').querySelector('#anggaran-tersedia').innerText = numberToPrice(objectAnggaran.saldo_anggaran);
 
-                if (objectAnggaran.saldo_anggaran < objectAnggaran.total_rab) {
+                if (objectAnggaran.saldo_anggaran < objectAnggaran.total_rab && objectAnggaran.saldo_total_rab > objectAnggaran.saldo_anggaran) {
                     if (e.target.closest('.modal').querySelector('#budget-warning') != null) {
                         e.target.closest('.modal').querySelector('#budget-warning .text-sm>b').innerText = numberToPrice(objectAnggaran.saldo_anggaran);
                     } else {
@@ -1116,6 +1120,7 @@ submitList.forEach(submit => {
                     }
                 }
 
+                // hasil fetch <=> dataListRab
                 let dataListRab = [
                     {
                         id_rab: '28',
@@ -1134,17 +1139,50 @@ submitList.forEach(submit => {
                         nama_kebutuhan: 'Makanan',
                         keterangan: 'Makan dan minum',
                         sub_total: 500000
+                    },
+                    {
+                        id_rab: '31',
+                        nama_kebutuhan: 'Alat',
+                        keterangan: 'Mata Bor 200m',
+                        sub_total: 5000000
+                    },
+                    {
+                        id_rab: '32',
+                        nama_kebutuhan: 'Barang',
+                        keterangan: 'Barang dan ',
+                        sub_total: 3000000
                     }
                 ];
 
-                let total_penggunaaan_anggaran = 0;
-                rab_list = [];
+                // hasil fetch ke tabel bantuan <=> jumlah_target, target_berjalan number atau null
+                objectBantuan = {
+                    jumlah_target: '100',
+                    jumlah_target_diselesaikan: '0'
+                    // jumlah_target: null,
+                    // jumlah_target_diselesaikan: null
+                };
+
+                let total_penggunaaan_anggaran = 0,
+                    checked = '',
+                    rab_list = [];
                 dataListRab.forEach(data => {
-                    let checked = '';
-                    if (total_penggunaaan_anggaran < objectAnggaran.saldo_anggaran) {
-                        total_penggunaaan_anggaran += data.sub_total;
-                        rab_list.push(data.id_rab);
+                    if (objectBantuan.jumlah_target != null) {
                         checked = ' checked="true"';
+                        if (objectAnggaran.saldo_anggaran > objectAnggaran.saldo_total_rab) {
+                            objectAnggaran.saldo_anggaran = objectAnggaran.saldo_total_rab;
+                        }
+
+                        if (objectAnggaran.saldo_anggaran < objectAnggaran.total_rab) {
+                            data.sub_total = data.sub_total * (objectAnggaran.saldo_anggaran / objectAnggaran.total_rab);
+                        }
+                        total_penggunaaan_anggaran += data.sub_total;
+                    } else {
+                        checked = '';
+                        if (total_penggunaaan_anggaran < objectAnggaran.saldo_anggaran) {
+                            total_penggunaaan_anggaran += data.sub_total;
+                            rab_list.push(data.id_rab);
+                            checked = ' checked="true"';
+                        }
                     }
 
                     const trRab = '<tr data-id-rab="' + data.id_rab + '"><td>' + data.nama_kebutuhan + '</td><td>' + data.keterangan + '</td><td class="text-right">' + numberToPrice(data.sub_total) + '</td><td class="text-right"><label class="custom-toggle ml-auto"><input type="checkbox"' + checked + '><span class="custom-toggle-slider rounded-circle" data-label-off="Jangan" data-label-on="Ya"></span></label></td></tr>';
@@ -1162,6 +1200,13 @@ submitList.forEach(submit => {
                     doAbsoluteFirstAdd(tablePAnggaran);
                 } else {
                     doAbsoluteFirstRemove(tablePAnggaran);
+                }
+
+                if (+objectBantuan.jumlah_target > 0) {
+                    if (+objectBantuan.jumlah_target_diselesaikan > 0) {
+                        document.getElementById('input-jumlah-pelaksanaan').setAttribute('data-min', objectBantuan.jumlah_target_diselesaikan);
+                    }
+                    document.getElementById('input-jumlah-pelaksanaan').setAttribute('data-max', objectBantuan.jumlah_target - objectBantuan.jumlah_target_diselesaikan);
                 }
             }
             e.preventDefault();
@@ -1313,6 +1358,7 @@ submitList.forEach(submit => {
                     // } else {
                     //     delete data.fields;
                     // }
+                    console.log(objectPenganggaran);
                     console.log(objectPelaksanaan);
                     if (Object.keys(objectPelaksanaan).length && e.target.closest('.modal').querySelector('#' + tabActive + ' textarea').value.length) {
                         objectPelaksanaan.deskripsi = e.target.closest('.modal').querySelector('#' + tabActive + ' textarea').value;
@@ -1321,6 +1367,7 @@ submitList.forEach(submit => {
                     } else {
                         delete data.fields;
                     }
+
                 }
 
                 data.mode = 'create';
@@ -1471,7 +1518,7 @@ submitList.forEach(submit => {
 
                 if (budget_warning == true) {
                     if (document.querySelector('#budget-warning') == null) {
-                        const budget_warning_html_rab = '<div class="col-12 px-0" id="budget-warning"><div class="box rounded bg-gradient-danger text-white"><div class="px-2"><h4 class="mb-0 text-white">Saldo anggaran program <span class="font-weight-bolder">Tidak Cukup !!</span></h4><div class="text-sm">Resiko anda hanya dapat mencairkan program sejumlah <b>Rp. ' + numberToPrice(objectAnggaran.saldo_anggaran) + '</b> untuk anggaran tertentu di tahap ini, atau gunakan <span class="font-weight-bolder" id="btn-dana-talang">data talang</span> nanti <a href="#" class="font-weight-light text-white small">(Syarat dan ketentuan berlaku *)</a></div></div></div></div>';
+                        const budget_warning_html_rab = '<div class="col-12 px-0" id="budget-warning"><div class="box rounded bg-gradient-danger text-white"><div class="px-2"><h4 class="mb-0 text-white">Saldo anggaran program <span class="font-weight-bolder">Tidak Cukup !!</span></h4><div class="text-sm">Resiko anda hanya dapat mencairkan program sejumlah <b>Rp. ' + numberToPrice(objectAnggaran.saldo_anggaran) + '</b> untuk anggaran tertentu di tahap ini, atau gunakan <span class="font-weight-bolder" id="btn-dana-talang">data talang</span> <a href="#" class="font-weight-light text-white small">(Syarat dan ketentuan berlaku *)</a></div></div></div></div>';
                         document.querySelector('#stepper').insertAdjacentHTML('afterend', budget_warning_html_rab);
                     }
                 }
@@ -1520,7 +1567,7 @@ submitList.forEach(submit => {
                 // fetch create petugas_pencairan
                 $('.toast[data-toast="feedback"] .toast-header .small-box').removeClass('bg-danger').addClass('bg-success');
                 $('.toast[data-toast="feedback"] .toast-header strong').text('Informasi');
-                message = 'Pelaksanaan program telah berhasil dibuatkan pencairannya';
+                message = 'Pelaksanaan program telah berhasil dibuatkan programnya';
 
                 // else failed create in pelaksanaan -> apd -> pencairan
                 // $('.toast[data-toast="feedback"] .toast-header .small-box').removeClass('bg-success').addClass('bg-danger');
