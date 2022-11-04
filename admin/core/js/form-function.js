@@ -117,3 +117,15 @@ $('select').on('change', function () {
         this.closest('.form-group').classList.remove('is-invalid');
     }
 });
+
+document.querySelectorAll('.form-label-group.input-group .form-control').forEach(fc => {
+    fc.addEventListener('focusin', function () {
+        this.closest('.input-group').classList.add('focused');
+    });
+    fc.addEventListener('focusout', function () {
+        this.closest('.input-group').classList.remove('focused');
+    });
+    fc.parentElement.querySelector('.input-group-append').addEventListener('click', function () {
+        fc.focus();
+    });
+});

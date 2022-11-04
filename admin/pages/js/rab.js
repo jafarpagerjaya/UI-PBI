@@ -350,7 +350,7 @@ function setNominalPencairan(e) {
     const persentase_pencairan = +e.target.value.replace(' %', '');
     let nominal_pencairan = '';
     if (persentase_pencairan > 0) {
-        nominal_pencairan = numberToPrice(Math.round(objectAnggaran.saldo_anggaran * (persentase_pencairan / 100).toFixed(4)));
+        nominal_pencairan = numberToPrice(Math.round(objectPelaksanaan.total_anggaran * (persentase_pencairan / 100).toFixed(4)));
         if (e.target.parentElement.classList.contains('is-invalid')) {
             e.target.parentElement.classList.remove('is-invalid');
             e.target.parentElement.querySelector('label').removeAttribute('data-label-after');
@@ -373,7 +373,7 @@ function setPersentasePencairan(e) {
     const nominal_pencairan = priceToNumber(e.target.value);
     let persentase_pencairan = '';
     if (nominal_pencairan > 0) {
-        persentase_pencairan = ((nominal_pencairan / objectAnggaran.saldo_anggaran) * 100).toFixed(2) + ' %';
+        persentase_pencairan = ((nominal_pencairan / objectPelaksanaan.total_anggaran) * 100).toFixed(2) + ' %';
         if (e.target.parentElement.classList.contains('is-invalid')) {
             e.target.parentElement.classList.remove('is-invalid');
             e.target.parentElement.querySelector('label').removeAttribute('data-label-after');
@@ -611,6 +611,10 @@ inputPriceList.forEach(price => {
                 e.target.selectionEnd = cStart;
 
                 if (e.target.name == 'nominal_pencairan') {
+                    if (priceToNumber(e.target.value) > objectPelaksanaan.total_anggaran) {
+                        e.target.value = numberToPrice(objectPelaksanaan.total_anggaran);
+                        inputKeyState = 'down';
+                    }
                     setPersentasePencairan(e);
                 }
             }, 0);
@@ -631,6 +635,18 @@ inputPriceList.forEach(price => {
 
             e.target.selectionStart = cStart + 1;
             e.target.selectionEnd = cStart + 1;
+
+            if (e.target.name == 'nominal_pencairan') {
+                if (priceToNumber(e.target.value) > objectPelaksanaan.total_anggaran) {
+                    e.target.value = numberToPrice(objectPelaksanaan.total_anggaran);
+                }
+                setPersentasePencairan(e);
+            }
+            e.preventDefault();
+            return false;
+        }
+
+        if (e.target.name == 'nominal_pencairan' && inputKeyState == 'down') {
             e.preventDefault();
             return false;
         }
@@ -643,12 +659,28 @@ inputPriceList.forEach(price => {
             }
             e.target.selectionStart = cStart + 1;
             e.target.selectionEnd = cEnd + 1;
+
+            if (e.target.name == 'nominal_pencairan') {
+                if (priceToNumber(e.target.value) > objectPelaksanaan.total_anggaran) {
+                    e.target.value = numberToPrice(objectPelaksanaan.total_anggaran);
+                    inputKeyState = 'down';
+                }
+                setPersentasePencairan(e);
+            }
             e.preventDefault();
             return false;
         }
 
         if (!cBlock && cStart == value.length) {
             e.target.value = numberToPrice(priceToNumber(putValueInKeydown(value, cStart, e.key)) >= 1000000000000000 ? 1000000000000000 : priceToNumber(putValueInKeydown(value, cStart, e.key)));
+
+            if (e.target.name == 'nominal_pencairan') {
+                if (priceToNumber(e.target.value) > objectPelaksanaan.total_anggaran) {
+                    e.target.value = numberToPrice(objectPelaksanaan.total_anggaran);
+                    inputKeyState = 'down';
+                }
+                setPersentasePencairan(e);
+            }
             e.preventDefault();
             return false;
         }
@@ -656,81 +688,84 @@ inputPriceList.forEach(price => {
         e.preventDefault();
         return false;
     });
-    // price.addEventListener('keyup', function (e) {
-    //     let ceret = e.target.selectionStart,
-    //         numberTPArray = numberToPrice(this.value, '', e),
-    //         value = numberTPArray[0],
-    //         sisa = numberTPArray[1],
-    //         ribuan = numberTPArray[2],
-    //         prefix = numberTPArray[3];
+    price.addEventListener('keyup', function (e) {
+        if (e.target.name == 'nominal_pencairan') {
+            inputKeyState = 'up';
+        }
+        //     let ceret = e.target.selectionStart,
+        //         numberTPArray = numberToPrice(this.value, '', e),
+        //         value = numberTPArray[0],
+        //         sisa = numberTPArray[1],
+        //         ribuan = numberTPArray[2],
+        //         prefix = numberTPArray[3];
 
-    //     this.value = value;
+        //     this.value = value;
 
-    //     console.log(this.value)
+        //     console.log(this.value)
 
-    //     if (e.code != undefined) {
-    //         if (+e.key >= 0) {
-    //             if (ribuan != null) {
-    //                 if ((sisa == 1 && ceret + sisa > value.length - 3) || (sisa == 1 && ceret != prefix.length + 1 && ceret != value.length - prefix.length)) {
-    //                     ceret++;
-    //                 }
-    //                 if (value != objectAnggaran.saldo_anggaran) {
-    //                     e.target.selectionStart = ceret;
-    //                     e.target.selectionEnd = ceret;
-    //                 }
-    //             }
-    //         }
-    //     }
+        //     if (e.code != undefined) {
+        //         if (+e.key >= 0) {
+        //             if (ribuan != null) {
+        //                 if ((sisa == 1 && ceret + sisa > value.length - 3) || (sisa == 1 && ceret != prefix.length + 1 && ceret != value.length - prefix.length)) {
+        //                     ceret++;
+        //                 }
+        //                 if (value != objectAnggaran.saldo_anggaran) {
+        //                     e.target.selectionStart = ceret;
+        //                     e.target.selectionEnd = ceret;
+        //                 }
+        //             }
+        //         }
+        //     }
 
-    //     if (e.code == "Delete") {
-    //         if (ribuan != null) {
-    //             if (sisa == 0 && ceret != prefix.length && ceret != this.value.length && ceret != this.value.length - 1 || sisa == 0 && ceret >= this.value.length - 3 && ceret > prefix.length) {
-    //                 ceret--;
-    //             }
-    //             if (oldValuePrice[price.getAttribute('name')] == this.value) {
-    //                 if (sisa == 0) {
-    //                     ceret += 2;
-    //                 } else if (sisa == 2) {
-    //                     ceret++;
-    //                 } else {
-    //                     ceret++;
-    //                 }
-    //                 this.value = numberToPrice(removeByIndex(this.value, ceret), prefix);
-    //                 if (sisa == 1) {
-    //                     ceret--;
-    //                 }
-    //             }
-    //             e.target.selectionStart = ceret;
-    //             e.target.selectionEnd = ceret;
-    //         }
-    //         if (e.target.name == 'nominal_pencairan') {
-    //             setPersentasePencairan(e);
-    //         }
-    //     }
+        //     if (e.code == "Delete") {
+        //         if (ribuan != null) {
+        //             if (sisa == 0 && ceret != prefix.length && ceret != this.value.length && ceret != this.value.length - 1 || sisa == 0 && ceret >= this.value.length - 3 && ceret > prefix.length) {
+        //                 ceret--;
+        //             }
+        //             if (oldValuePrice[price.getAttribute('name')] == this.value) {
+        //                 if (sisa == 0) {
+        //                     ceret += 2;
+        //                 } else if (sisa == 2) {
+        //                     ceret++;
+        //                 } else {
+        //                     ceret++;
+        //                 }
+        //                 this.value = numberToPrice(removeByIndex(this.value, ceret), prefix);
+        //                 if (sisa == 1) {
+        //                     ceret--;
+        //                 }
+        //             }
+        //             e.target.selectionStart = ceret;
+        //             e.target.selectionEnd = ceret;
+        //         }
+        //         if (e.target.name == 'nominal_pencairan') {
+        //             setPersentasePencairan(e);
+        //         }
+        //     }
 
-    //     if (e.code == "Backspace") {
-    //         if (ceret <= prefix.length && ribuan == null || ribuan != null && sisa == 0 && ceret == prefix.length) {
-    //             e.target.selectionStart = ceret;
-    //             e.target.selectionEnd = ceret;
-    //         }
-    //         if (ribuan != null && ceret > prefix.length) {
-    //             if (sisa == 0 && oldValuePrice[price.getAttribute('name')] != this.value) {
-    //                 ceret--;
-    //             }
-    //             if (oldValuePrice[price.getAttribute('name')] == this.value) {
-    //                 this.value = numberToPrice(removeByIndex(this.value, --ceret), prefix);
-    //                 if (sisa == 1 && ceret > prefix.length + 1) {
-    //                     ceret--;
-    //                 }
-    //             }
-    //             e.target.selectionStart = ceret;
-    //             e.target.selectionEnd = ceret;
-    //         }
-    //         if (e.target.name == 'nominal_pencairan') {
-    //             setPersentasePencairan(e);
-    //         }
-    //     }
-    // });
+        //     if (e.code == "Backspace") {
+        //         if (ceret <= prefix.length && ribuan == null || ribuan != null && sisa == 0 && ceret == prefix.length) {
+        //             e.target.selectionStart = ceret;
+        //             e.target.selectionEnd = ceret;
+        //         }
+        //         if (ribuan != null && ceret > prefix.length) {
+        //             if (sisa == 0 && oldValuePrice[price.getAttribute('name')] != this.value) {
+        //                 ceret--;
+        //             }
+        //             if (oldValuePrice[price.getAttribute('name')] == this.value) {
+        //                 this.value = numberToPrice(removeByIndex(this.value, --ceret), prefix);
+        //                 if (sisa == 1 && ceret > prefix.length + 1) {
+        //                     ceret--;
+        //                 }
+        //             }
+        //             e.target.selectionStart = ceret;
+        //             e.target.selectionEnd = ceret;
+        //         }
+        //         if (e.target.name == 'nominal_pencairan') {
+        //             setPersentasePencairan(e);
+        //         }
+        //     }
+    });
     price.addEventListener('paste', function (e) {
         setTimeout(() => {
             this.value = numberToPrice(escapeRegExp(escapeRegExp(this.value.trim(), '', /[^a-zA-Z0-9\s\/.]/g), ' ', /\s+/g), '');
@@ -1156,10 +1191,10 @@ submitList.forEach(submit => {
 
                 // hasil fetch ke tabel bantuan <=> jumlah_target, target_berjalan number atau null
                 objectBantuan = {
-                    jumlah_target: '100',
-                    jumlah_target_diselesaikan: '0'
-                    // jumlah_target: null,
-                    // jumlah_target_diselesaikan: null
+                    // jumlah_target: '100',
+                    // jumlah_target_diselesaikan: '0'
+                    jumlah_target: null,
+                    jumlah_target_diselesaikan: null
                 };
 
                 let total_penggunaaan_anggaran = 0,
@@ -1271,12 +1306,20 @@ submitList.forEach(submit => {
                     name.parentElement.classList.add('is-invalid');
                     name.classList.add('is-invalid');
                 }
-                name.parentElement.querySelector('label').setAttribute('data-label-after', errorText);
+                if (name.classList.contains('custom-select')) {
+                    name.nextElementSibling.querySelector('label').setAttribute('data-label-after', errorText);
+                } else {
+                    name.parentElement.querySelector('label').setAttribute('data-label-after', errorText);
+                }
             } else {
                 if (name.parentElement.classList.contains('is-invalid')) {
                     name.parentElement.classList.remove('is-invalid');
                     name.classList.remove('is-invalid');
-                    name.parentElement.querySelector('label').removeAttribute('data-label-after');
+                    if (name.classList.contains('custom-select')) {
+                        name.nextElementSibling.querySelector('label').removeAttribute('data-label-after');
+                    } else {
+                        name.parentElement.querySelector('label').removeAttribute('data-label-after');
+                    }
                 }
             }
         });
@@ -1347,27 +1390,23 @@ submitList.forEach(submit => {
                         delete data.fields;
                     }
                 } else if (tabActive == 'tab-pelaksanaan') {
-                    // objectPenganggaran.selected.sort(function (a, b) { return a - b });
-
                     // console.log(objectPenganggaran);
                     // console.log(objectAnggaran);
-                    // if (Object.keys(objectPenganggaran).length) {
-                    //     delete objectPenganggaran.result;
-                    //     data.fields = objectPenganggaran;
-                    //     data.table = 'anggaran_pelaksanaan_donasi';
-                    // } else {
-                    //     delete data.fields;
-                    // }
-                    console.log(objectPenganggaran);
-                    console.log(objectPelaksanaan);
                     if (Object.keys(objectPelaksanaan).length && e.target.closest('.modal').querySelector('#' + tabActive + ' textarea').value.length) {
                         objectPelaksanaan.deskripsi = e.target.closest('.modal').querySelector('#' + tabActive + ' textarea').value;
+                        objectPelaksanaan.total_anggaran = objectPenganggaran.total_penganggaran;
+                        if (objectPenganggaran.selected.length) {
+                            objectPenganggaran.selected.sort(function (a, b) { return a - b });
+                            data.rab = objectPenganggaran.selected;
+                        }
                         data.fields = objectPelaksanaan;
                         data.table = 'pelaksanaan';
                     } else {
                         delete data.fields;
+                        if (objectPenganggaran.selected.length) {
+                            delete data.rab;
+                        }
                     }
-
                 }
 
                 data.mode = 'create';
@@ -1568,6 +1607,27 @@ submitList.forEach(submit => {
                 $('.toast[data-toast="feedback"] .toast-header .small-box').removeClass('bg-danger').addClass('bg-success');
                 $('.toast[data-toast="feedback"] .toast-header strong').text('Informasi');
                 message = 'Pelaksanaan program telah berhasil dibuatkan programnya';
+                let tabActive = e.target.closest('.modal').querySelector('.tab-pane.active.show');
+                tabActive.classList.remove('show');
+                tabActive.classList.remove('active');
+                e.target.closest('.modal').querySelector('#tab-pencairan').classList.add('active');
+                e.target.closest('.modal').querySelector('#tab-pencairan').classList.add('show');
+
+                tabActive = e.target.closest('.modal').querySelector('.tab-pane.active.show');
+
+                tabActive.querySelector('#saldo-rab').innerText = numberToPrice(objectAnggaran.saldo_total_rab);
+                tabActive.querySelector('#anggaran-tersedia').innerText = numberToPrice(objectAnggaran.saldo_anggaran);
+                tabActive.querySelector('#max-pencairan').innerText = numberToPrice(objectPelaksanaan.total_anggaran);
+                // misal hasil fetc ulang setelah success tiga data berikut adalah
+                let resultFetch = {
+                    saldo_total_rab: 10000000,
+                    saldo_anggaran: 1000000,
+                    total_anggaran: 1000000
+                }
+
+                objectAnggaran.saldo_total_rab = resultFetch.saldo_total_rab;
+                objectAnggaran.saldo_anggaran = resultFetch.saldo_anggaran;
+                objectPelaksanaan.total_anggaran = resultFetch.total_anggaran;
 
                 // else failed create in pelaksanaan -> apd -> pencairan
                 // $('.toast[data-toast="feedback"] .toast-header .small-box').removeClass('bg-success').addClass('bg-danger');
@@ -1902,6 +1962,76 @@ $('#petugas-pencairan').select2({
         }
     }
 });
+
+// datepicker
+let d = new Date('08/11/2021');
+
+// extended function for datepicker
+const dateRanges = (date = new Date(), rule = 10, sum = 0) => Math.floor(date.getFullYear() / rule) * rule + sum;
+
+$('.datepicker').datepicker({
+    todayBtn: "linked",
+    language: 'id',
+    format: 'd MM yyyy',
+    autoclose: true,
+    enableOnReadonly: false // readonly input will not show datepicker . The default value true
+}).change(function (e) {
+    // submitControl(e.target);
+    if (this.classList.contains('is-invalid')) {
+        this.classList.remove('is-invalid');
+        this.closest('.form-label-group.is-invalid').removeAttribute('data-label-after');
+        this.closest('.form-label-group.is-invalid').classList.remove('is-invalid');
+    }
+    objectPelaksanaan.tanggal_pelaksanaan = $(this).datepicker('getDate');
+}).on('show', function (e) {
+    let allowedPicker = [],
+        untilPicker = undefined,
+        year = undefined,
+        timeEpoc;
+    if (e.viewMode == 0) {
+        timeEpoc = 'day';
+    } else if (e.viewMode == 1) {
+        timeEpoc = 'month';
+    } else if (e.viewMode == 2) {
+        timeEpoc = 'year';
+    } else if (e.viewMode == 3) {
+        // Start From This(d) Decade
+        allowedPicker = [dateRanges(d)];
+        // Until This(default dateRanges) Decade
+        untilPicker = dateRanges();
+        year = 10;
+        timeEpoc = 'decade';
+    } else if (e.viewMode == 4) {
+        // daterange second params set to 100 a century
+        // Start From This(d) Century
+        allowedPicker = [dateRanges(d, 100)];
+        // Until This(now) Century
+        untilPicker = dateRanges(new Date(), 100);
+        year = 100;
+        timeEpoc = 'century';
+    }
+
+    $('.datepicker.datepicker-dropdown table tbody tr [class!="' + timeEpoc + '"].focused').removeClass('focused');
+
+    if (allowedPicker.length > 0) {
+        if (allowedPicker.find(element => element == untilPicker) == undefined) {
+            allowedPicker.push(untilPicker)
+        }
+        if (allowedPicker.length > 1 && allowedPicker[1] - allowedPicker[0] > year) {
+            let loop = 1;
+            do {
+                if (allowedPicker.find(element => element == (loop * year)) == undefined) {
+                    allowedPicker.push(allowedPicker[loop - 1] + year);
+                }
+                loop++;
+            } while ((allowedPicker[1] - allowedPicker[0]) / year > loop);
+            allowedPicker.sort();
+        }
+        allowedPicker.forEach(pickElement => {
+            $('.datepicker.datepicker-dropdown table tbody td .disabled:contains(' + pickElement + ')').removeClass('disabled');
+        });
+    }
+}).datepicker('setStartDate', d);
 
 function doAbsoluteFirstAdd(table) {
     let theadThEl = table.querySelector('thead tr > th:first-of-type'),

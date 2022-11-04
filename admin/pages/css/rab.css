@@ -80,7 +80,8 @@ h2 {
 #input-jumlah-pelaksanaan,
 #input-anggaran-pelaksanaan,
 #input-persentase-pencairan,
-#input-nominal-pencairan {
+#input-nominal-pencairan,
+#input-tanggal-pelaksanaan {
     padding-left: 1.6em;
     padding-right: 1.6em;
 }
@@ -317,6 +318,18 @@ select.custom-select.is-invalid~.select2::after {
 select.custom-select.is-invalid[multiple]~.select2::after {
     right: 1rem;
 }
+
+/* span>label[data-label-after] {
+    z-index: 3;
+}
+
+.is-invalid>span+select.custom-select~.select2 label {
+    visibility: hidden;
+}
+
+.form-group>span>label[for="id-bantuan"] {
+    margin-left: 1.5rem;
+} */
 
 #petugas.form-group.position-relative>span.position-absolute {
     z-index: 1;

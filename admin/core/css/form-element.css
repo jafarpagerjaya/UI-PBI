@@ -56,6 +56,7 @@ input[maxlength]~span.input-char-left {
     text-transform: capitalize;
     white-space: nowrap;
     align-items: center;
+    /* z-index: 3; */
 }
 
 .form-label-group.error textarea+.form-control-label::after,
@@ -79,6 +80,12 @@ input[maxlength]~span.input-char-left {
     right: auto;
 }
 
+/* input-group */
+.input-group.focused {
+    box-shadow: 0 0 0 0.2rem rgb(94 114 228 / 25%);
+    transition: all .15s ease-in-out;
+}
+
 .form-group.error .input-group-append>.form-control-label,
 .form-group.error .input-group-prepend>.form-control-label,
 .form-group.error>.input-group>.input-group-append>span.input-group-text,
@@ -86,6 +93,7 @@ input[maxlength]~span.input-char-left {
     border-color: var(--danger);
 }
 
+.form-label-group.input-group.is-invalid span.input-group-text,
 .form-group.is-invalid .input-group-append>.form-control-label,
 .form-group.is-invalid .input-group-prepend>.form-control-label,
 .form-group.is-invalid>.input-group>.input-group-append>span.input-group-text,
