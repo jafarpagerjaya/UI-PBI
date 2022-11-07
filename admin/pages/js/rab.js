@@ -1146,7 +1146,7 @@ submitList.forEach(submit => {
                     if (e.target.closest('.modal').querySelector('#budget-warning') != null) {
                         e.target.closest('.modal').querySelector('#budget-warning .text-sm>b').innerText = numberToPrice(objectAnggaran.saldo_anggaran);
                     } else {
-                        const budget_warning_html_pelaksanaan = '<div class="col-12 px-0" id="budget-warning"><div class="box rounded bg-gradient-danger text-white"><div class="px-2"><h4 class="mb-0 text-white">Saldo anggaran program <span class="font-weight-bolder">Tidak Cukup !!</span></h4><div class="text-sm">Resiko anda hanya dapat mencairkan program sejumlah <b>Rp. ' + numberToPrice(objectAnggaran.saldo_anggaran) + '</b> untuk anggaran tertentu di tahap ini, atau gunakan <span class="font-weight-bolder" id="btn-dana-talang">data talang</span> nanti <a href="#" class="font-weight-light text-white small">(Syarat dan ketentuan berlaku *)</a></div></div></div></div>';
+                        const budget_warning_html_pelaksanaan = '<div class="col-12 px-0" id="budget-warning"><div class="box rounded bg-gradient-danger text-white"><div class="px-2"><h4 class="mb-0 text-white">Saldo anggaran program <span class="font-weight-bolder">Tidak Cukup !!</span></h4><div class="text-sm">Resiko anda hanya dapat mencairkan program sejumlah <b>Rp. ' + numberToPrice(objectAnggaran.saldo_anggaran) + '</b> untuk anggaran tertentu pada tahap ini, atau gunakan <span class="font-weight-bolder" id="btn-dana-talang">data talang</span> nanti <a href="#" class="font-weight-light text-white small">(Syarat dan ketentuan berlaku *)</a></div></div></div></div>';
                         document.querySelector('#stepper').insertAdjacentHTML('afterend', budget_warning_html_pelaksanaan);
                     }
                 } else {
@@ -1307,7 +1307,11 @@ submitList.forEach(submit => {
                     name.classList.add('is-invalid');
                 }
                 if (name.classList.contains('custom-select')) {
-                    name.nextElementSibling.querySelector('label').setAttribute('data-label-after', errorText);
+                    if (!name.hasAttribute('multiple')) {
+                        name.nextElementSibling.querySelector('label').setAttribute('data-label-after', errorText);
+                    } else {
+                        name.parentElement.querySelector('label').setAttribute('data-label-after', errorText);
+                    }
                 } else {
                     name.parentElement.querySelector('label').setAttribute('data-label-after', errorText);
                 }
@@ -1317,6 +1321,11 @@ submitList.forEach(submit => {
                     name.classList.remove('is-invalid');
                     if (name.classList.contains('custom-select')) {
                         name.nextElementSibling.querySelector('label').removeAttribute('data-label-after');
+                        if (!name.hasAttribute('multiple')) {
+                            name.nextElementSibling.querySelector('label').removeAttribute('data-label-after');
+                        } else {
+                            name.parentElement.querySelector('label').removeAttribute('data-label-after');
+                        }
                     } else {
                         name.parentElement.querySelector('label').removeAttribute('data-label-after');
                     }
@@ -1506,6 +1515,10 @@ submitList.forEach(submit => {
                         total_rab: 10000000
                     };
 
+                    // misal
+                    // objectAnggaran.saldo_anggaran = 15000000;
+                    // document.querySelector('#balance .text-sm').innerText = numberToPrice(objectAnggaran.saldo_anggaran);
+
                     objectAnggaran.total_rab = dataRab.total_rab;
 
                     if (dataRab.total_rab > objectAnggaran.saldo_anggaran) {
@@ -1529,6 +1542,10 @@ submitList.forEach(submit => {
                     const dataRab = {
                         total_rab: 10000000
                     };
+
+                    // misal
+                    // objectAnggaran.saldo_anggaran = 15000000;
+                    // document.querySelector('#balance .text-sm').innerText = numberToPrice(objectAnggaran.saldo_anggaran);
 
                     objectAnggaran.total_rab = dataRab.total_rab;
 
@@ -1557,7 +1574,7 @@ submitList.forEach(submit => {
 
                 if (budget_warning == true) {
                     if (document.querySelector('#budget-warning') == null) {
-                        const budget_warning_html_rab = '<div class="col-12 px-0" id="budget-warning"><div class="box rounded bg-gradient-danger text-white"><div class="px-2"><h4 class="mb-0 text-white">Saldo anggaran program <span class="font-weight-bolder">Tidak Cukup !!</span></h4><div class="text-sm">Resiko anda hanya dapat mencairkan program sejumlah <b>Rp. ' + numberToPrice(objectAnggaran.saldo_anggaran) + '</b> untuk anggaran tertentu di tahap ini, atau gunakan <span class="font-weight-bolder" id="btn-dana-talang">data talang</span> <a href="#" class="font-weight-light text-white small">(Syarat dan ketentuan berlaku *)</a></div></div></div></div>';
+                        const budget_warning_html_rab = '<div class="col-12 px-0" id="budget-warning"><div class="box rounded bg-gradient-danger text-white"><div class="px-2"><h4 class="mb-0 text-white">Saldo anggaran program <span class="font-weight-bolder">Tidak Cukup !!</span></h4><div class="text-sm">Resiko anda hanya dapat mencairkan program sejumlah <b>' + numberToPrice(objectAnggaran.saldo_anggaran) + '</b> untuk anggaran tertentu pada tahap ini, atau gunakan <span class="font-weight-bolder" id="btn-dana-talang">data talang</span> <a href="#" class="font-weight-light text-white small">(Syarat dan ketentuan berlaku *)</a></div></div></div></div>';
                         document.querySelector('#stepper').insertAdjacentHTML('afterend', budget_warning_html_rab);
                     }
                 }
@@ -1599,6 +1616,47 @@ submitList.forEach(submit => {
                 rencanaEl.insertAdjacentHTML('afterend', rabEl);
                 message = 'Rencana anggaran baru telah dibuat';
             } else if (e.target.getAttribute('id') == 'buat-pencairan') {
+                // fetch ulang saldo_total_rab, saldo_anggaran
+                // misal hasil fetch ulang setelah success dua data berikut adalah
+                let resultFetch = {
+                    saldo_total_rab: 10000000,
+                    saldo_anggaran: 1000000
+                }
+
+                let tabActive = e.target.closest('.modal').querySelector('.tab-pane.active.show');
+                // cek ketersedian terbaru apakah saldo anggaran cukup
+                if (resultFetch.saldo_anggaran < objectPenganggaran.total_penganggaran) {
+
+                    objectAnggaran.saldo_total_rab = resultFetch.saldo_total_rab;
+                    objectAnggaran.saldo_anggaran = resultFetch.saldo_anggaran;
+
+                    e.target.closest('.modal').querySelector('#budget-warning .text-sm>b').innerText = numberToPrice(objectAnggaran.saldo_anggaran);
+
+                    const checkedRabList = tabActive.querySelectorAll('table tbody>tr>td .custom-toggle input[checked="true"]');
+                    for (let index = checkedRabList.length - 1; index >= 0; index--) {
+                        const element = checkedRabList[index];
+                        element.closest('label').click();
+                        if (objectPenganggaran.total_penganggaran <= objectAnggaran.saldo_anggaran) {
+                            break;
+                        }
+                    }
+
+                    tabActive.querySelector('#total-rab').innerText = numberToPrice(resultFetch.saldo_total_rab);
+                    tabActive.querySelector('#anggaran-tersedia').innerText = numberToPrice(resultFetch.saldo_anggaran);
+
+                    $('#notifikasi').find('.modal-body').html('Terjadi kesalahan, <b>saldo anggaran tidak mencukupi!</b>');
+                    $('#notifikasi').modal('show');
+                    return false;
+                }
+
+                if (resultFetch.saldo_anggaran >= objectAnggaran.saldo_anggaran && objectPenganggaran.total_penganggaran <= resultFetch.saldo_anggaran) {
+                    if (e.target.closest('.modal').querySelector('#budget-warning') != null) {
+                        e.target.closest('.modal').querySelector('#budget-warning').remove();
+                    }
+                } else {
+                    e.target.closest('.modal').querySelector('#budget-warning .text-sm>b').innerText = numberToPrice(objectPelaksanaan.total_anggaran);
+                }
+
                 objectPencairan = {
                     id_pencairan: '2'
                 };
@@ -1607,7 +1665,12 @@ submitList.forEach(submit => {
                 $('.toast[data-toast="feedback"] .toast-header .small-box').removeClass('bg-danger').addClass('bg-success');
                 $('.toast[data-toast="feedback"] .toast-header strong').text('Informasi');
                 message = 'Pelaksanaan program telah berhasil dibuatkan programnya';
-                let tabActive = e.target.closest('.modal').querySelector('.tab-pane.active.show');
+
+                // objectAnggaran.saldo_total_rab = resultFetch.saldo_total_rab;
+                // objectAnggaran.saldo_anggaran = resultFetch.saldo_anggaran;
+                // objectPelaksanaan.total_anggaran = resultFetch.total_anggaran;
+
+                tabActive = e.target.closest('.modal').querySelector('.tab-pane.active.show');
                 tabActive.classList.remove('show');
                 tabActive.classList.remove('active');
                 e.target.closest('.modal').querySelector('#tab-pencairan').classList.add('active');
@@ -1618,16 +1681,6 @@ submitList.forEach(submit => {
                 tabActive.querySelector('#saldo-rab').innerText = numberToPrice(objectAnggaran.saldo_total_rab);
                 tabActive.querySelector('#anggaran-tersedia').innerText = numberToPrice(objectAnggaran.saldo_anggaran);
                 tabActive.querySelector('#max-pencairan').innerText = numberToPrice(objectPelaksanaan.total_anggaran);
-                // misal hasil fetc ulang setelah success tiga data berikut adalah
-                let resultFetch = {
-                    saldo_total_rab: 10000000,
-                    saldo_anggaran: 1000000,
-                    total_anggaran: 1000000
-                }
-
-                objectAnggaran.saldo_total_rab = resultFetch.saldo_total_rab;
-                objectAnggaran.saldo_anggaran = resultFetch.saldo_anggaran;
-                objectPelaksanaan.total_anggaran = resultFetch.total_anggaran;
 
                 // else failed create in pelaksanaan -> apd -> pencairan
                 // $('.toast[data-toast="feedback"] .toast-header .small-box').removeClass('bg-success').addClass('bg-danger');
@@ -1953,6 +2006,9 @@ $('#petugas-pencairan').select2({
     multiple: true
 }).on('change', function (e) {
     objectPencairan[e.target.name] = $(this).val();
+    if (e.target.parentElement.querySelector('label').hasAttribute('data-label-after')) {
+        e.target.parentElement.querySelector('label').removeAttribute('data-label-after');
+    }
 }).on('select2:open', function () {
     if ($(this).hasClass("select2-hidden-accessible")) {
         if ($(this).hasClass('is-invalid')) {

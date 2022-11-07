@@ -60,7 +60,10 @@ h2 {
 #balance>.text-sm::before,
 #total-rab.text-sm::before,
 #anggaran-tersedia.text-sm::before,
-#penggunaan-anggaran::before {
+#penggunaan-anggaran::before,
+#saldo-rab::before,
+#max-pencairan::before,
+#budget-warning .text-sm>b::before {
     content: 'Rp. ';
 }
 
