@@ -628,7 +628,7 @@
                                         </div>
                                     </div>
                                     <div class="col-12 px-0 tab-content" id="tab-rencana-pencairan">
-                                        <div class="tab-pane gap-y-5 show active" id="tab-rencana">
+                                        <div class="tab-pane gap-y-5 " id="tab-rencana">
                                             <div class="w-100" id="rencana">
                                                 <div class="row mx-0 gap-y-5">
                                                     <div class="px-0 col-12 col-md" id="rencana-program">
@@ -761,7 +761,7 @@
                                                         <input spellcheck="false" class="form-control datepicker"
                                                             placeholder="Tanggal Pelaksanaan" type="text"
                                                             name="waktu_bayar" id="input-tanggal-pelaksanaan"
-                                                            data-date-end-date="0d">
+                                                            data-date-end-date="0d" autocomplete="off">
                                                         <label for="input-tanggal-pelaksanaan"
                                                             class="form-control-label">Tanggal Pelaksanaan</label>
                                                         <div class="input-group-append">
@@ -836,6 +836,114 @@
                                                             <option value="2">Two</option>
                                                             <option value="3">Three</option>
                                                         </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane gap-y-5 show active" id="tab-penarikan">
+                                            <div class="row gap-y-5 gap-x-2">
+                                                <div class="col-12">
+                                                    <div class="px-4 py-3 bg-lighter rounded">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <h4 class="mb-0">
+                                                                    Total Penarikan
+                                                                </h4>
+                                                                <div id="total-penarikan">1.000.000</div>
+                                                            </div>
+                                                            <div
+                                                                class="col d-flex align-items-center justify-content-end">
+                                                                <button class=" btn btn-icon btn-outline-orange btn-sm"
+                                                                    type="button">
+                                                                    <span class="btn-inner--icon"><i
+                                                                            class="fas fa-sync"></i></span>
+                                                                    <span class="btn-inner--text">Refresh</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <table class="table table-hover border list-rab rounded mb-0"
+                                                        id="list-penarikan">
+                                                        <thead class="thead-light">
+                                                            <tr>
+                                                                <th class="fit">
+                                                                    Penarikan Dari
+                                                                </th>
+                                                                <th>Status Dana</th>
+                                                                <th class="text-right">
+                                                                    Jumlah
+                                                                </th>
+                                                                <th class="text-right fit">
+
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="media align-items-center gap-x-3">
+                                                                        <div class="avatar rounded bg-transparent border"
+                                                                            data-id-donatur="2">
+                                                                            <img src="/img/payment/bjb.png" alt="BJB"
+                                                                                class="img-fluid">
+                                                                        </div>
+                                                                        <div class="media-body small">
+                                                                            <div class="text-black-50 font-weight-bold">
+                                                                                0001000080001
+                                                                            </div>
+                                                                            <div
+                                                                                class="text-black-50 font-weight-bolder">
+                                                                                Pojok Berbagi Indonesia
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <!-- <a href="#"
+                                                                        class="badge badge-pill badge-success">Siap
+                                                                        ditarik</a> -->
+                                                                    <a href="#"
+                                                                        class="px-2 badge badge-pill badge-warning">Sedang
+                                                                        dalam proses pinbuk</a>
+                                                                    <p
+                                                                        class="px-2 font-weight-900 mb-0 small nominal-pinbuk">
+                                                                        10.000
+                                                                    </p>
+                                                                </td>
+                                                                <td class="text-right nominal">
+                                                                    100.000
+                                                                </td>
+                                                                <td class="fit">A</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="px-4 py-3 bg-gradient-info rounded">
+                                                        <div
+                                                            class="row align-items-center justify-content-between mb-3">
+                                                            <div class="col">
+                                                                <h3 class="text-white mb-0">
+                                                                    Informasi
+                                                                </h3>
+                                                            </div>
+                                                            <div class="col text-right">
+                                                                <a href="/admin/pinbuk"
+                                                                    class="font-weight-bolder btn btn-sm btn-primary"
+                                                                    target="_self">Pindah
+                                                                    Buku</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-white text-sm">
+                                                            Dana donasi masih ada yang tersimpan di E-Wallet segera
+                                                            <span class="font-weight-900">pindah buku</span> ke
+                                                            salah satu rekening bank. Abaikan pesan ini jika proses
+                                                            pembayaran <span class="font-weight-900">Pembelian Barang
+                                                                dan Jasa</span> akan menggunakan E-Wallet
+                                                            tersebut.
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

@@ -373,7 +373,11 @@ function setPersentasePencairan(e) {
     const nominal_pencairan = priceToNumber(e.target.value);
     let persentase_pencairan = '';
     if (nominal_pencairan > 0) {
-        persentase_pencairan = ((nominal_pencairan / objectPelaksanaan.total_anggaran) * 100).toFixed(2) + ' %';
+        if (nominal_pencairan == objectPelaksanaan.total_anggaran) {
+            persentase_pencairan = '100 %';
+        } else {
+            persentase_pencairan = ((nominal_pencairan / objectPelaksanaan.total_anggaran) * 100).toFixed(2) + ' %';
+        }
         if (e.target.parentElement.classList.contains('is-invalid')) {
             e.target.parentElement.classList.remove('is-invalid');
             e.target.parentElement.querySelector('label').removeAttribute('data-label-after');
@@ -541,13 +545,13 @@ let oldValuePrice = {};
 inputPriceList.forEach(price => {
     price.addEventListener('focusout', function (e) {
         if (priceToNumber(e.target.value) == 0) {
-
+            e.target.value = '';
         }
         if (e.target.name == 'nominal_pencairan') {
             setTimeout(() => {
                 const persentase_pencairan = +inputPersentase.value.replace(' %', '');
                 if (persentase_pencairan > 0) {
-                    e.target.value = numberToPrice(Math.round(objectAnggaran.saldo_anggaran * (persentase_pencairan / 100).toFixed(4)));
+                    e.target.value = numberToPrice(Math.round(objectPelaksanaan.total_anggaran * (persentase_pencairan / 100).toFixed(4)));
                     objectPencairan[e.target.name] = priceToNumber(e.target.value);
                 } else {
                     delete objectPencairan[e.target.name];
@@ -1616,6 +1620,7 @@ submitList.forEach(submit => {
                 rencanaEl.insertAdjacentHTML('afterend', rabEl);
                 message = 'Rencana anggaran baru telah dibuat';
             } else if (e.target.getAttribute('id') == 'buat-pencairan') {
+                // hendak create pelaksanaan
                 // fetch ulang saldo_total_rab, saldo_anggaran
                 // misal hasil fetch ulang setelah success dua data berikut adalah
                 let resultFetch = {
@@ -1682,6 +1687,12 @@ submitList.forEach(submit => {
                 tabActive.querySelector('#anggaran-tersedia').innerText = numberToPrice(objectAnggaran.saldo_anggaran);
                 tabActive.querySelector('#max-pencairan').innerText = numberToPrice(objectPelaksanaan.total_anggaran);
 
+                e.target.innerText = 'Kalkulasi Penarikan';
+                e.target.classList.remove('btn-outline-primary');
+                e.target.classList.add('btn-outline-orange');
+                // e.target.setAttribute('type', 'submit');
+                e.target.setAttribute('id', 'kalkulasi-penarikan');
+
                 // else failed create in pelaksanaan -> apd -> pencairan
                 // $('.toast[data-toast="feedback"] .toast-header .small-box').removeClass('bg-success').addClass('bg-danger');
                 // $('.toast[data-toast="feedback"] .toast-header strong').text('Pemberitahuan');
@@ -1692,6 +1703,12 @@ submitList.forEach(submit => {
                 $('.toast[data-toast="feedback"] .time-passed').text('Baru Saja');
                 $('.toast').toast('show');
                 $('#' + modalId).modal('hide');
+            } else if (e.target.getAttribute('id') == 'kalkulasi-penarikan') {
+                let tabActive = e.target.closest('.modal').querySelector('.tab-pane.active.show');
+                tabActive.classList.remove('show');
+                tabActive.classList.remove('active');
+                e.target.closest('.modal').querySelector('#tab-penarikan').classList.add('active');
+                e.target.closest('.modal').querySelector('#tab-penarikan').classList.add('show');
             }
         }
 
@@ -2127,11 +2144,11 @@ function doAbsoluteFirstAdd(table) {
     table.querySelectorAll('tbody tr > *:first-of-type').forEach(el => {
         el.setAttribute('style', 'width:' + tbodyTFW + 'px');
         el.nextElementSibling.setAttribute('style', 'padding-left: calc(' + tbodyTFW + 'px + 1rem)');
-        if (el.querySelector('span') != null) {
+        if (el.children[0] != null) {
             const computedStyle = getComputedStyle(el);
             let elementWidth = el.clientWidth;
             elementWidth -= parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight);
-            if (el.querySelector('span').offsetWidth > elementWidth) {
+            if (el.children[0].offsetWidth > elementWidth) {
                 el.parentElement.setAttribute('style', '');
                 setTimeout(() => {
                     el.parentElement.setAttribute('style', 'height: ' + el.offsetHeight + 'px');
@@ -2140,9 +2157,11 @@ function doAbsoluteFirstAdd(table) {
         }
     });
 
-    tfootThEl.setAttribute('style', 'width: ' + theadThFW + 'px');
-    tfootThEl.nextElementSibling.setAttribute('style', 'padding-left: calc(' + theadThFW + 'px + 1rem)');
-    // tfootThEl.parentElement.setAttribute('style', 'height: ' + tfootThEl.offsetHeight + 'px');
+    if (tfootThEl != null) {
+        tfootThEl.setAttribute('style', 'width: ' + theadThFW + 'px');
+        tfootThEl.nextElementSibling.setAttribute('style', 'padding-left: calc(' + theadThFW + 'px + 1rem)');
+        // tfootThEl.parentElement.setAttribute('style', 'height: ' + tfootThEl.offsetHeight + 'px');
+    }
 
     if (!table.classList.contains('table-absolute-first')) {
         table.classList.add('table-absolute-first');
@@ -2163,9 +2182,11 @@ function doAbsoluteFirstRemove(table) {
         el.parentElement.removeAttribute('style');
     });
 
-    tfootThEl.removeAttribute('style');
-    tfootThEl.nextElementSibling.removeAttribute('style');
-    tfootThEl.parentElement.removeAttribute('style');
+    if (tfootThEl != null) {
+        tfootThEl.removeAttribute('style');
+        tfootThEl.nextElementSibling.removeAttribute('style');
+        tfootThEl.parentElement.removeAttribute('style');
+    }
 }
 
 const tableAbsoluteFirstList = document.querySelectorAll('table.table-absolute-first');
@@ -2191,3 +2212,14 @@ if (tableAbsoluteFirstList.length > 0) {
         }, 50);
     })
 }
+
+function doScollRightStepper() {
+    let elList = document.querySelectorAll('.c-stepper > .c-stepper__item');
+    let wrapperWidth = 0;
+    elList.forEach(element => {
+        wrapperWidth += element.offsetWidth;
+    });
+    document.querySelector('.c-stepper').scrollLeft = wrapperWidth;
+}
+
+doScollRightStepper();

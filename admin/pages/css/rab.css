@@ -96,6 +96,16 @@ h2 {
     border-color: var(--lighter);
 }
 
+#list-penarikan tbody>tr>td {
+    padding-top: .75em;
+    padding-bottom: .75em;
+}
+
+#list-penarikan tbody>tr>td .avatar {
+    width: 38px;
+    height: 38px;
+}
+
 .modal textarea[maxlength]~span.input-char-left,
 .modal input[maxlength]~span.input-char-left {
     bottom: 1rem;
