@@ -21,7 +21,7 @@ const COUNT_FORMATS = [
     }
 ];
 
-let formatCount = function(value) {
+let formatCount = function (value) {
     const format = COUNT_FORMATS.find(format => (value < format.limit));
     let formatObject = {}
     value = (1000 * value / format.limit);
@@ -45,7 +45,7 @@ let counterUpSup = function (counterTarget, counterSpeed, date = false) {
             console.log('[data-count-up-value] tidak ditemukan pada ', numberElem);
             return false;
         }
-        
+
         const animTime = counterSpeed;
         let date;
         // data-count-up-date => true or false
@@ -56,7 +56,7 @@ let counterUpSup = function (counterTarget, counterSpeed, date = false) {
         const initTime = performance.now();
 
         // Interval
-        let interval = setInterval(function() {
+        let interval = setInterval(function () {
             let t = (performance.now() - initTime) / animTime;
 
             let currentValue = Math.ceil(t * finalValue);
@@ -112,7 +112,7 @@ let counterUpProgress = function (counterTarget, counterSpeed) {
     });
 };
 
-const doAnimations = function(elems) {
+const doAnimations = function (elems) {
     elems.forEach(el => {
         let animationType = 'animated';
 
@@ -125,12 +125,12 @@ const doAnimations = function(elems) {
     });
 };
 
-const detectMob = function() {
-    return ( window.innerWidth <= 767 );
+const detectMob = function () {
+    return (window.innerWidth <= 767);
 };
 
-const detectTab = function() {
-    return ( window.innerWidth <= 768 );
+const detectTab = function () {
+    return (window.innerWidth <= 768);
 };
 
 function keteranganJenisChannelPayment(jenis_cp) {
@@ -154,6 +154,19 @@ function keteranganJenisChannelPayment(jenis_cp) {
         keterangan_cp = "Unrecognize (Payment Method)";
     }
     return keterangan_cp;
+}
+
+function keteranganJenisChannelAccount(jenis_ca) {
+    let text;
+    jenis_ca = jenis_ca.toUpperCase();
+    if (jenis_ca == 'RB') {
+        text = 'Rekening Bank';
+    } else if (jenis_ca == 'NW') {
+        text = 'E-Wallet';
+    } else {
+        text = 'Unrecognize (CA Type)';
+    }
+    return text;
 }
 
 function iconSektor(id_sektor) {

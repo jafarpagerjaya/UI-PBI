@@ -577,7 +577,7 @@ inputPriceList.forEach(price => {
             return false;
         }
 
-        if (e.code == "Delete" || e.code == "Backspace") {
+        if ((e.code == "Delete" || e.code == "Backspace") && !cBlock) {
             setTimeout(() => {
                 let indexRemoveStart = cStart;
 
@@ -626,19 +626,27 @@ inputPriceList.forEach(price => {
             return false;
         }
 
-        if (!number) {
+        if (!number && (e.code != "Delete" && e.code != "Backspace")) {
             return false;
         }
 
         if (cBlock) {
+            const copyBlockSparator = (value.substr(cStart, cEnd).match(/\./g) || []).length;
             e.target.value = numberToPrice(priceToNumber(value.replaceAt(cStart, cEnd, e.key)));
+            if (e.target.value == '0' && !number) {
+                e.target.value = '';
+            }
 
-            if ((e.target.value.match(/\./g) || []).length < cSparator) {
+            if (copyBlockSparator > 0 && (e.target.value.match(/\./g) || []).length) {
                 cStart++;
             }
 
-            e.target.selectionStart = cStart + 1;
-            e.target.selectionEnd = cStart + 1;
+            if (number) {
+                cStart++;
+            }
+
+            e.target.selectionStart = cStart;
+            e.target.selectionEnd = cStart;
 
             if (e.target.name == 'nominal_pencairan') {
                 if (priceToNumber(e.target.value) > objectPelaksanaan.total_anggaran) {
@@ -1284,7 +1292,7 @@ submitList.forEach(submit => {
                         }
                     }
 
-                    if (name.name == 'nominal_pencairan') {
+                    if (name.name == 'nominal_pencairan' || name.name == 'nominal_pinbuk') {
                         if (priceToNumber(name.value) < 10000) {
                             error = true;
                             errorText = 'terlalu sedikit';
@@ -2025,6 +2033,89 @@ $('#petugas-pencairan').select2({
     objectPencairan[e.target.name] = $(this).val();
     if (e.target.parentElement.querySelector('label').hasAttribute('data-label-after')) {
         e.target.parentElement.querySelector('label').removeAttribute('data-label-after');
+    }
+}).on('select2:open', function () {
+    if ($(this).hasClass("select2-hidden-accessible")) {
+        if ($(this).hasClass('is-invalid')) {
+            $('#select2-' + $(this).attr('id') + '-results').parents('span.select2-dropdown').addClass('is-invalid');
+        } else {
+            $('#select2-' + $(this).attr('id') + '-results').parents('span.select2-dropdown').removeClass('is-invalid');
+        }
+    }
+});
+
+let objectPinbuk = {};
+
+const ca = [
+    { id_ca: 1, nama: 'Bank BJB', nomor: '0001000080001', atas_nama: 'POJOK BERBAGI INDONESIA', jenis: 'RB', path_gambar: '/img/payment/bjb.png' },
+    { id_ca: 4, nama: 'Bank BSI', nomor: '7400525255', atas_nama: 'POJOK BERBAGI INDONESIA', jenis: 'RB', path_gambar: '/img/payment/bsi.png' },
+    { id_ca: 5, nama: 'Bank BRI', nomor: '107001000272300', atas_nama: 'POJOK BERBAGI INDONESIA', jenis: 'RB', path_gambar: '/img/payment/bri.png' },
+    { id_ca: 6, nama: 'Dana', nomor: '081233311113', atas_nama: 'Pojok Berbagi', jenis: 'NW', path_gambar: '/img/payment/dana.png' },
+    { id_ca: 7, nama: 'GoPay', nomor: '081233311113', atas_nama: 'Pojok Berbagi', jenis: 'NW', path_gambar: '/img/payment/gopay.png' }
+];
+
+function selectLabelChannelAccount(array) {
+    return Object.values(array.reduce((accu, { id_ca: id, jenis: text, nama, nomor, atas_nama, path_gambar }) => {
+        (accu[text] ??= { text: keteranganJenisChannelAccount(text), children: [] }).children.push({ id, text: nama, nomor, atas_nama, path_gambar });
+        return accu;
+    }, {}));
+}
+
+function formatSelectedChannelAccount(ca) {
+    if (ca.loading) {
+        return ca.text;
+    }
+
+    const label = ca.element.closest('select').parentElement.querySelector('label');
+
+    let $ca = '';
+
+    if (label != null) {
+        $ca = label.outerHTML;
+    }
+
+    if (ca.path_gambar == null || ca.path_gambar == undefined) {
+        $ca = $ca + '<div ' + (ca.nomor != undefined ? 'class="font-weight-bolder">' + ca.text + ' - ' + ca.nomor : 'class="font-weight-bold">' + ca.text) + '</div>'
+    } else {
+        $ca = $ca + '<div class="row w-100 m-0 align-items-center"><div class="col p-0"><span class="font-weight-bold">' + ca.nomor + '</span> - <span="font-weight-bold">(' + ca.atas_nama + ')</span></div><div class="col-1 p-0 d-flex align-items-center"><img src="' + ca.path_gambar + '" alt="' + ca.text + '" class="img-fluid"></div></div>'
+    }
+    return $ca;
+};
+
+function formatChannelAccount(ca) {
+    if (ca.loading) {
+        return ca.text;
+    }
+    let $ca;
+    if (ca.path_gambar == null || ca.path_gambar == undefined) {
+        $ca = '<div class="font-weight-bolder">' + ca.text + '</div>'
+    } else {
+        $ca = '<div class="row w-100 m-0 align-items-center"><div class="col p-0"><span class="font-weight-bolder">' + ca.nomor + '</span> - <span="font-weight-bold">(' + ca.atas_nama + ')</span></div><div class="col-1 p-0 d-flex align-items-center"><img src="' + ca.path_gambar + '" alt="' + ca.text + '" class="img-fluid"></div></div>'
+    }
+    return $ca;
+};
+
+$('#id-ca').select2({
+    language: {
+        inputTooShort: function () { return 'Ketikan minimal 1 huruf'; }, noResults: function () { return "Data yang dicari tidak ditemukan"; }, searching: function () { return "Sedang melakukan pencarian..."; }, loadingMore: function () { return "Menampilkan data yang lainnya"; }, maximumSelected: function (e) { return 'Maksimum petugas pencairan terpilih adalah ' + e.maximum + ' orang'; },
+    },
+    data: selectLabelChannelAccount(ca),
+    matcher: modelMatcher,
+    placeholder: "Pilih salah satu",
+    escapeMarkup: function (markup) { return markup; },
+    templateSelection: formatSelectedChannelAccount,
+    templateResult: formatChannelAccount
+}).on('select2:select', function (e) {
+    if (this.value != '0') {
+        objectPinbuk.id_ca_to = this.value;
+
+        if (this.parentElement.classList.contains('is-invalid')) {
+            this.parentElement.classList.remove('is-invalid');
+            this.parentElement.querySelector('label').removeAttribute('data-label-after');
+            this.classList.remove('is-invalid');
+        }
+    } else {
+        delete objectPinbuk.id_ca_to;
     }
 }).on('select2:open', function () {
     if ($(this).hasClass("select2-hidden-accessible")) {

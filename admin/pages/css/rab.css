@@ -37,13 +37,16 @@ h2 {
 #modalTambahKebutuhan .custom-select,
 #modalTambahKebutuhan input,
 #modalFormRab .custom-select,
-#modalFormRab input {
+#modalFormRab input,
+#modalFormPinbuk .custom-select,
+#modalFormPinbuk input {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
 }
 
 #modalTambahKebutuhan .form-label-group label,
-#modalFormRab .form-label-group label {
+#modalFormRab .form-label-group label,
+#modalFormPinbuk .form-label-group label {
     left: calc(1rem + 1px) !important;
 }
 
@@ -330,6 +333,11 @@ select.custom-select.is-invalid~.select2::after {
 
 select.custom-select.is-invalid[multiple]~.select2::after {
     right: 1rem;
+}
+
+.select2-container.select2-container--open [aria-label="Rekening Bank"] .select2-results__option img,
+select+.select2 img[alt*="Bank"] {
+    margin-top: -5px !important;
 }
 
 /* span>label[data-label-after] {
