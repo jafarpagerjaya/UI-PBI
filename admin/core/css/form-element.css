@@ -37,6 +37,7 @@ input[maxlength]~span.input-char-left {
     color: var(--danger);
 }
 
+.form-group.is-invalid.inputGroup.input-file label>*:first-child,
 .form-label-group.is-invalid .form-control-label,
 .form-group.is-invalid .form-control-label {
     color: #fb6340;
@@ -85,6 +86,7 @@ input[maxlength]~span.input-char-left {
     transition: all .15s ease-in-out;
 }
 
+.form-group.error.inputGroup.input-file,
 .form-group.error .input-group-append>.form-control-label,
 .form-group.error .input-group-prepend>.form-control-label,
 .form-group.error>.input-group>.input-group-append>span.input-group-text,
@@ -92,6 +94,7 @@ input[maxlength]~span.input-char-left {
     border-color: var(--danger);
 }
 
+.form-group.is-invalid.inputGroup.input-file,
 .form-label-group.input-group.is-invalid span.input-group-text,
 .form-group.is-invalid .input-group-append>.form-control-label,
 .form-group.is-invalid .input-group-prepend>.form-control-label,
@@ -100,6 +103,8 @@ input[maxlength]~span.input-char-left {
     border-color: #fb6340;
 }
 
+.form-group.error.inputGroup.input-file,
+.form-group.is-invalid.inputGroup.input-file,
 .form-group.error>.input-group>.input-group-prepend>span.input-group-text,
 .form-group.error>.input-group>.input-group-append>span.input-group-text,
 .form-group.is-invalid>.input-group>.input-group-prepend>span.input-group-text,

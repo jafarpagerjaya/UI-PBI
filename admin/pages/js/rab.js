@@ -1670,10 +1670,7 @@ submitList.forEach(submit => {
                     e.target.closest('.modal').querySelector('#budget-warning .text-sm>b').innerText = numberToPrice(objectPelaksanaan.total_anggaran);
                 }
 
-                objectPencairan = {
-                    id_pencairan: '2'
-                };
-                // if success create pelaksanaan -> apd -> pencairan
+                // if success create pelaksanaan -> apd
                 // fetch create petugas_pencairan
                 $('.toast[data-toast="feedback"] .toast-header .small-box').removeClass('bg-danger').addClass('bg-success');
                 $('.toast[data-toast="feedback"] .toast-header strong').text('Informasi');
@@ -1712,11 +1709,25 @@ submitList.forEach(submit => {
                 $('.toast').toast('show');
                 $('#' + modalId).modal('hide');
             } else if (e.target.getAttribute('id') == 'kalkulasi-penarikan') {
+                // result create pencairan
+                objectPencairan = {
+                    id_pencairan: '2'
+                };
+                // fetct KalkulasiPencairan berdasarkan create pencairan
+                // result fetch KalkulasiPenarikan
+                let resultKalkulasiPencairan = [
+                    { nominal_pencairan: 100000, nomor: '0001000080001', atas_nama: 'POJOK BERBAGI INDONESIA', path_gambar: '/img/payment/bjb.png', nama: 'Bank BJB', id_ca: '1' }
+                ];
                 let tabActive = e.target.closest('.modal').querySelector('.tab-pane.active.show');
                 tabActive.classList.remove('show');
                 tabActive.classList.remove('active');
                 e.target.closest('.modal').querySelector('#tab-penarikan').classList.add('active');
                 e.target.closest('.modal').querySelector('#tab-penarikan').classList.add('show');
+
+                e.target.innerText = 'Submit';
+                e.target.classList.remove('btn-outline-orange');
+                e.target.classList.add('btn-outline-success');
+                e.target.setAttribute('id', 'pencairan');
             }
         }
 
