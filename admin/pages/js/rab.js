@@ -179,6 +179,19 @@ $('#modalKonfirmasiAksi').on('show.bs.modal', function (e) {
     }
 });
 
+$('#modalFormPinbuk').on('show.bs.modal', function (e) {
+    // hasil fetch
+    const resultIdCaPengirim = [{ id_ca: 1, nama: 'Bank BJB', nomor: '0001000080001', atas_nama: 'POJOK BERBAGI INDONESIA', jenis: 'RB', path_gambar: '/img/payment/bjb.png' }];
+    $('#id-ca-pengirim').select2({
+        escapeMarkup: function (markup) { return markup; },
+        templateSelection: formatSelectedChannelAccountR,
+        data: selectLabelChannelAccount(resultIdCaPengirim),
+        disabled: 'readonly'
+    });
+}).on('hidden.bs.modal', function (e) {
+
+});
+
 
 // Select
 const selectBantuan = document.getElementById('id-bantuan');
@@ -1040,6 +1053,14 @@ clearList.forEach(btn => {
                 if (input.hasAttribute('maxlength')) {
                     input.parentElement.querySelector('.current-length').innerText = 0;
                 }
+                if (input.parentElement.classList.contains('inputGroup') && input.type == 'file' && input.nextElementSibling.querySelector('.result') != null) {
+                    const ruleDesc = '<span class="rule">Dimensi 1280 x 768 pixel (16:9)</span>';
+                    input.nextElementSibling.querySelector('.result').remove();
+                    input.nextElementSibling.querySelector('.d-flex').insertAdjacentHTML('beforeend', ruleDesc);
+                    input.parentElement.removeAttribute('data-file-passed');
+                    delete cropedFile[input.name];
+                    delete objectPinbuk[input.name];
+                }
             });
             this.closest('.modal').querySelectorAll('textarea').forEach(textarea => {
                 textarea.value = '';
@@ -1775,6 +1796,220 @@ submitList.forEach(submit => {
     });
 });
 
+const filePinbukEl = '<div data-target="#modalImgCanvasCropper" role="button" class="form-group inputGroup input-file rounded py-2 px-3 bg-secondary d-flex align-items-center justify-content-between"><input accept="image/*" type="file" name="id_gambar" id="id_gambar" class="file" title="Belum ada gambar terpilih"><div class="desc d-block"><label for="id_gambar" class="font-weight-bolder m-0 form-control-label w-auto">Bukti Pinbuk</label><div class="d-flex"><span class="rule">Dimensi 1280 x 768 pixel (16:9)</span></div></div><i class="ni ni-image"></i></div>';
+document.getElementById('sudah-pinbuk').addEventListener('click', function (e) {
+    if (this.checked) {
+        this.closest('.form-group').insertAdjacentHTML('afterend', filePinbukEl);
+    } else {
+        this.closest('.modal-body').querySelectorAll('.input-file').forEach(ic => {
+            ic.remove();
+        });
+    }
+});
+
+let timeIntervalList = {};
+
+function toastPassed(element) {
+    const startTime = new Date();
+    let dataToast;
+
+    element.innerHTML = 'Beberapa saat yang lalu';
+
+    dataToast = element.closest('.toast[data-toast]').getAttribute('data-toast');
+
+    let timeInterval = setInterval(() => {
+        element.innerHTML = timePassed(startTime);
+        // console.log(timePassed(startTime));
+    }, 60000);
+
+    timeIntervalList[dataToast] = timeInterval;
+};
+
+function stopPassed(dataToast) {
+    clearInterval(timeIntervalList[dataToast]);
+    delete timeIntervalList[dataToast];
+}
+
+let doToastForFile = function (formGroup, input, toastId, fileName, fileSize) {
+    if (fileMaxSizeMb < fileSize) {
+        if (!formGroup.classList.contains('is-invalid')) {
+            formGroup.classList.add('is-invalid');
+            input.classList.add('is-invalid');
+        }
+
+        formGroup.querySelector('label').setAttribute('data-label-after', 'tidak boleh melibihi 2 MB');
+
+        input.setAttribute('title', 'Ukuran file terlalu besar');
+        input.parentElement.setAttribute('data-file-passed', false);
+        toastElTime = document.querySelector('.toast[data-toast="' + toastId + '"] .toast-header .time-passed');
+
+        toastPassed(toastElTime);
+
+        $('[data-toast="' + toastId + '"]').toast('show').on('shown.bs.toast', function () {
+            $(this).find('.toast-body').text('Ukuran file tidak boleh melebihi ' + fileMaxSizeMb + ' MB.');
+        });
+    } else {
+        if (formGroup.classList.contains('is-invalid')) {
+            formGroup.classList.remove('is-invalid');
+            input.classList.remove('is-invalid');
+        }
+
+        input.parentElement.setAttribute('data-file-passed', true);
+        input.setAttribute('title', 'Ganti gambar ' + fileName + '?');
+
+        if (!$('[data-toast="' + toastId + '"]').hasClass('show')) {
+            return false;
+        }
+
+        $('[data-toast="' + toastId + '"]').toast('hide');
+    }
+};
+
+const fileMaxSizeMb = 2;
+let targetName,
+    targetFileName,
+    src;
+document.addEventListener('change', function (e) {
+    if (e.target.type != 'file') {
+        return false;
+    }
+    const fileList = document.querySelectorAll('.inputGroup input[type="file"]');
+    if (fileList.length) {
+
+        fileList.forEach(fileEl => {
+            if (fileEl.name == e.target.name && e.target.files[0] != undefined) {
+                // Get the file
+                const file = e.target.files[0],
+                    { name: fileName, size } = file;
+
+
+                // Open Modal
+                const modal = e.target.closest('[data-target]').getAttribute('data-target');
+
+                src = URL.createObjectURL(file);
+                targetName = e.target.getAttribute('name');
+                targetFileName = fileName;
+
+                $(modal).modal('show');
+
+                // Kemungkinan ke dibawah ini gak akan di pakai karena cropper mengcompress ukuran filenya juga
+                // convert size in byte to kilo byte
+                // const fileSize = (size / 1048 / 1048).toFixed(2),
+                //     desc = e.target.nextElementSibling,
+                //     toastId = e.target.getAttribute('id');
+                // Show fine name and size
+                // if (desc.querySelector('.rule') != null) {
+                //     const resultDesc = '<small class="result d-flex gap-x-2"><span class="name">' + targetFileName + '</span><span class="size">' + fileSize + 'MB</span></small>';
+                //     desc.querySelector('.rule').remove();
+                //     desc.insertAdjacentHTML('beforeend', resultDesc);
+                // } else {
+                //     desc.querySelector('span.name').innerHTML = targetFileName;
+                //     desc.querySelector('span.size').innerHTML = fileSize + ' MB';
+                // }
+
+                // let formGroup = e.target.closest('.form-group');
+
+                // doToastForFile(formGroup, e.target, toastId, targetFileName, fileSize);
+            }
+        });
+    }
+});
+
+let nCanvas;
+document.addEventListener('click', function (e) {
+    if (e.target && e.target.name == 'id_gambar') {
+        if (nCanvas == undefined) {
+            nCanvas = e.target.nextElementSibling.querySelector('span.rule').innerText;
+        }
+
+        document.querySelectorAll('#modalImgCanvasCropper [data-dismiss]').forEach(el => {
+            el.setAttribute('data-dismiss-for', e.target.name);
+        });
+        document.querySelector('#modalImgCanvasCropperLabel .text-orange').innerHTML = nCanvas;
+    }
+});
+
+// Cropper
+let cropper,
+    cropData = {},
+    cropedFile = {};
+
+$('#modalImgCanvasCropper').on('show.bs.modal', function () {
+    this.querySelector('.modal-body img').src = src;
+
+    cropData.aspectRatio = 16 / 9;
+    cropData.width = 696;
+    cropData.height = (cropData.width / 16) * 9;
+}).on('shown.bs.modal', function () {
+    img = this.querySelector('.modal-body img');
+
+    cropper = new Cropper(img, {
+        aspectRatio: cropData.aspectRatio,
+        viewMode: 3,
+        dragMode: 'move',
+        autoCropArea: 1,
+        minCropBoxWidth: 140,
+        minContainerWidth: 272,
+        minContainerHeight: 81.01
+    });
+}).on('hidden.bs.modal', function () {
+    this.querySelector('.modal-body img').setAttribute('src', '');
+
+    this.querySelectorAll('[data-dismiss]').forEach(el => {
+        el.removeAttribute('data-dismiss-for');
+    });
+
+    cropper.destroy();
+
+    let input = document.querySelector('[name="' + targetName + '"]');
+
+    if (cropedFile[targetName] != undefined) {
+        objectPinbuk[targetName] = cropedFile[targetName].data;
+        let formGroup = input.closest('.form-group'),
+            desc = formGroup.querySelector('.desc'),
+            toastId = input.getAttribute('id');
+
+        if (desc.querySelector('.rule') != null) {
+            const resultDesc = '<small class="result d-flex gap-x-2"><span class="name">' + cropedFile[targetName].name + '</span><span class="size">' + cropedFile[targetName].size + 'MB</span></small>';
+            desc.querySelector('.rule').remove();
+            desc.insertAdjacentHTML('beforeend', resultDesc);
+        } else {
+            desc.querySelector('span.name').innerHTML = cropedFile[targetName].name;
+            desc.querySelector('span.size').innerHTML = cropedFile[targetName].size + ' MB';
+        }
+
+        doToastForFile(formGroup, input, toastId, cropedFile[targetName].name, cropedFile[targetName].size);
+        cropedFile = {};
+        console.log('go AD', cropedFile[targetName]);
+    }
+
+    input.value = '';
+});
+
+$('#modalImgCanvasCropper').on('click', '.modal-footer [type="button"]', function () {
+    const imgReturnType = "image/jpeg";
+    cropCanvas = cropper.getCroppedCanvas({
+        width: cropData.width,
+        height: cropData.height,
+        maxWidth: 4096,
+        maxHeight: 4096,
+        fillColor: '#fff',
+    }).toDataURL(imgReturnType);
+
+    const head = 'data:' + imgReturnType + ';base64,',
+        fileSize = (cropCanvas.length - head.length);
+    let fileSizeInKB = Math.round((fileSize / 1000).toFixed(2)),
+        fileSizeInMB = (fileSizeInKB / 1000).toFixed(2);
+
+    cropedFile[targetName] = {
+        'data': cropCanvas,
+        'size': fileSizeInMB,
+        'name': targetFileName
+    };
+
+    $(this).parents('.modal').modal('hide');
+});
+
 function diff(prevObject, nextObject) {
     return Object.entries(nextObject).reduce((acc, cv) => {
         if (JSON.stringify(nextObject[cv[0]]) != JSON.stringify(prevObject[cv[0]]))
@@ -2093,6 +2328,27 @@ function formatSelectedChannelAccount(ca) {
     return $ca;
 };
 
+function formatSelectedChannelAccountR(ca) {
+    if (ca.loading) {
+        return ca.text;
+    }
+
+    const label = ca.element.closest('select').parentElement.querySelector('label');
+
+    let $ca = '';
+
+    if (label != null) {
+        $ca = label.outerHTML;
+    }
+
+    if (ca.path_gambar == null || ca.path_gambar == undefined) {
+        $ca = $ca + '<div ' + (ca.nomor != undefined ? 'class="font-weight-bolder">' + ca.text + ' - ' + ca.nomor : 'class="font-weight-bold">' + ca.text) + '</div>'
+    } else {
+        $ca = $ca + '<div class="row w-100 m-0 align-items-center row"><div class="col p-0"><span class="font-weight-bold">' + ca.nomor + '</span> - <span="font-weight-bold">(' + ca.atas_nama + ')</span></div><div class="col-1 p-0 d-flex align-items-center"><img src="' + ca.path_gambar + '" alt="' + ca.text + '" class="img-fluid"></div></div>'
+    }
+    return $ca;
+};
+
 function formatChannelAccount(ca) {
     if (ca.loading) {
         return ca.text;
@@ -2106,7 +2362,7 @@ function formatChannelAccount(ca) {
     return $ca;
 };
 
-$('#id-ca').select2({
+$('#id-ca-penerima').select2({
     language: {
         inputTooShort: function () { return 'Ketikan minimal 1 huruf'; }, noResults: function () { return "Data yang dicari tidak ditemukan"; }, searching: function () { return "Sedang melakukan pencarian..."; }, loadingMore: function () { return "Menampilkan data yang lainnya"; }, maximumSelected: function (e) { return 'Maksimum petugas pencairan terpilih adalah ' + e.maximum + ' orang'; },
     },

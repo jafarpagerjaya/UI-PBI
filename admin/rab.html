@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="./main/css/utility.css">
     <link rel="stylesheet" href="../stepper.css">
     <link rel="stylesheet" href="./main/css/inputGroup.css">
+    <link rel="stylesheet" href="./vendor/cropper/dist/cropper.min.css">
     <link rel="stylesheet" href="./pages/css/rab.css">
     <style>
         /* Add to admin-style */
@@ -916,7 +917,11 @@
                                                                 <td class="text-right nominal">
                                                                     100.000
                                                                 </td>
-                                                                <td class="fit">A</td>
+                                                                <td class="fit">A
+                                                                    <button class="btn btn-outline-orange btn-sm"
+                                                                        data-toggle="modal"
+                                                                        data-target="#modalFormPinbuk">:</button>
+                                                                </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -1241,7 +1246,7 @@
                     </div>
                 </div>
 
-                <div class="modal fade d-block show" id="modalFormPinbuk" tabindex="-1" role="dialog"
+                <div class="modal fade " id="modalFormPinbuk" tabindex="-1" role="dialog"
                     aria-labelledby="modalFormPinbukLabel" aria-hidden="true" data-backdrop="static">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
@@ -1254,12 +1259,19 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <div class="form-group position-relative" id="channel-account-to">
+                                <div class="form-group position-relative" id="channel-account-pengirim">
                                     <span class="font-weight-bolder position-absolute mt-2">
-                                        <label for="id-ca" class="form-control-label">Rekening Tujuan</label>
+                                        <label for="id-ca-pengirim" class="form-control-label">Sumber Dana</label>
                                     </span>
-                                    <select class="custom-select" id="id-ca" name="id_ca">
-                                        <option value="0" disabled selected hidden>Pilih salah satu</option>
+                                    <select class="custom-select" id="id-ca-pengirim" name="id_ca_pengirim" readonly>
+
+                                    </select>
+                                </div>
+                                <div class="form-group position-relative" id="channel-account-penerima">
+                                    <span class="font-weight-bolder position-absolute mt-2">
+                                        <label for="id-ca-penerima" class="form-control-label">Rekening Tujuan</label>
+                                    </span>
+                                    <select class="custom-select" id="id-ca-penerima" name="id_ca_penerima">
                                     </select>
                                 </div>
                                 <div class="form-label-group mb-4">
@@ -1273,14 +1285,15 @@
                                     <label for="input-keterangan-pinbuk" class="form-control-label">Keterangan</label>
                                 </div>
                                 <div class="form-group mb-4">
-                                    <div class="custom-control custom-control-alternative custom-checkbox inputGroup">
-                                        <input class="custom-control-input" type="checkbox" name="sudah_pinbuk">
-                                        <label class="custom-control-label orange" for="">
+                                    <div class="inputGroup">
+                                        <input class="custom-control-input" type="checkbox" name="sudah_pinbuk"
+                                            id="sudah-pinbuk">
+                                        <label class="position-relative w-auto" for="sudah-pinbuk">
                                             <span class="text-muted">Sudah Dipinbuk</span>
                                         </label>
                                     </div>
                                 </div>
-                                <div data-target="#imgCanvasCropper" role="button"
+                                <!-- <div data-target="#imgCanvasCropper" role="button"
                                     class="form-group inputGroup input-file rounded py-2 px-3 bg-secondary d-flex align-items-center justify-content-between">
                                     <input accept="image/*" type="file" name="id_gambar" id="id_gambar" class="file"
                                         title="Belum ada gambar terpilih">
@@ -1290,19 +1303,89 @@
                                             Pinbuk</label>
                                         <div class="d-flex">
                                             <span class="rule">Dimensi 1280 x 768 pixel (16:9)</span>
-                                            <small class="result">
+                                            <small class="result d-none">
                                                 <span class="name"></span>
                                                 <span class="size"></span>
                                             </small>
                                         </div>
                                     </div>
                                     <i class="ni ni-image"></i>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="modal-footer">
                                 <div class="btn btn-link font-weight-bolder text-muted" type="clear" id="cl">Kosongkan
                                 </div>
-                                <div class="btn btn-primary ml-auto" type="submit">Simpan</div>
+                                <div class="btn btn-primary ml-auto" type="submit"
+                                    data-target="#modalKonfirmasiAksiPinbuk1" data-toggle="modal">Pinbuk</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade in" tabindex="-2" id="modalKonfirmasiAksiPinbuk" role="dialog"
+                    aria-labelledby="modalKonfirmasiAksiPinbukLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-danger modal-dialog-centered fullscreen">
+                        <div class="modal-content bg-gradient-danger d-flex justify-content-center">
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-md-8 col-lg-6">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalKonfirmasiAksiPinbukLabel">
+                                                Konfirmasi Perubahan
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="py-3 text-center">
+                                                <i class="ni ni-bell-55 ni-3x"></i>
+                                                <h4 class="heading mt-4">Anda harus baca ini!</h4>
+                                                <p class="font-weight-lighter">Apakah anda yakin memindah bukukan dana
+                                                    sebanyak <a target="_blank"
+                                                        class="font-weight-bolder text-underline badge badge-primary p-2"
+                                                        id="jumlah-pinbuk">0</a> dari <span
+                                                        class="id-ca-pengirim"></span> - <span
+                                                        class="id-ca-penerima"></span>?</p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-link text-white mr-auto"
+                                                data-dismiss="modal">Tidak</button>
+                                            <button type="submit"
+                                                class="btn btn-secondary font-weight-bolder">Ya</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade in" id="modalImgCanvasCropper" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
+                        <div class="modal-content justify-content-center align-items-center scaleIn">
+                            <div class="container p-0 py-md-3 py-lg-5 px-lg-3 px-3 px-md-0">
+                                <div class="row gap-y-5 mt-4">
+                                    <div class="col">
+                                        <div class="modal-header px-4 align-items-center">
+                                            <div class="modal-title text-primary" id="modalImgCanvasCropperLabel">Bukti
+                                                Pinbuk <span class="text-orange"></span></div>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body py-0 px-4">
+                                            <div
+                                                class="img-wrapper rounded overflow-hidden justify-content-center d-flex">
+                                                <img src="" class="img-fluid rounded-box" id="image">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer px-4 justify-content-center">
+                                            <button type="button" class="btn btn-outline-primary">Crop</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1363,7 +1446,6 @@
                         </div>
                     </div>
                 </div>
-
 
                 <div aria-live="polite" aria-atomic="true"
                     class="position-fixed d-flex justify-content-end flex-column align-items-end">
@@ -1439,6 +1521,7 @@
     <script src="../pojok-berbagi-script.js"></script>
     <script src="./core/js/admin-script.js"></script>
     <script src="./core/js/form-function.js"></script>
+    <script src="./vendor/cropper/dist/cropper.min.js"></script>
     <script src="./pages/js/rab.js"></script>
     <script>
 

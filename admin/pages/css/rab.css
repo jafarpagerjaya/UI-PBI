@@ -344,6 +344,24 @@ select+.select2 img[alt*="Bank"] {
     margin-top: -5px !important;
 }
 
+/*Select2 ReadOnly Start*/
+select[readonly].select2-hidden-accessible+.select2-container {
+    pointer-events: none;
+    touch-action: none;
+}
+
+select[readonly].select2-hidden-accessible+.select2-container .select2-selection {
+    background: #eee;
+    box-shadow: none;
+}
+
+select[readonly].select2-hidden-accessible+.select2-container .select2-selection__arrow,
+select[readonly].select2-hidden-accessible+.select2-container .select2-selection__clear {
+    display: none;
+}
+
+/*Select2 ReadOnly End*/
+
 /* span>label[data-label-after] {
     z-index: 3;
 }
@@ -387,6 +405,10 @@ table .custom-toggle input:checked+.custom-toggle-slider::before {
     left: 15px;
 }
 
+#modalFormPinbuk img#img-pengirim {
+    width: 50px !important;
+}
+
 /* custom file */
 .inputGroup.input-file:hover {
     background-color: var(--lighter) !important;
@@ -399,6 +421,19 @@ table .custom-toggle input:checked+.custom-toggle-slider::before {
 
 .inputGroup.input-file {
     border: 1px solid #dee2e6;
+}
+
+.inputGroup[data-file-passed="true"]:hover *,
+.inputGroup[data-file-passed="false"]:hover * {
+    color: inherit;
+}
+
+.inputGroup[data-file-passed="true"]:hover i::before {
+    color: #21ba45 !important;
+}
+
+.inputGroup[data-file-passed="false"]:hover i::before {
+    color: #fb6340 !important;
 }
 
 @media (min-width: 768px) {
