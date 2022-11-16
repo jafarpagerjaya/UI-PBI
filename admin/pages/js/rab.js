@@ -179,19 +179,80 @@ $('#modalKonfirmasiAksi').on('show.bs.modal', function (e) {
     }
 });
 
+// Versi 1 Untuk select2 di pinbuk
 $('#modalFormPinbuk').on('show.bs.modal', function (e) {
     // hasil fetch
-    const resultIdCaPengirim = [{ id_ca: 1, nama: 'Bank BJB', nomor: '0001000080001', atas_nama: 'POJOK BERBAGI INDONESIA', jenis: 'RB', path_gambar: '/img/payment/bjb.png' }];
+    let objectCaPengirim = [{ id_ca: 1, nama: 'Bank BJB', nomor: '0001000080001', atas_nama: 'POJOK BERBAGI INDONESIA', path_gambar: '/img/payment/bjb.png' }];
     $('#id-ca-pengirim').select2({
         escapeMarkup: function (markup) { return markup; },
         templateSelection: formatSelectedChannelAccountR,
-        data: selectLabelChannelAccount(resultIdCaPengirim),
-        disabled: 'readonly'
+        data: objectCaPengirim,
+        disabled: 'readonly',
+        dropdownParent: $('#modalFormPinbuk')
     });
 }).on('hidden.bs.modal', function (e) {
-
+    $('#id-ca-pengirim').select2('destroy');
+    $('#id-ca-pengirim').off('select2:select');
 });
 
+// // Versi 2 pakai ajax
+// let objectCaPengirim = {};
+// $('#modalFormPinbuk').on('show.bs.modal', function (e) {
+//     // hasil fetch
+//     const trEl = e.relatedTarget.closest('tr');
+//     objectCaPengirim.id_ca = trEl.getAttribute('data-id-ca');
+//     objectCaPengirim.nama_ca = trEl.querySelector('img').getAttribute('alt');
+// }).on('hidden.bs.modal', function (e) {
+//     console.log(objectCaPengirim);
+//     objectCaPengirim = {};
+// });
+
+// $('#id-ca-pengirim').select2({
+//     escapeMarkup: function (markup) { return markup; },
+//     templateSelection: formatSelectedChannelAccountR,
+//     disabled: 'readonly',
+//     dropdownParent: $('#modalFormPinbuk'),
+//     ajax: {
+//         url: '/admin/fetch/ajax/channel_account/pengirim',
+//         type: 'post',
+//         dataType: 'json',
+//         delay: 0,
+//         contentType: "application/json",
+//         data: function (params) {
+//             params.token = body.getAttribute('data-token');
+//             params.id_ca = objectCaPengirim.id_ca;
+//             params.nama_ca = objectCaPengirim.nama_ca;
+//             // console.log(params);
+//             return JSON.stringify(params);
+//         },
+//         processResults: function (response) {
+//             // console.log(response);
+//             document.querySelector('body').setAttribute('data-token', response.token);
+//             fetchTokenChannel.postMessage({
+//                 token: body.getAttribute('data-token')
+//             });
+
+//             if (response.error) {
+//                 console.log(response.feedback.message);
+//                 return false;
+//             }
+
+//             let data = response.feedback.data;
+//             data = data.map(function (elments) {
+//                 return {
+//                     id: elments.id_ca,
+//                     text: elments.nama,
+//                     nominal_pencairan: elments.nominal_pencairan,
+//                     path_gambar: elments.path_gambar,
+//                     nomor: elments.nomor,
+//                     atas_nama: element.atas_nama
+//                 };
+//             });
+
+//             return { results: data };
+//         }
+//     }
+// });
 
 // Select
 const selectBantuan = document.getElementById('id-bantuan');
