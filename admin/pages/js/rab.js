@@ -56,6 +56,18 @@ $('#modalBuatRencana').on('hidden.bs.modal', function (e) {
         objectAnggaran = {};
     }
 
+    const tableList = e.target.querySelectorAll('.tab-pane table');
+    if (tableList.length) {
+        tableList.forEach(table => {
+            table
+            if (table.querySelectorAll('tbody>tr').length) {
+                table.querySelectorAll('tbody>tr').forEach(tr => {
+                    tr.remove();
+                });
+            }
+        });
+    }
+
     delete data.fields;
     objectRencana = {};
 });
