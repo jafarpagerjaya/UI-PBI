@@ -4,17 +4,28 @@ let data = {},
 
 $('#modalBuatRencana').on('hidden.bs.modal', function (e) {
     e.target.querySelector('#id-bantuan').removeAttribute('disabled');
-    e.target.querySelector('#id-bantuan').value = '0';
-    e.target.querySelector('#input-keterangan-rencana').value = '';
-    if (e.target.querySelector('#input-keterangan-rencana').hasAttribute('maxlength')) {
-        e.target.querySelector('#input-keterangan-rencana').parentElement.querySelector('.current-length').innerText = e.target.querySelector('#input-keterangan-rencana').value.length;
-    }
 
-    // for select2
-    $('#id-bantuan').select2('val', '0');
+    let tab = e.target.querySelector('#tab-rencana-pencairan'),
+        activeTab = tab.querySelector('.tab-pane.active.show'),
+        indexActiveTab = findIndex(activeTab);
 
     e.target.querySelectorAll('[name]').forEach(name => {
         if (!name.parentElement.classList.contains('is-invalid')) {
+            if (indexActiveTab < findIndex(name.closest('.tab-pane'))) {
+                return false;
+            }
+            if (name.tagName.toLowerCase() == 'select') {
+                name.value = '0';
+
+                // for select2
+                $('#' + name.getAttribute('id')).select2('val', '0');
+            } else if (name.value.length && name.tagName.toLowerCase() != 'select') {
+                name.value = '';
+            }
+
+            if (name.hasAttribute('maxlength')) {
+                name.parentElement.querySelector('.current-length').innerText = name.value.length;
+            }
             return;
         }
         name.parentElement.classList.remove('is-invalid');
@@ -39,21 +50,21 @@ $('#modalBuatRencana').on('hidden.bs.modal', function (e) {
         document.getElementById('rab').remove();
     }
 
-    let activeTab = e.target.querySelector('#tab-rencana-pencairan > .tab-pane.active.show');
-
     if (activeTab.getAttribute('id') != 'tab-rencana') {
+        e.target.querySelector('#total-rab').innerText = 0;
+        e.target.querySelector('#anggaran-tersedia').innerText = 0;
+
         activeTab.classList.remove('show');
         activeTab.classList.remove('active');
         e.target.querySelector('#tab-rencana-pencairan #tab-rencana').classList.add('active');
         e.target.querySelector('#tab-rencana-pencairan #tab-rencana').classList.add('show');
 
-        activeTab.querySelector('#total-rab').innerText = 0;
-        activeTab.querySelector('#anggaran-tersedia').innerText = 0;
-        const namePencairanList = activeTab.querySelectorAll('input');
-        namePencairanList.forEach(name => {
-            name.value = '';
-        });
         objectAnggaran = {};
+    }
+
+    if (activeTab.getAttribute('id') == 'tab-pencairan') {
+        activeTab.querySelector('#saldo-rab').innerText = 0;
+        activeTab.querySelector('#anggaran-tersedia').innerText = 0;
     }
 
     const tableList = e.target.querySelectorAll('.tab-pane table');
@@ -1639,7 +1650,9 @@ submitList.forEach(submit => {
                     document.querySelector('#rab table>tbody').insertAdjacentHTML('afterbegin', trRab);
                     document.querySelector('#rab .bg-lighter .mb-0').innerText = 'Rp. ' + numberToPrice(dataRab.total_rab);
                     setTimeout(() => {
-                        document.querySelector('#rab table>tbody>tr[data-id-rab="' + dataRab.id_rab + '"]').classList.remove('highlight');
+                        if (document.querySelector('#rab table>tbody>tr[data-id-rab="' + dataRab.id_rab + '"]') != null) {
+                            document.querySelector('#rab table>tbody>tr[data-id-rab="' + dataRab.id_rab + '"]').classList.remove('highlight');
+                        }
                     }, 3000);
                 }
 
@@ -1774,11 +1787,11 @@ submitList.forEach(submit => {
                 // objectAnggaran.saldo_anggaran = resultFetch.saldo_anggaran;
                 // objectPelaksanaan.total_anggaran = resultFetch.total_anggaran;
 
-                tabActive = e.target.closest('.modal').querySelector('.tab-pane.active.show');
-                tabActive.classList.remove('show');
                 tabActive.classList.remove('active');
+                tabActive.classList.remove('show');
                 e.target.closest('.modal').querySelector('#tab-pencairan').classList.add('active');
                 e.target.closest('.modal').querySelector('#tab-pencairan').classList.add('show');
+
 
                 tabActive = e.target.closest('.modal').querySelector('.tab-pane.active.show');
 
@@ -1801,7 +1814,7 @@ submitList.forEach(submit => {
                 $('.toast[data-toast="feedback"] .toast-body').html(message);
                 $('.toast[data-toast="feedback"] .time-passed').text('Baru Saja');
                 $('.toast').toast('show');
-                $('#' + modalId).modal('hide');
+                // $('#' + modalId).modal('hide');
             } else if (e.target.getAttribute('id') == 'kalkulasi-penarikan') {
                 // result create pencairan
                 objectPencairan = {
@@ -1812,6 +1825,15 @@ submitList.forEach(submit => {
                 let resultKalkulasiPencairan = [
                     { nominal_pencairan: 100000, nomor: '0001000080001', atas_nama: 'POJOK BERBAGI INDONESIA', path_gambar: '/img/payment/bjb.png', nama: 'Bank BJB', id_ca: '1' }
                 ];
+
+                let statusKalkulasiAccount = '<a href="#" class="badge badge-pill badge-success">Siap ditarik</a>';
+                if (resultKalkulasiPencairan.status_pencairan == 'TP') {
+                    statusKalkulasiAccount = '<a href="#" class="px-2 badge badge-pill badge-warning">Sedang dalam proses pinbuk</a>';
+                    statusKalkulasiAccount = statusKalkulasiAccount + '<p class="px-2 font-weight-900 mb-0 small nominal-pinbuk">' + resultKalkulasiPencairan.nominal_pinbuk + '</p>';
+                }
+
+                const trPenarikan = '<tr data-id-ca="' + resultKalkulasiPencairan.id_ca + '"><td><div class="media align-items-center gap-x-3"><div class="avatar rounded bg-transparent border"><img src="' + resultKalkulasiPencairan.path_gambar + '" alt="' + resultKalkulasiPencairan.nama + '" class="img-fluid"></div><div class="media-body small"><div class="text-black-50 font-weight-bold">' + resultKalkulasiPencairan.nomor + '</div><div class="text-black-50 font-weight-bolder">' + resultKalkulasiPencairan.atas_nama + '</div></div></div></td>' + statusKalkulasiAccount + '<td></td><td class="text-right nominal">' + numberToPrice(resultKalkulasiPencairan.nominal_pencairan) + '</td><td class="fit">A<button class="btn btn-outline-orange btn-sm" data-toggle="modal" data-target="#modalFormPinbuk">:</button></td></tr > '
+
                 let tabActive = e.target.closest('.modal').querySelector('.tab-pane.active.show');
                 tabActive.classList.remove('show');
                 tabActive.classList.remove('active');

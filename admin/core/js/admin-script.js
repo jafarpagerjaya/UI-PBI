@@ -1,12 +1,12 @@
 const aDisabledList = document.querySelectorAll('a.disabled');
 aDisabledList.forEach(aDisabled => {
-    aDisabled.addEventListener('click', function(e) {
+    aDisabled.addEventListener('click', function (e) {
         e.preventDefault();
     });
 });
 
 const counterTarget = document.querySelectorAll('.counter-card'),
-      counterSpeed = 2000;
+    counterSpeed = 2000;
 
 counterUpSup(counterTarget, counterSpeed);
 
@@ -15,15 +15,15 @@ if (toastRun != null) {
     $('.toast[data-toast="feedback"]').toast('show');
     let elTarget = $('.toast[data-toast="feedback"] .toast-body .font-weight-bold'),
         id_bantuan = elTarget.data('id-bantuan');
-    
-    $('table tbody>tr>th a[data-id="'+id_bantuan+'"').parents('tr').addClass('highlight');
+
+    $('table tbody>tr>th a[data-id="' + id_bantuan + '"').parents('tr').addClass('highlight');
 
     setTimeout(() => {
         $('table tbody>tr.highlight').removeClass('highlight');
     }, 3100);
 }
 
-let tableWidthSetter = function() {
+let tableWidthSetter = function () {
     if ($('table thead').width() > $('table').parent().width()) {
         $('table').addClass('table-responsive');
     } else {
@@ -46,7 +46,7 @@ $(window).resize(function () {
 });
 
 const sideNavTogglerBtn = document.querySelector('.sidenav-toggler-inner'),
-      mainContentPanel = document.getElementById('panel');
+    mainContentPanel = document.getElementById('panel');
 sideNavTogglerBtn.addEventListener('click', function () {
     if (!this.parentElement.classList.contains('active')) {
         setTimeout(() => {
@@ -84,4 +84,12 @@ if (header != null) {
     if (RHeader != null) {
         RHeader.style.backgroundColor = rgb;
     }
+}
+
+function findIndex(node) {
+    let i = 1;
+    while ((node = node.previousSibling) != null) {
+        if (node.nodeType === 1) i++;
+    }
+    return i;
 }
