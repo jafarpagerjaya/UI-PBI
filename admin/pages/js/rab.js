@@ -1841,16 +1841,17 @@ submitList.forEach(submit => {
                 // fetct KalkulasiPencairan berdasarkan create pencairan
                 // result fetch KalkulasiPenarikan
                 let resultKalkulasiPencairan = [
-                    { nominal_pencairan: 100000, nomor: '0001000080001', atas_nama: 'POJOK BERBAGI INDONESIA', path_gambar: '/img/payment/bjb.png', nama: 'Bank BJB', id_ca: '1' }
+                    { nominal_pencairan: 100000, status_penarikan: 'TP', nomor: '0001000080001', atas_nama: 'POJOK BERBAGI INDONESIA', path_gambar: '/img/payment/bjb.png', nama: 'Bank BJB', id_ca: '1' }
                 ];
 
                 let statusKalkulasiAccount = '<a href="#" class="badge badge-pill badge-success">Siap ditarik</a>';
-                if (resultKalkulasiPencairan.status_pencairan == 'TP') {
+                if (resultKalkulasiPencairan[0].status_penarikan == 'TP') {
                     statusKalkulasiAccount = '<a href="#" class="px-2 badge badge-pill badge-warning">Sedang dalam proses pinbuk</a>';
-                    statusKalkulasiAccount = statusKalkulasiAccount + '<p class="px-2 font-weight-900 mb-0 small nominal-pinbuk">' + resultKalkulasiPencairan.nominal_pinbuk + '</p>';
+                    statusKalkulasiAccount = statusKalkulasiAccount + '<p class="px-2 font-weight-900 mb-0 small nominal-pinbuk">' + resultKalkulasiPencairan[0].nominal_pinbuk + '</p>';
                 }
 
-                const trPenarikan = '<tr data-id-ca="' + resultKalkulasiPencairan.id_ca + '"><td><div class="media align-items-center gap-x-3"><div class="avatar rounded bg-transparent border"><img src="' + resultKalkulasiPencairan.path_gambar + '" alt="' + resultKalkulasiPencairan.nama + '" class="img-fluid"></div><div class="media-body small"><div class="text-black-50 font-weight-bold">' + resultKalkulasiPencairan.nomor + '</div><div class="text-black-50 font-weight-bolder">' + resultKalkulasiPencairan.atas_nama + '</div></div></div></td>' + statusKalkulasiAccount + '<td></td><td class="text-right nominal">' + numberToPrice(resultKalkulasiPencairan.nominal_pencairan) + '</td><td class="fit">A<button class="btn btn-outline-orange btn-sm" data-toggle="modal" data-target="#modalFormPinbuk">:</button></td></tr > '
+                console.log(resultKalkulasiPencairan[0].nominal_pencairan);
+                const trPenarikan = '<tr data-id-ca="' + resultKalkulasiPencairan[0].id_ca + '"><td><div class="media align-items-center gap-x-3"><div class="avatar rounded bg-transparent border"><img src="' + resultKalkulasiPencairan[0].path_gambar + '" alt="' + resultKalkulasiPencairan[0].nama + '" class="img-fluid"></div><div class="media-body small"><div class="text-black-50 font-weight-bold">' + resultKalkulasiPencairan[0].nomor + '</div><div class="text-black-50 font-weight-bolder">' + resultKalkulasiPencairan[0].atas_nama + '</div></div></div></td>' + statusKalkulasiAccount + '<td></td><td class="text-right nominal">' + numberToPrice(resultKalkulasiPencairan[0].nominal_pencairan) + '</td><td class="fit">A<button class="btn btn-outline-orange btn-sm" data-toggle="modal" data-target="#modalFormPinbuk">:</button></td></tr > '
 
                 let tabActive = e.target.closest('.modal').querySelector('.tab-pane.active.show');
                 tabActive.classList.remove('show');
@@ -2615,9 +2616,6 @@ function doAbsoluteFirstAdd(table) {
     table.querySelectorAll('tbody tr > *:first-of-type').forEach(el => {
         el.setAttribute('style', 'width:' + tbodyTFW + 'px');
         el.nextElementSibling.setAttribute('style', 'padding-left: calc(' + tbodyTFW + 'px + 1rem)');
-        if (table.getAttribute('id') == 'pilih-anggaran') {
-            console.log('ni', el.children[0]);
-        }
         if (el.children[0] != null) {
             const computedStyle = getComputedStyle(el);
             let elementWidth = el.clientWidth;

@@ -99,9 +99,23 @@ h2 {
     border-color: var(--lighter);
 }
 
+#list-penarikan thead>tr>th {
+    border-top: 0px !important;
+}
+
+#list-penarikan thead>tr>th:first-child {
+    border-left: 0px !important;
+}
+
+#list-penarikan thead>tr>th:last-child {
+    border-right: 0px !important;
+}
+
 #list-penarikan tbody>tr>td {
     padding-top: .75em;
     padding-bottom: .75em;
+    border-left: 0px !important;
+    border-right: 0px !important;
 }
 
 #list-penarikan tbody>tr>td .avatar {
