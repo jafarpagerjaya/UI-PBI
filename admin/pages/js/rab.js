@@ -142,11 +142,12 @@ $('#modalRincianRAB').on('show.bs.modal', function (e) {
     relatedTarget = e.relatedTarget.closest('tr');
     objectRencana.id_rencana = relatedTarget.getAttribute('data-id-rencana');
 }).on('shown.bs.modal', function (e) {
-    let tableAbsoluteFirstList = document.querySelectorAll('table.table-absolute-first');
+    let tableAbsoluteFirstList = e.target.querySelectorAll('table[table-absolute-first="on"]');
     if (tableAbsoluteFirstList.length > 0) {
         tableAbsoluteFirstList.forEach(table => {
             if (table.classList.contains('table-responsive')) {
                 doAbsoluteFirstAdd(table);
+                table.classList.add('table-absolute-first');
             } else {
                 doAbsoluteFirstRemove(table);
             }
@@ -158,6 +159,16 @@ $('#modalRincianRAB').on('show.bs.modal', function (e) {
     }
 
     objectRencana = {};
+}).on('show.bs.modal', function(e) {
+    let tableAbsoluteFirstList = e.target.querySelectorAll('table.table-absolute-first');
+    if (tableAbsoluteFirstList.length > 0) {
+        tableAbsoluteFirstList.forEach(table => {
+            if (table.classList.contains('table-responsive')) {
+                table.classList.remove('table-absolute-first');
+                table.setAttribute('table-absolute-first','on');
+            }
+        });
+    }
 });
 
 $('#modalKeteranganPerbaikanRAB').on('hidden.bs.modal', function (e) {
@@ -575,6 +586,13 @@ inputPersentase.addEventListener('keydown', function (e) {
             return false;
         }
 
+        if (e.target.selectionStart == e.target.selectionEnd && +e.key > 0) {
+            if (e.target.value.indexOf('%') < 0) {
+                e.target.value = percentMask(e, prefix, 'after');
+                e.target.selectionStart = 1;
+                e.target.selectionEnd = 1;
+            }
+        }
         setNominalPencairan(e);
     }, 0);
 });
@@ -2597,14 +2615,27 @@ function doAbsoluteFirstAdd(table) {
     table.querySelectorAll('tbody tr > *:first-of-type').forEach(el => {
         el.setAttribute('style', 'width:' + tbodyTFW + 'px');
         el.nextElementSibling.setAttribute('style', 'padding-left: calc(' + tbodyTFW + 'px + 1rem)');
+        if (table.getAttribute('id') == 'pilih-anggaran') {
+            console.log('ni', el.children[0]);
+        }
         if (el.children[0] != null) {
             const computedStyle = getComputedStyle(el);
             let elementWidth = el.clientWidth;
             elementWidth -= parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight);
-            if (el.children[0].offsetWidth > elementWidth) {
+            if (el.children[0].offsetWidth > elementWidth || elementWidth - el.children[0].offsetWidth <= 1) {
                 el.parentElement.setAttribute('style', '');
                 setTimeout(() => {
                     el.parentElement.setAttribute('style', 'height: ' + el.offsetHeight + 'px');
+                }, 0)
+            }
+        } else if (el.children[0] == undefined) {
+            const computedStyle = getComputedStyle(el);
+            let elementWidth = el.clientWidth;
+            elementWidth -= parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight);
+            if (el.offsetWidth > elementWidth || elementWidth - el.offsetWidth <= 1) {
+                el.parentElement.setAttribute('style', '');
+                setTimeout(() => {
+                    el.setAttribute('style', 'height: ' + el.nextElementSibling.offsetHeight + 'px; width: '+ tbodyTFW +'px');
                 }, 0)
             }
         }
