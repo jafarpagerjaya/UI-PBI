@@ -164,6 +164,11 @@ function reportWindowWidth() {
     resizeTimeout = setTimeout(()=> {
         setHeight(dBArea, detectMob(), reverse);
         wowReset();
+        if (detectMob()) {
+            stickyBtn();
+        } else {
+            sticky_btn_area.classList.remove('sticky-btn');
+        }
     }, 50);
 };
 
@@ -175,3 +180,141 @@ const counterTarget = document.querySelectorAll('.box-info h6[data-count-up-valu
 
 counterUpSup(counterTarget, counterSpeed);
 counterUpProgress(progressBar, counterSpeed);
+
+let data = {
+        id_bantuan: window.location.href.split('/')[5],
+        token: document.querySelector('body').getAttribute('data-token')
+    };
+
+fetch('/default/fetch/read/bantuan/deskripsi', {
+    method: "POST",
+    cache: "no-cache",
+    mode: "same-origin",
+    credentials: "same-origin",
+    headers: {
+        "Content-Type": "application/json",
+    },
+    referrer: "no-referrer",
+    body: JSON.stringify(data)
+})
+.then(response => response.json())
+.then(function (response) {
+    // console.log(response);
+    if (!response.error) {
+
+        const quill = new Quill('#selengkapnya', {
+            modules: {
+                toolbar: false
+            },
+            readOnly: true
+        });
+
+        // render the content
+        quill.setContents(JSON.parse(response.feedback.data));
+        document.querySelector('body').setAttribute('data-token', response.token);
+        fetchTokenChannel.postMessage({
+            token: document.querySelector('body').getAttribute('data-token')
+        });
+    
+    }
+
+    if (response.toast != null) {
+        createNewToast(document.querySelector('[aria-live="polite"]'), response.toast.id, response.toast.data_toast, response.toast);
+    
+        $('#'+ response.toast.id +'.toast[data-toast="'+ response.toast.data_toast +'"]').toast({
+            'autohide': true
+        }).toast('show');
+    }
+});
+
+
+// Get all share buttons
+const shareButtons = document.querySelectorAll('.share a.medsos-icon');
+
+// Add click event listener to each button
+shareButtons.forEach(button => {
+   button.addEventListener('click', () => {
+      // Get the URL of the current page
+      const url = window.location.href;
+
+      // Get the social media platform from the button's class name
+      const platform = button.children[0].classList[1];
+
+      // Set the URL to share based on the social media platform
+      let shareUrl;
+      
+      switch (platform) {
+        //  case 'facebook':
+        //  shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+        //  break;
+         case 'bi-twitter-x':
+         shareUrl = `https://twitter.com/share?url=${encodeURIComponent(url)}`;
+         break;
+        //  case 'linkedin':
+        //  shareUrl = `https://www.linkedin.com/shareArticle?url=${encodeURIComponent(url)}`;
+        //  break;
+         case 'bi-whatsapp':
+         shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(url)}`;
+         break;
+      }
+
+    //   Open a new window to share the URL
+      window.open(shareUrl, '_blank');
+   });
+});
+
+let clickLiked = function(e) {
+    e.target.classList.toggle('bi-heart-fill');
+    e.target.classList.toggle('bi-heart');
+    if (e.target.getAttribute('checked') != null) {
+        // unckeck now
+        e.target.removeAttribute('checked')
+    } else {
+        // check now
+        e.target.setAttribute('checked')
+    }
+
+    let data = {
+        'checked': e.target.getAttribute('checked'),
+        'token': body.getAttribute('data-token')
+    };
+
+    // fetchLikeClicked
+};
+
+const header_navbar = document.querySelector(".navbar-area"),
+    sticky_btn_area = document.querySelector('.btn.button.donasi').parentElement,
+    sticky_btn = document.querySelector('.btn.button.donasi').closest('#commit-bantuan-area');
+let sticky_btn_height = sticky_btn_area.offsetHeight,
+    header_navbar_height = header_navbar.offsetHeight,
+    stickyBtnOffsetTopY,
+    stickyBtnOffsetTopYStart;
+
+function stickyBtn(e) {
+    if (window.outerWidth >= 768) {
+        return false;
+    }
+
+    let windowScrollY = window.scrollY,
+        windowScrollNavbarBottom = windowScrollY + header_navbar_height;
+        stickyBtnOffsetTopY = sticky_btn.offsetTop + sticky_btn_height + sticky_btn_area.offsetTop;
+    if (windowScrollNavbarBottom >= stickyBtnOffsetTopY || windowScrollNavbarBottom >= stickyBtnOffsetTopYStart) {
+        if (!sticky_btn_area.classList.contains('sticky-btn')) {
+            sticky_btn_area.classList.add('sticky-btn');
+        }
+    } else {
+        sticky_btn_area.classList.remove('sticky-btn');
+    }
+    console.log(windowScrollNavbarBottom, stickyBtnOffsetTopY);
+}
+
+
+setTimeout(()=>{
+    stickyBtnOffsetTopYStart = sticky_btn.offsetTop + sticky_btn_height + sticky_btn_area.offsetTop;
+    stickyBtn();
+},50);
+
+window.onscroll = stickyBtn;
+
+const myModal = new bootstrap.Modal(document.getElementById('modalShareBtn'));
+myModal.show();

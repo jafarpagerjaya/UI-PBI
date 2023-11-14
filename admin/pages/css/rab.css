@@ -272,6 +272,15 @@ ol {
     top: 1px !important;
 }
 
+.form-label-group.bg-transparent label,
+.form-label-group.bg-transparent textarea {
+    background-color: inherit;
+}
+
+.form-label-group.bg-transparent textarea:focus {
+    background-color: white;
+}
+
 /* Select2 */
 .select2-results .select2-results__option--highlighted .badge {
     color: var(--primary);
@@ -421,6 +430,19 @@ table .custom-toggle input:checked+.custom-toggle-slider::before {
 
 #modalFormPinbuk img#img-pengirim {
     width: 50px !important;
+}
+
+.pinbuk[data-target="#modalFormPinbuk"]::before {
+    content: "\f362";
+    font-size: 0.85rem;
+    font-family: 'Font Awesome 5 Free';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nowrap {
+    flex-wrap: nowrap;
 }
 
 /* custom file */

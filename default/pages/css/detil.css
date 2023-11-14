@@ -37,8 +37,14 @@
     flex-direction: column;
 }
 
+.ql-container,
+#selengkapnya p,
 #commit-bantuan-area p {
-    font-size: .75rem;
+    font-size: .725rem;
+}
+
+#selengkapnya img {
+    margin: 1em auto;
 }
 
 #commit-bantuan-area .logo {
@@ -56,6 +62,27 @@
     font-size: 1rem;
 }
 
+#commit-bantuan-area img::after {
+    font-size: xx-small;
+}
+
+#deskripsi-selengkapnya-area img {
+    border-radius: 0.75em;
+}
+
+#deskripsi-selengkapnya-area .date {
+    margin: 0 2px;
+    font-size: .55rem;
+}
+
+#selengkapnya p:not(:first-child) {
+    margin-top: 1em;
+}
+
+#selengkapnya * {
+    line-height: 2em;
+}
+
 #info-berita-area .content .app-image.img-wrapper {
     max-height: calc((100% - var(--bs-gutter-x)) / 16 * 9);
     min-height: calc((100% - var(--bs-gutter-x)) / 16 * 9);
@@ -64,6 +91,200 @@
 #detil-banner-area .app-image.img-wrapper img {
     min-height: inherit;
     width: 100%;
+}
+
+h4 {
+    font-size: 1rem;
+}
+
+h5 {
+    font-size: 1rem;
+}
+
+h6 {
+    font-size: 13px;
+}
+
+#donatur-area #title,
+#deskripsi-selengkapnya-area #title {
+    position: relative;
+    overflow: hidden;
+}
+
+#donatur-area #title::before,
+#donatur-area #title::after,
+#deskripsi-selengkapnya-area #title::before,
+#deskripsi-selengkapnya-area #title::after {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    content: '';
+}
+
+#deskripsi-selengkapnya-area #title::before {
+    background-color: #f8f9fa;
+    border-top-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+    left: -.5em;
+    top: -.5em;
+}
+
+#deskripsi-selengkapnya-area #title::after {
+    background-color: var(--orange);
+    border-top-left-radius: inherit;
+    bottom: calc(-100% + .5em);
+    left: 75%;
+}
+
+#donatur-area #title > *,
+#deskripsi-selengkapnya-area #title > * {
+    z-index: 1;
+}
+
+#deskripsi-selengkapnya-area #title>span.node {
+    position: absolute;
+    left: -.5em;
+    bottom: .5em;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background-color: #f8f9fa;
+    border-bottom-right-radius: 10px;
+}
+
+#deskripsi-selengkapnya-area #title>span.node::before {
+    width: 100%;
+    height: 100%;
+    content: '';
+    background-color: #f8f9fa;
+    position: absolute;
+    top: .5em;
+    left: -.5em;
+    border-bottom-right-radius: 5px;
+}
+
+#deskripsi-selengkapnya-area .ql-editor {
+    padding: 0px;
+}
+
+#donatur-area #title::before {
+    background-color: #f8f9fa;
+    border-top-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+    right: -.5em;
+    bottom: -.5em;
+}
+
+#donatur-area #title::after {
+    background-color: var(--orange);
+    border-bottom-right-radius: inherit;
+    top: calc(-100% + .5em);
+    right: 75%;
+}
+
+#donatur-area #title>span.node {
+    position: absolute;
+    right: -.5em;
+    top: .5em;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background-color: #f8f9fa;
+    border-top-left-radius: 10px;
+}
+
+#donatur-area #title>span.node::before {
+    width: 100%;
+    height: 100%;
+    content: '';
+    background-color: #f8f9fa;
+    position: absolute;
+    bottom: .5em;
+    right: -.5em;
+    border-top-left-radius: 5px;
+}
+
+.avatar {
+    --avatar: 35px;
+    width: var(--avatar);
+    height: var(--avatar);
+    min-width: var(--avatar);
+    max-width: var(--avatar);
+    min-height: var(--avatar);
+    max-height: var(--avatar);
+}
+
+.avatar img::after {
+    font-size: .55em;
+}
+
+#donatur-area>div:not(#title) {
+    flex-direction: column;
+}
+
+#donatur-area>div:not(#title) .avatar {
+    overflow: hidden;
+}
+
+#donatur-area>div:not(#title) i.bi {
+    top: 3;
+    transition: color .3s ease;
+}
+
+#donatur-area>div:not(#title) i.bi-heart-fill {
+    color: var(--bs-danger);
+}
+
+#donatur-area>div:not(#title) i.bi:hover {
+    cursor: pointer;
+}
+
+#donatur-area>div:not(#title) i.bi:not([checked]):hover {
+    color: var(--bs-danger);
+}
+
+#donatur-area>div:not(#title) p.liked {
+    font-size: xx-small;
+}
+
+#donatur-area>div:not(#title):nth-child(even) {
+    border: 1px solid var(--orange);
+}
+
+#donatur-area>div:not(#title):nth-child(odd) {
+    background-color: #eeeff0 !important;
+    border: 1px solid #eeeff0;
+}
+
+#donatur-area>div:not(#title):nth-child(odd) .media .avatar {
+    margin-left: auto;
+}
+
+#donatur-area>div:not(#title):nth-child(odd) .media .media-body {
+    text-align: right;
+}
+
+#modalShareBtn i {
+    margin-left: 1px;
+    margin-top: 1px;
+}
+
+@media (max-width: 426px) {
+    .sticky-btn {
+        position: fixed;
+        width: calc(100% - 56px);
+        z-index: 10;
+        bottom: 12px;
+        gap: 14px !important;
+    }
+    
+    .sticky-btn > a:not([data-bs-toggle="modal"]) {
+        font-size: 1.15rem !important;
+    }
+
+    .sticky-btn > a[data-bs-toggle="modal"] {
+        font-size: 0.65em !important;
+    }
 }
 
 @media (min-width: 320px) {
@@ -89,12 +310,14 @@
         min-height: 197.62px;
     }
 
-    #commit-bantuan-area {
-        flex-direction: row;
+    .ql-container,
+    #selengkapnya p,
+    #commit-bantuan-area p {
+        font-size: .75rem;
     }
 
-    #commit-bantuan-area p {
-        font-size: .8rem;
+    .avatar {
+        --avatar: 40px;
     }
 }
 
@@ -117,8 +340,14 @@
         font-size: 1.25rem;
     }
 
+    .ql-container,
+    #selengkapnya p,
     #commit-bantuan-area p {
-        font-size: .85rem;
+        font-size: .8rem;
+    }
+
+    .avatar {
+        --avatar: 50px;
     }
 }
 
@@ -137,12 +366,26 @@
         min-height: 239.625px;
     }
 
+    .ql-container,
+    #selengkapnya p,
     #commit-bantuan-area p {
         font-size: .9rem;
+    }
+
+    h5 {
+        font-size: 20px;
+    }
+
+    h6 {
+        font-size: 1rem;
     }
 }
 
 @media (min-width: 767px) {
+
+    #commit-bantuan-area {
+        flex-direction: row;
+    }
 
     #detil-banner-area .app-image.img-wrapper {
         max-height: 290.25px;
@@ -172,6 +415,19 @@
     #commit-bantuan-area .logo {
         --avatar-wh: 125px;
     }
+
+    #commit-bantuan-area img::after {
+        font-size: x-small;
+        padding: 0px 5px;
+    }
+
+    .avatar {
+        --avatar: 55px;
+    }
+
+    .avatar.border.rounded {
+        border-radius: .5rem !important;
+    }
 }
 
 @media (min-width: 992px) {
@@ -181,8 +437,18 @@
         min-height: calc((569px / 1913) * 936);
     }
 
+    .ql-container,
+    #selengkapnya p,
     #commit-bantuan-area p {
         font-size: 1rem;
+    }
+
+    #deskripsi-selengkapnya-area .date {
+        font-size: .75rem;
+    }
+
+    h4 {
+        font-size: 1.2rem;
     }
 
     #commit-bantuan-area .logo {
@@ -199,11 +465,35 @@
         max-height: calc((569px / 1913) * 1116);
         min-height: calc((569px / 1913) * 1116);
     }
+
+    #deskripsi-selengkapnya-area .date {
+        font-size: .95rem;
+    }
+
+    h4 {
+        font-size: 1.5rem;
+    }
+
+    .avatar {
+        --avatar: 60px;
+    }
+
+    .avatar.border.rounded {
+        border-radius: 1rem !important;
+    }
 }
 
 @media (min-width: 1400px) {
     #detil-banner-area .app-image.img-wrapper {
         max-height: calc((569px / 1913) * 1296);
         min-height: calc((569px / 1913) * 1296);
+    }
+
+    .date {
+        font-size: .95rem;
+    }
+
+    h4 {
+        font-size: 25px;
     }
 }

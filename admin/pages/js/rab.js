@@ -9,6 +9,8 @@ $('#modalBuatRencana').on('hidden.bs.modal', function (e) {
         activeTab = tab.querySelector('.tab-pane.active.show'),
         indexActiveTab = findIndex(activeTab);
 
+        console.log(activeTab);
+
     e.target.querySelectorAll('[name]').forEach(name => {
         if (!name.parentElement.classList.contains('is-invalid')) {
             if (indexActiveTab < findIndex(name.closest('.tab-pane'))) {
@@ -213,20 +215,32 @@ $('#modalKonfirmasiAksi').on('show.bs.modal', function (e) {
     }
 });
 
+$('#id-ca-pengirim').select2({
+    data: [],
+    escapeMarkup: function (markup) { return markup; },
+    templateSelection: formatSelectedChannelAccountR,
+    disabled: 'readonly',
+    dropdownParent: $('#modalFormPinbuk')
+});
+
+let resetDataSelect2 = function(el, data) {
+    el.html('');
+
+    let dataAdapter = el.data('select2').dataAdapter;
+    dataAdapter.addOptions(dataAdapter.convertToOptions(data));
+};
+
 // Versi 1 Untuk select2 di pinbuk
 $('#modalFormPinbuk').on('show.bs.modal', function (e) {
     // hasil fetch
     let objectCaPengirim = [{ id_ca: 1, nama: 'Bank BJB', nomor: '0001000080001', atas_nama: 'POJOK BERBAGI INDONESIA', path_gambar: '/img/payment/bjb.png' }];
-    $('#id-ca-pengirim').select2({
-        escapeMarkup: function (markup) { return markup; },
-        templateSelection: formatSelectedChannelAccountR,
-        data: objectCaPengirim,
-        disabled: 'readonly',
-        dropdownParent: $('#modalFormPinbuk')
-    });
+
+    const optionPengirim = objectCaPengirim;
+    resetDataSelect2($('#id-ca-pengirim'), optionPengirim);
+
 }).on('hidden.bs.modal', function (e) {
-    $('#id-ca-pengirim').select2('destroy');
-    $('#id-ca-pengirim').off('select2:select');
+    // $('#id-ca-pengirim').select2('destroy');
+    // $('#id-ca-pengirim').off('select2:select');
 });
 
 // // Versi 2 pakai ajax
@@ -1752,6 +1766,14 @@ submitList.forEach(submit => {
                 const rabEl = '<div class="col-12 px-0 d-flex gap-4 flex-column" id="rab"><div class="row m-0"><button class="col-12 col-md-auto px-0 btn btn-primary m-0" data-target="#modalFormRab" data-toggle="modal" id="tambah-item-rab" type="button"><span class="p-3">Tambah Item</span></button><div class="col-12 col-md d-flex p-3 bg-lighter rounded align-items-center gap-x-2"><i class="fa-info fa"></i><h4 class="mb-0">Rp. 0</h4></div></div><table class="table table-borderless table-hover table-responsive list-rab"><thead class="thead-light"><tr><th>Kebutuhan</th><th>Keterangan / Spesifikasi</th><th>Harga Satuan</th><th>Jumlah</th><th>Sub Total</th><th colspan="2" class="fit text-center">Aksi</th></tr></thead><tbody><tr><td colspan="6">Belum ada item RAB yang dibuat</td></tr></tbody></table></div>';
                 rencanaEl.insertAdjacentHTML('afterend', rabEl);
                 message = 'Rencana anggaran baru telah dibuat';
+
+                let obStepper = {
+                    titleBox: 'Penganggaran Pelaksanaan',
+                    descBox: 'Menentukan anggaran yang akan dicairkan',
+                    dateBox: 'asd'
+                };
+
+                createNewStepper(e.target.closest('.modal').querySelector('#stepper ol'), obStepper);
             } else if (e.target.getAttribute('id') == 'buat-pencairan') {
                 // hendak create pelaksanaan
                 // fetch ulang saldo_total_rab, saldo_anggaran
@@ -2097,7 +2119,6 @@ $('#modalImgCanvasCropper').on('show.bs.modal', function () {
 
         doToastForFile(formGroup, input, toastId, cropedFile[targetName].name, cropedFile[targetName].size);
         cropedFile = {};
-        console.log('go AD', cropedFile[targetName]);
     }
 
     input.value = '';
@@ -2313,6 +2334,7 @@ let xBantuan = [
 ];
 
 $('#id-bantuan').select2({
+    data: xBantuan,
     language: { inputTooShort: function () { return 'Ketikan minimal 1 huruf'; }, noResults: function () { return "Data yang dicari tidak ditemukan"; }, searching: function () { return "Sedang melakukan pencarian..."; }, loadingMore: function () { return "Menampilkan data yang lainnya"; }, },
     placeholder: "Pilih salah satu",
     escapeMarkup: function (markup) { return markup; },
@@ -2383,10 +2405,16 @@ $('#id-kategori').select2({
     }
 });
 
+let dataPetugas = [
+    {id: 1, text: 'lala'},
+    {id: 2, text: 'lili'}
+];
+
 $('#petugas-pencairan').select2({
     language: {
         inputTooShort: function () { return 'Ketikan minimal 1 huruf'; }, noResults: function () { return "Data yang dicari tidak ditemukan"; }, searching: function () { return "Sedang melakukan pencarian..."; }, loadingMore: function () { return "Menampilkan data yang lainnya"; }, maximumSelected: function (e) { return 'Maksimum petugas pencairan terpilih adalah ' + e.maximum + ' orang'; },
     },
+    data: dataPetugas,
     placeholder: "Pilih max dua orang",
     escapeMarkup: function (markup) { return markup; },
     maximumSelectionLength: 2,

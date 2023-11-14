@@ -1,52 +1,52 @@
 const aDisabledList = document.querySelectorAll('a.disabled');
 aDisabledList.forEach(aDisabled => {
-    aDisabled.addEventListener('click', function (e) {
+    aDisabled.addEventListener('click', function(e) {
         e.preventDefault();
     });
 });
 
 const counterTarget = document.querySelectorAll('.counter-card'),
-    counterSpeed = 2000;
+      counterSpeed = 2000;
 
 counterUpSup(counterTarget, counterSpeed);
 
 let toastRun = document.querySelector('.toast[data-toast="feedback"][data-toast-run="true"]');
 if (toastRun != null) {
     $('.toast[data-toast="feedback"]').toast('show');
-    let elTarget = $('.toast[data-toast="feedback"] .toast-body .font-weight-bold'),
-        id_bantuan = elTarget.data('id-bantuan');
-
-    $('table tbody>tr>th a[data-id="' + id_bantuan + '"').parents('tr').addClass('highlight');
+    let elTarget = $('.toast[data-toast="feedback"] .toast-body [data-id-target]'),
+        target = elTarget.data('id-target');
+    
+    $('table tbody>tr>th a[data-id="'+target+'"], table tbody>tr>td a[data-id="'+target+'"]').parents('tr').addClass('highlight');
 
     setTimeout(() => {
         $('table tbody>tr.highlight').removeClass('highlight');
     }, 3100);
 }
 
-let tableWidthSetter = function () {
-    if ($('table thead').width() > $('table').parent().width()) {
-        $('table').addClass('table-responsive');
+let tableWidthSetter = function(table) {
+    if (table.find('thead').width() > table.parent().width()) {
+        table.addClass('table-responsive');
     } else {
-        if ($('table').hasClass('table-responsive')) {
-            $('table').removeClass('table-responsive');
+        if (table.hasClass('table-responsive')) {
+            table.removeClass('table-responsive');
         }
     }
 }
 
-tableWidthSetter();
+tableWidthSetter($('table.table'));
 
 let resizeTimeoutTable;
 $(window).resize(function () {
     clearTimeout(resizeTimeoutTable)
     resizeTimeoutTable = setTimeout(function () {
-        if ($('table').length) {
-            tableWidthSetter();
+        if ($('table.table').length) {
+            tableWidthSetter($('table.table'));
         }
     }, 50);
 });
 
 const sideNavTogglerBtn = document.querySelector('.sidenav-toggler-inner'),
-    mainContentPanel = document.getElementById('panel');
+      mainContentPanel = document.getElementById('panel');
 sideNavTogglerBtn.addEventListener('click', function () {
     if (!this.parentElement.classList.contains('active')) {
         setTimeout(() => {

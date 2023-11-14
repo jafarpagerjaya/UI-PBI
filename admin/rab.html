@@ -591,7 +591,91 @@
                     </div>
                 </div>
 
-                <div class="modal fade in d-block show" id="modalBuatRencana" tabindex="-1" role="dialog"
+                <div class="modal fade in" id="modalPerubahanRAB" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
+                        <div class="modal-content justify-content-center align-items-center scaleIn">
+                            <div class="container p-0 py-md-3 py-lg-5 px-lg-3 px-3 px-md-0">
+                                <div class="row">
+                                    <div class="col">
+                                        <h2>Form Update Rencana</h2>
+                                    </div>
+                                </div>
+                                <div class="row gap-y-5 mt-4">
+                                    <div class="col">
+                                        <div class="px-4 py-3 bg-lighter rounded">
+                                            <h4 class="mb-0">Rencana Bantuan</h4>
+                                            Bantuan 1
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="px-4 py-3 bg-lighter rounded">
+                                            <h4 class="mb-0">Total Anggaran</h4>
+                                            300.000
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="bg-lighter rounded py-3">
+                                            <div class="row gap-x-5 gap-y-2 m-0">
+                                                <div class="col-12 col-lg px-4">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="text-sm">Waktu Pembuatan</div>
+                                                            <div class="text-sm font-weight-bold">20 Juni 2022
+                                                                22:30:33
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="text-sm">Pembaharuan Terakhir</div>
+                                                            <div class="text-sm font-weight-bold">20 Juni 2022
+                                                                22:30:33
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-lg px-4">
+                                                    <div class="text-sm">Status Rencana</div>
+                                                    <div class="text-sm font-weight-bold text-orange"
+                                                        id="status-rencana">
+                                                        Belum
+                                                        Disetujui
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="p-0 bg-lighter rounded">
+                                            <div class="form-label-group bg-transparent">
+                                                <textarea type="text" name="keterangan" id="textarea-update-keterangan"
+                                                    class="form-control px-4 py-3" placeholder="Keterangan" autocomplete="off"
+                                                    maxlength="50">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maxime voluptates placeat ea, aperiam odit dicta quam hic laudantium qui saepe.</textarea>
+                                                <label for="textarea-update-keterangan" class="form-control-label">Keterangan</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row my-4 py-2">
+                                    <div class="col">
+                                        <table class="table table-borderless table-hover table-responsive list-rab"><thead class="thead-light"><tr><th>Kebutuhan</th><th>Keterangan / Spesifikasi</th><th>Harga Satuan</th><th>Jumlah</th><th>Sub Total</th><th colspan="2" class="fit text-center">Aksi</th></tr></thead><tbody><tr data-id-rab="1" class=""><td>Operasional</td><td>1</td><td>1</td><td>1</td><td>1</td><td class="px-0"><a href="#" class="btn btn-outline-danger btn-sm font-weight-bolder delete">Hapus</a></td><td><a href="#" class="btn btn-outline-orange btn-sm font-weight-bolder update">Ubah</a></td></tr></tbody></table>
+                                    </div>
+                                </div>
+                                <div class="row my-4">
+                                    <div class="col">
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-link font-weight-bolder text-warning"
+                                                data-dismiss="modal" type="button">Tutup</button>
+                                            <div>
+                                                <button class="btn btn-primary" type="submit">Simpan</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade in" id="modalBuatRencana" tabindex="-1" role="dialog"
                     aria-labelledby="modalBuatRencana-label" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
                         <div class="modal-content justify-content-center align-items-center scaleIn">
@@ -612,7 +696,7 @@
                                                         <span class="date">29 Juli 2022 23:30</span>
                                                     </div>
                                                 </li>
-                                                <li class="c-stepper__item">
+                                                <!-- <li class="c-stepper__item">
                                                     <div class="d-flex flex-column gap-1">
                                                         <h6 class="mb-0 c-stepper__title">
                                                             <span class="d-none d-md-block">
@@ -625,12 +709,12 @@
                                                         </p>
                                                         <span class="date">29 Juli 2022 23:30</span>
                                                     </div>
-                                                </li>
+                                                </li> -->
                                             </ol>
                                         </div>
                                     </div>
                                     <div class="col-12 px-0 tab-content" id="tab-rencana-pencairan">
-                                        <div class="tab-pane gap-y-5 show active" id="tab-rencana">
+                                        <div class="tab-pane gap-y-5" id="tab-rencana">
                                             <div class="w-100" id="rencana">
                                                 <div class="row mx-0 gap-y-5">
                                                     <div class="px-0 col-12 col-md" id="rencana-program">
@@ -664,7 +748,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="tab-pane gap-y-5 " id="tab-pelaksanaan">
+                                        <div class="tab-pane gap-y-5" id="tab-pelaksanaan">
                                             <div class="row gap-y-5 gap-x-2">
                                                 <div class="col-md col-12">
                                                     <div class="py-3 px-4 rounded bg-lighter">
@@ -763,7 +847,7 @@
                                                         <input spellcheck="false" class="form-control datepicker"
                                                             placeholder="Tanggal Pelaksanaan" type="text"
                                                             name="waktu_bayar" id="input-tanggal-pelaksanaan"
-                                                            data-date-end-date="0d" autocomplete="off">
+                                                            data-date-end-date="+10d" autocomplete="off">
                                                         <label for="input-tanggal-pelaksanaan"
                                                             class="form-control-label">Tanggal Pelaksanaan</label>
                                                         <div class="input-group-append">
@@ -824,6 +908,16 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
+                                                    <div class="p-0 rounded">
+                                                        <div class="form-label-group bg-transparent">
+                                                            <textarea type="text" name="keterangan" id="keterangan-rencana-update"
+                                                                class="form-control px-4 py-3" placeholder="Keterangan" autocomplete="off"
+                                                                maxlength="255"></textarea>
+                                                            <label for="keterangan-rencana-update" class="form-control-label">Keterangan</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
                                                     <div class="form-group position-relative" id="petugas">
                                                         <span class="font-weight-bolder position-absolute mt-2">
                                                             <label for="petugas-pencairan"
@@ -834,15 +928,15 @@
                                                             <!-- <option value="0" disabled hidden>
                                                                 Pilih salah satu
                                                             </option> -->
-                                                            <option value="1">One</option>
+                                                            <!-- <option value="1">One</option>
                                                             <option value="2">Two</option>
-                                                            <option value="3">Three</option>
+                                                            <option value="3">Three</option> -->
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="tab-pane gap-y-5 " id="tab-penarikan">
+                                        <div class="tab-pane gap-y-5 show active" id="tab-penarikan">
                                             <div class="row gap-y-5 gap-x-2">
                                                 <div class="col-12">
                                                     <div class="px-4 py-3 bg-lighter rounded">
@@ -917,10 +1011,14 @@
                                                                 <td class="text-right nominal">
                                                                     100.000
                                                                 </td>
-                                                                <td class="fit">A
-                                                                    <button class="btn btn-outline-orange btn-sm"
+                                                                <td class="fit">
+                                                                    <!-- <button class="btn btn-outline-orange btn-sm"
                                                                         data-toggle="modal"
-                                                                        data-target="#modalFormPinbuk">:</button>
+                                                                        data-target="#modalFormPinbuk">:</button> -->
+                                                                        <button class="btn btn-outline-orange btn-sm pinbuk"
+                                                                        data-toggle="modal"
+                                                                        data-target="#modalFormPinbuk">
+                                                                    </button>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -1246,7 +1344,7 @@
                     </div>
                 </div>
 
-                <div class="modal fade " id="modalFormPinbuk" tabindex="-1" role="dialog"
+                <div class="modal fade in" id="modalFormPinbuk" tabindex="-1" role="dialog"
                     aria-labelledby="modalFormPinbukLabel" aria-hidden="true" data-backdrop="static">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
@@ -1317,6 +1415,65 @@
                                 </div>
                                 <div class="btn btn-primary ml-auto" type="submit"
                                     data-target="#modalKonfirmasiAksiPinbuk1" data-toggle="modal">Pinbuk</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade in d-block show" id="modalDetilPinbuk" tabindex="-1" role="dialog"
+                    aria-labelledby="modalDetilPinbukLabel" aria-hidden="true" data-backdrop="static">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header align-items-center justify-content-between">
+                                <i class="ni ni-bold-left text-warning" data-dismiss="modal"></i>
+                                <h5 class="modal-title font-weight-bolder">Detil Pinbuk Donasi
+                                </h5>
+                                <button type="button" class="close p-3 ml-0" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-hover border list-rab rounded mb-0" id="list-detil-pinbuk">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Pinbuk</th>
+                                            <th class="fit">Status</th>
+                                            <th class="text-right fit">Nominal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="row justify-content-center align-items-center w-100 nowrap m-0">
+                                                    <div class="col-auto px-0">
+                                                        <div class="avatar rounded bg-transparent border">
+                                                            <img src="/assets/images/partners/bri.png" alt="bank-bri" class="img-fluid">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-arrow-right text-danger"></i>
+                                                    </div>
+                                                    <div class="col px-0">
+                                                        <div class="media align-items-center gap-x-3"><div class="avatar rounded bg-transparent border"><img src="/assets/images/partners/bri.png" alt="bank-bri" class="img-fluid"></div><div class="media-body small"><div class="text-black-50 font-weight-bold">107001000272300</div><div class="text-black-50 font-weight-bolder">POJOK BERBAGI INDONESIA</div></div></div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="fit">
+                                                <span class="badge badge-pill pt-2 badge-danger">Belum Diproses</span>
+                                                <!-- <span class="badge badge-pill pt-2 badge-info">On Proses</span>
+                                                <span class="badge badge-pill pt-2 badge-warning">Menunggu Diverivikasi</span>
+                                                <span class="badge badge-pill pt-2 badge-success">Success</span> -->
+                                            </td>
+                                            <td class="text-right fit">
+                                                <b>1.000.000</b>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-link ml-auto shadow-none font-weight-bolder text-warning"
+                        data-dismiss="modal">Tutup</button>
                             </div>
                         </div>
                     </div>

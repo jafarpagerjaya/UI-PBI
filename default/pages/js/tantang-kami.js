@@ -19,7 +19,6 @@ function windowrReSize() {
 }
 
 function stickyNavbarAbout() {
-    console.log(1);
     header_navbar_height = header_navbar.offsetHeight;
     if (window.pageYOffset == 0) {
         header_navbar.style.removeProperty('transition-duration');
