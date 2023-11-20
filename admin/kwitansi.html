@@ -94,6 +94,7 @@
 
 <body>
     <button data-target="#modalKwitansi" data-toggle="modal">OPEN</button>
+    <button data-target="#modalQrShow" data-toggle="modal">OPEN</button>
     <!-- Modal -->
     <div class="modal in bg-white" id="modalKwitansi" tabindex="-1" role="dialog" aria-labelledby="modalKwitansi-label"
         aria-hidden="true">
@@ -241,6 +242,17 @@
             </div>
         </div>
     </div>
+    <div class="modal in bg-white" id="modalQrShow" tabindex="-1" role="dialog" aria-labelledby="modalQrShow-label"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
+            <div class="modal-content justify-content-center align-items-center scaleIn">
+                <div class="container d-flex justify-content-center flex-column align-items-center">
+                    <div id="qr-show"></div>
+                    <h1 class="rounded-box bg-gradient-info text-white px-4 py-2 mt-3">Tentang Kami</h1>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Vendor Script -->
     <script src="./vendor/jquery/dist/jquery.min.js"></script>
@@ -269,6 +281,11 @@
             window.print();
             e.preventDefault();
         });
+
+        let dataShow = "https://pojokberbagi.id/tentang-kami";
+        let jsonQrOptionsQrShow = { "image": "../pojok-berbagi-transparent.png", "width": 800, "height": 600, "data": dataShow, "margin": 0, "qrOptions": { "typeNumber": "0", "mode": "Byte", "errorCorrectionLevel": "Q" }, "imageOptions": { "hideBackgroundDots": true, "imageSize": 0.3, "margin": 5 }, "dotsOptions": { "type": "rounded", "color": "#000000", "gradient": null }, "backgroundOptions": { "color": "#ffffff" }, "dotsOptionsHelper": { "colorType": { "single": true, "gradient": false }, "gradient": { "linear": true, "radial": false, "color1": "#6a1a4c", "color2": "#6a1a4c", "rotation": "0" } }, "cornersSquareOptions": { "type": "extra-rounded", "color": "#000000" }, "cornersSquareOptionsHelper": { "colorType": { "single": true, "gradient": false }, "gradient": { "linear": true, "radial": false, "color1": "#000000", "color2": "#000000", "rotation": "0" } }, "cornersDotOptions": { "type": "", "color": "#000000" }, "cornersDotOptionsHelper": { "colorType": { "single": true, "gradient": false }, "gradient": { "linear": true, "radial": false, "color1": "#000000", "color2": "#000000", "rotation": "0" } }, "backgroundOptionsHelper": { "colorType": { "single": true, "gradient": false }, "gradient": { "linear": true, "radial": false, "color1": "#ffffff", "color2": "#ffffff", "rotation": "0" } } }
+        const qrCodeShow = new QRCodeStyling(jsonQrOptionsQrShow);
+        qrCodeShow.append(document.getElementById("qr-show"));
 
     </script>
 </body>
