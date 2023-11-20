@@ -21,7 +21,7 @@ const COUNT_FORMATS = [
     }
 ];
 
-let formatCount = function (value) {
+let formatCount = function(value) {
     const format = COUNT_FORMATS.find(format => (value < format.limit));
     let formatObject = {}
     value = (1000 * value / format.limit);
@@ -45,7 +45,7 @@ let counterUpSup = function (counterTarget, counterSpeed, date = false) {
             console.log('[data-count-up-value] tidak ditemukan pada ', numberElem);
             return false;
         }
-
+        
         const animTime = counterSpeed;
         let date;
         // data-count-up-date => true or false
@@ -56,7 +56,7 @@ let counterUpSup = function (counterTarget, counterSpeed, date = false) {
         const initTime = performance.now();
 
         // Interval
-        let interval = setInterval(function () {
+        let interval = setInterval(function() {
             let t = (performance.now() - initTime) / animTime;
 
             let currentValue = Math.ceil(t * finalValue);
@@ -112,7 +112,7 @@ let counterUpProgress = function (counterTarget, counterSpeed) {
     });
 };
 
-const doAnimations = function (elems) {
+const doAnimations = function(elems) {
     elems.forEach(el => {
         let animationType = 'animated';
 
@@ -125,17 +125,19 @@ const doAnimations = function (elems) {
     });
 };
 
-const detectMob = function () {
-    return (window.innerWidth <= 767);
+const detectMob = function() {
+    return ( window.innerWidth <= 767 );
 };
 
-const detectTab = function () {
-    return (window.innerWidth <= 768);
+const detectTab = function() {
+    return ( window.innerWidth <= 768 );
 };
 
-function keteranganJenisChannelPayment(jenis_cp) {
+function keteranganJenisChannelPayment(jenis_cp, skip) {
     let keterangan_cp;
-    jenis_cp = jenis_cp.toUpperCase();
+    if (jenis_cp != null) {
+        jenis_cp = jenis_cp.toUpperCase();
+    }
     if (jenis_cp == 'TB') {
         keterangan_cp = "Transfer Bank";
     } else if (jenis_cp == 'QR') {
@@ -161,8 +163,10 @@ function keteranganJenisChannelAccount(jenis_ca) {
     jenis_ca = jenis_ca.toUpperCase();
     if (jenis_ca == 'RB') {
         text = 'Rekening Bank';
-    } else if (jenis_ca == 'NW') {
+    } else if (jenis_ca == 'EW') {
         text = 'E-Wallet';
+    } else if (jenis_ca == 'KT') {
+        text = 'Tunai';
     } else {
         text = 'Unrecognize (CA Type)';
     }
@@ -171,7 +175,9 @@ function keteranganJenisChannelAccount(jenis_ca) {
 
 function iconSektor(id_sektor) {
     let icon = '';
-    id_sektor = id_sektor.toUpperCase();
+    if (id_sektor != null) {
+        id_sektor = id_sektor.toUpperCase();
+    }
     if (id_sektor == 'S') {
         icon = '<i class="lni lni-heart"></i>';
     } else if (id_sektor == 'E') {
@@ -189,3 +195,121 @@ function iconSektor(id_sektor) {
     }
     return icon;
 }
+
+function statusBantuan(status) {
+    let badge = {};
+    if (status != null) {
+        status = status.toLowerCase();
+    }
+    if (status == 'd') {
+        badge.class = 'badge-primary';
+        badge.text = 'Berjalan';
+    } else if (status == 's') {
+        badge.class = 'badge-danger';
+        badge.text = "Selesai";
+    } else if (status == 'b') {
+        badge.class = 'badge-warning'; 
+        badge.text = "Menunggu Penilaian";
+    } else if (status == 'c') {
+        badge.class = 'badge-info'; 
+        badge.text = "Penilaian";
+    } else {
+        badge.class = 'badge-secondary'; 
+        badge.text = "Ditolak";
+    }
+    return badge;
+}
+
+function deleteProperties(objectToClean) {
+    for (var x in objectToClean) if (objectToClean.hasOwnProperty(x)) delete objectToClean[x];
+}
+
+function dateToID(date) {
+    const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+    return new Date(date).toLocaleDateString("id-ID", optionsDate).replace(/\./g,':');
+}
+
+function nomorCPTunai(jenis, nomor) {
+    if (jenis != null) {
+        jenis = jenis.toUpperCase();
+    }
+    if (jenis == 'TN') {
+        return 'CR Kantor Pusat';
+    } else {
+        return nomor;
+    }
+}
+
+// Toast
+let timeIntervalList = {};
+
+// Toast Starter Time
+function toastPassed(element) {
+    const startTime = new Date();
+    let dataToast;
+
+    element.innerHTML = 'Baru saja';
+
+    if (element.closest('.toast[data-toast]').getAttribute('id') == null) {
+        dataToast = element.closest('.toast[data-toast]').getAttribute('data-toast');
+    } else {
+        dataToast = element.closest('.toast[data-toast]').getAttribute('id');
+    }
+    
+    let timeInterval = setInterval(() => {
+        element.innerHTML = timePassed(startTime);
+        console.log(timePassed(startTime));
+    }, 1000);
+
+    timeIntervalList[dataToast] = timeInterval;
+};
+
+// Toast Stoper Time
+function stopPassed(dataToast) {
+    clearInterval(timeIntervalList[dataToast]);
+    delete timeIntervalList[dataToast];
+}
+
+// Toast Atributes Maker
+function setMultipleAttributesonElement(elem, elemAttributes) {
+    for(let i in elemAttributes) {
+        elem.setAttribute(i, elemAttributes[i]);
+    }
+}
+
+const debounceIgnoreFirst = (fn, delay) => {
+    let timer = null;
+    return function(...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            fn(...args);
+        }, delay);
+    }
+};
+
+const debounceIgnoreLast = (fn, delay) => {
+    let timer;
+        return (...args) => {
+        if (!timer) {
+            fn(...args);
+        }
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            timer = undefined;
+            // if ([...args][0].target.classList.contains('disabled')) {
+            //     [...args][0].target.classList.remove('disabled');
+            // }
+        }, delay);
+    };
+};
+
+// Example using
+
+// let functionNameOperation = () => {
+//     console.log("Like Clicked");
+// };
+  
+// debounceNameVar = debounceIgnoreFirst(functionNameOperation, 1000);
+  
+// const btn = document.querySelector("#like");
+// btn.addEventListener("click", debounceNameVar);

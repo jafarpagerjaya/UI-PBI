@@ -38,6 +38,7 @@ i {
     color: #fff;
 }
 
+.btn-outline-orange-reverse,
 .button.donasi:hover,
 .button.button-outline-orange:hover,
 .btn.donasi:hover,
@@ -62,6 +63,7 @@ i {
     transition: all .3s ease-in-out !important;
 }
 
+.btn-outline-orange-reverse:hover,
 .button.button-outline-orange,
 .btn.btn-outline-orange {
     background-color: white;
@@ -316,6 +318,70 @@ textarea {
 }
 
 /* Akhir Footer */
+
+/* Love animation */
+.heart-animation {
+    position: relative;
+    height: calc(1.325rem + .9vw);
+    width: calc(1.325rem + .9vw);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+}
+
+.heart-animation::before {
+    content: '';
+    position: absolute;
+    background-image: url('/assets/images/web_heart_animation.png');
+    background-repeat: no-repeat;
+    background-size: 2900%;
+    background-position: left;
+    height: 100px;
+    width: 100px;
+    margin: 0 auto;
+    cursor: pointer;
+    pointer-events: none;
+}
+
+.animate.heart-animation::before {
+    animation: heart-burst .8s steps(28) forwards;
+}
+
+@keyframes heart-burst {
+    0% {
+        background-position: left
+    }
+    100% {
+        background-position: right
+    }
+}
+
+.heart-animation:not(.animate)::before {
+    animation: heart-pop .8s steps(28) backwards;
+}
+
+@keyframes heart-pop {
+    0% {
+        width: 100px;
+        height: 100px;
+    }
+    25% {
+        width: 125px;
+        height: 125px;
+    }
+    50% {
+        width: 90px;
+        height: 90px;
+    }
+    75% {
+        width: 105px;
+        height: 105px;
+    }
+    100% {
+        width: 100px;
+        height: 100px;
+    }
+}
 
 @media (min-width: 375px) {
 

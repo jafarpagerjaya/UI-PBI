@@ -264,14 +264,13 @@ shareButtons.forEach(button => {
 });
 
 let clickLiked = function(e) {
-    e.target.classList.toggle('bi-heart-fill');
-    e.target.classList.toggle('bi-heart');
+    e.target.classList.toggle('animate');
     if (e.target.getAttribute('checked') != null) {
         // unckeck now
         e.target.removeAttribute('checked')
     } else {
         // check now
-        e.target.setAttribute('checked')
+        e.target.setAttribute('checked',true)
     }
 
     let data = {
@@ -281,6 +280,13 @@ let clickLiked = function(e) {
 
     // fetchLikeClicked
 };
+
+const likedList = document.querySelectorAll('.donatur .heart-animation');
+
+console.log(likedList);
+likedList.forEach(icon => {
+    icon.addEventListener('click', clickLiked);
+});
 
 const header_navbar = document.querySelector(".navbar-area"),
     sticky_btn_area = document.querySelector('.btn.button.donasi').parentElement,
@@ -317,4 +323,4 @@ setTimeout(()=>{
 window.onscroll = stickyBtn;
 
 const myModal = new bootstrap.Modal(document.getElementById('modalShareBtn'));
-myModal.show();
+// myModal.show();
