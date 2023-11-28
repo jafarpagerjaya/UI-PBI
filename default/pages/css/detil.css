@@ -114,11 +114,50 @@ h6 {
 #donatur-area #title::before,
 #donatur-area #title::after,
 #deskripsi-selengkapnya-area #title::before,
-#deskripsi-selengkapnya-area #title::after {
+#deskripsi-selengkapnya-area #title::after,
+#update-terkini-area #title::before,
+#update-terkini-area #title::after {
     position: absolute;
     width: 100%;
     height: 100%;
     content: '';
+}
+
+#update-terkini-area #title::before {
+    background-color: #f8f9fa;
+    border-top-right-radius: inherit;
+    border-bottom-left-radius: inherit;
+    right: -.5em;
+    top: -.5em;
+}
+
+#update-terkini-area #title::after {
+    background-color: var(--orange);
+    border-top-right-radius: inherit;
+    bottom: calc(-100% + .5em);
+    right: 75%;
+}
+
+#update-terkini-area #title>span.node {
+    position: absolute;
+    right: -.5em;
+    bottom: .5em;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background-color: #f8f9fa;
+    border-bottom-left-radius: 10px;
+}
+
+#update-terkini-area #title>span.node::before {
+    width: 100%;
+    height: 100%;
+    content: '';
+    background-color: #f8f9fa;
+    position: absolute;
+    top: .5em;
+    right: -.5em;
+    border-bottom-left-radius: 5px;
 }
 
 #deskripsi-selengkapnya-area #title::before {
@@ -137,7 +176,8 @@ h6 {
 }
 
 #donatur-area #title > *,
-#deskripsi-selengkapnya-area #title > * {
+#deskripsi-selengkapnya-area #title > *,
+#update-terkini-area #title > * {
     z-index: 1;
 }
 
@@ -167,6 +207,7 @@ h6 {
     padding: 0px;
 }
 
+#donatur-area .empty,
 #deskripsi-selengkapnya-area .empty {
     background-image: url('/assets/svg/empty.svg');
     background-position: center;
@@ -174,6 +215,15 @@ h6 {
     background-size: 100%;
     width: 100px;
     height: 100px;
+}
+
+#deskripsi-selengkapnya-area .empty {
+    background-image: url('/assets/svg/empty.svg');
+}
+
+#donatur-area .empty {
+    background-size: 90%;
+    background-image: url('/assets/svg/sad.svg');
 }
 
 #donatur-area #title::before {
@@ -238,23 +288,32 @@ h6 {
     align-items: center;
 }
 
-#donatur-area>div:not(#title) .liked {
+#donatur-area:not(.load)>div:not(#title) .avatar img[src="/assets/images/default.png"] {
+    background-color: var(--bs-white);
+}
+
+#donatur-area>div:not(#title) .liked,
+#modalListDonatur .liked {
     font-size: xx-small;
 }
 
+#modalListDonatur .donatur:nth-child(odd),
 #donatur-area>div:not(#title):nth-child(even) {
     border: 1px solid var(--orange);
 }
 
+#modalListDonatur .donatur:nth-child(even),
 #donatur-area>div:not(#title):nth-child(odd) {
     background-color: #eeeff0 !important;
     border: 1px solid #eeeff0;
 }
 
+#modalListDonatur .donatur:nth-child(even) .media .avatar,
 #donatur-area>div:not(#title):nth-child(odd) .media .avatar {
     margin-left: auto;
 }
 
+#modalListDonatur .donatur:nth-child(even) .media .media-body,
 #donatur-area>div:not(#title):nth-child(odd) .media .media-body {
     text-align: right;
 }
@@ -268,11 +327,91 @@ h6 {
     left: 1em;
 }
 
+#modalListDonatur .modal-body {
+    flex-grow: 0;
+}
+
+#modalListDonatur .modal-body .donatur {
+    flex-direction: column;
+}
+
+#modalListDonatur.load .heart-animation::before {
+    background-image: none;
+}
+
+#modalListDonatur.load .rounded-box {
+    border-radius: .5rem;
+}
+
+#donatur-area.shown .heart-animation::before {
+    animation: heart-burst 0s steps(28) forwards;
+}
+
+#donatur-area.shown .heart-animation:not(.animate)::before {
+    animation: heart-pop 0s steps(28) backwards;
+}
+
+.load.donatur *:not(span),
+#donatur-area.load .donatur *:not(span) {
+    border-radius: inherit;
+}
+
+.load.donatur .avatar,
+.load.donatur .avatar,
+.load.donatur a[role="button"],
+.load.donatur *:not(span) span,
+.modal.load .donatur .avatar,
+#donatur-area.load .donatur .avatar,
+#donatur-area.load .donatur a[role="button"],
+#donatur-area.load .donatur *:not(span) span {
+    color: transparent;
+    background: linear-gradient(-90deg, #eee, #ddd, #ddd, #eee);
+    background-size: 400% 400%;
+    animation: gradient-load 1s ease infinite;
+    border-radius: 5px;
+}
+
+.load.donatur i[class*="bg"],
+#donatur-area.load .donatur i[class*="bg"] {
+    background: transparent !important;
+}
+
+.load.donatur a,
+#donatur-area.load .donatur a {
+    cursor: none !important;
+    pointer-events: none !important;
+}
+
+.load.donatur span,
+.load.donatur a i,
+#donatur-area.load .donatur span,
+#donatur-area.load .donatur a i {
+    color: transparent !important;
+}
+
+.load.donatur img.avatar,
+.modal.load img.avatar,
+#donatur-area.load .donatur img.avatar {
+    visibility: hidden;
+}
+
+#modalListDonatur .modal-header {
+    box-shadow: 0px 20px 50px 0px rgba(0, 0, 0, 0.05);
+}
+
+#modalListDonatur .modal-header .col-lg-6[style] .btn-close {
+    margin-right: -.2em !important;
+}
+
+#modalListDonatur .modal-body {
+    overflow-x: hidden;
+}
+
 @media (max-width: 426px) {
     .sticky-btn {
         position: fixed;
         width: calc(100% - 56px + 57px);
-        z-index: 8;
+        z-index: 2;
         bottom: 0px;
         padding-top: 12px;
         padding-bottom: 12px;
@@ -296,6 +435,10 @@ h6 {
     #detil-banner-area .app-image.img-wrapper {
         max-height: 166.5px;
         min-height: 166.5px;
+    }
+
+    a[data-bs-target="#modalShareBtn"] span {
+        display: none;
     }
 }
 
@@ -322,6 +465,10 @@ h6 {
 
     .avatar {
         --avatar: 40px;
+    }
+
+    a[data-bs-target="#modalShareBtn"] span {
+        display: block;
     }
 }
 

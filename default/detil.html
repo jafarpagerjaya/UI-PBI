@@ -33,6 +33,7 @@
     <!-- Added Linked Rel Based On Action Style -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" type="text/css" href="/utility.css">
+    <link rel="stylesheet" type="text/css" href="/timeline.css">
     <link rel="stylesheet" type="text/css" href="/default/pages/css/detil.css">
 </head>
 
@@ -235,7 +236,64 @@
                 </div>
             </div>
         </div>
-        <div id="donatur-area" class="row g-0 gap-3 gap-md-4 bg-white position-relative pt-2 pt-lg-3 ql-container ql-disabled mt-2 wow fadeInUp" data-wow-delay="1.6s">
+        <div class="row g-0 gap-3 gap-md-4 wow fadeInUp pt-2 pt-lg-3 mt-2 wow fadeInUp" data-wow-delay="1.6s" id="update-terkini-area">
+            <div class="col-12 bg-green rounded-box p-3 d-flex align-items-center justify-content-between" id="title">
+                <div class="desc align-self-end">
+                    <h4>Update Terkini</h4>
+                </div>
+                <span class="node"></span>
+            </div>
+            <div class="col-12 bg-light rounded-box p-3">
+                <div class="row m-0 timeline gap-3">
+                    <div class="col-12 timeline-item px-0">
+                        <div class="row m-0">
+                            <div class="col-12 col-lg-2">
+                                <div class="time small fw-bold">
+                                    28 November 2023
+                                </div>
+                                <div class="badge bg-green-box">
+                                    Pelaksanaan
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-10 content">
+                                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto modi, ipsum ratione enim voluptatum animi laboriosam quaerat? Ad quos esse voluptatem accusamus ipsum, quod quae.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 timeline-item px-0">
+                        <div class="row m-0">
+                            <div class="col-12 col-lg-2">
+                                <div class="time small fw-bold">
+                                    28 November 2023
+                                </div>
+                                <div class="badge bg-warning">
+                                    Belanja
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-10 content">
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit, laboriosam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim cumque rem omnis neque. Aperiam iusto minus nesciunt eum doloribus repudiandae magnam ipsum, voluptatibus in possimus. Consectetur ad dolor dolore eveniet sequi quasi veniam maxime minus ullam cupiditate, pariatur beatae odio, omnis repellendus! Ullam et sit velit non eius? Voluptatibus, fugiat. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto modi, ipsum ratione enim voluptatum animi laboriosam quaerat? Ad quos esse voluptatem accusamus ipsum, quod quae.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 timeline-item px-0">
+                        <div class="row m-0">
+                            <div class="col-12 col-lg-2">
+                                <div class="time small fw-bold">
+                                    25 November 2023
+                                </div>
+                                <div class="badge bg-primary">
+                                    Berita
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-10 content">
+                                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto modi, ipsum ratione enim voluptatum animi laboriosam quaerat? Ad quos esse voluptatem accusamus ipsum, quod quae.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="donatur-area" class="row g-0 gap-3 gap-md-4 bg-white position-relative pt-2 pt-lg-3 mt-2 wow fadeInUp" data-wow-delay="1.8s">
             <div class="col-12 bg-green rounded-box p-3 d-flex align-items-center justify-content-between" id="title">
                 <div class="desc align-self-end">
                     <h4>Donatur</h4>
@@ -396,6 +454,27 @@
                     <i class="bi bi-twitter-x fs-4"></i>
                 </a>
             </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" id="modalListDonatur">
+        <div class="modal-dialog modal-dialog-centered modal-fullscreen modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center border-0">
+                    <div class="row m-0 justify-content-center w-100">
+                        <div class="col-12 col-lg-6 d-flex justify-content-between align-items-center px-0">
+                            <h5 class="modal-title">Daftar Donatur</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body border-top">
+                    <div class="row m-0 justify-content-center w-100">
+                        <div class="px-0 col-12 col-lg-6 d-flex justify-content-between align-items-center flex-column gap-y-4" id="content">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
