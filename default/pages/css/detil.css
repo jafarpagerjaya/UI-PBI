@@ -106,7 +106,8 @@ h6 {
 }
 
 #donatur-area #title,
-#deskripsi-selengkapnya-area #title {
+#deskripsi-selengkapnya-area #title,
+#update-terkini-area #title {
     position: relative;
     overflow: hidden;
 }
@@ -407,6 +408,33 @@ h6 {
     overflow-x: hidden;
 }
 
+a.badge {
+    transition-duration: 0s;
+    color: #fff;
+}
+
+a.badge:hover {
+    opacity: .85;
+}
+
+#modalListUpdate .timeline .timeline-item {
+    gap: 1em;
+}
+#modalListUpdate .timeline .timeline-item > .row {
+    padding: 12px 0px;
+    background-color: #f8f9fa;
+    border-radius: 15px;
+}
+
+#modalListUpdate .timeline .timeline-item:before {
+    margin-top: 0;
+}
+
+#modalListUpdate .timeline .timeline-item:not(:last-child):after {
+    bottom: -5px;
+    height: calc(100% - (1em + var(--circle-size)) + 7.5px);
+}
+
 @media (max-width: 426px) {
     .sticky-btn {
         position: fixed;
@@ -578,6 +606,12 @@ h6 {
 
     .avatar.border.rounded {
         border-radius: .5rem !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    #modalDetilUpdate .modal-dialog {
+        max-width: calc(100vw - 2em);
     }
 }
 

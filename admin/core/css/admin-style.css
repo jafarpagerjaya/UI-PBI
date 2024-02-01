@@ -1,3 +1,95 @@
+body {
+    width: 100%;
+}
+
+.sidenav.navbar *:not(.active):not(span) {
+    background: inherit;
+}
+
+.nav-item > .nav-link.active {
+    margin-right: 0px !important;
+}
+
+.nav-item.nav-dropdown {
+    overflow: hidden;
+}
+
+.nav-item.nav-dropdown > *:first-child {
+    position: relative;
+    z-index: 1;
+}
+
+.nav-item.nav-dropdown > *:first-child:not(.active) {
+    margin-left: 0px !important;
+}
+
+.nav-item.nav-dropdown > .transition:first-child {
+    background-color: #f6f9fc;
+    margin-left: .5rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem;
+    border-radius: .375rem;
+}
+
+.nav-item.nav-dropdown > *:first-child::after {
+    content: '\ea11';
+    font: normal normal normal 14px/1 NucleoIcons;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    right: 1rem;
+    position: absolute;
+    transition: transform .3s ease;
+    transform: rotate(0deg);
+}
+
+.nav-item.nav-dropdown > .nav-link:first-of-type + .navbar-nav .nav-item {
+    margin-top: 0px !important;
+}
+
+.nav-item.nav-dropdown .navbar-nav {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    transition: margin-top .3s ease !important;
+}
+
+.nav-item.nav-dropdown .nav-link:not(.active):not(.transition) +.navbar-nav {
+    /* transform: translateY(-100%); */
+    /* visibility: hidden; */
+}
+
+.nav-item.nav-dropdown .nav-link.active + .navbar-nav .nav-link {
+    margin: 0px 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.nav-item.nav-dropdown > .nav-link.active {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.nav-item.nav-dropdown .nav-link.active ~* .nav-link.active {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.nav-item.nav-dropdown .nav-link.active ~* .nav-link {
+    background: #f6f9fc;
+    margin-right: 0px !important;
+}
+
+.nav-item.nav-dropdown .nav-link.active ~* .nav-item:last-of-type .nav-link {
+    border-bottom-left-radius: .375rem !important;
+    border-bottom-right-radius: .375rem !important;
+}
+
+.nav-item.nav-dropdown > .nav-link.active::after {
+    transform: rotate(90deg);
+}
+
 .table .tfoot-light th {
     color: #8898aa;
     background-color: #f6f9fc;
@@ -22,7 +114,7 @@ table tbody>tr>th {
 
 table tbody>tr.highlight {
     --highlight: rgba(50, 50, 93, 0.11);
-    animation: pulse 1s linear 3;
+    animation: pulse_tr 1s linear 3;
 }
 
 table td .progress-info>div>span {
@@ -58,28 +150,53 @@ table.table thead tr>td:last-child {
 
 
 /* Table absolute first with responsive scroll */
-table.table-responsive.table-absolute-first th:first-of-type {
+.main-content.backdrop table.table-responsive.table-absolute-first thead th:first-child,
+.main-content.backdrop table.table-responsive.table-absolute-first tfoot th:first-child,
+.main-content.backdrop table.table-responsive.table-absolute-first tbody td:first-child {
+    z-index: -1;
+}
+
+table.table-absolute-first tr[style] th:first-child,
+table.table-absolute-first tr[style] td:first-child {
+    white-space: normal;
+    padding: 5px;
+}
+
+table.table-absolute-first tr[style] th,
+table.table-absolute-first tr[style] td {
+    padding: 5px;
+}
+
+table.table-responsive.table-absolute-first thead th:first-child,
+table.table-responsive.table-absolute-first tfoot th:first-child {
+    z-index: 2;
+}
+
+table.table-responsive.table-absolute-first tbody td:first-child {
     z-index: 1;
 }
 
-table.table-responsive.table-absolute-first tr>th:first-of-type,
-table.table-responsive.table-absolute-first tr>td:first-of-type {
+table.table-responsive.table-absolute-first tr:not([data-zero="true"])>th:first-child,
+table.table-responsive.table-absolute-first tr:not([data-zero="true"])>td:first-child {
     position: absolute;
     width: auto;
     box-shadow: 1px 0px 2px 0px var(--lighter);
 }
 
-table.table-responsive.table-absolute-first thead tr>th:first-of-type,
-table.table-responsive.table-absolute-first thead tr>td:first-of-type {
-    border-top: 2px solid #e9ecef;
-    top: 0px;
-    border-bottom: 0px;
+table.table-responsive.table-absolute-first thead tr>th:first-child,
+table.table-responsive.table-absolute-first thead tr>td:first-child {
+    border-bottom: .8px solid #e9ecef;
 }
 
-table.table-responsive.table-absolute-first tbody tr>td:first-of-type,
-table.table-responsive.table-absolute-first tbody tr>th:first-of-type {
+table.table-responsive.table-absolute-first tbody tr>td:first-child,
+table.table-responsive.table-absolute-first tbody tr>th:first-child {
     background-color: white;
     border-top: 0px;
+}
+
+table.table-responsive.table-absolute-first tfoot tr>th:first-child,
+table.table-responsive.table-absolute-first tfoot tr>td:first-child {
+    border: 0px !important;
 }
 
 table.table-responsive.table-absolute-first th:not(.fit):not(.auto),
@@ -90,6 +207,54 @@ table.table-responsive.table-absolute-first td:not(.fit):not(.auto) {
 table.table-responsive.table-absolute-first th:not(.fit):not(.auto):nth-child(2),
 table.table-responsive.table-absolute-first td:not(.fit):not(.auto):nth-child(2) {
     width: 100%;
+}
+
+/* load animation table */
+
+.card.load *:not(span),
+table.load *:not(span) {
+    border-radius: inherit;
+}
+
+.card.load a[role="button"],
+.card.load *:not(span) span:not(span span):not(.input-char-left),
+table.load a[role="button"],
+table.load *:not(span) span:not(span span):not(.input-char-left) {
+    color: transparent;
+    background: linear-gradient(-90deg, #eee, #ddd, #ddd, #eee);
+    background-size: 400% 400%;
+    animation: gradient-load 1s ease infinite;
+    border-radius: 5px;
+}
+
+.card.load i[class*="bg"],
+table.load i[class*="bg"] {
+    background: transparent !important;
+}
+
+.card.load a,
+table.load a {
+    cursor: none !important;
+    pointer-events: none !important;
+}
+
+.card.load span:not(span span):not(.input-char-left),
+.card.load a i,
+table.load span:not(span span):not(.input-char-left),
+table.load a i {
+    color: transparent !important;
+}
+
+@keyframes gradient-load {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 /* badge */
@@ -106,7 +271,7 @@ body.nav-open {
 }
 
 
-@keyframes pulse {
+@keyframes pulse_tr {
     0% {
         background-color: transparent;
     }
@@ -335,7 +500,7 @@ a[data-action]:hover {
 
 .bootstrap-datetimepicker-widget table tr>th:last-child {
     padding-right: 1.5rem !important;
-}
+} 
 
 @media (min-width: 360px) {
     .form-group label {
@@ -347,6 +512,25 @@ a[data-action]:hover {
     .form-control.is-invalid+span.select2 .selection>.select2-selection,
     .was-validated .form-control:invalid+span.select2 .selection>.select2-selection {
         transition: background-position 0s ease;
+    }
+}
+
+@media (max-width: 375px) {
+    section#main-content {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
+    .card {
+        border-radius: 0px;
+    }
+
+    .card-footer,
+    .card-body .table td,
+    .card-body .table th,
+    .card-header {
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 }
 
@@ -373,6 +557,35 @@ a[data-action]:hover {
         width: calc(100% + 4rem - 2px);
         overflow: hidden;
     }
+
+    table.table-absolute-first tr[style] th,
+    table.table-absolute-first tr[style] td {
+        padding: 5px 1em !important;
+    }
+}
+
+@media (max-width: 991px) {
+
+    button[data-value="create"] {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: calc(1.5em + 1.25rem + 5px);
+    }
+    
+    button[data-value="create"]::after {
+        content: '\f055';
+        font-family: "Font Awesome 5 Free";
+        font-size: 1.5rem;
+        display: flex;
+        align-self: center;
+    }
+}
+
+@media (min-width: 992px) {
+    button[data-value="create"]::after {
+        content: 'Tambah';
+    }
 }
 
 @media (min-width: 1200px) {
@@ -380,5 +593,10 @@ a[data-action]:hover {
     /* Backdrop On Burger Click */
     #panel.main-content.backdrop::after {
         background-color: transparent;
+    }
+
+    table.table-absolute-first tr[style] th,
+    table.table-absolute-first tr[style] td {
+        padding: 1em !important;
     }
 }

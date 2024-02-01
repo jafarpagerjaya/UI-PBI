@@ -24,7 +24,7 @@ h6 {
     font-family: inherit !important;
 }
 
-i {
+i.bi {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -168,12 +168,24 @@ i {
 
 /* Handling style for broken img */
 
+.load .avatar {
+    border: 0px;
+}
+
 img {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
+}
+
+.avatar img {
+    position: unset;
+}
+
+.avatar {
+    position: relative;
 }
 
 img::before {
@@ -186,6 +198,20 @@ img::before {
     display: flex;
     justify-content: center;
     align-items: center;
+    top: 0;
+    bottom: 0;
+}
+
+.load .avatar,
+.load img,
+.load img::before {
+    background: linear-gradient(-90deg, #eee, #ddd, #ddd, #eee);
+    background-size: 400% 400%;
+    animation: gradient-load 1s ease infinite;
+}
+
+.load .avatar img {
+    visibility: hidden;
 }
 
 img::after {
@@ -200,6 +226,10 @@ img::after {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.load img::after {
+    content: '';
 }
 
 /* Akhir Utilitas, Reset & Root */
@@ -347,6 +377,10 @@ textarea {
     animation: heart-burst .8s steps(28) forwards;
 }
 
+.modal:not(.shown) .animate.heart-animation::before {
+    animation: heart-burst 0s steps(28) forwards;
+}
+
 @keyframes heart-burst {
     0% {
         background-position: left
@@ -358,6 +392,14 @@ textarea {
 
 .heart-animation:not(.animate)::before {
     animation: heart-pop .8s steps(28) backwards;
+}
+
+.modal:not(.shown) .heart-animation:not(.animate)::before {
+    animation: heart-pop 0s steps(28) backwards;
+}
+
+.load .heart-animation::before {
+    background-image: none;
 }
 
 @keyframes heart-pop {
