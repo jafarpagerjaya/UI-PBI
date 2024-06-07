@@ -275,7 +275,6 @@ const counterTarget = document.querySelectorAll('.box-info h6[data-count-up-valu
 counterUpSup(counterTarget, counterSpeed);
 counterUpProgress(progressBar, counterSpeed);
 
-<<<<<<< HEAD
 let getIdBantuan = function(pathname) {
     let id_bantuan;
     switch (pathname.split('/').at(1)) {
@@ -328,35 +327,6 @@ let data = {
 //     fetchTokenChannel.postMessage({
 //         token: document.querySelector('body').getAttribute('data-token')
 //     });
-=======
-const c_id_bantuan = window.location.pathname.split('/').at(3);
-
-let data = {
-        id_bantuan: c_id_bantuan,
-        token: document.querySelector('body').getAttribute('data-token')
-    };
-
-fetch('/default/fetch/read/bantuan/deskripsi', {
-    method: "POST",
-    cache: "no-cache",
-    mode: "same-origin",
-    credentials: "same-origin",
-    headers: {
-        "Content-Type": "application/json",
-    },
-    referrer: "no-referrer",
-    body: JSON.stringify(data)
-})
-.then(response => response.json())
-.then(function (response) {
-    // console.log(response);
-    document.querySelector('body').setAttribute('data-token', response.token);
-    fetchTokenChannel.postMessage({
-        token: document.querySelector('body').getAttribute('data-token')
-    });
-
-    if (!response.error) {
->>>>>>> d100693 (menambahkan desain timeline)
 
 //     if (!response.error && response.feedback != null) {
 //         if (response.feedback.data.length) {
@@ -397,21 +367,7 @@ if (document.querySelector('.timeline') != null) {
         });
 
         // render the content
-<<<<<<< HEAD
         quill.setContents(JSON.parse(tl.querySelector('.editor-read').innerText));
-=======
-        quill.setContents(JSON.parse(response.feedback.data));    
-    }
-
-    if (response.toast != null && response.toast.feedback != undefined && response.toast.feedback.message != undefined) {
-        createNewToast(document.querySelector('[aria-live="polite"]'), response.toast.id, response.toast.data_toast, response.toast);
-    
-        $('#'+ response.toast.id +'.toast[data-toast="'+ response.toast.data_toast +'"]').toast({
-            'autohide': true
-        }).toast('show');
-    }
-});
->>>>>>> d100693 (menambahkan desain timeline)
 
         setTimeout(() => {
             if (tl.querySelector('.editor-read').clientHeight >= 200) {
@@ -469,7 +425,6 @@ shareButtons.forEach(button => {
    });
 });
 
-<<<<<<< HEAD
 let sticky_ba_el;
 if (document.querySelector('.btn.button.donasi') != null) {
     sticky_ba_el = document.querySelector('.btn.button.donasi').parentElement;
@@ -477,8 +432,6 @@ if (document.querySelector('.btn.button.donasi') != null) {
     sticky_ba_el = document.querySelector('#commit-bantuan-area>.col:last-child').parentElement;
 }
 
-=======
->>>>>>> d100693 (menambahkan desain timeline)
 const header_navbar = document.querySelector(".navbar-area"),
     sticky_btn_area = sticky_ba_el,
     sticky_btn = sticky_ba_el.closest('#commit-bantuan-area');
@@ -495,11 +448,7 @@ function stickyBtn(e) {
     let windowScrollY = window.scrollY,
         windowScrollNavbarBottom = windowScrollY + header_navbar_height;
         stickyBtnOffsetTopY = sticky_btn.offsetTop + sticky_btn_height + sticky_btn_area.offsetTop;
-<<<<<<< HEAD
         // console.log(windowScrollY, windowScrollNavbarBottom, stickyBtnOffsetTopY);
-=======
-        console.log(windowScrollY, windowScrollNavbarBottom, stickyBtnOffsetTopY);
->>>>>>> d100693 (menambahkan desain timeline)
     if (windowScrollNavbarBottom >= stickyBtnOffsetTopY || windowScrollNavbarBottom >= stickyBtnOffsetTopYStart) {
         if (!sticky_btn_area.classList.contains('sticky-btn')) {
             sticky_btn_area.classList.add('sticky-btn');
@@ -518,10 +467,7 @@ setTimeout(()=>{
 
 let lastKnownScrollPosition = 0;
 let ticking = false;
-<<<<<<< HEAD
 let scrollingDoc = false;
-=======
->>>>>>> d100693 (menambahkan desain timeline)
 
 function doStickyBtn(scrollPos) {
     // Do something with the scroll position
@@ -548,19 +494,15 @@ document.addEventListener("scroll", (event) => {
     window.requestAnimationFrame(() => {
       doStickyBtn(lastKnownScrollPosition);
       ticking = false;
-<<<<<<< HEAD
       if (scrollingDoc == false) {
         scrollingDoc = true;
       }
-=======
->>>>>>> d100693 (menambahkan desain timeline)
     });
 
     ticking = true;
   }
 });
 
-<<<<<<< HEAD
 let popUpScrollLast = function(event) {
     if (scrollingDoc) {
         if (!pop.shown) {
@@ -593,13 +535,9 @@ modalShare.addEventListener('hidden.bs.modal', function (e) {
         document.querySelector('body').classList.add('modal-open');
     }
 });
-=======
-
-const shareModal = new bootstrap.Modal(document.getElementById('modalShareBtn'));
->>>>>>> d100693 (menambahkan desain timeline)
 
 const modalDonaturList = document.getElementById('modalListDonatur');
-const myModalDonatur = new bootstrap.Modal(modalDonaturList);
+const myModal = new bootstrap.Modal(modalDonaturList);
 modalDonaturList.addEventListener('show.bs.modal', function (e) {
     e.target.classList.add('load');
     document.querySelectorAll('#donatur-area .donatur').forEach(ele => {
@@ -659,7 +597,7 @@ modalDonaturList.addEventListener('hide.bs.modal', function (e) {
     };
 });
 
-// myModalDonatur.show();
+// myModal.show();
 
 let fetchData = function (url, data, root, f) {
     fetch(url, {
@@ -698,7 +636,6 @@ let fetchData = function (url, data, root, f) {
             case 'read-donatur-list-default':
                 fetchReadDonaturDefault(root, response);
             break;
-<<<<<<< HEAD
             case 'get-informasi-berita':
                 objectInformasi.id_informasi = data.fields.id_informasi;
                 fetchGetInformasiBerita(root, response);
@@ -706,8 +643,6 @@ let fetchData = function (url, data, root, f) {
             case 'read-informasi':
                 fetchReadInformasi(root, response);
             break;
-=======
->>>>>>> d100693 (menambahkan desain timeline)
             default:
             break;
         }
@@ -851,7 +786,6 @@ let fetchReadDonaturDefault = function(target, response) {
     }, 800);
 };
 
-<<<<<<< HEAD
 let fetchReadInformasi = function(modal, response) {
     if (modal.querySelector('#content') == null) {
         let currentDate = new Date(),
@@ -994,8 +928,6 @@ let fetchGetInformasiBerita = function(modal, response) {
     quill.setContents(JSON.parse(new DOMParser().parseFromString(data.isi, "text/html").querySelector('body').innerText));
 };
 
-=======
->>>>>>> d100693 (menambahkan desain timeline)
 const hasMoreData = (offset, total) => {
     return offset < total;
 };
@@ -1055,8 +987,6 @@ modalDonaturList.querySelector('.modal-body').addEventListener('scroll', functio
     }
 }, {
     passive: true
-<<<<<<< HEAD
-<<<<<<< HEAD
 });
 
 const modalPopPenawaran = document.getElementById('modalPopUpPenawaran');
@@ -1137,34 +1067,11 @@ modalUpdateList.addEventListener('show.bs.modal', function (e) {
 
     // fetchReadInformasi
     fetchData('/default/fetch/read/informasi/list', data, e.target, 'read-informasi');
-=======
-});
-
-const modalUpdateList = document.getElementById('modalListUpdate');
-const myModalUpdate = new bootstrap.Modal(modalUpdateList);
-
-modalUpdateList.addEventListener('show.bs.modal', function (e) {
-    console.log(e.relatedTarget);
-    let data_filter = e.relatedTarget.getAttribute('data-filter');
-
-    e.target.querySelector('#data-filter').appendChild(e.relatedTarget.cloneNode(true));
-
-    if (e.target.querySelector('.timeline') == null) {
-        const timeline = document.createElement('div');
-        timeline.classList.add('timeline','gap-3');
-        timeline.appendChild(e.relatedTarget.closest('.timeline-item').cloneNode(true));
-        e.target.querySelector('#content').appendChild(timeline);
-    } else {
-        e.target.querySelector('#content .timeline').appendChild(e.relatedTarget.closest('.timeline-item').cloneNode(true));
-    }
-    
->>>>>>> 915ca06 (ok)
 });
 
 modalUpdateList.addEventListener('hide.bs.modal', function (e) {
     e.target.querySelector('#data-filter').innerHTML = '';
     e.target.querySelector('#content').innerHTML = '';
-<<<<<<< HEAD
     relatedTarget = {};
     objectInformasi = {};
 });
@@ -1262,8 +1169,4 @@ modalDetilUpdate.addEventListener('hide.bs.modal', function (e) {
 
 modalDetilUpdate.querySelector('button[data-bs-target="#modalShareBtn"]').addEventListener('click', function(e) {
     myShareModal.show();
-=======
->>>>>>> d100693 (menambahkan desain timeline)
-=======
->>>>>>> 915ca06 (ok)
 });
