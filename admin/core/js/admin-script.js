@@ -375,6 +375,10 @@ $(window).resize(function () {
     }, 50);
 });
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
 const navbarLinkList = document.querySelectorAll('#sidenav-collapse-main .navbar-nav .nav-item.nav-dropdown');
 
 navbarLinkList.forEach(navlinkA => {
@@ -398,11 +402,43 @@ navbarLinkList.forEach(navlinkA => {
             h = this.nextElementSibling.setAttribute('style','margin-top: -'+h+'px;');
         } else {
             this.nextElementSibling.removeAttribute('style');
+<<<<<<< HEAD
+=======
+=======
+const navbarLinkList = document.querySelectorAll('#sidenav-collapse-main .navbar-nav .nav-item.nav-dropdown > .nav-link');
+
+navbarLinkList.forEach(navlinkA => {
+    navlinkA.addEventListener('click', function(e) {
+        let h = 0,
+            t = 0;
+
+        if (e.target.classList.contains('active')) {
+            h = e.target.nextElementSibling.getBoundingClientRect().height.toFixed(2);
+            t = (parseFloat(window.getComputedStyle(e.target.nextElementSibling).transitionDuration)) * (false ? 1000 : 1);
+            e.target.classList.add('transition');
+        }
+
+        e.target.classList.toggle('active');
+        
+        if (!e.target.classList.contains('active')) {
+            h = e.target.nextElementSibling.setAttribute('style','margin-top: -'+h+'px;');
+        } else {
+            e.target.nextElementSibling.removeAttribute('style');
+>>>>>>> 915ca06 (ok)
+>>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
         }
 
         if (t) {
             setTimeout(() => {
+<<<<<<< HEAD
                 this.classList.remove('transition');
+=======
+<<<<<<< HEAD
+                this.classList.remove('transition');
+=======
+                e.target.classList.remove('transition');
+>>>>>>> 915ca06 (ok)
+>>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
             }, t* 1000);
         }
     });

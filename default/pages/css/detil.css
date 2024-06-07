@@ -228,6 +228,10 @@ h6 {
     padding: 0px;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
 #update-terkini-area .ql-editor {
     padding-left: 0px;
     padding-right: 0px;
@@ -246,6 +250,11 @@ h6 {
 
 #modalDetilUpdate .lets-donate,
 #update-terkini-area .empty,
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
+>>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
 #donatur-area .empty,
 #deskripsi-selengkapnya-area .empty {
     background-position: center;
@@ -264,6 +273,10 @@ h6 {
     background-image: url('/assets/svg/sad.svg');
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
 #update-terkini-area .empty {
     background-image: url('/assets/svg/not-found.svg');
 }
@@ -273,6 +286,11 @@ h6 {
     background-position: unset;
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
+>>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
 #donatur-area #title::before {
     background-color: #f8f9fa;
     border-top-left-radius: inherit;
@@ -398,16 +416,32 @@ h6 {
     animation: heart-pop 0s steps(28) backwards;
 }
 
+<<<<<<< HEAD
 .load.timeline-item *:not(span),
+=======
+<<<<<<< HEAD
+.load.timeline-item *:not(span),
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
+>>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
 .load.donatur *:not(span),
 #donatur-area.load .donatur *:not(span) {
     border-radius: inherit;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
 .load.timeline-item::before,
 .load.timeline-item::after,
 .load.timeline-item a[role="button"],
 .load.timeline-item *:not(span) span,
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
+>>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
 .load.donatur .avatar,
 .load.donatur .avatar,
 .load.donatur a[role="button"],
@@ -428,14 +462,28 @@ h6 {
     background: transparent !important;
 }
 
+<<<<<<< HEAD
 .load.timeline-item a,
+=======
+<<<<<<< HEAD
+.load.timeline-item a,
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
+>>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
 .load.donatur a,
 #donatur-area.load .donatur a {
     cursor: none !important;
     pointer-events: none !important;
 }
 
+<<<<<<< HEAD
 .load.timeline-item span,
+=======
+<<<<<<< HEAD
+.load.timeline-item span,
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
+>>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
 .load.donatur span,
 .load.donatur a i,
 #donatur-area.load .donatur span,
@@ -461,6 +509,13 @@ h6 {
     overflow-x: hidden;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 915ca06 (ok)
+>>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
 a.badge {
     transition-duration: 0s;
     color: #fff;
@@ -470,6 +525,10 @@ a.badge:hover {
     opacity: .85;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
 #modalListUpdate .timeline {
     width: 100%;
 }
@@ -477,6 +536,19 @@ a.badge:hover {
 #modalListUpdate .timeline .timeline-item {
     gap: 1em;
 }
+<<<<<<< HEAD
+=======
+=======
+#modalListUpdate .timeline .timeline-item {
+    gap: 1em;
+}
+#modalListUpdate .timeline .timeline-item > .row {
+    padding: 12px 0px;
+    background-color: #f8f9fa;
+    border-radius: 15px;
+}
+>>>>>>> 915ca06 (ok)
+>>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
 
 #modalListUpdate .timeline .timeline-item:before {
     margin-top: 0;
@@ -487,6 +559,10 @@ a.badge:hover {
     height: calc(100% - (1em + var(--circle-size)) + 7.5px);
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
 #modalListUpdate .timeline .timeline-item > .row {
     padding: 12px 0px;
     background-color: #f8f9fa;
@@ -681,6 +757,13 @@ a.badge:hover {
     transform: translateY(0);
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
+=======
+>>>>>>> 915ca06 (ok)
+>>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
 @media (max-width: 426px) {
     .sticky-btn {
         position: fixed;
@@ -884,6 +967,15 @@ a.badge:hover {
     #modalVideoGallery .modal-xl {
         max-width: calc(768px - 2.5em);
     }
+<<<<<<< HEAD
+=======
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    #modalDetilUpdate .modal-dialog {
+        max-width: calc(100vw - 2em);
+    }
+>>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
 }
 
 @media (min-width: 992px) {
