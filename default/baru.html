@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home SW</title>
+    <link rel="stylesheet" href="/default/core/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/default/core/css/LineIcons.3.0.css">    
+    <link rel="manifest" href="/default/manifest.json">
+    <link rel="stylesheet" href="/default/core/css/main.css">
+    <link rel="stylesheet" href="/admin/main/css/inputGroup.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+    <link rel="stylesheet" href="/pojok-berbagi-style.css">
+    <link rel="stylesheet" href="/default/core/css/donasi.css">
+    <link rel="stylesheet" href="/default/pages/css/baru.css">
+    <meta name="theme-color" content="#FFE1C4"/>
+</head>
+<body>
+    <!-- Rahasia -->
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <!-- /End Preloader -->
+    <!-- Header -->
+    <section class="header text-center py-3 sticky">
+        <div class="container d-flex gap-md-5 gap-2 justify-content-md-center align-items-md-center">
+            <a href="/bantuan/detil/xxx">
+                <i class="lni lni-chevron-left fw-bolder fs-5 text-warning"></i>
+            </a>
+            <h5 class="mb-0"><span class="fw-lighter">Donasi</span> Nama Campaign</h5>
+        </div>
+    </section>
+    <!-- End Header -->
+    <!-- Content -->
+    <section class="form">
+        <div class="container">
+            <div class="row justify-content-center">
+                <form spellcheck="false" class="col col-md-9 col-lg-6" autocomplete="off" method="post" action="#">
+                    <div class="row g-0 g-md-3">
+                        <div class="col-12 mb-3">
+                            <h5 class="mb-2">Pilihan Donasi</h5>
+                            <div class="row m-0 gap-3">
+                                <div class="col pilihan-donasi form-control inputGroup">
+                                    <input type="radio" name="pilihan_donasi" id="radio1">
+                                    <label for="radio1">10.000</label>
+                                </div>
+                                <div class="col pilihan-donasi form-control inputGroup">
+                                    <input type="radio" name="pilihan_donasi" id="radio2">
+                                    <label for="radio2">50.000</label>
+                                </div>
+                                <div class="col pilihan-donasi form-control inputGroup">
+                                    <input type="radio" name="pilihan_donasi" id="radio3">
+                                    <label for="radio3">100.000</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-floating mb-3">
+                                <input min="2000" type="text" class="form-control" id="floatingInputDonasi" placeholder="Jumlah Donasi"
+                                    name="jumlah_donasi" required>
+                                <label for="floatingInputDonasi">Nominal Donasi</label>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-floating select-dd mb-3">
+                                <select class="form-select selectpicker" id="floatingSelectMPembayaran" aria-label="Metode Pembayaran" name="metode_pembayaran">
+                                    <option value="">Pilih Metode Pembayaran</option>
+                                    
+                                        <option value="1" data-image="1">BCA</option>
+                                    
+                                </select>
+                                <label for="floatingSelectMPembayaran">Metode Pembayaran</label>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="row align-items-center">
+                        <div class="col-12 text-black-50 text-center d-flex gap-3 align-items-center justify-content-center">Sudah punya akun sahabat berbagi <a href="/auth/signin" class="fw-bolder btn btn-outline-orange">Sign-In</a></div>
+                        <div class="col"><hr></div>
+                        <div class="col-auto">Atau</div>
+                        <div class="col"><hr></div>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control text-uppercase" id="floatingInputNama" placeholder="Nama Lengkap"
+                            name="nama" required >
+                        <label for="floatingInputNama">Nama Lengkap</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control text-lowercase no-space" id="floatingInputEmail"
+                            placeholder="Email" name="email" required >
+                        <label for="floatingInputEmail">Email</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control no-space" id="floatingInputKontak" placeholder="Kontak WhatsApp"
+                            name="kontak" >
+                        <label for="floatingInputKontak">Kontak WhatsApp</label>
+                    </div>
+                    <div class="form-group mb-3">
+                        <div class="form-check form-switch form-select-lg justify-content-between d-flex">
+                            <input name="alias" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
+                            <label class="form-check-label text-end" for="flexSwitchCheckChecked">Gunakan nama samaran (<span data-target="samaran">Samaran</span>)</label>
+                        </div>
+                    </div>
+                    <div class="form-floating input_textarea2">
+                        <textarea data-max="200" class="form-control textarea" placeholder="Tulis Pesan atau Do'a Anda" id="floatingTextarea" style="height: 84px; min-height: 84px;" name="pesan_atau_doa"></textarea>
+                        <label for="floatingTextarea">Pesan atau Do'a</label>
+                        <div id="charLeft" class="text-black-50"></div>
+                    </div>
+                    <input type="hidden" name="token" value="ABC" data-ip="xxx">
+                    <button type="submit" name="metode_bayar" class="btn donasi btn-lg mt-4 w-100">Lanjut
+                        Pembayaran</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+<script src="/admin/vendor/jquery/dist/jquery.min.js"></script>
+<script src="/default/core/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="/auth.js"></script>
+<script src="/pojok-berbagi-script.js"></script>
+<script src="/default/core/js/donasi.js"></script>
+<script src="/admin/main/js/terbilang.js"></script>
+<script src="/default/pages/js/baru.js"></script>
+</html>

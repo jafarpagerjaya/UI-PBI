@@ -425,6 +425,28 @@ textarea {
     }
 }
 
+[data-connection-mode] {
+    z-index: 100;
+    bottom: 1em;
+    left: 1em;
+}
+
+[data-connection-mode="offline"] {
+    background-color: var(--orange);
+}
+
+[data-connection-mode="online"] {
+    background-color: var(--green);
+}
+
+[data-connection-mode="offline"] span::after {
+    content: ' 😣';
+}
+
+[data-connection-mode="online"] span::after {
+    content: ' 🤗';
+}
+
 @media (min-width: 375px) {
 
     .box-icon {

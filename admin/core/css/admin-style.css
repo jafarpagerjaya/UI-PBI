@@ -55,10 +55,10 @@ body {
     transition: margin-top .3s ease !important;
 }
 
-.nav-item.nav-dropdown .nav-link:not(.active):not(.transition) +.navbar-nav {
-    /* transform: translateY(-100%); */
-    /* visibility: hidden; */
-}
+/* .nav-item.nav-dropdown .nav-link:not(.active):not(.transition) +.navbar-nav {
+    transform: translateY(-100%);
+    visibility: hidden;
+} */
 
 .nav-item.nav-dropdown .nav-link.active + .navbar-nav .nav-link {
     margin: 0px 0.5rem;
