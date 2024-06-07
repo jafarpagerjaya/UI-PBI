@@ -228,6 +228,7 @@ h6 {
     padding: 0px;
 }
 
+<<<<<<< HEAD
 #update-terkini-area .ql-editor {
     padding-left: 0px;
     padding-right: 0px;
@@ -246,6 +247,8 @@ h6 {
 
 #modalDetilUpdate .lets-donate,
 #update-terkini-area .empty,
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
 #donatur-area .empty,
 #deskripsi-selengkapnya-area .empty {
     background-position: center;
@@ -264,6 +267,7 @@ h6 {
     background-image: url('/assets/svg/sad.svg');
 }
 
+<<<<<<< HEAD
 #update-terkini-area .empty {
     background-image: url('/assets/svg/not-found.svg');
 }
@@ -273,6 +277,8 @@ h6 {
     background-position: unset;
 }
 
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
 #donatur-area #title::before {
     background-color: #f8f9fa;
     border-top-left-radius: inherit;
@@ -398,16 +404,22 @@ h6 {
     animation: heart-pop 0s steps(28) backwards;
 }
 
+<<<<<<< HEAD
 .load.timeline-item *:not(span),
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
 .load.donatur *:not(span),
 #donatur-area.load .donatur *:not(span) {
     border-radius: inherit;
 }
 
+<<<<<<< HEAD
 .load.timeline-item::before,
 .load.timeline-item::after,
 .load.timeline-item a[role="button"],
 .load.timeline-item *:not(span) span,
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
 .load.donatur .avatar,
 .load.donatur .avatar,
 .load.donatur a[role="button"],
@@ -428,14 +440,20 @@ h6 {
     background: transparent !important;
 }
 
+<<<<<<< HEAD
 .load.timeline-item a,
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
 .load.donatur a,
 #donatur-area.load .donatur a {
     cursor: none !important;
     pointer-events: none !important;
 }
 
+<<<<<<< HEAD
 .load.timeline-item span,
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
 .load.donatur span,
 .load.donatur a i,
 #donatur-area.load .donatur span,
@@ -461,6 +479,7 @@ h6 {
     overflow-x: hidden;
 }
 
+<<<<<<< HEAD
 a.badge {
     transition-duration: 0s;
     color: #fff;
@@ -681,6 +700,8 @@ a.badge:hover {
     transform: translateY(0);
 }
 
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
 @media (max-width: 426px) {
     .sticky-btn {
         position: fixed;

@@ -26,7 +26,10 @@
     font-weight: 900;
     content: '';
     position: relative;
+<<<<<<< HEAD
     margin-top: 2.5px;
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
 }
 
 .timeline .timeline-item:first-child:before {
@@ -52,14 +55,24 @@
     left: 0;
     right: 0;
     transform: translateX(calc(var(--circle-size)/2 - 1px));
+<<<<<<< HEAD
     bottom: -7.5px;
     width: 2px;
     height: calc(100% - (1em + var(--circle-size)) + 10px);
+=======
+    bottom: 0;
+    width: 2px;
+    height: calc(100% - (1em + var(--circle-size)));
+>>>>>>> d100693 (menambahkan desain timeline)
     background-color: #e0e0e0;
 }
 
 @media (min-width: 992px) {
+<<<<<<< HEAD
     /* .timeline .timeline-item:not(:last-child):after,
+=======
+    .timeline .timeline-item:not(:last-child):after,
+>>>>>>> d100693 (menambahkan desain timeline)
     .timeline .timeline-item:before,
     .timeline .timeline-item:after {
         left: 16.6666666667%;
@@ -70,5 +83,9 @@
         width: calc(16.6666666667% + var(--circle-size) + .75em);
         padding-right: 1.75em;
         text-align: right;
+<<<<<<< HEAD
     } */
+=======
+    }
+>>>>>>> d100693 (menambahkan desain timeline)
 }
