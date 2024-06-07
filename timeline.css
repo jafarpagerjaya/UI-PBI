@@ -27,9 +27,13 @@
     content: '';
     position: relative;
 <<<<<<< HEAD
+<<<<<<< HEAD
     margin-top: 2.5px;
 =======
 >>>>>>> d100693 (menambahkan desain timeline)
+=======
+    margin-top: 2.5px;
+>>>>>>> 915ca06 (ok)
 }
 
 .timeline .timeline-item:first-child:before {
@@ -56,6 +60,7 @@
     right: 0;
     transform: translateX(calc(var(--circle-size)/2 - 1px));
 <<<<<<< HEAD
+<<<<<<< HEAD
     bottom: -7.5px;
     width: 2px;
     height: calc(100% - (1em + var(--circle-size)) + 10px);
@@ -64,15 +69,24 @@
     width: 2px;
     height: calc(100% - (1em + var(--circle-size)));
 >>>>>>> d100693 (menambahkan desain timeline)
+=======
+    bottom: -7.5px;
+    width: 2px;
+    height: calc(100% - (1em + var(--circle-size)) + 10px);
+>>>>>>> 915ca06 (ok)
     background-color: #e0e0e0;
 }
 
 @media (min-width: 992px) {
 <<<<<<< HEAD
+<<<<<<< HEAD
     /* .timeline .timeline-item:not(:last-child):after,
 =======
     .timeline .timeline-item:not(:last-child):after,
 >>>>>>> d100693 (menambahkan desain timeline)
+=======
+    /* .timeline .timeline-item:not(:last-child):after,
+>>>>>>> 915ca06 (ok)
     .timeline .timeline-item:before,
     .timeline .timeline-item:after {
         left: 16.6666666667%;
@@ -84,8 +98,12 @@
         padding-right: 1.75em;
         text-align: right;
 <<<<<<< HEAD
+<<<<<<< HEAD
     } */
 =======
     }
 >>>>>>> d100693 (menambahkan desain timeline)
+=======
+    } */
+>>>>>>> 915ca06 (ok)
 }

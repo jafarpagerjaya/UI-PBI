@@ -599,7 +599,7 @@ const shareModal = new bootstrap.Modal(document.getElementById('modalShareBtn'))
 >>>>>>> d100693 (menambahkan desain timeline)
 
 const modalDonaturList = document.getElementById('modalListDonatur');
-const myModal = new bootstrap.Modal(modalDonaturList);
+const myModalDonatur = new bootstrap.Modal(modalDonaturList);
 modalDonaturList.addEventListener('show.bs.modal', function (e) {
     e.target.classList.add('load');
     document.querySelectorAll('#donatur-area .donatur').forEach(ele => {
@@ -659,7 +659,7 @@ modalDonaturList.addEventListener('hide.bs.modal', function (e) {
     };
 });
 
-// myModal.show();
+// myModalDonatur.show();
 
 let fetchData = function (url, data, root, f) {
     fetch(url, {
@@ -1056,6 +1056,7 @@ modalDonaturList.querySelector('.modal-body').addEventListener('scroll', functio
 }, {
     passive: true
 <<<<<<< HEAD
+<<<<<<< HEAD
 });
 
 const modalPopPenawaran = document.getElementById('modalPopUpPenawaran');
@@ -1136,11 +1137,34 @@ modalUpdateList.addEventListener('show.bs.modal', function (e) {
 
     // fetchReadInformasi
     fetchData('/default/fetch/read/informasi/list', data, e.target, 'read-informasi');
+=======
+});
+
+const modalUpdateList = document.getElementById('modalListUpdate');
+const myModalUpdate = new bootstrap.Modal(modalUpdateList);
+
+modalUpdateList.addEventListener('show.bs.modal', function (e) {
+    console.log(e.relatedTarget);
+    let data_filter = e.relatedTarget.getAttribute('data-filter');
+
+    e.target.querySelector('#data-filter').appendChild(e.relatedTarget.cloneNode(true));
+
+    if (e.target.querySelector('.timeline') == null) {
+        const timeline = document.createElement('div');
+        timeline.classList.add('timeline','gap-3');
+        timeline.appendChild(e.relatedTarget.closest('.timeline-item').cloneNode(true));
+        e.target.querySelector('#content').appendChild(timeline);
+    } else {
+        e.target.querySelector('#content .timeline').appendChild(e.relatedTarget.closest('.timeline-item').cloneNode(true));
+    }
+    
+>>>>>>> 915ca06 (ok)
 });
 
 modalUpdateList.addEventListener('hide.bs.modal', function (e) {
     e.target.querySelector('#data-filter').innerHTML = '';
     e.target.querySelector('#content').innerHTML = '';
+<<<<<<< HEAD
     relatedTarget = {};
     objectInformasi = {};
 });
@@ -1240,4 +1264,6 @@ modalDetilUpdate.querySelector('button[data-bs-target="#modalShareBtn"]').addEve
     myShareModal.show();
 =======
 >>>>>>> d100693 (menambahkan desain timeline)
+=======
+>>>>>>> 915ca06 (ok)
 });
