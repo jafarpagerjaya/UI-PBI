@@ -1,0 +1,67 @@
+{
+  "name": "Test PWA",
+  "short_name": "TPWA",
+  "start_url": "/default/home.html",
+  "display": "standalone",
+  "background_color": "#FFE9D2",
+  "theme_color": "#FFE1C4",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/default/icon/icon-72x72.png",
+      "type": "image/png",
+      "sizes": "72x72",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/default/icon/icon-96x96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "/default/icon/icon-128x128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "/default/icon/icon-144x144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "/default/icon/icon-152x152.png",
+      "type": "image/png",
+      "sizes": "152x152"
+    },
+    {
+      "src": "/default/icon/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/default/icon/icon-384x384.png",
+      "type": "image/png",
+      "sizes": "384x384"
+    },
+    {
+      "src": "/default/icon/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/img/pwa/small.png",
+      "type": "image/png",
+      "sizes": "540x770",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/img/pwa/wide.png",
+      "type": "image/png",
+      "sizes": "770x540",
+      "form_factor": "wide"
+    }
+  ],
+  "description": "Awesome application that will help you achieve your dreams."
+}

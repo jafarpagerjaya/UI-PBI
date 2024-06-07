@@ -1,0 +1,59 @@
+.form-label-group input~label {
+    left: 1rem;
+}
+
+input[maxlength]~span.input-char-left {
+    right: 1rem;
+}
+
+.form-label-group input {
+    padding: 1em 1.125em;
+}
+
+.select2-selection__rendered {
+    padding-left: .25em !important;
+    line-height: 24px !important;
+}
+
+.select2-container--open .select2-dropdown .select2-search {
+    padding: .5em 1em;
+}
+
+.select2 label {
+    font-size: .875em !important;
+    color: #495057;
+    font-weight: bold;
+}
+
+.select2-results li {
+    padding: .5em 1em;
+}
+
+.ql-toolbar.ql-snow {
+    padding-left: 0.7rem !important;
+    padding-right: 0.7rem !important;
+}
+
+.ql-editor {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+table .avatar {
+    width: 38px;
+    height: 38px;
+}
+
+button[data-toggle="modal"][data-target="#modalFormBerita"][data-value="create"] {
+    height: calc(1.5em + 1.25rem + 5px);
+}
+
+select.custom-select.is-invalid~.select2::after {
+    right: 1em;
+}
+
+@media (max-width: 425px) {
+    #lebel {
+        display: none !important;
+    }
+}

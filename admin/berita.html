@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judul</title>
+    <!-- Icons -->
+    <link href="./vendor/nucleo/css/nucleo.css" rel="stylesheet">
+    <link href="./vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <!-- Argon CSS -->
+    <link type="text/css" href="./main/css/argon.min.css" rel="stylesheet">
+    <!-- Core Style -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+    <link rel="stylesheet" href="../pojok-berbagi-style.css">
+    <link rel="stylesheet" href="./core/css/admin-style.css">
+    <!-- <link rel="stylesheet" href="./main/css/inputGroup.css"> -->
+    <link rel="stylesheet" href="./main/css/utility.css">
+    <link rel="stylesheet" href="./core/css/form-element.css">
+    <link rel="stylesheet" href="./main/css/pagination.css">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="./main/css/editor.css">
+    <link rel="stylesheet" href="./pages/css/berita.css">
+</head>
+
+<body>
+    <!-- Sidenav -->
+    <nav class="sidenav navbar navbar-vertical fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+        <div class="scrollbar-inner">
+            <!-- Brand -->
+            <div class="sidenav-header  align-items-center">
+                <a class="navbar-brand" href="javascript:;" aria-label="Pojok Berbagi">
+                    <img src="../pojok-berbagi-transparent.png" class="navbar-brand-img" alt="Pojok Berbagi">
+                </a>
+            </div>
+            <div class="navbar-inner">
+                <!-- Collapse -->
+                <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+                    <!-- Nav items -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="dashboard.html">
+                                <i class="ni ni-tv-2 text-primary"></i>
+                                <span class="nav-link-text">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="map.html">
+                                <i class="ni ni-pin-3 text-primary"></i>
+                                <span class="nav-link-text">Google</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="register.html">
+                                <i class="ni ni-circle-08 text-pink"></i>
+                                <span class="nav-link-text">Register</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Divider -->
+                    <hr class="my-3">
+                    <!-- Heading -->
+                    <h6 class="navbar-heading p-0 text-muted">
+                        <span class="docs-normal">Pengaturan</span>
+                    </h6>
+                    <!-- Navigation -->
+                    <ul class="navbar-nav mb-md-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript:;" aria-label="Profil">
+                                <i class="ni ni-single-02 text-yellow"></i>
+                                <span class="nav-link-text">Profile</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active active-pro" href="javascript:;" aria-label="Keluar">
+                                <i class="ni ni-user-run text-dark"></i>
+                                <span class="nav-link-text">Keluar</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Main content -->
+    <div class="main-content" id="panel">
+        <!-- Topnav -->
+        <nav class="navbar navbar-top navbar-expand navbar-dark bg-primary border-bottom">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Navbar links -->
+                    <ul class="navbar-nav align-items-center ml-md-auto ">
+                        <li class="nav-item d-xl-none">
+                            <!-- Sidenav toggler -->
+                            <div class="pr-3 sidenav-toggler sidenav-toggler-dark" data-action="sidenav-pin"
+                                data-target="#sidenav-main">
+                                <div class="sidenav-toggler-inner">
+                                    <i class="sidenav-toggler-line"></i>
+                                    <i class="sidenav-toggler-line"></i>
+                                    <i class="sidenav-toggler-line"></i>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav align-items-center ml-auto ml-md-0 ">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link pr-0" href="javascript:;" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <div class="media align-items-center">
+                                    <span class="avatar bg-white avatar-sm rounded-circle">
+                                        <img alt="Avatarku" src="../male-avatar.jpg">
+                                    </span>
+                                    <div class="media-body  ml-2  d-none d-lg-block">
+                                        <span class="mb-0 text-sm  font-weight-bold">
+                                            Namaku
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu  dropdown-menu-right ">
+                                <div class="dropdown-header noti-title">
+                                    <h6 class="text-overflow m-0">Welcome!</h6>
+                                </div>
+                                <a href="javascript:;" class="dropdown-item">
+                                    <i class="ni ni-single-02"></i>
+                                    <span>My profile</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="javascript:;" class="dropdown-item">
+                                    <i class="ni ni-user-run"></i>
+                                    <span>Logout</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Header -->
+        <div class="header bg-primary pb-6">
+            <div class="container-fluid">
+                <div class="header-body">
+                    <div class="row align-items-center py-4">
+                        <div class="col">
+                            <h6 class="h2 text-white d-inline-block mb-0">Default</h6>
+                            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                                <ol class="breadcrumb breadcrumb-links breadcrumb-dark m-0">
+                                    <li class="breadcrumb-item"><a href="javascript:;" aria-label="Home"><i
+                                                class="fas fa-home"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="javascript:;">Donasi</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Tambah</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-stats">
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Total traffic</h5>
+                                            <span class="h2 font-weight-bold mb-0">350,897</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div
+                                                class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                                <i class="ni ni-active-40"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-0 text-sm">
+                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-stats">
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
+                                            <span class="h2 font-weight-bold mb-0">2,356</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div
+                                                class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                                                <i class="ni ni-chart-pie-35"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-0 text-sm">
+                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-stats">
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Sales</h5>
+                                            <span class="h2 font-weight-bold mb-0">924</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div
+                                                class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                                <i class="ni ni-money-coins"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-0 text-sm">
+                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-stats">
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Performance</h5>
+                                            <span class="h2 font-weight-bold mb-0">49,65%</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div
+                                                class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
+                                                <i class="ni ni-chart-bar-32"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-0 text-sm">
+                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <!-- Page content -->
+        <div class="container-fluid mt--6">
+            <section id="main-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center m-0 gap-3">
+                            <div class="px-0 col-12 col-md">
+                                <h3 class="mb-0"><i class="fas fa-th-list"></i> Daftar Berita</h3>
+                            </div>
+                            <div class="px-0 col-12 col-md justify-content-between justify-content-md-end">
+                                <div class="row align-items-center gap-x-3 m-0">
+                                    <div class="px-0 col">
+                                        <div class="form-label-group">
+                                            <input type="text" id="input-search"
+                                                class="form-control px-3" name="search"
+                                                placeholder="Cari ..." autocomplete="off"
+                                                maxlength="50">
+                                            <label for="input-search"
+                                                class="form-control-label"></label>
+                                        </div>
+                                    </div>
+                                    <div class="px-0 col-auto">
+                                        <button class="btn btn-primary font-weight-bolder m-0" data-toggle="modal" data-target="#modalFormBerita" data-value="create"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table">
+                            <thead class="thead-light">
+                                <th>Campaign</th>
+                                <th>Judul</th>
+                                <th class="fit">Author</th>
+                                <th class="fit">Editor</th>
+                                <th class="fit"></th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><a href="#" target="_blank" rel="noopener noreferrer" class="font-weight-bolder"><span>Geberr</span></a></td>
+                                    <td>
+                                        <p class="font-weight-bold mb-0"><span>Semangat Baru</span></p>
+                                        <div class="row justify-content-between">
+                                            <div class="col-auto"><span class="badge badge-primary font-weight-bolder">Informasi</span></div>
+                                            <div class="col-auto">
+                                                <span><i class="far fa-clock small"></i></span>
+                                                <small><span>1 jam yang lalu</span></small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="media align-items-center">
+                                            <div class="media-body">
+                                                <div class="name mb-0 text-black-50 font-weight-bold">
+                                                    <span>Staff. Program</span>
+                                                </div>
+                                                <div class="small text-black-50 font-weight-bolder">
+                                                    <span>Rudi Salam</span>
+                                                </div>
+                                            </div>
+                                        <div class="avatar rounded ml-3 bg-transparent border overflow-hidden"
+                                                data-id-pegawai="2">
+                                                <img src="/male-avatar.jpg" alt="Rudi" class="img-fluid">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="media align-items-center">
+                                            <div class="avatar rounded mr-3 bg-transparent border overflow-hidden"
+                                                data-id-pegawai="1">
+                                                <img src="/female-avatar.jpg" alt="Mira" class="img-fluid">
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="name mb-0 text-black-50 font-weight-bold">
+                                                    <span>SVP. Program</span>
+                                                </div>
+                                                <div class="small text-black-50 font-weight-bolder">
+                                                    <span>Mira</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <a class="btn btn-sm btn-icon-only text-light mr-0" href="#"
+                                                role="button" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false"
+                                                aria-label="Drop Down Action Record">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </a>
+                                            <div
+                                                class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                <a class="dropdown-item" href="#">Non-akifkan Berita</a>
+                                                <a class="dropdown-item" href="#" data-toggle="modal"
+                                                data-target="#modalFormBerita">Ubah Berita</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" target="_blank" rel="noopener noreferrer" class="font-weight-bolder"><span>Geberr</span></a></td>
+                                    <td>
+                                        <p class="font-weight-bold mb-0"><span>Semangat Lama</span></p>
+                                        <div class="row align-items-center justify-content-between">
+                                            <div class="col-auto"><span class="badge badge-success font-weight-bolder">Pelaksanaan</span></div>
+                                            <div class="col-auto">
+                                                <span><i class="far fa-clock small"></i></span>
+                                                <small><span>21 jam yang lalu</span></small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="media align-items-center">
+                                            <div class="media-body">
+                                                <div class="name mb-0 text-black-50 font-weight-bold">
+                                                    <span>Staff. Program</span>
+                                                </div>
+                                                <div class="small text-black-50 font-weight-bolder">
+                                                    <span>Rudi Salam</span>
+                                                </div>
+                                            </div>
+                                            <div class="avatar rounded ml-3 bg-transparent border overflow-hidden"
+                                                data-id-pegawai="2">
+                                                <img src="/male-avatar.jpg" alt="Rudi" class="img-fluid">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="media align-items-center">
+                                            <div class="avatar rounded mr-3 bg-transparent border overflow-hidden"
+                                                data-id-pegawai="1">
+                                                <img src="/female-avatar.jpg" alt="Mira" class="img-fluid">
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="name mb-0 text-black-50 font-weight-bold">
+                                                    <span>SVP. Program</span>
+                                                </div>
+                                                <div class="small text-black-50 font-weight-bolder">
+                                                    <span>Mira</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <a class="btn btn-sm btn-icon-only text-light mr-0" href="#"
+                                                role="button" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false"
+                                                aria-label="Drop Down Action Record">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </a>
+                                            <div
+                                                class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                <a class="dropdown-item" href="#">Non-akifkan Berita</a>
+                                                <a class="dropdown-item" href="#" data-toggle="modal"
+                                                data-target="#modalFormBerita">Ubah Berita</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="tfoot-light">
+                                <th>Campaign</th>
+                                <th>Judul</th>
+                                <th class="fit">Author</th>
+                                <th>Editor</th>
+                                <th class="fit"></th>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row m-0 gap-3">
+                            <div class="col p-0 d-flex flex-column text-black-50" id="lebel">
+                                <small>Menampilkan <span id="jumlah-data" class="text-orange">2</span> dari <span id="total-data">10</span></small>
+                                <small id="hasil-penelusuran"><span class="text-orange">2 data</span> pencarian ditemukan</small>
+                            </div>
+                            <div class="col px-0">
+                                <ul class="pagination justify-content-end mb-0" data-pages="3">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Footer -->
+            <footer class="footer pt-0">
+                <div class="row align-items-center justify-content-lg-between">
+                    <div class="col-lg-6">
+                        <div class="copyright text-center  text-lg-left  text-muted">
+                            &copy; 2021 - 2022 <a href="javascript:;" class="font-weight-bold ml-1"
+                                target="_blank">Pojok
+                                Berbagi</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal in show d-block" id="modalFormBerita" tabindex="-1" role="dialog" aria-labelledby="modalFormBerita-label"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered fullscreen" role="document">
+            <div class="modal-content">
+                <div class="modal-header border px-4">
+                    <div class="row justify-content-center w-100 m-0">
+                        <div class="col-12 col-md-10 col-lg-8 col-xl-6 align-items-center justify-content-between d-flex">
+                            <h5 class="modal-title" id="modalFormBeritaLebel">Form <span class="text-primary">Create</span> Berita</h5>
+                            <button type="button" class="btn btn-outline-orange-reverse px-3 py-2" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">Tutup</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body bg-light-opacity px-4">
+                    <div class="row justify-content-center w-100 m-0">
+                        <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+                            <div class="row my-4">
+                                <div class="col">
+                                    <div class="form-label-group">
+                                        <input type="text" name="judul" id="judul-berita" class="form-control" 
+                                        placeholder="Judul Berita" 
+                                        autocomplete="off"
+                                        maxlength="50">
+                                        <label for="judul-berita">Judul Berita</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-4">
+                                <div class="col">
+                                    <div class="form-group position-relative mb-0">
+                                        <span class="font-weight-bolder position-absolute mt-3">
+                                            <label for="jenis-label"
+                                                class="form-control-label m-0">Label Berita</label>
+                                        </span>
+                                        <select class="custom-select" id="jenis-label"
+                                            name="label" required>
+                                            <option value="0" disabled selected hidden>Pilih salah satu</option>
+                                            <option value="P">Pelaksanaan</option>
+                                            <option value="I">Informasi</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="row my-4" id="wyswyg-area">
+                                <div class="col">
+                                    <div class="rounded ql">
+                                        <div id="editor">
+                                            <p>Hello World!</p>
+                                            <p>Some initial <strong>bold</strong> text</p>
+                                            <p><br></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="row">
+                                <div class="col"></div>
+                            </div>
+                            <div class="row justify-content-center w-100 m-0">
+                                <div class="col px-0 align-items-center justify-content-between d-flex">
+                                    <button type="clear" class="btn btn-link">Kosongkan</button>
+                                    <button type="button" class="btn btn-primary ml-auto shadow-none font-weight-bolder"
+                                        data-dismiss="modal">Simpan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Broken Img Handler -->
+
+    <!-- Vendor Script -->
+    <script src="./vendor/jquery/dist/jquery.min.js"></script>
+    <script src="./vendor/js-cookie/js.cookie.js"></script>
+    <script src="./vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="./vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+        crossorigin="anonymous"></script>
+    <!-- Argon JS -->
+    <script src="./main/js/argon.js"></script>
+    <!-- Core Script -->
+    <script src="./main/js/main.js"></script>
+    <!-- Load Script -->
+    <script src="../pojok-berbagi-script.js"></script>
+    <script src="./core/js/admin-script.js"></script>
+    <script src="./core/js/form-function.js"></script>
+    <script src="./main/js/pagination.js"></script>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="/admin/vendor/quill/js/image-drop.js"></script>
+    <script src="/admin/vendor/quill/js/image-resize.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="/admin/main/js/editor.js"></script>
+    <script src="/admin/pages/js/berita.js"></script>
+</body>
+
+</html>

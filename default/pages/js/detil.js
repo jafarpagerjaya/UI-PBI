@@ -1,3 +1,96 @@
+const modalVideoGallery = document.getElementById('modalVideoGallery');
+const myVedoGalleryModal = new bootstrap.Modal(modalVideoGallery);
+
+const vBtn = document.querySelector('#visual-banner-area .app-image.img-wrapper[data-video="on"]');
+if (vBtn != null) {
+    vBtn.addEventListener('click', function(e) {
+        myVedoGalleryModal.show();
+    });
+}
+
+let tag = document.createElement('script');
+
+tag.src = "https://www.youtube.com/iframe_api";
+const scriptNodeList = document.getElementsByTagName('script');
+
+let firstScriptTag = scriptNodeList[scriptNodeList.length-1];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// after the API code downloads.
+let player;
+function onYouTubeIframeAPIReady() {
+    let vid = document.querySelector('#player').getAttribute('data-vid');
+    // console.log(vid);
+    if (vid != null && typeof vid == 'string') {
+        player = new YT.Player('player', {
+            videoId: vid,
+            playerVars: {
+                rel: '0',
+                showinfo: '0',
+                loop: '1',
+                autoplay: '1',
+                mute: '0',
+                iv_load_policy: '3',
+                'ytp-pause-overlay': '0',
+                cc_load_policy: '1',
+                cc_lang_pref: 'id',
+                playsinline: '1'
+            },
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+}
+
+
+// The API will call this function when the video player is ready.
+function onPlayerReady(event) {
+    console.log(player);
+    document.querySelector('#player').setAttribute('data-yt-run','true');
+    player.pauseVideo();
+}
+
+// The API calls this function when the player's state changes.
+// The function indicates that when playing a video (state=1),
+// the player should play for six seconds and then stop.
+
+function onPlayerStateChange(event) {
+    switch(event.data){
+        // Stop the video on ending so recommended videos don't pop up
+        case 0:     // ended
+           player.stopVideo();
+           break;
+        case -1:    // unstarted
+        case 1:     // playing
+        case 2:     // paused
+        case 3:     // buffering
+        case 5:     // video cued
+        default:
+        break;
+    }
+}
+
+// function stopVideo() {
+//     player.stopVideo();
+// }
+
+modalVideoGallery.addEventListener('shown.bs.modal', function (e) {
+    if(typeof player.playVideo == 'function') {
+        player.playVideo();
+    } else {
+        var fn = function(){
+            player.playVideo();
+        };
+        setTimeout(fn, 200);
+    }
+});
+
+modalVideoGallery.addEventListener('hide.bs.modal', function (e) {
+    player.pauseVideo();
+});
+
 let buttonCollapse = document.querySelectorAll('.collapseButton');
 
 buttonCollapse.forEach(elemButton => {
@@ -182,6 +275,60 @@ const counterTarget = document.querySelectorAll('.box-info h6[data-count-up-valu
 counterUpSup(counterTarget, counterSpeed);
 counterUpProgress(progressBar, counterSpeed);
 
+<<<<<<< HEAD
+let getIdBantuan = function(pathname) {
+    let id_bantuan;
+    switch (pathname.split('/').at(1)) {
+        case 'default':
+            id_bantuan = pathname.split('/').at(4);
+        break;
+    
+        default:
+            id_bantuan = pathname.split('/').at(3);
+        break;
+    }
+    return id_bantuan;
+}
+
+const c_id_bantuan = getIdBantuan(window.location.pathname);
+
+let data = {
+    id_bantuan: c_id_bantuan,
+    token: body.getAttribute('data-token')
+};
+
+// fetch('/default/fetch/read/bantuan/deskripsi', {
+//     method: "POST",
+//     cache: "no-cache",
+//     mode: "same-origin",
+//     credentials: "same-origin",
+//     headers: {
+//         "Content-Type": "application/json",
+//     },
+//     referrer: "no-referrer",
+//     body: JSON.stringify(data)
+// })
+// .then(response => {
+//     if (!response.ok) {
+//         if (response.status == 405) {
+//             const emoticon = document.createElement('i');
+//             emoticon.classList.add('bi','bi-no-signal');
+//             document.querySelector('div#player').appendChild(emoticon);
+//             document.querySelector('div#player').setAttribute('data-content','Tidak ada koneksi internet');
+//         }
+//         console.log(`Server error: [${response.status}] [${response.statusText}] [${response.url}]`);
+//         return false;
+//     }
+//     return response.json();
+// })
+// // .then((response) => response.json())
+// .then(function (response) {
+//     // console.log(response);
+//     document.querySelector('body').setAttribute('data-token', response.token);
+//     fetchTokenChannel.postMessage({
+//         token: document.querySelector('body').getAttribute('data-token')
+//     });
+=======
 const c_id_bantuan = window.location.pathname.split('/').at(3);
 
 let data = {
@@ -209,8 +356,40 @@ fetch('/default/fetch/read/bantuan/deskripsi', {
     });
 
     if (!response.error) {
+>>>>>>> d100693 (menambahkan desain timeline)
 
-        const quill = new Quill('#selengkapnya', {
+//     if (!response.error && response.feedback != null) {
+//         if (response.feedback.data.length) {
+//             const quill = new Quill('#selengkapnya', {
+//                 modules: {
+//                     toolbar: false
+//                 },
+//                 readOnly: true
+//             });
+
+//             // render the content
+//             quill.setContents(JSON.parse(response.feedback.data));    
+//         }
+//     }
+
+//     if (response.toast != null && response.toast.feedback != undefined && response.toast.feedback.message != undefined) {
+//         createNewToast(document.querySelector('[aria-live="polite"]'), response.toast.id, response.toast.data_toast, response.toast);
+    
+//         $('#'+ response.toast.id +'.toast[data-toast="'+ response.toast.data_toast +'"]').toast({
+//             'autohide': true
+//         }).toast('show');
+//     }
+
+//     data = {};
+// });
+
+if (document.querySelector('.timeline') != null) {
+    document.querySelectorAll('.timeline-item').forEach(tl => {
+        if (tl.querySelector('.editor-read') == null) {
+            return;
+        }
+
+        const quill = new Quill(tl.querySelector('.editor-read'), {
             modules: {
                 toolbar: false
             },
@@ -218,6 +397,9 @@ fetch('/default/fetch/read/bantuan/deskripsi', {
         });
 
         // render the content
+<<<<<<< HEAD
+        quill.setContents(JSON.parse(tl.querySelector('.editor-read').innerText));
+=======
         quill.setContents(JSON.parse(response.feedback.data));    
     }
 
@@ -229,46 +411,77 @@ fetch('/default/fetch/read/bantuan/deskripsi', {
         }).toast('show');
     }
 });
+>>>>>>> d100693 (menambahkan desain timeline)
 
+        setTimeout(() => {
+            if (tl.querySelector('.editor-read').clientHeight >= 200) {
+                tl.querySelector('.editor-read').classList.add('hidden-area-utility','light');
+            } else {
+                if (tl.querySelector('a[data-bs-target="#modalDetilUpdate"]') != null) {
+                    tl.querySelector('a[data-bs-target="#modalDetilUpdate"]').remove();
+                }
+            }
+        }, 0);
+    });
+}
 
 // Get all share buttons
 const shareButtons = document.querySelectorAll('.share a.medsos-icon');
 
 // Add click event listener to each button
 shareButtons.forEach(button => {
-   button.addEventListener('click', () => {
-      // Get the URL of the current page
-      const url = window.location.href;
+   button.addEventListener('click', (e) => {
+        let uTarget = window.location.href;
+        // Get the target url by related modal
+        if (relatedModal != null) {
+            if (objectInformasi.id_informasi == relatedModal.getAttribute('data-id-informasi')) {
+                uTarget = uTarget + '/informasi/' + objectInformasi.id_informasi;
+            }
+        }
+        // Get the URL of the current page
+        const url = uTarget;
 
-      // Get the social media platform from the button's class name
-      const platform = button.children[0].classList[1];
+        console.log(url);
 
-      // Set the URL to share based on the social media platform
-      let shareUrl;
-      
-      switch (platform) {
-        //  case 'facebook':
-        //  shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-        //  break;
-         case 'bi-twitter-x':
-         shareUrl = `https://twitter.com/share?url=${encodeURIComponent(url)}`;
-         break;
-        //  case 'linkedin':
-        //  shareUrl = `https://www.linkedin.com/shareArticle?url=${encodeURIComponent(url)}`;
-        //  break;
-         case 'bi-whatsapp':
-         shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(url)}`;
-         break;
-      }
+        // Get the social media platform from the button's class name
+        const platform = button.children[0].classList[1];
+
+        // Set the URL to share based on the social media platform
+        let shareUrl;
+        
+        switch (platform) {
+            //  case 'facebook':
+            //  shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+            //  break;
+            case 'bi-twitter-x':
+            shareUrl = `https://twitter.com/share?url=${encodeURIComponent(url)}`;
+            break;
+            //  case 'linkedin':
+            //  shareUrl = `https://www.linkedin.com/shareArticle?url=${encodeURIComponent(url)}`;
+            //  break;
+            case 'bi-whatsapp':
+            shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(url)}`;
+            break;
+        }
 
     //   Open a new window to share the URL
       window.open(shareUrl, '_blank');
    });
 });
 
+<<<<<<< HEAD
+let sticky_ba_el;
+if (document.querySelector('.btn.button.donasi') != null) {
+    sticky_ba_el = document.querySelector('.btn.button.donasi').parentElement;
+} else {
+    sticky_ba_el = document.querySelector('#commit-bantuan-area>.col:last-child').parentElement;
+}
+
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
 const header_navbar = document.querySelector(".navbar-area"),
-    sticky_btn_area = document.querySelector('.btn.button.donasi').parentElement,
-    sticky_btn = document.querySelector('.btn.button.donasi').closest('#commit-bantuan-area');
+    sticky_btn_area = sticky_ba_el,
+    sticky_btn = sticky_ba_el.closest('#commit-bantuan-area');
 let sticky_btn_height = sticky_btn_area.offsetHeight,
     header_navbar_height = header_navbar.offsetHeight,
     stickyBtnOffsetTopY,
@@ -282,7 +495,11 @@ function stickyBtn(e) {
     let windowScrollY = window.scrollY,
         windowScrollNavbarBottom = windowScrollY + header_navbar_height;
         stickyBtnOffsetTopY = sticky_btn.offsetTop + sticky_btn_height + sticky_btn_area.offsetTop;
+<<<<<<< HEAD
+        // console.log(windowScrollY, windowScrollNavbarBottom, stickyBtnOffsetTopY);
+=======
         console.log(windowScrollY, windowScrollNavbarBottom, stickyBtnOffsetTopY);
+>>>>>>> d100693 (menambahkan desain timeline)
     if (windowScrollNavbarBottom >= stickyBtnOffsetTopY || windowScrollNavbarBottom >= stickyBtnOffsetTopYStart) {
         if (!sticky_btn_area.classList.contains('sticky-btn')) {
             sticky_btn_area.classList.add('sticky-btn');
@@ -297,10 +514,14 @@ function stickyBtn(e) {
 setTimeout(()=>{
     stickyBtnOffsetTopYStart = sticky_btn.offsetTop + sticky_btn_height + sticky_btn_area.offsetTop;
     stickyBtn();
-},50);
+}, 50);
 
 let lastKnownScrollPosition = 0;
 let ticking = false;
+<<<<<<< HEAD
+let scrollingDoc = false;
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
 
 function doStickyBtn(scrollPos) {
     // Do something with the scroll position
@@ -327,17 +548,58 @@ document.addEventListener("scroll", (event) => {
     window.requestAnimationFrame(() => {
       doStickyBtn(lastKnownScrollPosition);
       ticking = false;
+<<<<<<< HEAD
+      if (scrollingDoc == false) {
+        scrollingDoc = true;
+      }
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
     });
 
     ticking = true;
   }
 });
 
+<<<<<<< HEAD
+let popUpScrollLast = function(event) {
+    if (scrollingDoc) {
+        if (!pop.shown) {
+            pop.start(event);
+        }
+    }
+}
+
+let popUpScrollFirst = function(event) {
+    if (scrollingDoc) {
+        if (!pop.shown) {
+            pop.pause(event);
+        }
+    }
+}
+
+document.addEventListener("scroll", debounceIgnoreLast(popUpScrollFirst, 2000));
+
+document.addEventListener("scroll", debounceIgnoreFirst(popUpScrollLast, 2000));
+
+const modalShare = document.getElementById('modalShareBtn');
+const myShareModal = new bootstrap.Modal(modalShare);
+
+let relatedModal;
+
+modalShare.addEventListener('hidden.bs.modal', function (e) {
+    if (document.getElementById('modalDetilUpdate').classList.contains('show')) {
+        document.querySelector('body').classList.add('modal-open');
+    } else if (document.getElementById('modalListDonatur').classList.contains('show')) {
+        document.querySelector('body').classList.add('modal-open');
+    }
+});
+=======
 
 const shareModal = new bootstrap.Modal(document.getElementById('modalShareBtn'));
+>>>>>>> d100693 (menambahkan desain timeline)
 
 const modalDonaturList = document.getElementById('modalListDonatur');
-const myModal = new bootstrap.Modal(modalDonaturList);
+const myModalDonatur = new bootstrap.Modal(modalDonaturList);
 modalDonaturList.addEventListener('show.bs.modal', function (e) {
     e.target.classList.add('load');
     document.querySelectorAll('#donatur-area .donatur').forEach(ele => {
@@ -397,7 +659,7 @@ modalDonaturList.addEventListener('hide.bs.modal', function (e) {
     };
 });
 
-// myModal.show();
+// myModalDonatur.show();
 
 let fetchData = function (url, data, root, f) {
     fetch(url, {
@@ -436,6 +698,16 @@ let fetchData = function (url, data, root, f) {
             case 'read-donatur-list-default':
                 fetchReadDonaturDefault(root, response);
             break;
+<<<<<<< HEAD
+            case 'get-informasi-berita':
+                objectInformasi.id_informasi = data.fields.id_informasi;
+                fetchGetInformasiBerita(root, response);
+            break;
+            case 'read-informasi':
+                fetchReadInformasi(root, response);
+            break;
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
             default:
             break;
         }
@@ -579,6 +851,151 @@ let fetchReadDonaturDefault = function(target, response) {
     }, 800);
 };
 
+<<<<<<< HEAD
+let fetchReadInformasi = function(modal, response) {
+    if (modal.querySelector('#content') == null) {
+        let currentDate = new Date(),
+            timestamp = currentDate.getTime(); 
+
+        let invalid = {
+            error: true,
+            data_toast: 'invalid-element-feedback',
+            feedback: {
+                message: 'Element #content tidak ditemukan'
+            }
+        };
+
+        invalid.id = invalid.data_toast +'-'+ timestamp;
+        
+        createNewToast(document.querySelector('[aria-live="polite"]'), invalid.id, invalid.data_toast, invalid);
+        $('#'+ invalid.id +'.toast[data-toast="'+ invalid.data_toast +'"]').toast({
+            'delay': 10000
+        }).toast('show');
+        return false;
+    }
+
+    objectInformasi = response.feedback;
+
+    if (objectInformasi.offset == 0) {
+        modal.querySelectorAll('.timeline .timeline-item').forEach(ele => {
+            ele.remove();
+        });
+    } else {
+        if (modal.querySelector('.timeline .timeline-item.load') != null) {
+            modal.querySelector('.timeline .timeline-item.load').remove();
+        }
+        if (modal.querySelector('#content.loader-animation') != null) {
+            hideLoader(modal.querySelector('#content'));
+        }
+        if (modal.querySelector('#content .timeline-item.next') != null) {
+            modal.querySelector('#content .timeline-item.next').classList.remove('next');
+        }
+    }
+
+    const data = response.feedback.data;
+    
+    if (modal.classList.contains('modal')) {
+        modal.classList.add('load');
+    }
+
+    // show recent newest list
+    if (response.feedback.newest_data != null) {
+        response.feedback.newest_data.forEach(row => { 
+            let timelineEl = '<div class="col-12 timeline-item px-0" data-id-informasi="' + reverseString(btoa(row.id_informasi)) + '"><div class="row m-0 w-100"><div class="col-12 col-lg-2"><div class="time small fw-bold"><a role="button" href="javascript:void(0);" class="text-secondary" data-bs-toggle="modal" data-bs-target="#modalListUpdate" data-filter="date" data-date-value="'+ row.tanggal_publikasi +'"><p><span>' + row.waktu_publikasi + '</span></p></a></div><a role="button" href="javascript:void(0);" data-label-value="'+ row.label +'" data-bs-toggle="modal" data-bs-target="#modalListUpdate" data-filter="label" class="text-capitalize badge' + (typeof labelInformasi(row.label) == 'object' ? ' ' + labelInformasi(row.label).class : '') + '">' + (labelInformasi(row.label).text != null ? labelInformasi(row.label).text : '') + '</a></span></div><div class="col-12 col-lg content flex-column d-flex"><b><span>' + row.judul + '</span></b><div class="editor-read">' + row.isi + '</div><div><a role="button" href="javascript:void(0);" class="text-decoration-underline" data-bs-target="#modalDetilUpdate">Lebih detil <i class="lni lni-chevron-right"></i></a></div></div></div></div>';
+            modal.querySelector('#content').insertAdjacentHTML('afterbegin', timelineEl);
+
+            const quill = new Quill(modal.querySelector('[data-id-informasi="'+ reverseString(btoa(row.id_informasi)) +'"] .editor-read'), {
+                modules: {
+                    toolbar: false
+                },
+                readOnly: true
+            });
+
+            quill.setContents(JSON.parse(modal.querySelector('[data-id-informasi="'+ reverseString(btoa(row.id_informasi)) +'"] .editor-read').innerText));
+        });
+    }
+
+    // remove recent showed list
+    if (response.feedback.removed_id != null) {
+        response.feedback.removed_id = Object.values(response.feedback.removed_id);
+        response.feedback.removed_id.forEach(id => {
+            modal.querySelector('[data-id-informasi="' + reverseString(btoa(id)) + '"]').remove();
+        });
+    }
+
+    data.forEach(row => {
+        let timelineEl = '<div class="col-12 timeline-item px-0" data-id-informasi="' + reverseString(btoa(row.id_informasi)) + '"><div class="row m-0 w-100"><div class="col-12 col-lg-2"><div class="time small fw-bold"><a role="button" href="javascript:void(0);" class="text-secondary" data-bs-toggle="modal" data-bs-target="#modalListUpdate" data-filter="date" data-date-value="'+ row.tanggal_publikasi +'"><p><span>' + row.waktu_publikasi + '</span></p></a></div><a role="button" href="javascript:void(0);" data-label-value="'+ row.label +'" data-bs-toggle="modal" data-bs-target="#modalListUpdate" data-filter="label" class="text-capitalize badge' + (typeof labelInformasi(row.label) == 'object' ? ' ' + labelInformasi(row.label).class : '') + '">' + (labelInformasi(row.label).text != null ? labelInformasi(row.label).text : '') + '</a></span></div><div class="col-12 col-lg content flex-column d-flex"><b><span>' + row.judul + '</span></b><div class="editor-read">' + row.isi + '</div><div><a role="button" href="javascript:void(0);" class="text-decoration-underline" data-bs-target="#modalDetilUpdate">Lebih detil <i class="lni lni-chevron-right"></i></a></div></div></div></div>';
+        modal.querySelector('#content').insertAdjacentHTML('beforeend', timelineEl);
+
+        const dataInformasi = modal.querySelector('[data-id-informasi="'+ reverseString(btoa(row.id_informasi)) +'"]');
+        const quill = new Quill(dataInformasi.querySelector('.editor-read'), {
+            modules: {
+                toolbar: false
+            },
+            readOnly: true
+        });
+
+        // render the content
+        quill.setContents(JSON.parse(dataInformasi.querySelector('.editor-read').innerText));
+
+        setTimeout(() => {
+            if (dataInformasi.querySelector('.editor-read').clientHeight >= 200) {
+                dataInformasi.querySelector('.editor-read').classList.add('hidden-area-utility','light');
+            } else {
+                if (dataInformasi.querySelector('a[data-bs-target="#modalDetilUpdate"]') != null) {
+                    dataInformasi.querySelector('a[data-bs-target="#modalDetilUpdate"]').remove();
+                }
+            }
+        }, 0);
+    });
+
+    if (objectInformasi.total_record != modal.querySelectorAll('#content .timeline-item').length) {
+        modal.querySelector('#content .timeline-item:last-of-type').classList.add('next');
+    }
+
+    if (modal.classList.contains('modal')) {
+        setTimeout(() => {
+            modal.classList.remove('load');
+        }, 500);
+    }
+};
+
+let objectInformasi = {};
+let fetchGetInformasiBerita = function(modal, response) {
+    const data = response.feedback.data;
+    modal.setAttribute('data-id-informasi', objectInformasi.id_informasi);
+    modal.querySelector('.modal-title').innerText = data.judul;
+    if (typeof labelInformasi(data.label) != 'boolean') {
+        if (modal.querySelector('.badge') == null) {
+            let badge = '<div><span class="badge '+ labelInformasi(data.label).class +' pt-1 text-capitalize">'+ labelInformasi(data.label).text +'</span></div>';
+            modal.querySelector('.modal-title').insertAdjacentHTML('afterend', badge);
+        }
+    }
+
+    if (data.id_author != null) {
+        let flexAvatar = '<div class="d-flex align-items-center gap-x-3"><div class="avatar rounded-circle bg-transparent border overflow-hidden" data-id-author="'+ data.id_author +'"><img src="'+ data.path_author +'" alt="'+ data.nama_author +'" class="img-fluid"></div><div class="media-body"><div class="name mb-0 text-black-50 font-weight-bold"><span>'+ data.tanggal_posting +'</span></div><div class="small text-black-50 font-weight-bolder"><span>'+ data.nama_author +'</span></div></div></div>';
+        modal.querySelector('.modal-body').insertAdjacentHTML('afterbegin', flexAvatar);
+    }
+
+    if (modal.querySelector('.modal-body #content') == null) {
+        const div = document.createElement('div');
+        div.setAttribute('id','content');
+        modal.querySelector('.modal-body').appendChild(div);
+    }
+
+    const quill = new Quill(modal.querySelector('.modal-body #content'), {
+        modules: {
+            toolbar: false
+        },
+        readOnly: true
+    });
+
+    // render the content
+    quill.setContents(JSON.parse(new DOMParser().parseFromString(data.isi, "text/html").querySelector('body').innerText));
+};
+
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
 const hasMoreData = (offset, total) => {
     return offset < total;
 };
@@ -638,4 +1055,215 @@ modalDonaturList.querySelector('.modal-body').addEventListener('scroll', functio
     }
 }, {
     passive: true
+<<<<<<< HEAD
+<<<<<<< HEAD
+});
+
+const modalPopPenawaran = document.getElementById('modalPopUpPenawaran');
+const myPenawaran = new bootstrap.Modal(modalPopPenawaran);
+
+modalPopPenawaran.addEventListener('hidden.bs.modal', function(e) {
+    if (document.getElementById('modalDetilUpdate').classList.contains('show')) {
+        document.querySelector('body').classList.add('modal-open');
+    } else if (document.getElementById('modalListDonatur').classList.contains('show')) {
+        document.querySelector('body').classList.add('modal-open');
+    } else if (document.getElementById('modalShareBtn').classList.contains('show')) {
+        document.querySelector('body').classList.add('modal-open');
+    }
+});
+
+class popUpPenawaran {
+    constructor(duration_end) {
+        this.i = 0;
+        this.current_duration = 0;
+        this.duration_end = duration_end,
+        this.shown = false;
+    }
+
+    start = function(event) {
+        if (this.current_duration >= this.duration_end) {
+            this.pause(event);
+            myPenawaran.show();
+            pop.shown = true;
+            return false;
+        }
+
+        this.current_duration++;
+        this.i = setTimeout(() => {
+            // console.log('start');
+            this.start(event);
+        }, 1000);
+    };
+
+    pause = function(event) {
+        // console.log('pause');
+        clearTimeout(this.i);
+    };
+};
+
+const pop = new popUpPenawaran(20);
+
+document.addEventListener( 'visibilitychange' , function(e) {
+    if (scrollingDoc) {
+        if (!document.hidden) {
+            if (pop.current_duration < pop.duration_end) {
+                pop.start(e);
+            }
+        } else {
+            pop.pause(e);
+        }
+    }
+});
+
+const modalUpdateList = document.getElementById('modalListUpdate');
+// const myModalUpdateList = new bootstrap.Modal(modalUpdateList);
+
+modalUpdateList.addEventListener('show.bs.modal', function (e) {
+    // console.log(e.relatedTarget);
+    let data_filter = e.relatedTarget.getAttribute('data-filter');
+
+    e.target.querySelector('#data-filter').innerHTML = '<p class="fw-light small">'+ e.relatedTarget.innerText +'</p>';
+
+    let data = {
+        token: body.getAttribute('data-token'),
+        filter_by: data_filter,
+        filter_value: e.relatedTarget.getAttribute('data-' + data_filter + '-value'),
+        id_bantuan: c_id_bantuan
+    };
+
+    if (e.relatedTarget.closest('.timeline-item') != null) {
+        data.id_informasi = e.relatedTarget.closest('.timeline-item').getAttribute('data-id-informasi');
+    }
+
+    // fetchReadInformasi
+    fetchData('/default/fetch/read/informasi/list', data, e.target, 'read-informasi');
+=======
+});
+
+const modalUpdateList = document.getElementById('modalListUpdate');
+const myModalUpdate = new bootstrap.Modal(modalUpdateList);
+
+modalUpdateList.addEventListener('show.bs.modal', function (e) {
+    console.log(e.relatedTarget);
+    let data_filter = e.relatedTarget.getAttribute('data-filter');
+
+    e.target.querySelector('#data-filter').appendChild(e.relatedTarget.cloneNode(true));
+
+    if (e.target.querySelector('.timeline') == null) {
+        const timeline = document.createElement('div');
+        timeline.classList.add('timeline','gap-3');
+        timeline.appendChild(e.relatedTarget.closest('.timeline-item').cloneNode(true));
+        e.target.querySelector('#content').appendChild(timeline);
+    } else {
+        e.target.querySelector('#content .timeline').appendChild(e.relatedTarget.closest('.timeline-item').cloneNode(true));
+    }
+    
+>>>>>>> 915ca06 (ok)
+});
+
+modalUpdateList.addEventListener('hide.bs.modal', function (e) {
+    e.target.querySelector('#data-filter').innerHTML = '';
+    e.target.querySelector('#content').innerHTML = '';
+<<<<<<< HEAD
+    relatedTarget = {};
+    objectInformasi = {};
+});
+
+modalUpdateList.querySelector('.modal-body').addEventListener('scroll', function(e) {
+    const {
+        scrollTop,
+        scrollHeight,
+        clientHeight
+    } = e.target;
+
+    if (scrollTop + clientHeight >= scrollHeight - 5 &&
+        hasMoreData(objectInformasi.offset, objectInformasi.total_record)) {
+        
+        if (e.target.querySelector('#content').classList.contains('loader-animation')) {
+            return false;
+        }
+
+        showLoader(e.target.querySelector('#content'));
+    
+        let data = objectInformasi;
+        data.token = body.getAttribute('data-token');
+        data.id_bantuan = c_id_bantuan;
+
+        const elTimelineItem = '<div class="load col-12 timeline-item px-0" data-id-informasi="' + 'reverseString(btoa(row.id_informasi))' + '"><div class="row m-0 w-100"><div class="col-12 col-lg-2"><div class="time small fw-bold"><a role="button" href="javascript:void(0);" class="text-secondary" data-bs-toggle="modal" data-bs-target="#modalListUpdate" data-filter="date" data-date-value="'+ 'row.tanggal_publikasi' +'"><p><span>' + 'row.waktu_publikasi' + '</span></p></a></div><a role="button" href="javascript:void(0);" data-label-value="'+ 'row.label' +'" data-bs-toggle="modal" data-bs-target="#modalListUpdate" data-filter="label" class="text-capitalize badge' + 'labelInformasi(row.label).class' + '">' + 'labelInformasi(row.label).text' + '</a></span></div><div class="col-12 col-lg content flex-column d-flex"><b><span>' + 'row.judul' + '</span></b><span><div class="editor-read">' + 'row.isi' + '</div></span><div><a role="button" href="javascript:void(0);" class="text-decoration-underline" data-bs-target="#modalDetilUpdate">Lebih detil <i class="lni lni-chevron-right"></i></a></div></div></div></div>';
+        e.target.querySelector('#content').insertAdjacentHTML('beforeend', elTimelineItem);
+
+        // console.log(data);
+        
+        setTimeout(() => {
+            // fetchReadInformasi()
+            fetchData('/default/fetch/read/informasi/list', data, e.target, 'read-informasi');
+        }, 1500);
+    }
+}, {
+    passive: true
+});
+
+let relatedTarget = {};
+modalUpdateList.addEventListener('click', function(e) {
+    if (e.target.tagName != 'A') {
+        return false;
+    }
+
+    if (e.target.getAttribute('data-bs-target') != '#modalDetilUpdate') {
+        e.preventDefault();
+        return false;
+    }
+
+    relatedTarget = e.target;
+    myModalDetilUpdate.show();
+});
+
+const modalDetilUpdate = document.getElementById('modalDetilUpdate');
+const myModalDetilUpdate = new bootstrap.Modal(modalDetilUpdate);
+
+if (document.querySelector('#modalDetilUpdate #content').innerText.trim().length > 0) {
+
+    const quill = new Quill(modalDetilUpdate.querySelector('#content'), {
+        modules: {
+            toolbar: false
+        },
+        readOnly: true
+    });
+
+    // render the content
+    // quill.setContents(JSON.parse(quill.container.innerText));
+    myModalDetilUpdate.show();
+}
+
+modalDetilUpdate.addEventListener('show.bs.modal', function (e) {
+    if (e.relatedTarget != null) {
+        relatedTarget = e.relatedTarget;
+    }
+
+    const data = {
+        token: body.getAttribute('data-token'),
+        fields: {
+            id_informasi: relatedTarget.closest('.timeline-item').getAttribute('data-id-informasi')
+        }
+    }
+    // fetchGetInformasiBerita
+    relatedModal = e.target;
+    fetchData('/default/fetch/get/informasi', data, e.target, 'get-informasi-berita');
+});
+
+modalDetilUpdate.addEventListener('hide.bs.modal', function (e) {
+    objectInformasi = {};
+    relatedModal = null;
+    e.target.removeAttribute('data-id-informasi');
+    e.target.querySelector('.modal-title').innerHTML = '';
+    e.target.querySelector('.modal-header .badge').remove();
+    e.target.querySelector('.modal-body').innerHTML = '';
+});
+
+modalDetilUpdate.querySelector('button[data-bs-target="#modalShareBtn"]').addEventListener('click', function(e) {
+    myShareModal.show();
+=======
+>>>>>>> d100693 (menambahkan desain timeline)
+=======
+>>>>>>> 915ca06 (ok)
 });

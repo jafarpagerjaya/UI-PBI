@@ -98,6 +98,12 @@ header.header+* {
 
 /* Akhir Footer */
 
+@media (max-width: 767px) {
+    .single-footer.kontak#kontak {
+        margin-bottom: 3em;
+    }
+}
+
 @media (min-width: 767px) and (max-width: 768px) {
     .header .navbar-collapse {
         position: absolute;
