@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home SW</title>
+    <link rel="stylesheet" href="/default/core/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/default/core/css/LineIcons.3.0.css">    
+    <link rel="manifest" href="/default/manifest.json">
+    <link rel="stylesheet" href="/default/core/css/main.css">
+    <link rel="stylesheet" href="/admin/main/css/inputGroup.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+    <link rel="stylesheet" href="/pojok-berbagi-style.css">
+    <link rel="stylesheet" href="/default/core/css/donasi.css">
+    <link rel="stylesheet" href="/default/pages/css/baru.css">
+    <meta name="theme-color" content="#FFE1C4"/>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <!-- /End Preloader -->
+    <!-- Header -->
+    <section class="header text-center py-3 sticky">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 d-flex gap-2">
+                    <a href="/bantuan/detil/xxx">
+                        <i class="lni lni-chevron-left fw-bolder fs-5 text-warning"></i>
+                    </a>
+                    <h5 class="mb-0"><span class="fw-lighter">Donasi</span> Nama Campaign</h5>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Header -->
+    <!-- Content -->
+    <div class="container d-flex gap-5 flex-column" style="padding-top: 92px;">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 d-flex gap-2 shadow-lg box rounded-box bg-white d-flex flex-column">
+                <b class="mb-3 fs-5">Intruksi Pembayaran</b>
+                <div class="row gap-3">
+                    <div class="col-12">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <div class="box d-flex justify-content-center align-items-center bg-light rounded-box" style="width: 50px; height: 50px;">
+                                    <img src="/img/payment/bri.png" alt="bri" style="max-width: 40px; margin-top: -.5em;">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="title">
+                                    <b>Bank BRI VA</b>
+                                </div>
+                                <div class="donatur">
+                                    <b>Jafar</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="box bg-light rounded-box">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <label for="nomor">Virtual Account</label>
+                                    <h6>1321313123123123</h6>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="btn btn-sm fw-bold text-white rounded btn-warning">Salin</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="box bg-light rounded-box">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <label for="nomor">Jumlah</label>
+                                    <h6>100.000</h6>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="btn btn-sm fw-bold text-white rounded btn-warning">Salin</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row pt-3 align-items-center">
+                    <div class="col">
+                        <span class="small">Transfer sebelum
+                            10 Juni 2024 pukul 18:24</span>
+                    </div>
+                    <div class="col-auto">
+                        <span class="badge bg-orange">20 : 10 : 44</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-6 d-flex gap-2 shadow-lg box rounded-box bg-white d-flex flex-column">
+                <b class="fs-5">Petunjuk Pembayaran</b>
+                <div class="col-12">
+                    <div class="accordion accordion-flush" id="accordionFlush">
+                        <div class="accordion-item">
+                            <div class="accordion-header" id="flush-headingOne">
+                                <button class="accordion-button collapsed p-2 p-md-3" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+                                    aria-expanded="false" aria-controls="flush-collapseOne">
+                                    Transfer ATM
+                                </button>
+                            </div>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlush">
+                                <div class="accordion-body px-2 py-0 px-md-3">
+                                    <small>
+                                        <ol class="list-group list-group-flush list-group-numbered">
+                                            <li class="list-group-item">Masukkan Kartu Debit BRI dan PIN Anda</li>
+                                            <li class="list-group-item">Pilih menu Transaksi Lain > Pembayaran > Lainnya > BRIVA</li>
+                                            <li class="list-group-item">Masukkan kode pembayaran / virtual account number anda : “1236260010915996”</li>
+                                            <li class="list-group-item">Di halaman konfirmasi, pastikan detil pembayaran sudah sesuai seperti Nomor BRIVA, Nama Pelanggan dan Jumlah Pembayaran</li>
+                                            <li class="list-group-item">Ikuti instruksi untuk menyelesaikan transaksi</li>
+                                            <li class="list-group-item">Simpan struk transaksi sebagai bukti pembayaran</li>
+                                        </ol>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header" id="flush-headingTwo">
+                                <button class="accordion-button collapsed p-2 p-md-3" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo"
+                                    aria-expanded="false" aria-controls="flush-collapseTwo">
+                                    Mobile Banking BRI
+                                </button>
+                            </div>
+                            <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlush">
+                                <div class="accordion-body px-2 py-0 px-md-3">
+                                    <small>
+                                        <ol class="list-group list-group-flush list-group-numbered">
+                                            <li class="list-group-item">Login aplikasi BRI Mobile</li>
+                                            <li class="list-group-item">Pilih menu BRIVA</li>
+                                            <li class="list-group-item">Pilih pembayaran baru</li>
+                                            <li class="list-group-item">Masukkan kode pembayaran / virtual account number anda : “1236260010915996”</li>
+                                            <li class="list-group-item">Di halaman konfirmasi, pastikan detil pembayaran sudah sesuai seperti Nomor BRIVA, Nama Pelanggan dan Total Pembayaran</li>
+                                            <li class="list-group-item">Masukkan PIN</li>
+                                            <li class="list-group-item">Simpan notifikasi SMS sebagai bukti pembayaran</li>
+                                        </ol>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header" id="flush-headingThree">
+                                <button class="accordion-button collapsed p-2 p-md-3" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#flush-headingThree"
+                                    aria-expanded="false" aria-controls="flush-headingThree">
+                                    Mobile Banking BRI
+                                </button>
+                            </div>
+                            <div id="flush-headingThree" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlush">
+                                <div class="accordion-body px-2 py-0 px-md-3">
+                                    <small>
+                                        <ol class="list-group list-group-flush list-group-numbered">
+                                            <li class="list-group-item"></li>
+                                            <li class="list-group-item"></li>
+                                            <li class="list-group-item"></li>
+                                            <li class="list-group-item"></li>
+                                            <li class="list-group-item"></li>
+                                            <li class="list-group-item"></li>
+                                        </ol>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/admin/vendor/jquery/dist/jquery.min.js"></script>
+<script src="/default/core/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="/auth.js"></script>
+<script src="/pojok-berbagi-script.js"></script>
+<script src="/default/core/js/donasi.js"></script>
+<script src="/admin/main/js/terbilang.js"></script>
+<script src="/default/pages/js/baru.js"></script>
+</html>

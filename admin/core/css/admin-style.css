@@ -55,23 +55,10 @@ body {
     transition: margin-top .3s ease !important;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
-/* .nav-item.nav-dropdown .nav-link:not(.active):not(.transition) +.navbar-nav {
-    transform: translateY(-100%);
-    visibility: hidden;
-} */
-<<<<<<< HEAD
-=======
-=======
 .nav-item.nav-dropdown .nav-link:not(.active):not(.transition) +.navbar-nav {
     /* transform: translateY(-100%); */
     /* visibility: hidden; */
 }
->>>>>>> 915ca06 (ok)
->>>>>>> 663a7d4f6e9beac34a2cb1b403eee78956fd673c
 
 .nav-item.nav-dropdown .nav-link.active + .navbar-nav .nav-link {
     margin: 0px 0.5rem;
@@ -515,6 +502,10 @@ a[data-action]:hover {
     padding-right: 1.5rem !important;
 } 
 
+button[data-value]:hover {
+    transform: none;
+}
+
 @media (min-width: 360px) {
     .form-group label {
         font-size: .75rem;
@@ -579,25 +570,71 @@ a[data-action]:hover {
 
 @media (max-width: 991px) {
 
-    button[data-value="create"] {
+    button[data-value] {
         display: flex;
         align-items: center;
         justify-content: center;
         width: calc(1.5em + 1.25rem + 5px);
+        height: calc(1.5em + 1.25rem + 5px);
     }
-    
-    button[data-value="create"]::after {
-        content: '\f055';
+
+    button[data-value]::after {
         font-family: "Font Awesome 5 Free";
         font-size: 1.5rem;
         display: flex;
         align-self: center;
+    }
+    
+    button[data-value="create"]::after {
+        content: '\f055';
+    }
+
+    button[data-value="update"]::after {
+        content: '\f044';
+        font-weight: 100;
+        margin-left: .5rem;
+    }
+
+    button[data-value="delete"]::after {
+        content: '\f12d';
+    }
+
+    button[data-value="reset"]::after {
+        content: '\f0ad';
+    }
+
+    button[data-value="lock"]::after {
+        content: '\f023';
+    }
+
+    button[data-value="unlock"]::after {
+        content: '\f13e';
     }
 }
 
 @media (min-width: 992px) {
     button[data-value="create"]::after {
         content: 'Tambah';
+    }
+
+    button[data-value="update"]::after {
+        content: 'Ubah';
+    }
+
+    button[data-value="reset"]::after {
+        content: 'Reset';
+    }
+
+    button[data-value="lock"]::after {
+        content: 'Blokir';
+    }
+
+    button[data-value="unlock"]::after {
+        content: 'Buka Blokir';
+    }
+
+    button[data-value="delete"]::after {
+        content: 'Hapus';
     }
 }
 

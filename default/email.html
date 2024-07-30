@@ -98,10 +98,10 @@
                                     <td>Nama Program</td><td>:</td><td><strong>'. strip_tags((string) $data["nama_bantuan"]) .'</strong></td>
                                 </tr>
                                 <tr>
-                                    <td>Total Donasi</td><td>:</td><td><strong style="color: var(--green-box);">Rp. '. strip_tags((string) $data["total_donasi"]) .'</strong></td>
+                                    <td>Jumlah Donasi</td><td>:</td><td><strong style="color: var(--green-box);">Rp. '. strip_tags((string) $data["jumlah_donasi"]) .'</strong></td>
                                 </tr>
                                 <tr>
-                                    <td>Metode Pembayaran</td><td>:</td><td><strong style="display: flex; align-items: center; justify-content: start; gap: .5em;"><div><img src="'. strip_tags((string) $data["path_gambar_ca"]) .'" alt="'. strip_tags((string) $data["nama_ca"]) .'" style="width: 40px;"></div><div>'. strip_tags((string) $data["nama_ca"]) .'</div></strong></td>
+                                    <td>Metode Pembayaran</td><td>:</td><td><strong style="display: flex; align-items: center; justify-content: start; gap: .5em;"><div><img src="'. strip_tags((string) $data["path_gambar_ca"]) .'" alt="'. strip_tags((string) $data["nama_cp"]) .'" style="width: 40px;"></div><div>'. strip_tags((string) $data["metode_bayar"]) .' - ' . strip_tags((string) $data["nama_cp"]) .'</div></strong></td>
                                 </tr>
                                 <tr>
                                     <td>Waktu pembayaran</td><td>:</td><td><strong>'. strip_tags((string) $data["waktu_bayar"]) .'</strong></td>
@@ -125,7 +125,7 @@
                             <div style="display: flex; flex-direction: row; gap: 1em;">
                                 <div style="display: flex; flex-direction: column; border: solid 1px var(--orange); border-bottom: 0px; padding: .75em 1em; border-top-left-radius: 10px; border-top-right-radius: 10px;">
                                     <p style="font-size: .75rem; margin: 0px;">Jumlah Donatur</p>
-                                    <span style="font-weight: bold;">'. strip_tags((string) $data["jumlah_donatur"]) .'</span>
+                                    <span style="font-weight: bold;">'. strip_tags((string) $data["total_donatur"]) .'</span>
                                 </div>
                                 <div style="display: flex; flex-direction: column; border: solid 1px var(--orange); border-bottom: 0px; padding: .75em 1em; border-top-left-radius: 10px; border-top-right-radius: 10px;">
                                     <p style="font-size: .75rem; margin: 0px;">Dana Terkumpul</p>

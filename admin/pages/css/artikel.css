@@ -1,0 +1,62 @@
+table [data-author] {
+    padding-right: .75em !important;
+}
+
+table [data-author]+[data-editor] {
+    padding-left: .75em !important;
+}
+
+table .viewer-badge {
+    flex-direction: row-reverse;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media (min-width: 992px) {
+    table .viewer-badge {
+        flex-direction: column;
+        justify-content: center;
+        align-items: end;
+    }
+}
+
+td span.view::before {
+    content: '\f06e';
+    font-weight: 900;
+    font-family: "Font Awesome 5 Free";
+    margin-right: .25rem;
+}
+
+/* checkbox */
+table tbody>tr>td[data-checkbox]:first-child {
+    padding-right: .75em !important;
+}
+
+table tbody>tr>td[data-checkbox]:first-child+td {
+    padding-left: .75em !important;
+}
+
+table tbody>tr>td[data-checkbox]>.inputGroup {
+    --inputGroup-size: 20px;
+    width: var(--inputGroup-size);
+    height: var(--inputGroup-size);
+}
+
+table tbody>tr>td[data-checkbox]>.inputGroup input {
+    width: inherit;
+    height: inherit;
+}
+
+table tbody>tr>td[data-checkbox]>.inputGroup label {
+    margin-bottom: 0px;
+}
+
+table tbody>tr>td[data-checkbox]>.inputGroup label::after {
+    --inputGroup-size: 20px;
+}
+
+#lebel [data-selected-length]::before {
+    content: attr(data-selected-length);
+    color: var(--orange);
+}
